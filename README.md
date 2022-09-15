@@ -3,7 +3,7 @@ https://www.theodinproject.com/lessons/ruby-ruby-final-project
 
 Odin's final project for Ruby is to build a chess game. It will be played in the console. It must have the ability to save and load games. We will utilize RSpec again for testing purposes.
 
-Description from webpage:
+Description from Odin's webpage:
 
 Assignment
 Build a command line Chess game where two players can play against each other.
