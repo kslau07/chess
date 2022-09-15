@@ -5,6 +5,7 @@ require_relative 'chess'
 require_relative 'board'
 require_relative 'player'
 require_relative 'display'
+require_relative 'chess_piece_factory'
 
 def play(game)
   # NOTE: move scripting methods here once game is finished
@@ -16,6 +17,10 @@ play(game)
 
 "
 NOTES
+
+Who is responsible for creating game piece objects?
+
+
 row legend: A, B, C, D, E, F, G
 column legend: 8, 7, 6, 5, 4, 3, 2, 1 (top to bottom)
 

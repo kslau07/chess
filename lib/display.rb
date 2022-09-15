@@ -6,17 +6,6 @@ module Display
     puts "\n\t\tWelcome to chess!\n ".red
   end
 
-  def display_board
-    0.upto(5) do |i|
-      print "|"
-      0.upto(6) do |n|
-        print @board[n][i].nil? ? "   |" : " #{@board[n][i]} |"
-      end
-      puts
-    end
-  end
-
-
   def self.draw_board(board)
     puts "\t.-------------------------------."
     7.downto(0) do |x|
@@ -57,6 +46,17 @@ class String
   def blink;          "\e[5m#{self}\e[25m" end
   def reverse_color;  "\e[7m#{self}\e[27m" end
 end
+
+  # def display_board
+  #   0.upto(5) do |i|
+  #     print "|"
+  #     0.upto(6) do |n|
+  #       print @board[n][i].nil? ? "   |" : " #{@board[n][i]} |"
+  #     end
+  #     puts
+  #   end
+  # end
+
 
     # puts "\t.-------------------------------."
     # puts "\t| ♜ | ♞ | ♝ | ♛ | ♚ | ♝ | ♞ | ♜ |"

@@ -8,7 +8,6 @@ class Chess
     @board = board || Board.new
     @player1 = player1 || Player.new(name: 'Player One')
     @player2 = player2 || Player.new(name: 'Player Two')
-    
   end
 
   def play
