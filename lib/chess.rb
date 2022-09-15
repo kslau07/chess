@@ -13,7 +13,7 @@ class Chess
 
   def play
     Display.greeting
-    Display.draw_board()
+    Display.draw_board(board)
     # game.turn_loop until game.game_over?
   end
 end
