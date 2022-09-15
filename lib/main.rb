@@ -1,22 +1,58 @@
 # https://www.theodinproject.com/lessons/ruby-ruby-final-project
 # frozen_string_literal: true
 
-
 require_relative 'chess'
-
-game = Chess.new
+require_relative 'board'
+require_relative 'player'
+require_relative 'display'
 
 def play(game)
-  # game.greeting
-  # game.choose_color
-  # game.draw_board
-  # game.turn_loop until game.game_over?
+  # NOTE: move scripting methods here once game is finished
+  game.play
 end
 
+game = Chess.new
 play(game)
 
 "
 NOTES
+row legend: A, B, C, D, E, F, G
+column legend: 8, 7, 6, 5, 4, 3, 2, 1 (top to bottom)
+
+white chess king	♔	U+2654	&#9812;	&#x2654;
+white chess queen	♕	U+2655	&#9813;	&#x2655;
+white chess rook	♖	U+2656	&#9814;	&#x2656;
+white chess bishop	♗	U+2657	&#9815;	&#x2657;
+white chess knight	♘	U+2658	&#9816;	&#x2658;
+white chess pawn	♙	U+2659	&#9817;	&#x2659;
+black chess king	♚	U+265A	&#9818;	&#x265A;
+black chess queen	♛	U+265B	&#9819;	&#x265B;
+black chess rook	♜	U+265C	&#9820;	&#x265C;
+black chess bishop	♝	U+265D	&#9821;	&#x265D;
+black chess knight	♞	U+265E	&#9822;	&#x265E;
+black chess pawn	♟	U+265F	&#9823;	&#x265F;
+
+|---|---|---|---|---|---|---|---|
+| ♜ | ♞ | ♝ | ♛ | ♚ | ♝ | ♞ | ♜ |
+|---|---|---|---|---|---|---|---|
+| ♟ | ♟ | ♟ | ♟ | ♟ | ♟ | ♟ | ♟ |
+|---|---|---|---|---|---|---|---|
+|   |   |   |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|
+|   |   |   |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|
+|   |   |   |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|
+|   |   |   |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|
+|   |   |   |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|
+|   |   |   |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|
+
+
+
+Add serializing ASAP, after pawn works.
 
 We need to test what, not how.
 
@@ -29,7 +65,7 @@ Use Display::method
 
 Other testing tools to use:
 p/puts anywhere in test
-let variables
+let variables vs instance variables
 set = variables like this
 game = Game.new (and like this)
 allow_any_instance_of
