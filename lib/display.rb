@@ -13,7 +13,7 @@ module Display
     7.downto(0) do |x|
       print "\t#{x} |"
       0.upto(7) do |y|
-        print board.grid[x][y].nil? ? "   |" : " #{board.grid[x][y]} |"
+        print board.grid[x][y] == 'unoccupied' ? "   |" : " #{board.grid[x][y]} |"
       end
       puts
       puts "\t  |---+---+---+---+---+---+---+---|" unless x == 0
@@ -30,7 +30,7 @@ module Display
     puts 'Input is not valid!'
   end
 
-  def self.starting_point_message
+  def self.start_point_message
     puts 'Enter starting square:'
   end
 

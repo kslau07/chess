@@ -12,7 +12,7 @@ class Board
     @grid = []
 
     8.times do
-      @grid.push Array.new(8, nil)
+      @grid.push Array.new(8, 'unoccupied')
     end
   end
 end

@@ -16,9 +16,12 @@ class Chess
   end
 
   def setup_board(chess_pieces)
+    (0..1).each { |x| board.grid[1][x] = chess_pieces[:white_pcs][x] }
+    (0..1).each { |x| board.grid[6][x] = chess_pieces[:black_pcs][x] }
+
     # We can combine these 2 lines somehow. Do it later.
-    (0..7).each { |x| board.grid[1][x] = chess_pieces[:white_pcs][x] }
-    (0..7).each { |x| board.grid[6][x] = chess_pieces[:black_pcs][x] }
+    # (0..7).each { |x| board.grid[1][x] = chess_pieces[:white_pcs][x] }
+    # (0..7).each { |x| board.grid[6][x] = chess_pieces[:black_pcs][x] }
   end
 
   def play
@@ -35,11 +38,14 @@ class Chess
 
   def turn_loop
     Display.turn_message(current_player.color)
-    move
-    # piece = board.grid[1][0]
+    
+    # piece = board.grid[6][0]
+    # p piece
     # piece.move
+    
+    move
     # Display.draw_board(board)
-    # switch_players
+    switch_players
   end
 
   def switch_players
@@ -47,19 +53,36 @@ class Chess
   end
 
   def move
-    Display.starting_point_message
-    starting_point = gets.chomp.to_i
-    # starting_point = convert_notation(starting_point)
+    loop do
+      Display.start_point_message
+      start_point = gets.chomp.split('').map(&:to_i)
+      Display.end_point_message
+      end_point = gets.chomp.split('').map(&:to_i)
+      break if validate(start_point, end_point)
 
-    Display.end_point_message
-    end_point = gets.chomp.to_i
-    # end_point = convert_notation(end_point)
-    p board.grid[starting_point[0]][starting_point[1]]
+      Display.invalid_input_message
+    end
+  end
+
+  def validate(start_point, end_point)
+    return false if board.grid[start_point[0]][start_point[1]] == 'unoccupied' # 1st input
+    return false unless board.grid.dig(end_point[0], end_point[1]) # 2nd input
+
+    puts 'good input'
+    true
+
+    # false if second input is off the board
+    # false if second input is not one of piece's next moves
+    # false if puts own king into check
+
+    # array.fetch(1, 'dft val') # fetch uses a value for lookup. dig uses indexing
+    # return false unless board.grid.fetch([end_point[0]], [end_point[1]])
+    # return false unless board.include? board.grid[end_point[0]][end_point[1]]
   end
 end
 
-# board.grid[end_point[0]][end_point[1]] = board.grid[starting_point[0]][starting_point[1]]
-# board.grid[starting_point[0]][starting_point[1]] = nil
+# board.grid[end_point[0]][end_point[1]] = board.grid[start_point[0]][start_point[1]]
+# board.grid[start_point[0]][start_point[1]] = nil
 
 # # Restrict input to chess notation, i.e. H3
 # # Re-implement after we work out game logic. This slows us down.
