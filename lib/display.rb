@@ -6,17 +6,20 @@ module Display
     puts "\n\t\tWelcome to chess!\n ".red
   end
 
+  # Later: remove #{x}, it's 3 spaces
   def self.draw_board(board)
-    puts "\t.-------------------------------."
+    puts "\t      (0) (1) (2) (3) (4) (5) (6) (7) second"
+    puts "\t     .-------------------------------."
     7.downto(0) do |x|
-      print "\t|"
+      print "\t#{(65+x).chr}(#{x}) |" # <- remove here
       0.upto(7) do |y|
-        print board.squares[x][y].nil? ? "   |" : " #{board[n][i]} |"
+        print board.squares[x][y].nil? ? "   |" : " #{board.squares[x][y]} |"
       end
       puts
-      puts "\t|---+---+---+---+---+---+---+---|" unless x == 0
+      puts "\t     |---+---+---+---+---+---+---+---|" unless x == 0
     end
-    puts "\t'-------------------------------'"
+    puts "\t     '-------------------------------'"
+    puts "\t       1   2   3   4   5   6   7   8"
   end
 end
 
