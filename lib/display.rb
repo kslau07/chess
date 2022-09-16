@@ -21,7 +21,33 @@ module Display
     puts "\t     '-------------------------------'"
     puts "\t       1   2   3   4   5   6   7   8"
   end
+
+  def self.turn_message(color)
+    puts "#{color.capitalize}, it's your turn!"
+  end
 end
+
+# This module makes sure user input matches given criteria
+# module ValidInput
+#   include Display
+
+#   # def validate_input(allowable_chars, user_input = '')
+#   #   allowable_chars.map!(&:to_s)
+#   #   user_input = gets.chomp.downcase
+#   #   user_input
+#   # end
+
+#   def self.validate_input(allowable_chars, user_input = '')
+#     allowable_chars.map!(&:to_s)
+#     loop do
+#       user_input = gets.chomp.downcase
+#       break if allowable_chars.include?(user_input)
+
+#       invalid_input_message
+#     end
+#     user_input
+#   end
+# end
 
 class String
   def black;          "\e[30m#{self}\e[0m" end
