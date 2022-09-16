@@ -6,20 +6,20 @@ module Display
     puts "\n\t\tWelcome to chess!\n ".red
   end
 
-  # Later: remove #{x}, it's 3 spaces
+
   def self.draw_board(board)
-    puts "\t      (0) (1) (2) (3) (4) (5) (6) (7) second"
-    puts "\t     .-------------------------------."
+    puts "\t    0   1   2   3   4   5   6   7  second"
+    puts "\t  .-------------------------------."
     7.downto(0) do |x|
-      print "\t#{x+1}(#{x}) |" # <- remove here
+      print "\t#{x} |"
       0.upto(7) do |y|
-        print board.squares[x][y].nil? ? "   |" : " #{board.squares[x][y]} |"
+        print board.grid[x][y].nil? ? "   |" : " #{board.grid[x][y]} |"
       end
       puts
-      puts "\t     |---+---+---+---+---+---+---+---|" unless x == 0
+      puts "\t  |---+---+---+---+---+---+---+---|" unless x == 0
     end
-    puts "\t     '-------------------------------'"
-    puts "\t       A   B   C   D   E   F   G   H"
+    puts "\t  '-------------------------------'"
+    puts "\t    0   1   2   3   4   5   6   7"
   end
 
   def self.turn_message(color)
@@ -61,6 +61,24 @@ end
 #     user_input
 #   end
 # end
+
+
+# Uses chess notation legend
+  # # Later: remove #{x}, it's 3 spaces
+  # def self.draw_board(board)
+  #   puts "\t      (0) (1) (2) (3) (4) (5) (6) (7) second"
+  #   puts "\t     .-------------------------------."
+  #   7.downto(0) do |x|
+  #     print "\t#{x+1}(#{x}) |" # <- remove here
+  #     0.upto(7) do |y|
+  #       print board.grid[x][y].nil? ? "   |" : " #{board.grid[x][y]} |"
+  #     end
+  #     puts
+  #     puts "\t     |---+---+---+---+---+---+---+---|" unless x == 0
+  #   end
+  #   puts "\t     '-------------------------------'"
+  #   puts "\t       A   B   C   D   E   F   G   H"
+  # end
 
 class String
   def black;          "\e[30m#{self}\e[0m" end

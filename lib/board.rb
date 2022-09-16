@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require 'enumerable'
-require 'forwardable'
-
 # This is the chess board
 class Board
   attr_reader :grid

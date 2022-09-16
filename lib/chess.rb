@@ -24,8 +24,9 @@ class Chess
   def play
     Display.greeting
     Display.draw_board(board)
-    # turn_loop
-    turn_loop until game_over?
+    turn_loop
+
+    # turn_loop until game_over?
   end
 
   def game_over?
@@ -35,8 +36,10 @@ class Chess
   def turn_loop
     Display.turn_message(current_player.color)
     move
-    Display.draw_board(board)
-    switch_players
+    # piece = board.grid[1][0]
+    # piece.move
+    # Display.draw_board(board)
+    # switch_players
   end
 
   def switch_players
@@ -45,31 +48,35 @@ class Chess
 
   def move
     Display.starting_point_message
-    starting_point = input_move
-    starting_point = convert_notation(starting_point)
+    starting_point = gets.chomp.to_i
+    # starting_point = convert_notation(starting_point)
 
     Display.end_point_message
-    end_point = input_move
-    end_point = convert_notation(end_point)
-    board.grid[end_point[0]][end_point[1]] = board.grid[starting_point[0]][starting_point[1]]
-    board.grid[starting_point[0]][starting_point[1]] = nil
-  end
-
-  def input_move(user_input = '')
-    loop do
-      user_input = gets.chomp.upcase
-      break if user_input[0].match(/[A-H]/) && user_input[1].match(/[1-8]/) # uses chess notation
-
-      Display.invalid_input_message
-    end
-    user_input
-  end
-
-  # Convert notation, check nil square
-  def convert_notation(chess_notation)
-    converted_nums = []
-    converted_nums << chess_notation[1].to_i - 1
-    converted_nums << chess_notation[0].ord - 65
-    # board.grid[converted_nums[0]][converted_nums[1]].nil? ? false : true
+    end_point = gets.chomp.to_i
+    # end_point = convert_notation(end_point)
+    p board.grid[starting_point[0]][starting_point[1]]
   end
 end
+
+# board.grid[end_point[0]][end_point[1]] = board.grid[starting_point[0]][starting_point[1]]
+# board.grid[starting_point[0]][starting_point[1]] = nil
+
+# # Restrict input to chess notation, i.e. H3
+# # Re-implement after we work out game logic. This slows us down.
+# def input_move(user_input = '')
+#   loop do
+#     user_input = gets.chomp.upcase
+#     break if user_input[0].match(/[A-H]/) && user_input[1].match(/[1-8]/) # uses chess notation
+
+#     Display.invalid_input_message
+#   end
+#   user_input
+# end
+
+# # Convert from chess notation to array index
+# def convert_from_notation(chess_notation)
+#   converted_nums = []
+#   converted_nums << chess_notation[1].to_i - 1
+#   converted_nums << chess_notation[0].ord - 65
+#   # board.grid[converted_nums[0]][converted_nums[1]].nil? ? false : true
+# end

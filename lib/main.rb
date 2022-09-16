@@ -22,10 +22,6 @@ play(game)
 "
 NOTES
 
-Use enumerable and forwardable to make @board respond to array index lookup.
-board.squares[0][1] is cumbersome
-board[0][1] is better
-
 Who is responsible for creating game piece objects?
 
 row legend: A, B, C, D, E, F, G, H
