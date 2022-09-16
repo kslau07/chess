@@ -17,8 +17,8 @@ class Chess
 
   def setup_board(chess_pieces)
     # We can combine these 2 lines somehow. Do it later.
-    (0..7).each { |x| board.squares[1][x] = chess_pieces[:white_pcs][x] }
-    (0..7).each { |x| board.squares[6][x] = chess_pieces[:black_pcs][x] }
+    (0..7).each { |x| board.grid[1][x] = chess_pieces[:white_pcs][x] }
+    (0..7).each { |x| board.grid[6][x] = chess_pieces[:black_pcs][x] }
   end
 
   def play
@@ -51,8 +51,8 @@ class Chess
     Display.end_point_message
     end_point = input_move
     end_point = convert_notation(end_point)
-    board.squares[end_point[0]][end_point[1]] = board.squares[starting_point[0]][starting_point[1]]
-    board.squares[starting_point[0]][starting_point[1]] = nil
+    board.grid[end_point[0]][end_point[1]] = board.grid[starting_point[0]][starting_point[1]]
+    board.grid[starting_point[0]][starting_point[1]] = nil
   end
 
   def input_move(user_input = '')
@@ -70,6 +70,6 @@ class Chess
     converted_nums = []
     converted_nums << chess_notation[1].to_i - 1
     converted_nums << chess_notation[0].ord - 65
-    # board.squares[converted_nums[0]][converted_nums[1]].nil? ? false : true
+    # board.grid[converted_nums[0]][converted_nums[1]].nil? ? false : true
   end
 end

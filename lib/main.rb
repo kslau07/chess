@@ -15,12 +15,14 @@ def play(game)
 end
 
 game = Chess.new
+
 play(game)
+
 
 "
 NOTES
 
-Use enumerable and forwardable to make @board respond to array notation.
+Use enumerable and forwardable to make @board respond to array index lookup.
 board.squares[0][1] is cumbersome
 board[0][1] is better
 
@@ -65,6 +67,23 @@ receive_message_chain(:method1, :method2, :method3).and_return('some_characters'
 instance_variable_get
 instance_variable_set
 use mocks/stubs sparringly
+
+Rememeber to include:
+castling
+cannot put yourself in check
+check after moving a piece
+double check
+en passant (must execute when available or lose it)
+pawn promotion
+
+draws:
+stalemate because king has no legal moves, other pieces cannot move either
+stalemate from insufficient material:
+  King vs. king
+  King and bishop vs. king
+  King and knight vs. king
+  King and bishop vs. king and bishop of the same color as the opponent's bishop
+3 repititions, ask about this rule, not necessarily a draw (maybe ask in console after 3)
 "
 
 "Assignment
