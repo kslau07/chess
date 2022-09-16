@@ -11,7 +11,7 @@ module Display
     puts "\t      (0) (1) (2) (3) (4) (5) (6) (7) second"
     puts "\t     .-------------------------------."
     7.downto(0) do |x|
-      print "\t#{(65+x).chr}(#{x}) |" # <- remove here
+      print "\t#{x+1}(#{x}) |" # <- remove here
       0.upto(7) do |y|
         print board.squares[x][y].nil? ? "   |" : " #{board.squares[x][y]} |"
       end
@@ -19,13 +19,26 @@ module Display
       puts "\t     |---+---+---+---+---+---+---+---|" unless x == 0
     end
     puts "\t     '-------------------------------'"
-    puts "\t       1   2   3   4   5   6   7   8"
+    puts "\t       A   B   C   D   E   F   G   H"
   end
 
   def self.turn_message(color)
     puts "#{color.capitalize}, it's your turn!"
   end
+
+  def self.invalid_input_message
+    puts 'Input is not valid!'
+  end
+
+  def self.starting_point_message
+    puts 'Enter starting square:'
+  end
+
+  def self.end_point_message
+    puts 'Enter ending square:'
+  end
 end
+
 
 # This module makes sure user input matches given criteria
 # module ValidInput

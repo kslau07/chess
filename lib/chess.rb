@@ -24,14 +24,35 @@ class Chess
   def play
     Display.greeting
     Display.draw_board(board)
-    turn_loop
-    # turn_loop until game_over?
+    # turn_loop
+    turn_loop until game_over?
+  end
+
+  def game_over?
+    false
   end
 
   def turn_loop
     Display.turn_message(current_player.color)
-    # chess_notation
-    p input_move
+    move
+    Display.draw_board(board)
+    switch_players
+  end
+
+  def switch_players
+    @current_player = current_player == player1 ? player2 : player1
+  end
+
+  def move
+    Display.starting_point_message
+    starting_point = input_move
+    starting_point = convert_notation(starting_point)
+
+    Display.end_point_message
+    end_point = input_move
+    end_point = convert_notation(end_point)
+    board.squares[end_point[0]][end_point[1]] = board.squares[starting_point[0]][starting_point[1]]
+    board.squares[starting_point[0]][starting_point[1]] = nil
   end
 
   def input_move(user_input = '')
@@ -39,19 +60,16 @@ class Chess
       user_input = gets.chomp.upcase
       break if user_input[0].match(/[A-H]/) && user_input[1].match(/[1-8]/) # uses chess notation
 
-      invalid_input_message
+      Display.invalid_input_message
     end
     user_input
   end
+
+  # Convert notation, check nil square
+  def convert_notation(chess_notation)
+    converted_nums = []
+    converted_nums << chess_notation[1].to_i - 1
+    converted_nums << chess_notation[0].ord - 65
+    # board.squares[converted_nums[0]][converted_nums[1]].nil? ? false : true
+  end
 end
-
-
-  # def chess_notation
-  #   spaces = []
-  #   ('A'..'H').each do |letter|
-  #     (1..8).each do |number|
-  #       spaces << [letter, number].join
-  #     end
-  #   end
-  #   spaces
-  # end

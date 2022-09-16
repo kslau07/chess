@@ -4,13 +4,13 @@
 class Pawn < Piece
   attr_reader :color
 
-
   def initialize(color)
     @color = color
+    @has_moved = false
   end
 
-  def char
-
+  def move_pattern
+    [1][0]
   end
 
   def to_s

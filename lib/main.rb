@@ -20,8 +20,11 @@ play(game)
 "
 NOTES
 
-Who is responsible for creating game piece objects?
+Use enumerable and forwardable to make @board respond to array notation.
+board.squares[0][1] is cumbersome
+board[0][1] is better
 
+Who is responsible for creating game piece objects?
 
 row legend: A, B, C, D, E, F, G, H
 column legend: 8, 7, 6, 5, 4, 3, 2, 1 (top to bottom)
@@ -38,9 +41,6 @@ black chess rook	♜	U+265C	&#9820;	&#x265C;
 black chess bishop	♝	U+265D	&#9821;	&#x265D;
 black chess knight	♞	U+265E	&#9822;	&#x265E;
 black chess pawn	♟	U+265F	&#9823;	&#x265F;
-
-
-
 
 
 Add serializing ASAP, after pawn works.
