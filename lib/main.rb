@@ -15,12 +15,12 @@ def play(game)
 end
 
 game = Chess.new
-
 play(game)
-
 
 "
 NOTES
+
+Keep a move list, at least 6 deep. Maybe make a list of all moves.
 
 Who is responsible for creating game piece objects?
 
