@@ -30,11 +30,11 @@ module Display
     puts 'Input is not valid!'
   end
 
-  def self.start_point_message
+  def self.input_start_msg
     puts 'Enter starting square:'
   end
 
-  def self.end_point_message
+  def self.input_end_msg
     puts 'Enter ending square:'
   end
 end

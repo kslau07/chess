@@ -15,6 +15,17 @@ class Chess
     setup_board(pieces)
   end
 
+  # Array of all 64 squares in index notation
+  def squares_array
+    squares = []
+    8.times do |x|
+      8.times do |y|
+        squares << [x, y]
+      end
+    end
+    squares
+  end
+
   def setup_board(chess_pieces)
     (0..1).each { |x| board.grid[1][x] = chess_pieces[:white_pcs][x] }
     (0..1).each { |x| board.grid[6][x] = chess_pieces[:black_pcs][x] }
@@ -54,40 +65,45 @@ class Chess
 
   def move
     loop do
-      Display.start_point_message
-      start_point = gets.chomp.split('').map(&:to_i)
-      Display.end_point_message
-      end_point = gets.chomp.split('').map(&:to_i)
-      break if permissible?(start_point, end_point)
+      Display.input_start_msg
+      start_pt = gets.chomp.split('').map(&:to_i)
+      Display.input_end_msg
+      end_pt = gets.chomp.split('').map(&:to_i)
+      break if permissible?(start_pt, end_pt)
 
       Display.invalid_input_message
     end
   end
 
-  def permissible?(start_point, end_point)
+  def permissible?(start_pt, end_pt)
 
-    # false if 1st input is 'unoccupied'
-    return false if board.grid[start_point[0]][start_point[1]] == 'unoccupied' # 1st input
+    # false if 1st inputted square is 'unoccupied'
+    return false if board.grid[start_pt[0]][start_pt[1]] == 'unoccupied' # 1st input
 
     # false if second input is off the board
-    return false unless board.grid.dig(end_point[0], end_point[1]) # 2nd input
+    # return false unless board.grid.dig(end_pt[0], end_pt[1]) # 2nd input
+    return false unless squares_array.include?(end_pt)
 
     # false if piece cannot reach square
-    piece = board.grid[start_point[0]][start_point[1]]
-    return false unless reachable?(piece, end_point)
-    
+    return false unless reachable?(start_pt, end_pt)
+
+
     true
 
     # false if second input is not one of piece's next moves
     # false if puts own king into check
 
     # array.fetch(1, 'dft val') # fetch uses a value for lookup. dig uses indexing
-    # return false unless board.grid.fetch([end_point[0]], [end_point[1]])
-    # return false unless board.include? board.grid[end_point[0]][end_point[1]]
+    # return false unless board.grid.fetch([end_pt[0]], [end_pt[1]])
+    # return false unless board.include? board.grid[end_pt[0]][end_pt[1]]
   end
 
-  def reachable?
-
+  def reachable?(start_pt, end_pt)
+    piece = board.grid[start_pt[0]][start_pt[1]]
+    # Create array of possible squares piece can travel to
+    p piece.legal_next_moves(start_pt)
+    # reachable_squares = [squares]
+    # reachable_squares.include?(end_pt)
   end
 end
 
