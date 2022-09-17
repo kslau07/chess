@@ -38,11 +38,11 @@ class Chess
 
   def turn_loop
     Display.turn_message(current_player.color)
-    
+
     # piece = board.grid[6][0]
     # p piece
     # piece.move
-    
+
     move
     # Display.draw_board(board)
     switch_players
@@ -58,20 +58,26 @@ class Chess
       start_point = gets.chomp.split('').map(&:to_i)
       Display.end_point_message
       end_point = gets.chomp.split('').map(&:to_i)
-      break if validate(start_point, end_point)
+      break if permissible?(start_point, end_point)
 
       Display.invalid_input_message
     end
   end
 
-  def validate(start_point, end_point)
-    return false if board.grid[start_point[0]][start_point[1]] == 'unoccupied' # 1st input
-    return false unless board.grid.dig(end_point[0], end_point[1]) # 2nd input
+  def permissible?(start_point, end_point)
 
-    puts 'good input'
-    true
+    # false if 1st input is 'unoccupied'
+    return false if board.grid[start_point[0]][start_point[1]] == 'unoccupied' # 1st input
 
     # false if second input is off the board
+    return false unless board.grid.dig(end_point[0], end_point[1]) # 2nd input
+
+    # false if piece cannot reach square
+    piece = board.grid[start_point[0]][start_point[1]]
+    return false unless reachable?(piece, end_point)
+    
+    true
+
     # false if second input is not one of piece's next moves
     # false if puts own king into check
 
@@ -79,27 +85,9 @@ class Chess
     # return false unless board.grid.fetch([end_point[0]], [end_point[1]])
     # return false unless board.include? board.grid[end_point[0]][end_point[1]]
   end
+
+  def reachable?
+
+  end
 end
 
-# board.grid[end_point[0]][end_point[1]] = board.grid[start_point[0]][start_point[1]]
-# board.grid[start_point[0]][start_point[1]] = nil
-
-# # Restrict input to chess notation, i.e. H3
-# # Re-implement after we work out game logic. This slows us down.
-# def input_move(user_input = '')
-#   loop do
-#     user_input = gets.chomp.upcase
-#     break if user_input[0].match(/[A-H]/) && user_input[1].match(/[1-8]/) # uses chess notation
-
-#     Display.invalid_input_message
-#   end
-#   user_input
-# end
-
-# # Convert from chess notation to array index
-# def convert_from_notation(chess_notation)
-#   converted_nums = []
-#   converted_nums << chess_notation[1].to_i - 1
-#   converted_nums << chess_notation[0].ord - 65
-#   # board.grid[converted_nums[0]][converted_nums[1]].nil? ? false : true
-# end

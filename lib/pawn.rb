@@ -4,8 +4,11 @@
 class Pawn < Piece
   attr_reader :color, :unmoved
 
+  # first we use initialize with super
+  # later we will switch to post_initialization
+
   def initialize(color)
-    @color = color
+    super
     @unmoved = true
   end
 
