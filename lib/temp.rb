@@ -15,12 +15,13 @@ john = Child.new('white')
 p john.instance_variable_get(:@color)
 p john.instance_variable_get(:@foo)
 
+# Old code
+
 # board = [[0, 1, 2], [3, 4, 5], [6, 7, 8]]
 
 # board.reverse_each do |n|
 #   p n
 # end
-
 
 # board.grid[end_point[0]][end_point[1]] = board.grid[start_point[0]][start_point[1]]
 # board.grid[start_point[0]][start_point[1]] = nil

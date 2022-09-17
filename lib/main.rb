@@ -21,6 +21,13 @@ play(game)
 NOTES
 
 Keep a move list, at least 6 deep. Maybe make a list of all moves.
+Use class.name or get name for notation.
+Or, add @name to classes. (probably this one, but try other first)
+
+Make one pawn block the other.
+Make predefined_moves and capture_path_rename different for pawns, same for all other pieces.
+If capture and move do not match, do not capture. Illegal move.
+
 
 Who is responsible for creating game piece objects?
 

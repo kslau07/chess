@@ -47,4 +47,8 @@ class Pawn < Piece
       [[1, 0]]
     end
   end
+
+  def capturable_squares
+    [[1, -1], [1, 1]]
+  end
 end
