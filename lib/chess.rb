@@ -75,10 +75,14 @@ class Chess
     end
   end
 
+  def board_object(position_arr)
+    board.grid[position_arr[0]][position_arr[1]]
+  end
+
   def permissible?(start_pt, end_pt)
 
     # false if 1st inputted square is 'unoccupied'
-    return false if board.grid[start_pt[0]][start_pt[1]] == 'unoccupied' # 1st input
+    return false if board_object(start_pt) == 'unoccupied' # 1st input
 
     # false if second input is off the board
     # return false unless board.grid.dig(end_pt[0], end_pt[1]) # 2nd input
@@ -99,7 +103,7 @@ class Chess
   end
 
   def reachable?(start_pt, end_pt)
-    piece = board.grid[start_pt[0]][start_pt[1]]
+    piece = board_object(start_pt)
     # Create array of possible squares piece can travel to
     p piece.legal_next_moves(start_pt)
     # reachable_squares = [squares]
