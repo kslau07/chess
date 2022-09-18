@@ -104,8 +104,8 @@ class Move
     # If the end sq is player's own color, it is blocked
     # You have to use something like knight_moves to create ONE path for
     # pieces that can travel: queen, rook, bishop
-    
-    
+
+
 
     # fix path. it's not what it should be.
     # it should be an array of squares starting AFTER start_sq
