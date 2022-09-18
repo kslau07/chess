@@ -14,17 +14,6 @@ class Game
     pieces = { white_pcs: white_set, black_pcs: black_set }
     setup_board(pieces)
   end
-  
-  # def initialize(board = nil, player1 = nil, player2 = nil)
-  #   @board = board || Board.new
-  #   @player1 = player1 || Player.new(color: 'white')
-  #   @player2 = player2 || Player.new(color: 'black')
-  #   @current_player = @player1
-  #   white_set = PieceFactory.create_set('white')
-  #   black_set = PieceFactory.create_set('black')
-  #   pieces = { white_pcs: white_set, black_pcs: black_set }
-  #   setup_board(pieces)
-  # end
 
   def setup_board(chess_pieces)
     (0..1).each { |x| board.grid[1][x] = chess_pieces[:white_pcs][x] }

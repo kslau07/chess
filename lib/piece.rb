@@ -1,8 +1,8 @@
 # This is the super class for all chess pieces
 class Piece
 
-  def initialize(color)
-    @color = color
+  def initialize(**args)
+    @color = args[:color] || 'white'
   end
 
   def invert(move)
@@ -25,7 +25,7 @@ class Pawn < Piece
   # first we use initialize with super
   # later we will switch to post_initialization
 
-  def initialize(color)
+  def initialize(**args)
     super
     @unmoved = true
   end

@@ -9,7 +9,7 @@ class PieceFactory
   end
 
   def self.create(piece, color)
-    Object.const_get(piece).new(color)
+    Object.const_get(piece).new(color: color)
   end
 end
 

@@ -31,9 +31,9 @@ describe Game do
     # Script method, not tested
     # Only query and command methods are tested
   end
-
+  
+  # Script method
   describe '#turn_loop' do
-    # Script method
   end
 
   # A query method expects a return value
@@ -45,31 +45,37 @@ end
 describe Move do
   subject(:move) { described_class.new }
 
-  describe '#move_sequence' do
-    # private script
+  before(:each) do
+    allow_any_instance_of(Move).to receive(:move_sequence)
   end
 
+  # Script method
+  describe '#move_sequence' do
+  end
+
+  # Command and Query: needs testing
   describe '#input_move' do
-    # Command and Query: needs testing
-
     context 'when user input is good' do
-      before do
-        allow_any_instance_of(Move).to receive(:move_sequence) # used during instantiation
-      end
-
       it 'receives 2 inputs from player' do
-        allow(move).to receive(:valid?).and_return(true)
-        expect(move).to receive(:gets).and_return('10').twice
-        move.input_move
+        allow(subject).to receive(:valid?).and_return(true)
+        expect(subject).to receive(:gets).and_return('10', '20').twice
+        subject.input_move
+      end
+    end
+
+    context 'when user input is first invalid, then valid' do
+      xit 'completes loop and receives error message once' do
       end
     end
   end
 
+  # Query method
   describe '#board_object' do
-    # Query method
-
-    it 'returns a string' do
-      subject
+    
+    it 'returns "unoccupied"' do
+      position_arr = [3, 3]
+      result = subject.board_object(position_arr)
+      expect(result).to eq('unoccupied')
     end
 
   end
@@ -78,26 +84,20 @@ describe Move do
 
   end
 
+  # Command method
   describe '#transfer_piece' do
-    # Command method
-    # test
     before do
     end
 
-    xit 'sends #update_square twice to @board' do
-      allow_any_instance_of(Move).to receive(:move_sequence)
+    it 'sends #update_square twice to @board' do
+      start_sq = [1, 0]
+      end_sq = [2, 0]
+      pawn = instance_double(Pawn)
+      allow(pawn).to receive(:moved)
+      allow(subject).to receive(:board_object).and_return(pawn)
 
-      player = 'player'
-      board = instance_double(Board)
-      pawn = instance_double(Pawn, 'white')
-      pawn.as_null_object
-      move = Move.new(player, board)
-      allow(move).to receive(:board_object).and_return(pawn)
-
-      start_sq = [0, 0]
-      end_sq = [1, 1]
-      expect(board).to receive(:update_square).twice
-      move.transfer_piece(start_sq, end_sq)
+      expect(subject.board).to receive(:update_square).twice
+      subject.transfer_piece(start_sq, end_sq)
     end
   end
 end
