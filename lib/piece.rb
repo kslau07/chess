@@ -9,7 +9,7 @@ class Piece
     move.map { |num| num * -1 }
   end
 
-  def legal_next_moves(start_pt, color, board_squares)
+  def simple_path(start_pt, color, board_squares)
     predefined_moves.map do |predefined_move|
       predefined_move = invert(predefined_move) if color == 'black'
       move = [predefined_move[0] + start_pt[0], predefined_move[1] + start_pt[1]]

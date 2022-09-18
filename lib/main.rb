@@ -1,7 +1,7 @@
 # https://www.theodinproject.com/lessons/ruby-ruby-final-project
 # frozen_string_literal: true
 
-require_relative 'chess'
+require_relative 'game'
 require_relative 'board'
 require_relative 'player'
 require_relative 'display'
@@ -15,7 +15,7 @@ def play(game)
   game.play
 end
 
-game = Chess.new
+game = Game.new
 play(game)
 
 "
@@ -60,7 +60,6 @@ You must write edge cases for all of your tests.
 Start testing asap. Use tests to repeatedly do the same thing.
 Use Display::method
 -> what is namespacing?
-
 
 Other testing tools to use:
 p/puts anywhere in test
