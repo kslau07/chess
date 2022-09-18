@@ -17,6 +17,19 @@ p john.instance_variable_get(:@foo)
 
 # Old code
 
+# def display_board
+#   0.upto(5) do |i|
+#     print "|"
+#     0.upto(6) do |n|
+#       print @board[n][i].nil? ? "   |" : " #{@board[n][i]} |"
+#     end
+#     puts
+#   end
+# end
+
+
+
+
 # board = [[0, 1, 2], [3, 4, 5], [6, 7, 8]]
 
 # board.reverse_each do |n|

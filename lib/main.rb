@@ -8,6 +8,7 @@ require_relative 'display'
 require_relative 'piece_factory'
 require_relative 'piece'
 require_relative 'pawn'
+require_relative 'move'
 
 def play(game)
   # NOTE: move scripting methods here once game is finished
@@ -19,6 +20,8 @@ play(game)
 
 "
 NOTES
+
+Change 'unoccupied' back to nil
 
 Keep a move list, at least 6 deep. Maybe make a list of all moves.
 Use class.name or get name for notation.

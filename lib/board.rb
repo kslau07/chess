@@ -17,4 +17,3 @@ class Board
   end
 end
 
-# p Board.new.grid
