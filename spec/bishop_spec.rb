@@ -20,12 +20,12 @@ describe Bishop do
       board_squares = Board.board_squares
 
       it 'returns an array' do
-        result = subject.line_arrays(start_sq, end_sq, board_squares)
+        result = subject.generate_path(start_sq, end_sq, board_squares)
         expect(result).to be_kind_of(Array)
       end
 
       it 'returns an array(path) that contains end_sq' do
-        result = subject.line_arrays(start_sq, end_sq, board_squares)
+        result = subject.generate_path(start_sq, end_sq, board_squares)
         expect(result).to include(end_sq)
       end
     end
@@ -35,8 +35,8 @@ describe Bishop do
       end_sq = [3, 3] # not in path, 1 step forward
       board_squares = Board.board_squares
 
-      xit 'returns an empty array' do
-        result = subject.path_one(start_sq, end_sq, board_squares)
+      it 'returns an empty array' do
+        result = subject.generate_path(start_sq, end_sq, board_squares)
         expect(result).to be_empty
       end
     end
