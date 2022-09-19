@@ -38,31 +38,37 @@ class Piece
     line_arrays(var_name, start_sq, end_sq, board_squares)
   end
 
+  # to keep symmetry and reusability at a maximum
+  # we will forgo some optimization
+  # do not stop when we find end_sq
+  # simply produce all predefined paths
+  # we will create another method
+  # which will filter out the bad paths
+  # for ALL pieces
+
+  # Right now this stops when we match end_sq
+  # Forget about that, it adds complexity to our method
+  # and the moves are few enough where it doesn't matter now.
   def line_arrays(travel_directions, start_sq, end_sq, board_squares)
-    return if instance_of?(Pawn) #|| instance_of?(Knight)
-
-    # only add the array that matches end_sq
-    # do not keep any other array
-    # use a combo of push and break to accomplish
-
-    new_array = travel_directions.map do |travel_direction|
-      subarray = []
+    subarray = []
+    travel_directions.each do |travel_direction|
       next_sq = start_sq
-      4.times do
+      loop do
         next_sq = [next_sq[0] + travel_direction[0], next_sq[1] + travel_direction[1]]
-        # p 'next_sq'
-        # p board_squares.include?(next_sq)
         break unless board_squares.include?(next_sq)
-
 
         subarray << next_sq
         break if next_sq == end_sq
       end
-      subarray
-    end
-    p new_array
-  end
+      subarray = [] unless subarray.include?(end_sq)
 
+      # Change to one-liner
+      if subarray.include?(end_sq)
+        p subarray
+        return subarray
+      end
+    end
+  end
 end
 
 # This class represents pawns in chess
