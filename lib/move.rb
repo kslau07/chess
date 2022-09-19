@@ -62,19 +62,19 @@ class Move
     return false if board_obj.color != current_player.color # piece must be player's own
     
     return false unless reachable?(start_sq, end_sq) # false if piece cannot reach end square
+    
     # return false unless capturable?(start_sq, end_sq) # include result of reachable somehow
     # return false if path_blocked?(start_sq, end_sq)
 
     true
 
-    # false if second input is not one of piece's next moves
-    # false if puts own king into check
   end
 
   def reachable?(start_sq, end_sq)
     piece = board_object(start_sq)
 
-    reachable_squares = piece.simple_path(start_sq, piece.color, board_squares)
+    reachable_squares = piece.generate_path(start_sq, end_sq, piece.color, board_squares)
+
     puts 'legal move!' if reachable_squares.include?(end_sq)
     reachable_squares.include?(end_sq) ? true : false
   end

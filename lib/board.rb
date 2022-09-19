@@ -20,4 +20,3 @@ class Board
     grid[coord[0]][coord[1]] = new_value
   end
 end
-
