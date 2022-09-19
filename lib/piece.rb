@@ -23,12 +23,12 @@ class Piece
     end
   end
 
-  def invert(move)
-    move.map { |num| num * -1 }
-  end
-
   def stage_piece(start_sq, end_sq)
     generate_path(start_sq, end_sq)
+  end
+
+  def invert(move)
+    move.map { |num| num * -1 }
   end
 
   def generate_path(start_sq, end_sq)

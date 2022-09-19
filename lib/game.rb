@@ -23,7 +23,7 @@ class Game
 
     # bishops
     board.grid[2][3] = PieceFactory.create('Bishop', 'white')
-    board.grid[4][3] = PieceFactory.create('Bishop', 'black')
+    board.grid[5][6] = PieceFactory.create('Bishop', 'black')
 
 
 

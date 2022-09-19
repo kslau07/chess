@@ -25,6 +25,7 @@ class Move
     transfer_piece(start_sq, end_sq)
   end
 
+  # add string matching later
   def input_move
     # start_sq = gets.chomp.split('').map(&:to_i)
     # end_sq = gets.chomp.split('').map(&:to_i)
@@ -42,6 +43,8 @@ class Move
   end
 
   def board_object(position_arr)
+    return nil if position_arr.nil?
+
     board.grid[position_arr[0]][position_arr[1]]
   end
 
@@ -54,13 +57,21 @@ class Move
     board_obj = board_object(start_sq)
     return false if board_obj == 'unoccupied' # start must not be empty
     return false if board_obj.color != current_player.color # piece must be player's own
+    path = board_obj.find_route(start_sq, end_sq)
+    return false unless reachable?(end_sq, path) # false if piece cannot reach end square
 
-    return false unless reachable?(start_sq, end_sq) # false if piece cannot reach end square
+    # puts 'path obstructed' if path_obstructed?(path, end_sq)
+    return false if path_obstructed?(path, end_sq)
 
     # path blocked can be written easily now using generate path
-    # run generate path only once per Move. Assume it is expensive.
     # After that, we can write capturable. Tricky for pawn.
-    # Then we can attempt En Passant for pawn.
+    # Then we can attempt En Passant for pawn. (move list needed)
+
+    # Way later:
+    # castle, both types, check if unmoved
+    # check: put opponent in check, do not put self in check
+    # checkmate
+    # tie (use move list)
 
     # return false unless capturable?(start_sq, end_sq) # include result of reachable somehow
     # return false if path_blocked?(start_sq, end_sq)
@@ -72,10 +83,8 @@ class Move
     board_squares.include?(start_sq) && board_squares.include?(end_sq) ? false : true
   end
 
-  def reachable?(start_sq, end_sq)
-    piece = board_object(start_sq)
-    reachable_squares = piece.find_route(start_sq, end_sq)
-    reachable_squares.include?(end_sq) ? true : false
+  def reachable?(end_sq, path)
+    path.include?(end_sq) ? true : false
   end
   # puts 'legal move!' if reachable_squares.include?(end_sq)
 
@@ -101,18 +110,17 @@ class Move
     true
   end
 
-  # def pawn_captures(pawn, )
+  # rework some of this logic, seems overly complicated
+  def path_obstructed?(path, end_sq)
+    first_occupied_sq = path.find { |coord| board.grid[coord[0]][coord[1]].is_a?(Piece) }
+    piece_at_occupied_sq = board_object(first_occupied_sq)
+    piece_at_end_sq = board_object(end_sq)
+    return false if first_occupied_sq.nil? # path is clear
+    return true if end_sq != first_occupied_sq
 
-  # end
-
-  # later use knight_moves algo for path lookup, find first object in path
-  def path_blocked?(start_sq, end_sq)
-    piece = board_object(start_sq)
-    path = piece.simple_path(start_sq, piece.color, board_squares)
-
-    p path
-
-    false
+    if first_occupied_sq == end_sq
+      return true if piece_at_occupied_sq.color == piece_at_end_sq.color # same color obstruction
+    end
   end
 
   def transfer_piece(start_sq, end_sq)
