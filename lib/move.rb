@@ -7,6 +7,8 @@ require_relative 'player'
 class Move
   attr_reader :current_player, :board
 
+  def test; end
+
   # Array of all 64 squares in index notation
   def board_squares
     squares = []
@@ -59,8 +61,9 @@ class Move
     return false unless board_squares.include?(start_sq) && board_squares.include?(end_sq) # both inputs must be on the board
     return false if board_obj == 'unoccupied' # board sq must not be empty
     return false if board_obj.color != current_player.color # piece must be player's own
+    
     return false unless reachable?(start_sq, end_sq) # false if piece cannot reach end square
-    # capturable?
+    return false unless capturable?(start_sq, end_sq) # include result of reachable somehow
     return false if path_blocked?(start_sq, end_sq)
 
     true
@@ -88,11 +91,31 @@ class Move
   # capturable?
 
   # check if any piece objects (non-capturable) blocking path to end_sq
-  def capturable?(start_sq, end_sq)
-    piece = board_object(start_sq)
+  def capturable?(start_sq, end_sq, reachable = nil)
+    own_obj = board_object(start_sq)
+    other_obj = board_object(end_sq)
+    return false if other_obj == 'unoccupied'
+    return false if own_obj.color == other_obj.color
+    return true unless own_obj.instance_of?(Pawn)
+    # return reachable || reachable?(start_sq, end_sq) unless own_obj.instance_of?(Pawn)
+    
+    
+    # puts own_obj.color
+    true
 
-    capturable_squares = piece.capturable_squares(start_sq, piece.color, board_squares)
-    capturable_squares.include?(end_sq) ? true : false
+
+
+    # return true if own_obj.color != other_obj.color
+
+
+    # piece = board_object(start_sq)
+
+    # capturable_squares = piece.capturable_squares(start_sq, piece.color, board_squares)
+    # capturable_squares.include?(end_sq) ? true : false
+  end
+
+  def pawn_captures(pawn, )
+
   end
 
   # later use knight_moves algo for path lookup, find first object in path

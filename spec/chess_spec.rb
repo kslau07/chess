@@ -111,16 +111,23 @@ describe Move do
   end
 
   describe '#capturable?' do
-    context 'when piece at end_sq is capturable' do
-      xit 'returns true' do
-        start_sq = [1, 0]
-        end_sq = [2, 0]
-        pawn = Pawn.new
-        allow(subject).to receive(:board_object).and_return(pawn)
+    context "when own piece is not a pawn, and end_sq contains opponent's piece" do
+      it 'calls #reachable?' do
+        subject.board.grid[1][0] = Pawn.new(color: 'white')
+        subject.board.grid[2][1] = Pawn.new(color: 'black')
 
+        Display.draw_board(subject.board)
+
+        # allow(subject).to receive(:board_object).and_return(Pawn.new(color:white))
+        start_sq = [1, 0]
+        end_sq = [2, 1]
         result = subject.capturable?(start_sq, end_sq)
-        expect(result).to be(true)
+        expect(result).to eq(true)
       end
+    end
+
+    context 'when piece is a pawn' do
+
     end
   end
 
