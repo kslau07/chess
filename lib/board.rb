@@ -4,6 +4,17 @@
 class Board
   attr_reader :grid
 
+  # Array of all 64 squares in index notation
+  def self.board_squares
+    squares = []
+    8.times do |x|
+      8.times do |y|
+        squares << [x, y]
+      end
+    end
+    squares
+  end
+
   def initialize
     generate_board
   end

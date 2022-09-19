@@ -15,17 +15,15 @@ describe Bishop do
   describe '#path_one' do
     context 'when end_sq is a possible next move' do
       start_sq = [2, 3]
-      end_sq = [3, 3] # not in path, 1 step forward
-      end_sq = [3, 4] # in path
-      board_squares = Board.board_squares
+      end_sq = [6, 7] # in path
 
       it 'returns an array' do
-        result = subject.generate_path(start_sq, end_sq, board_squares)
+        result = subject.generate_path(start_sq, end_sq)
         expect(result).to be_kind_of(Array)
       end
 
-      it 'returns an array(path) that contains end_sq' do
-        result = subject.generate_path(start_sq, end_sq, board_squares)
+      it 'returns an array(path) that includes end_sq' do
+        result = subject.generate_path(start_sq, end_sq)
         expect(result).to include(end_sq)
       end
     end
@@ -33,10 +31,9 @@ describe Bishop do
     context 'when end_sq is impossible to reach in next move' do
       start_sq = [2, 3]
       end_sq = [3, 3] # not in path, 1 step forward
-      board_squares = Board.board_squares
 
       it 'returns an empty array' do
-        result = subject.generate_path(start_sq, end_sq, board_squares)
+        result = subject.generate_path(start_sq, end_sq)
         expect(result).to be_empty
       end
     end

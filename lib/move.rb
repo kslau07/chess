@@ -11,13 +11,7 @@ class Move
 
   # Array of all 64 squares in index notation
   def board_squares
-    squares = []
-    8.times do |x|
-      8.times do |y|
-        squares << [x, y]
-      end
-    end
-    squares
+    Board.board_squares
   end
 
   def initialize(**args)
@@ -35,13 +29,13 @@ class Move
     # start_sq = gets.chomp.split('').map(&:to_i)
     # end_sq = gets.chomp.split('').map(&:to_i)
     # return
-    
+
     loop do
       Display.input_start_msg
       start_sq = gets.chomp.split('').map(&:to_i)
       Display.input_end_msg
       end_sq = gets.chomp.split('').map(&:to_i)
-      return [start_sq, end_sq] if valid?(start_sq, end_sq)
+      return [start_sq, end_sq] if move_valid?(start_sq, end_sq)
 
       Display.invalid_input_message
     end
@@ -54,30 +48,36 @@ class Move
   # fetch uses value for lookup -> .fetch(value, dft)
   # dig uses (index), will not raise error, returns nil on no match
 
-  def valid?(start_sq, end_sq)
+  def move_valid?(start_sq, end_sq)
+    return false if out_of_bound?(start_sq, end_sq)
 
     board_obj = board_object(start_sq)
-    return false unless board_squares.include?(start_sq) && board_squares.include?(end_sq) # both inputs must be on the board
-    return false if board_obj == 'unoccupied' # board sq must not be empty
+    return false if board_obj == 'unoccupied' # start must not be empty
     return false if board_obj.color != current_player.color # piece must be player's own
-    
+
     return false unless reachable?(start_sq, end_sq) # false if piece cannot reach end square
-    
+
+    # path blocked can be written easily now using generate path
+    # run generate path only once per Move. Assume it is expensive.
+    # After that, we can write capturable. Tricky for pawn.
+    # Then we can attempt En Passant for pawn.
+
     # return false unless capturable?(start_sq, end_sq) # include result of reachable somehow
     # return false if path_blocked?(start_sq, end_sq)
 
     true
+  end
 
+  def out_of_bound?(start_sq, end_sq)
+    board_squares.include?(start_sq) && board_squares.include?(end_sq) ? false : true
   end
 
   def reachable?(start_sq, end_sq)
     piece = board_object(start_sq)
-
-    reachable_squares = piece.generate_path(start_sq, end_sq, piece.color, board_squares)
-
-    puts 'legal move!' if reachable_squares.include?(end_sq)
+    reachable_squares = piece.find_route(start_sq, end_sq)
     reachable_squares.include?(end_sq) ? true : false
   end
+  # puts 'legal move!' if reachable_squares.include?(end_sq)
 
   # two types of valid moves:
   # both are identical, except for pawns
