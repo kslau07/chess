@@ -19,7 +19,6 @@ end
 describe Game do
   subject(:game) { Game.new }
 
-  
   describe '#initialize' do
     # Not tested
     it '' do
@@ -39,8 +38,6 @@ describe Game do
   # A query method expects a return value
   # A command method expects to set a value
 end
-
-
 
 describe Move do
   subject(:move) { described_class.new }

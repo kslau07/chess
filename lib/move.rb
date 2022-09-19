@@ -23,7 +23,6 @@ class Move
   def initialize(**args)
     @current_player = args[:current_player] || Player.new
     @board = args[:board] || Board.new
-
     move_sequence # rename?
   end
 
@@ -52,8 +51,8 @@ class Move
     board.grid[position_arr[0]][position_arr[1]]
   end
 
-  # fetch uses value for lookup
-  # dig uses (value), will not raise error, returns nil on no match
+  # fetch uses value for lookup -> .fetch(value, dft)
+  # dig uses (index), will not raise error, returns nil on no match
 
   def valid?(start_sq, end_sq)
 
@@ -63,8 +62,8 @@ class Move
     return false if board_obj.color != current_player.color # piece must be player's own
     
     return false unless reachable?(start_sq, end_sq) # false if piece cannot reach end square
-    return false unless capturable?(start_sq, end_sq) # include result of reachable somehow
-    return false if path_blocked?(start_sq, end_sq)
+    # return false unless capturable?(start_sq, end_sq) # include result of reachable somehow
+    # return false if path_blocked?(start_sq, end_sq)
 
     true
 
@@ -98,72 +97,29 @@ class Move
     return false if own_obj.color == other_obj.color
     return true unless own_obj.instance_of?(Pawn)
     # return reachable || reachable?(start_sq, end_sq) unless own_obj.instance_of?(Pawn)
-    
-    
     # puts own_obj.color
     true
-
-
-
-    # return true if own_obj.color != other_obj.color
-
-
-    # piece = board_object(start_sq)
-
-    # capturable_squares = piece.capturable_squares(start_sq, piece.color, board_squares)
-    # capturable_squares.include?(end_sq) ? true : false
   end
 
-  def pawn_captures(pawn, )
+  # def pawn_captures(pawn, )
 
-  end
+  # end
 
   # later use knight_moves algo for path lookup, find first object in path
   def path_blocked?(start_sq, end_sq)
     piece = board_object(start_sq)
-
-    # You will have multiple arrays that represent multiple paths
-    # A knight can never be blocked, except by its own piece
-    # If the end sq is player's own color, it is blocked
-    # You have to use something like knight_moves to create ONE path for
-    # pieces that can travel: queen, rook, bishop
-
-
-
-    # fix path. it's not what it should be.
-    # it should be an array of squares starting AFTER start_sq
-    # and it should end on end_sq.
-    # use push, then use break to end do early when end_sq is matched in path.
-    # simple_path must be rewritten like above description.
     path = piece.simple_path(start_sq, piece.color, board_squares)
 
     p path
 
     false
-
-    # if pawn wants move 2 spaces, but is blocked by another pawn:
-    # use its path to find first path_object
-    # we need a path_taken method
-
-    # check all squares after start_sq for objects
-    # first object you encounter: check if end_sq = object_sq
-    # check if end_sq, object_sq is capturable, that's a valid turn
-    # if end_sq == path_object but is NOT capturable, that's invalid (pawns)
-    # if end_sq == capturable but NOT path_object, that's invalid (path is not clear)
-
-    # maybe use this if we get stuck, but 'break' is better than this
-    # Find index of end_sq
-    # Find index of obj
-    # If obj is before end_sq, path is blocked
   end
 
   def transfer_piece(start_sq, end_sq)
     piece = board_object(start_sq)
     piece.moved
-    board.update_square(end_sq, piece) # send message, do not change other's variables
-    # board.grid[end_sq[0]][end_sq[1]] = piece
-    board.update_square(start_sq, 'unoccupied') # send message, do not change other's variables
-    # board.grid[start_sq[0]][start_sq[1]] = 'unoccupied'
+    board.update_square(end_sq, piece)
+    board.update_square(start_sq, 'unoccupied')
   end
 end
 

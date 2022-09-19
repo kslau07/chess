@@ -16,8 +16,13 @@ class Game
   end
 
   def setup_board(chess_pieces)
+
+    # # bishops
+    # board.grid[2][3] = PieceFactory.create('Bishop', 'white')
+    # board.grid[4][3] = PieceFactory.create('Bishop', 'black')
+
     (0..1).each { |x| board.grid[1][x] = chess_pieces[:white_pcs][x] }
-    (0..1).each { |x| board.grid[2][x] = chess_pieces[:black_pcs][x] }
+    (0..1).each { |x| board.grid[6][x] = chess_pieces[:black_pcs][x] }
 
     # We can combine these 2 lines somehow. Do it later.
     # (0..7).each { |x| board.grid[1][x] = chess_pieces[:white_pcs][x] }
