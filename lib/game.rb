@@ -18,7 +18,9 @@ class Game
   def setup_board(chess_pieces)
 
     # pawns
+    board.grid[1][0] = PieceFactory.create('Pawn', 'white')
     board.grid[1][1] = PieceFactory.create('Pawn', 'white')
+    board.grid[1][6] = PieceFactory.create('Pawn', 'white')
     board.grid[2][1] = PieceFactory.create('Pawn', 'black')
     board.grid[2][2] = PieceFactory.create('Pawn', 'black')
 

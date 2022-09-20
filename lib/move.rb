@@ -5,9 +5,8 @@ require_relative 'player'
 
 # This creates moves in chess
 class Move
-  attr_reader :current_player, :board, :start_sq, :end_sq, :path, :start_piece
-
-  # def test; end
+  attr_reader :current_player, :board, :start_sq, :end_sq,
+              :path, :start_piece, :end_piece
 
   # Array of all 64 squares in index notation
   def board_squares
@@ -58,6 +57,7 @@ class Move
 
   def move_valid?
     @start_piece = board_object(start_sq)
+    @end_piece = board_object(end_sq)
     # p 'start_piece', start_piece
 
     return false if out_of_bound?
@@ -84,15 +84,19 @@ class Move
   # Maybe we use this for king check later
   # add this later -> path = nil, path ||= reachable
   def reachable?
-    # return pawn_reachable?
+    return reachable_by_pawn? if start_piece.instance_of?(Pawn)
+    
     path.include?(end_sq) ? true : false
   end
 
-  def pawn_reachable?
-    # you must return true : false
 
-    # What logic goes here?
-    # Let's make some tests
+  def reachable_by_pawn?
+    base_move = [end_sq[0] - start_sq[0], end_sq[1] - start_sq[1]]
+    return false if end_piece == 'unoccupied' && (base_move == [1, -1] || base_move == [1, 1])
+
+    # p '#reachable_by_pawn?'
+    # p 'base_move', base_move
+    path.include?(end_sq) ? (return true) : (return false)
   end
 
   # rework some of this logic, seems overly complicated
@@ -106,6 +110,10 @@ class Move
     return true if end_sq != first_occupied_sq
 
     if first_occupied_sq == end_sq
+      base_move = [end_sq[0] - start_sq[0], end_sq[1] - start_sq[1]]
+      # if pawn is obstructed trying to move 1 or 2 steps forward
+      return true if start_piece.instance_of?(Pawn) && first_occupied_sq && (base_move == [1, 0] || base_move == [2, 0])
+
       return true if start_piece.color == piece_at_end_sq.color # same color obstruction
     end
     false

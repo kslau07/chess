@@ -9,10 +9,6 @@ require_relative '../lib/piece'
 require_relative '../lib/pawn'
 require_relative '../lib/move'
 
-def basic_pawn_setup
-
-end
-
 describe Move do
   subject(:move) { described_class.new }
 
@@ -118,7 +114,32 @@ describe Move do
       end
     end
   end
-  
+
+  describe '#reachable_by_pawn?' do
+    context 'when Pawn move is 2 squares but is obstructed by a piece' do
+      # This is already covered by #path_obstructed
+    end
+
+    context 'when Pawn move is 1 square but is obstructed by a piece' do
+      # Covered by #path_obstructed
+    end
+
+    context 'when Pawn tries to diagonally forward 1 space and space is empty' do
+      it 'returns false' do
+        start_sq = [1, 6]
+        end_sq = [2, 5]
+        piece = Pawn.new
+        subject.board.grid[1, 6] = piece
+        subject.board.grid[2, 5] = 'unoccupied'
+        subject.instance_variable_set(:@path, piece.find_route(start_sq, end_sq))
+        subject.instance_variable_set(:@start_sq, start_sq)
+        subject.instance_variable_set(:@end_sq, end_sq)
+        subject.instance_variable_set(:@end_piece, 'unoccupied')
+
+        expect(subject.reachable_by_pawn?).to be(false)
+      end
+    end
+  end
 
   describe '#path_obstructed?' do
     context "when Bishop's path is not blocked by other pieces" do
@@ -172,6 +193,43 @@ describe Move do
 
         result = subject.path_obstructed?(path, start_sq, end_sq)
         expect(result).to be(true)
+      end
+    end
+
+
+    context "when Bishop's end square contains own color Pawn" do
+      before do
+        subject.board.grid[0][2] = Bishop.new(color: 'white')
+        subject.board.grid[1][3] = Pawn.new(color: 'white')
+      end
+
+      it 'it returns true' do
+        start_sq = [0, 2]
+        end_sq = [1, 3]
+        piece = Bishop.new
+        path = piece.find_route(start_sq, end_sq)
+        subject.instance_variable_set(:@path, path)
+
+        result = subject.path_obstructed?(path, start_sq, end_sq)
+        expect(result).to be(true)
+      end
+    end
+
+    context "when Bishop's end square contains opponent's Pawn" do
+      before do
+        subject.board.grid[0][2] = Bishop.new(color: 'white')
+        subject.board.grid[1][3] = Pawn.new(color: 'black')
+      end
+
+      it 'it returns false' do
+        start_sq = [0, 2]
+        end_sq = [1, 3]
+        piece = Bishop.new
+        path = piece.find_route(start_sq, end_sq)
+        subject.instance_variable_set(:@path, path)
+
+        result = subject.path_obstructed?(path, start_sq, end_sq)
+        expect(result).to be(false)
       end
     end
   end
