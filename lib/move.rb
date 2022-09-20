@@ -136,6 +136,10 @@ class Move
     false
   end
 
+  # if opp piece is diagonal from pawn, allow capture
+  # if diag square is empty, do not allow capture or movement
+  # if 1 step or 2 step contains opponent, do not allow capture or movement
+
   def transfer_piece(start_sq, end_sq)
     return capture_piece(start_sq, end_sq) if board_object(end_sq).is_a?(Piece)
 

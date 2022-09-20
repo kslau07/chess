@@ -5,6 +5,10 @@ class Piece
   # first we use initialize with super
   # later we will switch to post_initialization
 
+  def board_squares
+    Board.board_squares
+  end
+
   def initialize(**args)
     @color = args[:color] || 'white'
     post_initialization(**args)
@@ -16,14 +20,21 @@ class Piece
 
   def find_route(start_sq, end_sq)
     case self.class.name
-    when 'Pawn'
-      stage_piece(start_sq, end_sq)
+    when 'Pawn' # this could be its own class
+
+      # move = [(start_sq[0] - end_sq[0]), (start_sq[1] - end_sq[1])]
+      # *call_capture_method if pawn_capture_moves.include?(move)
+      generate_path(start_sq, end_sq)
+
+      # stage_piece(start_sq, end_sq)
     when 'Bishop'
       stage_piece(start_sq, end_sq)
     end
   end
 
   def stage_piece(start_sq, end_sq)
+    # return generate_pawn_path(start_sq, end_sq) if instance_of?(Pawn)
+
     generate_path(start_sq, end_sq)
   end
 
@@ -31,29 +42,30 @@ class Piece
     move.map { |num| num * -1 }
   end
 
+  # This method is unwieldy wholely because of Pawn's unusual movement including
+  # capture move. I decided not to extract it into its own method to keep
+  # code DRYer.
   def generate_path(start_sq, end_sq)
     path = []
-    board_squares = Board.board_squares
     predefined_moves.each do |predefined_move|
       predefined_move = invert(predefined_move) if color == 'black' && instance_of?(Pawn)
       next_sq = start_sq
+      i = 0
       loop do
+        i += 1
         next_sq = [next_sq[0] + predefined_move[0], next_sq[1] + predefined_move[1]]
-        
         break unless board_squares.include?(next_sq)
 
         path << next_sq
         return path if next_sq == end_sq
-        # break if next_sq == end_sq
+        break if i == 1 && instance_of?(Pawn) && unmoved == false # pawn single square move
+        break if i == 1 && instance_of?(Pawn) && [[1, -1], [1, 1]].include?(predefined_move) # pawn capture moves
+        break if i == 2 && instance_of?(Pawn) && unmoved # pawn 2 square first move
       end
-      # path = []
-      # path.include?(end_sq) ? (return path) : (path = [])
     end
     path = []
   end
 end
-# path = [] unless path.include?(end_sq)
-# return path if path.include?(end_sq) # break iteration early for queen, bishop, rook
 
 # This class represents pawns in chess
 class Pawn < Piece
@@ -79,16 +91,18 @@ class Pawn < Piece
   private
 
   def predefined_moves
-    if unmoved
-      [[1, 0], [2, 0]]
-    else
-      [[1, 0]]
-    end
+    [[1, 0], [1, -1], [1, 1]]
+
+    # if unmoved
+    #   [[1, 0], [2, 0]]
+    # else
+    #   [[1, 0]]
+    # end
   end
 
-  def predefined_capture_moves
-    [[1, -1], [1, 1]]
-  end
+  # def pawn_capture_moves
+  #   [[1, -1], [1, 1]]
+  # end
 end
 
 # This class represents bishops in chess
