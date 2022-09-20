@@ -39,6 +39,7 @@ class Piece
       next_sq = start_sq
       loop do
         next_sq = [next_sq[0] + predefined_move[0], next_sq[1] + predefined_move[1]]
+        
         break unless board_squares.include?(next_sq)
 
         path << next_sq

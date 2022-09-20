@@ -57,13 +57,23 @@ class Move
     board_obj = board_object(start_sq)
     return false if board_obj == 'unoccupied' # start must not be empty
     return false if board_obj.color != current_player.color # piece must be player's own
+
     path = board_obj.find_route(start_sq, end_sq)
     return false unless reachable?(end_sq, path) # false if piece cannot reach end square
 
-    # puts 'path obstructed' if path_obstructed?(path, end_sq)
-    return false if path_obstructed?(path, end_sq)
+    # p 'path_obstructed?'
+    # p path_obstructed?(path, end_sq)
 
-    # path blocked can be written easily now using generate path
+    return false if path_obstructed?(path, start_sq, end_sq)
+
+    # return false if pawn_capture (or something like that)
+
+
+    # bishop capture
+    # then pawn capture
+
+
+
     # After that, we can write capturable. Tricky for pawn.
     # Then we can attempt En Passant for pawn. (move list needed)
 
@@ -111,23 +121,40 @@ class Move
   end
 
   # rework some of this logic, seems overly complicated
-  def path_obstructed?(path, end_sq)
+  def path_obstructed?(path, start_sq, end_sq)
+    start_piece = board_object(start_sq)
     first_occupied_sq = path.find { |coord| board.grid[coord[0]][coord[1]].is_a?(Piece) }
-    piece_at_occupied_sq = board_object(first_occupied_sq)
+    # piece_at_occupied_sq = board_object(first_occupied_sq)
     piece_at_end_sq = board_object(end_sq)
+
     return false if first_occupied_sq.nil? # path is clear
     return true if end_sq != first_occupied_sq
 
     if first_occupied_sq == end_sq
-      return true if piece_at_occupied_sq.color == piece_at_end_sq.color # same color obstruction
+      return true if start_piece.color == piece_at_end_sq.color # same color obstruction
     end
+    false
   end
 
   def transfer_piece(start_sq, end_sq)
+    return capture_piece(start_sq, end_sq) if board_object(end_sq).is_a?(Piece)
+
     piece = board_object(start_sq)
     piece.moved
     board.update_square(end_sq, piece)
     board.update_square(start_sq, 'unoccupied')
+
+    # p 'transfer piece'
+  end
+
+  def capture_piece(start_sq, end_sq)
+    current_piece = board_object(start_sq)
+    captured_piece = board_object(end_sq) # Keep track of captures
+    current_piece.moved
+    board.update_square(end_sq, current_piece)
+    board.update_square(start_sq, 'unoccupied')
+
+    # p 'capture piece'
   end
 end
 
