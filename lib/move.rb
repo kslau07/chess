@@ -61,21 +61,14 @@ class Move
     path = board_obj.find_route(start_sq, end_sq)
     return false unless reachable?(end_sq, path) # false if piece cannot reach end square
 
-    # p 'path_obstructed?'
-    # p path_obstructed?(path, end_sq)
-
     return false if path_obstructed?(path, start_sq, end_sq)
 
-    # return false if pawn_capture (or something like that)
+    # En passant after pawn capture
+    # Castling, king moves 2 or 3 spaces, rook moves a bunch.
 
-
-    # bishop capture
-    # then pawn capture
-
-
-
-    # After that, we can write capturable. Tricky for pawn.
-    # Then we can attempt En Passant for pawn. (move list needed)
+    # Is start_sq, end_sq a data clump? Google if we should implement a fix.
+    # Seems like it is a data clump, but it wouldn't dry out much to
+    # turn them into a class.
 
     # Way later:
     # castle, both types, check if unmoved
@@ -93,31 +86,25 @@ class Move
     board_squares.include?(start_sq) && board_squares.include?(end_sq) ? false : true
   end
 
+  # Maybe we use this for king check later
+  # add this later -> path = nil, path ||= reachable
   def reachable?(end_sq, path)
+    return pawn_reachable?
     path.include?(end_sq) ? true : false
   end
-  # puts 'legal move!' if reachable_squares.include?(end_sq)
 
-  # two types of valid moves:
-  # both are identical, except for pawns
-  # valid move: end_sq is capturable + path_not_blocked
-  # also valid: end_sq is reachable + path_not_blocked
 
-  # you need all 3 methods:
-  # reachable?
-  # path_blocked?
-  # capturable?
+  # if opp piece is diagonal from pawn, allow diag movement
+  # if diag square is empty, do not allow diag movement
+  # if opp piece is blocking 1 or 2 step forward movement, path is obstructed
+  # Eventually: En Passant
 
-  # check if any piece objects (non-capturable) blocking path to end_sq
-  def capturable?(start_sq, end_sq, reachable = nil)
-    own_obj = board_object(start_sq)
-    other_obj = board_object(end_sq)
-    return false if other_obj == 'unoccupied'
-    return false if own_obj.color == other_obj.color
-    return true unless own_obj.instance_of?(Pawn)
-    # return reachable || reachable?(start_sq, end_sq) unless own_obj.instance_of?(Pawn)
-    # puts own_obj.color
-    true
+  # Add conditionals to path obstructed for straight moves + opponent blocking
+  # Add conditionals to reachable? or path_obstructed? for diagonal capture moves with no opponent, prevent it
+
+  def pawn_reachable?()
+    # you must return true : false
+    
   end
 
   # rework some of this logic, seems overly complicated
@@ -136,10 +123,6 @@ class Move
     false
   end
 
-  # if opp piece is diagonal from pawn, allow capture
-  # if diag square is empty, do not allow capture or movement
-  # if 1 step or 2 step contains opponent, do not allow capture or movement
-
   def transfer_piece(start_sq, end_sq)
     return capture_piece(start_sq, end_sq) if board_object(end_sq).is_a?(Piece)
 
@@ -147,18 +130,26 @@ class Move
     piece.moved
     board.update_square(end_sq, piece)
     board.update_square(start_sq, 'unoccupied')
-
-    # p 'transfer piece'
   end
 
+  # by the time pawn gets here, it should be a valid move (it passed #valid?)
   def capture_piece(start_sq, end_sq)
     current_piece = board_object(start_sq)
     captured_piece = board_object(end_sq) # Keep track of captures
     current_piece.moved
     board.update_square(end_sq, current_piece)
     board.update_square(start_sq, 'unoccupied')
-
-    # p 'capture piece'
   end
 end
 
+  # # check if any piece objects (non-capturable) blocking path to end_sq
+  # def capturable?(start_sq, end_sq, reachable = nil)
+  #   own_obj = board_object(start_sq)
+  #   other_obj = board_object(end_sq)
+  #   return false if other_obj == 'unoccupied'
+  #   return false if own_obj.color == other_obj.color
+  #   return true unless own_obj.instance_of?(Pawn)
+  #   # return reachable || reachable?(start_sq, end_sq) unless own_obj.instance_of?(Pawn)
+  #   # puts own_obj.color
+  #   true
+  # end

@@ -58,9 +58,9 @@ class Piece
 
         path << next_sq
         return path if next_sq == end_sq
+        break if i == 2 && instance_of?(Pawn) && unmoved == true # pawn 2 square first move
         break if i == 1 && instance_of?(Pawn) && unmoved == false # pawn single square move
         break if i == 1 && instance_of?(Pawn) && [[1, -1], [1, 1]].include?(predefined_move) # pawn capture moves
-        break if i == 2 && instance_of?(Pawn) && unmoved # pawn 2 square first move
       end
     end
     path = []
