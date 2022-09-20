@@ -89,9 +89,13 @@ class Move
     path.include?(end_sq) ? true : false
   end
 
+  def base_move
+    # i.e. 2 steps forward would be [2, 0]
+    start_piece.color == 'black' ? [start_sq[0] - end_sq[0], start_sq[1] - end_sq[1]] : [end_sq[0] - start_sq[0], end_sq[1] - start_sq[1]]
+  end
 
   def reachable_by_pawn?
-    base_move = [end_sq[0] - start_sq[0], end_sq[1] - start_sq[1]]
+    # base_move = [end_sq[0] - start_sq[0], end_sq[1] - start_sq[1]]
     return false if end_piece == 'unoccupied' && (base_move == [1, -1] || base_move == [1, 1])
 
     # p '#reachable_by_pawn?'
@@ -110,7 +114,6 @@ class Move
     return true if end_sq != first_occupied_sq
 
     if first_occupied_sq == end_sq
-      base_move = [end_sq[0] - start_sq[0], end_sq[1] - start_sq[1]]
       # if pawn is obstructed trying to move 1 or 2 steps forward
       return true if start_piece.instance_of?(Pawn) && first_occupied_sq && (base_move == [1, 0] || base_move == [2, 0])
 

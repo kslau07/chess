@@ -20,9 +20,11 @@ class Game
     # pawns
     board.grid[1][0] = PieceFactory.create('Pawn', 'white')
     board.grid[1][1] = PieceFactory.create('Pawn', 'white')
+    board.grid[1][5] = PieceFactory.create('Pawn', 'white')
     board.grid[1][6] = PieceFactory.create('Pawn', 'white')
     board.grid[2][1] = PieceFactory.create('Pawn', 'black')
     board.grid[2][2] = PieceFactory.create('Pawn', 'black')
+    board.grid[3][5] = PieceFactory.create('Pawn', 'black')
 
     # bishops
     board.grid[2][3] = PieceFactory.create('Bishop', 'white')
