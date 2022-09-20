@@ -21,6 +21,10 @@ play(game)
 "
 NOTES
 
+At the end:
+See how to add main and tests to replit
+
+
 Change 'unoccupied' back to nil
 
 Keep a move list, at least 6 deep. Maybe make a list of all moves.

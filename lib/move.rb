@@ -22,7 +22,7 @@ class Move
 
   def move_sequence # rename?
     input_move
-    # transfer_piece
+    transfer_piece
 
     # start_sq, end_sq = input_move
     # transfer_piece(start_sq, end_sq)
@@ -62,13 +62,12 @@ class Move
 
     return false if out_of_bound?
     return false if start_piece == 'unoccupied' # start must not be empty
-    return false if start_piece.color != current_player.color # piece must be player's own
+    return false if start_piece.color != current_player.color # start must be player's own piece
 
     @path = start_piece.find_route(start_sq, end_sq)
-    p "path: #{path}"
+    # p "path: #{path}"
 
-    return false unless reachable?(end_sq, path)
-    return true
+    return false unless reachable?
 
     return false if path_obstructed?(path, start_sq, end_sq)
 
@@ -84,12 +83,12 @@ class Move
 
   # Maybe we use this for king check later
   # add this later -> path = nil, path ||= reachable
-  def reachable?(end_sq, path)
+  def reachable?
     # return pawn_reachable?
     path.include?(end_sq) ? true : false
   end
 
-  def pawn_reachable?()
+  def pawn_reachable?
     # you must return true : false
 
     # What logic goes here?
