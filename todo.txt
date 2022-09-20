@@ -1,0 +1,17 @@
+En passant after pawn capture
+Castling, king moves 2 or 3 spaces, rook moves a bunch.
+
+Way later:
+castle, both types, check if unmoved
+check: put opponent in check, do not put self in check
+checkmate
+tie (use move list)
+
+if opp piece is diagonal from pawn, allow diag movement
+if diag square is empty, do not allow diag movement
+if opp piece is blocking 1 or 2 step forward movement, path is obstructed
+Eventually: En Passant
+
+Add conditionals to path obstructed for straight moves + opponent blocking
+Add conditionals to reachable? or path_obstructed? for diagonal capture moves with no opponent, prevent it
+

@@ -5,7 +5,7 @@ require_relative 'player'
 
 # This creates moves in chess
 class Move
-  attr_reader :current_player, :board, :start_sq, :end_sq, :path, :start_obj
+  attr_reader :current_player, :board, :start_sq, :end_sq, :path, :start_piece
 
   # def test; end
 
@@ -19,11 +19,6 @@ class Move
     @board = args[:board] || Board.new
     move_sequence # rename?
   end
-
-  # consider moving start_sq, end_sq, board_obj, path
-  # to data clump
-  # def move_data_clump(**args)
-  # end
 
   def move_sequence # rename?
     input_move
@@ -52,42 +47,30 @@ class Move
     end
   end
 
-  def board_object(position_arr)
-    return nil if position_arr.nil?
+  def board_object(sq_coord)
+    return nil if sq_coord.nil? # checks for nil input, maybe delete later
 
-    board.grid[position_arr[0]][position_arr[1]]
+    board.grid.dig(sq_coord[0], sq_coord[1])
   end
 
   # fetch uses value for lookup -> .fetch(value, dft)
   # dig uses (index), will not raise error, returns nil on no match
 
   def move_valid?
+    @start_piece = board_object(start_sq)
+    # p 'start_piece', start_piece
 
+    return false if out_of_bound?
+    return false if start_piece == 'unoccupied' # start must not be empty
+    return false if start_piece.color != current_player.color # piece must be player's own
+
+    @path = start_piece.find_route(start_sq, end_sq)
+    p "path: #{path}"
+
+    return false unless reachable?(end_sq, path)
     return true
 
-    return false if out_of_bound?(start_sq, end_sq)
-
-    board_obj = board_object(start_sq)
-    return false if board_obj == 'unoccupied' # start must not be empty
-    return false if board_obj.color != current_player.color # piece must be player's own
-
-    path = board_obj.find_route(start_sq, end_sq)
-    return false unless reachable?(board_obj, end_sq, path)
-
     return false if path_obstructed?(path, start_sq, end_sq)
-
-    # En passant after pawn capture
-    # Castling, king moves 2 or 3 spaces, rook moves a bunch.
-
-    # Is start_sq, end_sq a data clump? Google if we should implement a fix.
-    # Seems like it is a data clump, but it wouldn't dry out much to
-    # turn them into a class.
-
-    # Way later:
-    # castle, both types, check if unmoved
-    # check: put opponent in check, do not put self in check
-    # checkmate
-    # tie (use move list)
 
     # return false unless capturable?(start_sq, end_sq) # include result of reachable somehow
     # return false if path_blocked?(start_sq, end_sq)
@@ -95,7 +78,7 @@ class Move
     true
   end
 
-  def out_of_bound?(start_sq, end_sq)
+  def out_of_bound?
     board_squares.include?(start_sq) && board_squares.include?(end_sq) ? false : true
   end
 
@@ -106,18 +89,9 @@ class Move
     path.include?(end_sq) ? true : false
   end
 
-
-  # if opp piece is diagonal from pawn, allow diag movement
-  # if diag square is empty, do not allow diag movement
-  # if opp piece is blocking 1 or 2 step forward movement, path is obstructed
-  # Eventually: En Passant
-
-  # Add conditionals to path obstructed for straight moves + opponent blocking
-  # Add conditionals to reachable? or path_obstructed? for diagonal capture moves with no opponent, prevent it
-
   def pawn_reachable?()
     # you must return true : false
-    
+
     # What logic goes here?
     # Let's make some tests
   end
@@ -138,7 +112,7 @@ class Move
     false
   end
 
-  def transfer_piece(start_sq, end_sq)
+  def transfer_piece
     return capture_piece(start_sq, end_sq) if board_object(end_sq).is_a?(Piece)
 
     piece = board_object(start_sq)
