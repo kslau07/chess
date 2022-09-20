@@ -5,9 +5,9 @@ require_relative 'player'
 
 # This creates moves in chess
 class Move
-  attr_reader :current_player, :board
+  attr_reader :current_player, :board, :start_sq, :end_sq, :path, :start_obj
 
-  def test; end
+  # def test; end
 
   # Array of all 64 squares in index notation
   def board_squares
@@ -20,9 +20,17 @@ class Move
     move_sequence # rename?
   end
 
+  # consider moving start_sq, end_sq, board_obj, path
+  # to data clump
+  # def move_data_clump(**args)
+  # end
+
   def move_sequence # rename?
-    start_sq, end_sq = input_move
-    transfer_piece(start_sq, end_sq)
+    input_move
+    # transfer_piece
+
+    # start_sq, end_sq = input_move
+    # transfer_piece(start_sq, end_sq)
   end
 
   # add string matching later
@@ -33,10 +41,12 @@ class Move
 
     loop do
       Display.input_start_msg
-      start_sq = gets.chomp.split('').map(&:to_i)
+      @start_sq = gets.chomp.split('').map(&:to_i)
       Display.input_end_msg
-      end_sq = gets.chomp.split('').map(&:to_i)
-      return [start_sq, end_sq] if move_valid?(start_sq, end_sq)
+      @end_sq = gets.chomp.split('').map(&:to_i)
+      return if move_valid?
+
+      # return [start_sq, end_sq] if move_valid?(start_sq, end_sq)
 
       Display.invalid_input_message
     end
@@ -51,7 +61,10 @@ class Move
   # fetch uses value for lookup -> .fetch(value, dft)
   # dig uses (index), will not raise error, returns nil on no match
 
-  def move_valid?(start_sq, end_sq)
+  def move_valid?
+
+    return true
+
     return false if out_of_bound?(start_sq, end_sq)
 
     board_obj = board_object(start_sq)
@@ -59,7 +72,7 @@ class Move
     return false if board_obj.color != current_player.color # piece must be player's own
 
     path = board_obj.find_route(start_sq, end_sq)
-    return false unless reachable?(end_sq, path) # false if piece cannot reach end square
+    return false unless reachable?(board_obj, end_sq, path)
 
     return false if path_obstructed?(path, start_sq, end_sq)
 
@@ -89,7 +102,7 @@ class Move
   # Maybe we use this for king check later
   # add this later -> path = nil, path ||= reachable
   def reachable?(end_sq, path)
-    return pawn_reachable?
+    # return pawn_reachable?
     path.include?(end_sq) ? true : false
   end
 
@@ -105,6 +118,8 @@ class Move
   def pawn_reachable?()
     # you must return true : false
     
+    # What logic goes here?
+    # Let's make some tests
   end
 
   # rework some of this logic, seems overly complicated
