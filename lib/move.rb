@@ -22,10 +22,6 @@ class Move
   def move_sequence # rename?
     input_move
     transfer_piece
-    # @executed = true
-
-    # start_sq, end_sq = input_move
-    # transfer_piece(start_sq, end_sq)
   end
 
   # add string matching later
@@ -98,7 +94,12 @@ class Move
 
   def base_move
     # i.e. 2 steps forward would be [2, 0]
-    start_piece.color == 'black' ? [start_sq[0] - end_sq[0], start_sq[1] - end_sq[1]] : [end_sq[0] - start_sq[0], end_sq[1] - start_sq[1]]
+    case start_piece.color
+    when 'black'
+      [start_sq[0] - end_sq[0], start_sq[1] - end_sq[1]]
+    when 'white'
+      [end_sq[0] - start_sq[0], end_sq[1] - start_sq[1]]
+    end
   end
 
   def reachable_by_pawn?
@@ -119,7 +120,7 @@ class Move
     first_occupied_sq = path.find { |subary| board.grid[subary[0]][subary[1]].is_a?(Piece) }
     # piece_at_occupied_sq = board_object(first_occupied_sq)
     piece_at_end_sq = board_object(end_sq)
-    return false if first_occupied_sq.nil? # path is clear
+    return false if first_occupied_sq.nil? # no piece found in path using .find
     return true if end_sq != first_occupied_sq
 
     if first_occupied_sq == end_sq
@@ -131,34 +132,37 @@ class Move
   end
 
   def transfer_piece
-    # return capture_piece(start_sq, end_sq) if board_object(end_sq).is_a?(Piece)
+    @captured_piece = end_piece if end_piece.is_a?(Piece) # Keep track of captures later
+    # p 'end_piece', end_piece
+    # p 'captured_piece', captured_piece
+    
+    # p "end_piece: #{end_piece}"
+    # p "captured_piece: #{captured_piece}"
 
-    # piece = board_object(start_sq)
-    @captured_piece = end_piece if end_piece.instance_of?(Piece) # Keep track of captures later
     start_piece.moved
     board.update_square(end_sq, start_piece)
     board.update_square(start_sq, 'unoccupied')
   end
-
-  # by the time pawn gets here, it should be a valid move (it passed #valid?)
-  # def capture_piece(start_sq, end_sq)
-  #   current_piece = board_object(start_sq)
-  #   captured_piece = board_object(end_sq) # Keep track of captures
-  #   current_piece.moved
-  #   board.update_square(end_sq, current_piece)
-  #   board.update_square(start_sq, 'unoccupied')
-  # end
 end
 
-  # # check if any piece objects (non-capturable) blocking path to end_sq
-  # def capturable?(start_sq, end_sq, reachable = nil)
-  #   own_obj = board_object(start_sq)
-  #   other_obj = board_object(end_sq)
-  #   return false if other_obj == 'unoccupied'
-  #   return false if own_obj.color == other_obj.color
-  #   return true unless own_obj.instance_of?(Pawn)
-  #   # return reachable || reachable?(start_sq, end_sq) unless own_obj.instance_of?(Pawn)
-  #   # puts own_obj.color
-  #   true
-  # end
+# # check if any piece objects (non-capturable) blocking path to end_sq
+# def capturable?(start_sq, end_sq, reachable = nil)
+#   own_obj = board_object(start_sq)
+#   other_obj = board_object(end_sq)
+#   return false if other_obj == 'unoccupied'
+#   return false if own_obj.color == other_obj.color
+#   return true unless own_obj.instance_of?(Pawn)
+#   # return reachable || reachable?(start_sq, end_sq) unless own_obj.instance_of?(Pawn)
+#   # puts own_obj.color
+#   true
+# end
 
+
+# by the time pawn gets here, it should be a valid move (it passed #valid?)
+# def capture_piece(start_sq, end_sq)
+#   current_piece = board_object(start_sq)
+#   captured_piece = board_object(end_sq) # Keep track of captures
+#   current_piece.moved
+#   board.update_square(end_sq, current_piece)
+#   board.update_square(start_sq, 'unoccupied')
+# end

@@ -39,4 +39,3 @@ describe Bishop do
     end
   end
 end
-

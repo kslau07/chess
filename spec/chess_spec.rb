@@ -6,6 +6,7 @@ require_relative '../lib/player'
 require_relative '../lib/display'
 require_relative '../lib/piece_factory'
 require_relative '../lib/move'
+require_relative '../lib/move_list'
 require_relative '../lib/piece'
 require_relative '../lib/pawn'
 require_relative '../lib/rook'
@@ -19,8 +20,16 @@ describe Game do
   subject(:game) { Game.new }
 
   it 'tests #move_list' do
-    allow_any_instance_of(Move).to receive(:gets).and_return '17', '37', '64', '44', '06', '27', '75', '20'
-    # allow(subject).to 
+    # remember to change Game#play >>> x.times { turn_loop }
+
+    # # 4 moves (2 complete sets)
+    # allow_any_instance_of(Move).to receive(:gets).and_return(
+    #   '17', '37', '64', '44', '06', '27', '75', '20')
+    
+    # 5 moves (2 complete)
+    allow_any_instance_of(Move).to receive(:gets).and_return(
+        '17', '37', '64', '44', '06', '27', '75', '20', '11', '20')
+
     subject.play
   end
 

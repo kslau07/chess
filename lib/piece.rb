@@ -20,52 +20,29 @@ class Piece
     move.map { |num| num * -1 }
   end
 
+  # Unwieldy method, not sure if it can be split
   def generate_path(start_sq, end_sq)
-    # p '#generate_path'
     path = []
-    predefined_moves.each do |predefined_move|
-      # p "predefined_move : #{predefined_move}"
-      predefined_move = invert(predefined_move) if color == 'black' && instance_of?(Pawn)
+    predefined_moves.each do |pdf_move|
+      pdf_move = invert(pdf_move) if color == 'black' && instance_of?(Pawn)
       next_sq = start_sq
       i = 0
       loop do
         i += 1
-        next_sq = [next_sq[0] + predefined_move[0], next_sq[1] + predefined_move[1]]
+        next_sq = [next_sq[0] + pdf_move[0], next_sq[1] + pdf_move[1]]
         break unless board_squares.include?(next_sq)
+
         path << next_sq
         return path if next_sq == end_sq
-        break if i == 2 && instance_of?(Pawn) && unmoved == true # pawn 2 square first move
-        break if i == 1 && instance_of?(Pawn) && unmoved == false # pawn single square move
-        break if i == 1 && instance_of?(Pawn) && [[1, -1], [1, 1]].include?(predefined_move) # pawn capture moves
+        break if i == 2 && instance_of?(Pawn) && unmoved == true # pawn 2 steps forward
+        break if i == 1 && instance_of?(Pawn) && unmoved == false # pawn single step forward
+        break if i == 1 && instance_of?(Pawn) && [[1, -1], [1, 1]].include?(pdf_move) # pawn capture moves
         break if i == 1 && (instance_of?(Knight) || instance_of?(King))
       end
-      puts ">>> counter: #{i}"
+      # puts ">>> counter: #{i}"
       path = []
     end
     []
-  end
-
-  # Unwieldy method, not sure if it can be split
-  def generate_path_refactor(start_sq, end_sq)
-    path = []
-    predefined_moves.each do |predefined_move|
-      predefined_move = invert(predefined_move) if color == 'black' && instance_of?(Pawn)
-      next_sq = start_sq
-      i = 0
-      loop do
-        i += 1
-        next_sq = [next_sq[0] + predefined_move[0], next_sq[1] + predefined_move[1]]
-        break unless board_squares.include?(next_sq)
-
-        path << next_sq
-        return path if next_sq == end_sq
-        break if i == 2 && instance_of?(Pawn) && unmoved == true # pawn 2 square first move
-        break if i == 1 && instance_of?(Pawn) && unmoved == false # pawn single square move
-        break if i == 1 && instance_of?(Pawn) && [[1, -1], [1, 1]].include?(predefined_move) # pawn capture moves
-        break if i == 1 && (instance_of?(Knight) || instance_of?(King))
-      end
-      path = []
-    end
   end
 end
 
@@ -142,3 +119,29 @@ because the size of their move array is small.
 
   #   generate_path(start_sq, end_sq)
   # end
+
+
+
+  # # Unwieldy method, not sure if it can be split
+  # def generate_path_refactor(start_sq, end_sq)
+  #   path = []
+  #   predefined_moves.each do |predefined_move|
+  #     predefined_move = invert(predefined_move) if color == 'black' && instance_of?(Pawn)
+  #     next_sq = start_sq
+  #     i = 0
+  #     loop do
+  #       i += 1
+  #       next_sq = [next_sq[0] + predefined_move[0], next_sq[1] + predefined_move[1]]
+  #       break unless board_squares.include?(next_sq)
+
+  #       path << next_sq
+  #       return path if next_sq == end_sq
+  #       break if i == 2 && instance_of?(Pawn) && unmoved == true # pawn 2 square first move
+  #       break if i == 1 && instance_of?(Pawn) && unmoved == false # pawn single square move
+  #       break if i == 1 && instance_of?(Pawn) && [[1, -1], [1, 1]].include?(predefined_move) # pawn capture moves
+  #       break if i == 1 && (instance_of?(Knight) || instance_of?(King))
+  #     end
+  #     path = []
+  #   end
+  # end
+  
