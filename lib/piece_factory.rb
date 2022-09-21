@@ -2,8 +2,15 @@
 class PieceFactory
   def self.create_set(color)
     # set = Array.new(1, 'Pawn')
+    
+    # set << 'Rook'
     set = Array.new(8, 'Pawn')
-    set.map { |item| self.create(item, color) }
+    set += ['Rook', 'Knight', 'Bishop', 'Queen', 'King', 'Bishop', 'Knight', 'Rook']
+
+    set.map { |item| create(item, color) }
+
+    # set << create('Rook', color)
+    # p set
     # set << self.create('Pawn', color)
     # set
   end

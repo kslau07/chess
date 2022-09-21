@@ -9,7 +9,7 @@ class Rook < Piece
   end
 
   def to_s
-    color == 'white' ? '♗' : '♝'
+    color == 'white' ? '♖' : '♜'
   end
 
   def moved

@@ -61,20 +61,26 @@ class Move
     @end_piece = board_object(end_sq)
     # p 'start_piece', start_piece
 
+    puts 'one'
     return false if out_of_bound?
+
+    puts 'two'
     return false if start_piece == 'unoccupied' # start must not be empty
+
+    puts 'three'
     return false if start_piece.color != current_player.color # start must be player's own piece
 
-    @path = start_piece.find_route(start_sq, end_sq)
+    @path = start_piece.generate_path(start_sq, end_sq)
     # p "path: #{path}"
-
+    puts 'four'
     return false unless reachable?
 
+    puts 'five'
     return false if path_obstructed?(path, start_sq, end_sq)
 
     # return false unless capturable?(start_sq, end_sq) # include result of reachable somehow
     # return false if path_blocked?(start_sq, end_sq)
-    
+
     true
   end
 
@@ -113,9 +119,14 @@ class Move
     first_occupied_sq = path.find { |coord| board.grid[coord[0]][coord[1]].is_a?(Piece) }
     # piece_at_occupied_sq = board_object(first_occupied_sq)
     piece_at_end_sq = board_object(end_sq)
-
+    
     return false if first_occupied_sq.nil? # path is clear
+    
+    require 'pry-byebug'
+    binding.pry
     return true if end_sq != first_occupied_sq
+    
+
 
     if first_occupied_sq == end_sq
       # if pawn is obstructed trying to move 1 or 2 steps forward
@@ -157,3 +168,4 @@ end
   #   # puts own_obj.color
   #   true
   # end
+  

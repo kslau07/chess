@@ -18,25 +18,25 @@ class Piece
     raise NotImplementedError, 'method should be implemented in concrete class'
   end
 
-  def find_route(start_sq, end_sq)
-    case self.class.name
-    when 'Pawn' # this could be its own class
+  # def find_route(start_sq, end_sq)
+  #   case self.class.name
+  #   when 'Pawn' # this could be its own class
 
-      # move = [(start_sq[0] - end_sq[0]), (start_sq[1] - end_sq[1])]
-      # *call_capture_method if pawn_capture_moves.include?(move)
-      generate_path(start_sq, end_sq)
+  #     # move = [(start_sq[0] - end_sq[0]), (start_sq[1] - end_sq[1])]
+  #     # *call_capture_method if pawn_capture_moves.include?(move)
+  #     generate_path(start_sq, end_sq)
 
-      # stage_piece(start_sq, end_sq)
-    when 'Bishop'
-      stage_piece(start_sq, end_sq)
-    end
-  end
+  #     # stage_piece(start_sq, end_sq)
+  #   when 'Bishop'
+  #     stage_piece(start_sq, end_sq)
+  #   end
+  # end
 
-  def stage_piece(start_sq, end_sq)
-    # return generate_pawn_path(start_sq, end_sq) if instance_of?(Pawn)
+  # def stage_piece(start_sq, end_sq)
+  #   # return generate_pawn_path(start_sq, end_sq) if instance_of?(Pawn)
 
-    generate_path(start_sq, end_sq)
-  end
+  #   generate_path(start_sq, end_sq)
+  # end
 
   def invert(move)
     move.map { |num| num * -1 }
@@ -61,7 +61,7 @@ class Piece
         break if i == 2 && instance_of?(Pawn) && unmoved == true # pawn 2 square first move
         break if i == 1 && instance_of?(Pawn) && unmoved == false # pawn single square move
         break if i == 1 && instance_of?(Pawn) && [[1, -1], [1, 1]].include?(predefined_move) # pawn capture moves
-        break if i == 1 && (instance_of(Knight) || instance_of?(King))
+        break if i == 1 && (instance_of?(Knight) || instance_of?(King))
       end
     end
     path = []

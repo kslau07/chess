@@ -21,21 +21,31 @@ class Game
   end
 
   def setup_board(chess_pieces)
-    # pawns
-    board.grid[1][0] = PieceFactory.create('Pawn', 'white')
-    board.grid[1][1] = PieceFactory.create('Pawn', 'white')
-    board.grid[1][5] = PieceFactory.create('Pawn', 'white')
-    board.grid[1][6] = PieceFactory.create('Pawn', 'white')
-    board.grid[2][1] = PieceFactory.create('Pawn', 'black')
-    board.grid[2][2] = PieceFactory.create('Pawn', 'black')
-    board.grid[3][5] = PieceFactory.create('Pawn', 'black')
 
-    # bishops
-    board.grid[2][3] = PieceFactory.create('Bishop', 'white')
-    board.grid[5][6] = PieceFactory.create('Bishop', 'black')
+    # front row
+    # (0..7).each { |x| board.grid[1][x] = chess_pieces[:white_pcs][x] }
+    # (0..7).each { |x| board.grid[6][x] = chess_pieces[:black_pcs][x] }
+
+    # back row
+    (0..7).each { |x| board.grid[0][x] = chess_pieces[:white_pcs][x+8] }
+    (0..7).each { |x| board.grid[7][x] = chess_pieces[:black_pcs][x+8] }
+
+
+
+    # # pawns
+    # board.grid[1][0] = PieceFactory.create('Pawn', 'white')
+    # board.grid[1][1] = PieceFactory.create('Pawn', 'white')
+    # board.grid[1][5] = PieceFactory.create('Pawn', 'white')
+    # board.grid[1][6] = PieceFactory.create('Pawn', 'white')
+    # board.grid[2][1] = PieceFactory.create('Pawn', 'black')
+    # board.grid[2][2] = PieceFactory.create('Pawn', 'black')
+    # board.grid[3][5] = PieceFactory.create('Pawn', 'black')
+
+    # # bishops
+    # board.grid[2][3] = PieceFactory.create('Bishop', 'white')
+    # board.grid[5][6] = PieceFactory.create('Bishop', 'black')
     
-    # (0..1).each { |x| board.grid[1][x] = chess_pieces[:white_pcs][x] }
-    # (0..1).each { |x| board.grid[6][x] = chess_pieces[:black_pcs][x] }
+
 
 
     # We can combine these 2 lines somehow. Do it later.
@@ -47,7 +57,7 @@ class Game
     Display.greeting
     Display.draw_board(board)
 
-    4.times { turn_loop }
+    50.times { turn_loop }
     # turn_loop until game_over?
   end
 
