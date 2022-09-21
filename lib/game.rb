@@ -40,7 +40,7 @@ class Game
     Display.greeting
     Display.draw_board(board)
 
-    50.times { turn_loop }
+    4.times { turn_loop }
     # turn_loop until game_over?
   end
 
@@ -61,11 +61,28 @@ class Game
   def create_move
     move = Move.new(current_player: current_player, board: board)
     add_to_move_list(move)
+    print "move_list: #{move_list}\n"
   end
 
   # option to display move list in regular notation, or human readable format
   def add_to_move_list(move)
-    move_list << [move.start_sq, move.end_sq]
+
+    if !move_list.empty?
+      if move_list[-1].length < 4
+        popped_obj = move_list.pop
+        popped_obj << ' ' # logic for normal ' ', capture x, check +, checkmate #
+      end
+    end
+
+    translated_move = [popped_obj]
+
+    
+
+    # fix below line, too long
+    move.start_piece.class.name == 'Knight' ? translated_move << 'N' : translated_move << move.start_piece.class.name[0]
+    translated_move << (move.end_sq[1] + 65).chr
+    translated_move << move.end_sq[0]
+    move_list << translated_move.join
     # p move_list
   end
 

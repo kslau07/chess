@@ -61,26 +61,26 @@ class Move
     @end_piece = board_object(end_sq)
     # p 'start_piece', start_piece
 
-    puts 'out_of_bound?'
+    # puts 'out_of_bound?'
     return false if out_of_bound?
 
-    puts 'unoccupied'
+    # puts 'unoccupied'
     return false if start_piece == 'unoccupied' # start must not be empty
 
-    puts 'current_player.color'
-    puts start_piece.color != current_player.color
+    # puts 'current_player.color'
+    # puts start_piece.color != current_player.color
     return false if start_piece.color != current_player.color # start must be player's own piece
 
     @path = start_piece.generate_path(start_sq, end_sq)
-    p "path inside #move_valid? : #{path}"
+    # p "path inside #move_valid? : #{path}"
 
-    puts 'reachable?'
+    # puts 'reachable?'
     return false unless reachable?
 
-    puts 'path_obstructed?'
+    # puts 'path_obstructed?'
     return false if path_obstructed?(path, start_sq, end_sq)
 
-    puts '>>> ALL CLEAR MOVE VALID'
+    # puts '>>> ALL CLEAR MOVE VALID'
     true
   end
 

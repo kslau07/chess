@@ -5,19 +5,24 @@ require_relative '../lib/board'
 require_relative '../lib/player'
 require_relative '../lib/display'
 require_relative '../lib/piece_factory'
+require_relative '../lib/move'
 require_relative '../lib/piece'
 require_relative '../lib/pawn'
-require_relative '../lib/move'
+require_relative '../lib/rook'
+require_relative '../lib/queen'
+require_relative '../lib/king'
+require_relative '../lib/bishop'
+require_relative '../lib/knight'
 
-describe Game do
-  xit '' do
-    allow(subject).to receive(:gets).and_return '10', '20'
-    subject.play
-  end
-end
 
 describe Game do
   subject(:game) { Game.new }
+
+  it 'tests #move_list' do
+    allow_any_instance_of(Move).to receive(:gets).and_return '17', '37', '64', '44', '06', '27', '75', '20'
+    # allow(subject).to 
+    subject.play
+  end
 
   describe '#initialize' do
     # Not tested

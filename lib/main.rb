@@ -3,11 +3,11 @@
 
 require_relative 'game'
 require_relative 'board'
+require_relative 'move'
 require_relative 'player'
 require_relative 'display'
 require_relative 'piece_factory'
 require_relative 'piece'
-require_relative 'move'
 require_relative 'pawn'
 require_relative 'rook'
 require_relative 'queen'

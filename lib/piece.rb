@@ -2,8 +2,6 @@
 
 # This is the super class for all chess pieces
 class Piece
-  # first we use initialize with super
-  # later we will switch to post_initialization
 
   def board_squares
     Board.board_squares
@@ -18,35 +16,15 @@ class Piece
     raise NotImplementedError, 'method should be implemented in concrete class'
   end
 
-  # def find_route(start_sq, end_sq)
-  #   case self.class.name
-  #   when 'Pawn' # this could be its own class
-
-  #     # move = [(start_sq[0] - end_sq[0]), (start_sq[1] - end_sq[1])]
-  #     # *call_capture_method if pawn_capture_moves.include?(move)
-  #     generate_path(start_sq, end_sq)
-
-  #     # stage_piece(start_sq, end_sq)
-  #   when 'Bishop'
-  #     stage_piece(start_sq, end_sq)
-  #   end
-  # end
-
-  # def stage_piece(start_sq, end_sq)
-  #   # return generate_pawn_path(start_sq, end_sq) if instance_of?(Pawn)
-
-  #   generate_path(start_sq, end_sq)
-  # end
-
   def invert(move)
     move.map { |num| num * -1 }
   end
 
   def generate_path(start_sq, end_sq)
-    p '#generate_path'
+    # p '#generate_path'
     path = []
     predefined_moves.each do |predefined_move|
-      p "predefined_move : #{predefined_move}"
+      # p "predefined_move : #{predefined_move}"
       predefined_move = invert(predefined_move) if color == 'black' && instance_of?(Pawn)
       next_sq = start_sq
       i = 0
@@ -67,10 +45,7 @@ class Piece
     []
   end
 
-
-  # This method is unwieldy wholely because of Pawn's unusual movement including
-  # capture move. I decided not to extract it into its own method to keep
-  # code DRYer.
+  # Unwieldy method, not sure if it can be split
   def generate_path_refactor(start_sq, end_sq)
     path = []
     predefined_moves.each do |predefined_move|
@@ -93,8 +68,6 @@ class Piece
     end
   end
 end
-
-
 
 "
 Fixed-movers
@@ -148,4 +121,24 @@ because the size of their move array is small.
   #     path = [] # clear path if it's not one that includes end_sq
   #   end
   #   path
+  # end
+
+    # def find_route(start_sq, end_sq)
+  #   case self.class.name
+  #   when 'Pawn' # this could be its own class
+
+  #     # move = [(start_sq[0] - end_sq[0]), (start_sq[1] - end_sq[1])]
+  #     # *call_capture_method if pawn_capture_moves.include?(move)
+  #     generate_path(start_sq, end_sq)
+
+  #     # stage_piece(start_sq, end_sq)
+  #   when 'Bishop'
+  #     stage_piece(start_sq, end_sq)
+  #   end
+  # end
+
+  # def stage_piece(start_sq, end_sq)
+  #   # return generate_pawn_path(start_sq, end_sq) if instance_of?(Pawn)
+
+  #   generate_path(start_sq, end_sq)
   # end
