@@ -2,7 +2,7 @@
 
 # This is the class for chess
 class Game
-  attr_reader :board, :player1, :player2, :current_player, :move
+  attr_reader :board, :player1, :player2, :current_player, :move_list
 
   def initialize(**args)
     @board = args[:board] || Board.new
@@ -13,10 +13,14 @@ class Game
     black_set = PieceFactory.create_set('black')
     pieces = { white_pcs: white_set, black_pcs: black_set }
     setup_board(pieces)
+    post_initialize
+  end
+
+  def post_initialize
+    @move_list = []
   end
 
   def setup_board(chess_pieces)
-
     # pawns
     board.grid[1][0] = PieceFactory.create('Pawn', 'white')
     board.grid[1][1] = PieceFactory.create('Pawn', 'white')
@@ -48,6 +52,8 @@ class Game
   end
 
   def game_over?
+    # check_mate
+    # draw
     false
   end
 
@@ -60,7 +66,14 @@ class Game
 
   # use to factory later
   def create_move
-    @move = Move.new(current_player: current_player, board: board)
+    move = Move.new(current_player: current_player, board: board)
+    add_to_move_list(move)
+  end
+
+  # option to display move list in regular notation, or human readable format
+  def add_to_move_list(move)
+    move_list << [move.start_sq, move.end_sq]
+    p move_list
   end
 
   def switch_players

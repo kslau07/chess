@@ -124,7 +124,7 @@ describe Move do
       # Covered by #path_obstructed
     end
 
-    context 'when Pawn tries to diagonally forward 1 space and space is empty' do
+    context 'when Pawn tries to move diagonally forward 1 space and space is empty' do
       it 'returns false' do
         start_sq = [1, 6]
         end_sq = [2, 5]
@@ -132,11 +132,18 @@ describe Move do
         subject.board.grid[1, 6] = piece
         subject.board.grid[2, 5] = 'unoccupied'
         subject.instance_variable_set(:@path, piece.find_route(start_sq, end_sq))
+        subject.instance_variable_set(:@start_piece, piece)
         subject.instance_variable_set(:@start_sq, start_sq)
         subject.instance_variable_set(:@end_sq, end_sq)
         subject.instance_variable_set(:@end_piece, 'unoccupied')
 
         expect(subject.reachable_by_pawn?).to be(false)
+      end
+    end
+
+    context 'when Pawn tries to move diagonally forward 1 space and space is occupied by own piece' do
+      xit 'returns false' do
+        # This logic is handled by #path_obstructed
       end
     end
   end

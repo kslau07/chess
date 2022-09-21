@@ -6,7 +6,7 @@ require_relative 'player'
 # This creates moves in chess
 class Move
   attr_reader :current_player, :board, :start_sq, :end_sq,
-              :path, :start_piece, :end_piece
+              :path, :start_piece, :end_piece, :captured_piece
 
   # Array of all 64 squares in index notation
   def board_squares
@@ -22,6 +22,7 @@ class Move
   def move_sequence # rename?
     input_move
     transfer_piece
+    # @executed = true
 
     # start_sq, end_sq = input_move
     # transfer_piece(start_sq, end_sq)
@@ -73,7 +74,7 @@ class Move
 
     # return false unless capturable?(start_sq, end_sq) # include result of reachable somehow
     # return false if path_blocked?(start_sq, end_sq)
-
+    
     true
   end
 
@@ -85,7 +86,7 @@ class Move
   # add this later -> path = nil, path ||= reachable
   def reachable?
     return reachable_by_pawn? if start_piece.instance_of?(Pawn)
-    
+
     path.include?(end_sq) ? true : false
   end
 
@@ -96,6 +97,9 @@ class Move
 
   def reachable_by_pawn?
     # base_move = [end_sq[0] - start_sq[0], end_sq[1] - start_sq[1]]
+
+    # Add En Passant
+    # Add your conditional to end of this line, after we have created move_list
     return false if end_piece == 'unoccupied' && (base_move == [1, -1] || base_move == [1, 1])
 
     # p '#reachable_by_pawn?'
@@ -123,22 +127,23 @@ class Move
   end
 
   def transfer_piece
-    return capture_piece(start_sq, end_sq) if board_object(end_sq).is_a?(Piece)
+    # return capture_piece(start_sq, end_sq) if board_object(end_sq).is_a?(Piece)
 
-    piece = board_object(start_sq)
-    piece.moved
-    board.update_square(end_sq, piece)
+    # piece = board_object(start_sq)
+    @captured_piece = end_piece if end_piece.instance_of?(Piece) # Keep track of captures later
+    start_piece.moved
+    board.update_square(end_sq, start_piece)
     board.update_square(start_sq, 'unoccupied')
   end
 
   # by the time pawn gets here, it should be a valid move (it passed #valid?)
-  def capture_piece(start_sq, end_sq)
-    current_piece = board_object(start_sq)
-    captured_piece = board_object(end_sq) # Keep track of captures
-    current_piece.moved
-    board.update_square(end_sq, current_piece)
-    board.update_square(start_sq, 'unoccupied')
-  end
+  # def capture_piece(start_sq, end_sq)
+  #   current_piece = board_object(start_sq)
+  #   captured_piece = board_object(end_sq) # Keep track of captures
+  #   current_piece.moved
+  #   board.update_square(end_sq, current_piece)
+  #   board.update_square(start_sq, 'unoccupied')
+  # end
 end
 
   # # check if any piece objects (non-capturable) blocking path to end_sq

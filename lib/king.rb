@@ -1,20 +1,15 @@
 # frozen_string_literal: true
 
-# This class represents pawns in chess
-class Pawn < Piece
+# This class represents the king in chess
+class King < Piece
   attr_reader :color, :unmoved
 
   def post_initialization(**args)
     @unmoved = true
   end
 
-  # def initialize(**args)
-  #   super
-  #   @unmoved = true
-  # end
-
   def to_s
-    color == 'white' ? '♙' : '♟'
+    color == 'white' ? '♗' : '♝'
   end
 
   def moved
@@ -24,6 +19,6 @@ class Pawn < Piece
   private
 
   def predefined_moves
-    [[1, 0], [1, -1], [1, 1]]
+    [[1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1], [1, -1]]
   end
 end

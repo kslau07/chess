@@ -61,78 +61,14 @@ class Piece
         break if i == 2 && instance_of?(Pawn) && unmoved == true # pawn 2 square first move
         break if i == 1 && instance_of?(Pawn) && unmoved == false # pawn single square move
         break if i == 1 && instance_of?(Pawn) && [[1, -1], [1, 1]].include?(predefined_move) # pawn capture moves
+        break if i == 1 && (instance_of(Knight) || instance_of?(King))
       end
     end
     path = []
   end
 end
 
-# This class represents pawns in chess
-class Pawn < Piece
-  attr_reader :color, :unmoved
 
-  def post_initialization(**args)
-    @unmoved = true
-  end
-
-  # def initialize(**args)
-  #   super
-  #   @unmoved = true
-  # end
-
-  def to_s
-    color == 'white' ? '♙' : '♟'
-  end
-
-  def moved
-    @unmoved = false
-  end
-
-  private
-
-  def predefined_moves
-    [[1, 0], [1, -1], [1, 1]]
-
-    # if unmoved
-    #   [[1, 0], [2, 0]]
-    # else
-    #   [[1, 0]]
-    # end
-  end
-
-  # def pawn_capture_moves
-  #   [[1, -1], [1, 1]]
-  # end
-end
-
-# This class represents bishops in chess
-class Bishop < Piece
-  attr_reader :color, :unmoved
-
-  def post_initialization(**args)
-    @unmoved = true
-  end
-
-  # def initialize(**args)
-  #   super
-  #   @unmoved = true
-  #   # @long_distance_traveler = true # keep this variable? rename?
-  # end
-
-  def to_s
-    color == 'white' ? '♗' : '♝'
-  end
-
-  def moved
-    @unmoved = false
-  end
-
-  private # try this first
-
-  def predefined_moves
-    [[1, -1], [1, 1], [-1, -1], [-1, 1]]
-  end
-end
 
 "
 Fixed-movers
