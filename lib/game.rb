@@ -23,8 +23,8 @@ class Game
   def setup_board(chess_pieces)
     # delete layouts later
 
-    # layout_normal(chess_pieces)
-    layout_en_passant
+    layout_normal(chess_pieces)
+    # layout_en_passant
 
 
     # board.grid[3][4] = PieceFactory.create('Queen', 'white')
@@ -44,7 +44,8 @@ class Game
 
   # delete layouts later
   def layout_en_passant
-    move_list.instance_variable_set(:@all_moves, ["Pa0+ Pe4+", "Pa0+ Pb1+"])
+    seq = ["Pd3+ Pa0+", "Pd3+ Pe4+"]
+    move_list.instance_variable_set(:@all_moves, seq)
     board.grid[4][3] = PieceFactory.create('Pawn', 'white')
     board.grid[4][4] = PieceFactory.create('Pawn', 'black')
   end

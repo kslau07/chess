@@ -11,22 +11,16 @@ class MoveList
 
   def add(move)
     # count length, then join on evens
-    # get rid of below with pop
 
-    if !all_moves.empty?
-      if all_moves[-1].length < 6
-        popped_obj = all_moves.pop
-        popped_obj << ' '
-      end
-    end
 
-    translated_move = [popped_obj]
+    translated_move = []
+
     # fix below line, too long
     move.start_piece.class.name == 'Knight' ? translated_move << 'N' : translated_move << move.start_piece.class.name[0]
     translated_move << 'x' if move.captured_piece
     translated_move << (move.end_sq[1] + 97).chr
-    translated_move << move.end_sq[0+1]
-    translated_move << '+' # if check
+    translated_move << move.end_sq[0]
+    # translated_move << '+' # if check
     all_moves << translated_move.join
 
     puts ">>> all_moves : #{all_moves}"
@@ -36,7 +30,7 @@ class MoveList
 
   def last_move
     # puts '>>> find last move by using all_moves[-1]'
-    all_moves[-1].split(' ')[-1].gsub(/[^0-9A-Za-h]/, '') # allow only alphanumeric chars
+    # all_moves[-1].split(' ')[-1].gsub(/[^0-9A-Za-h]/, '') # allow only alphanumeric chars
   end
 
 
