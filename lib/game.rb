@@ -9,31 +9,44 @@ class Game
     @player1 = args[:player1] || Player.new(color: 'white')
     @player2 = args[:player2] || Player.new(color: 'black')
     @current_player = @player1
-    white_set = PieceFactory.create_set('white')
-    black_set = PieceFactory.create_set('black')
-    pieces = { white_pcs: white_set, black_pcs: black_set }
-    setup_board(pieces)
     post_initialize(**args)
   end
 
   def post_initialize(**args)
     @move_list = args[:move_list] || MoveList.new
+    white_set = PieceFactory.create_set('white')
+    black_set = PieceFactory.create_set('black')
+    pieces = { white_pcs: white_set, black_pcs: black_set }
+    setup_board(pieces)
   end
 
   def setup_board(chess_pieces)
+    # delete layouts later
+
+    # layout_normal(chess_pieces)
+    layout_en_passant
+
+
     # board.grid[3][4] = PieceFactory.create('Queen', 'white')
     # board.grid[4][3] = PieceFactory.create('Queen', 'black')
 
     # board.grid[5][6] = PieceFactory.create('Pawn', 'white')
     # board.grid[3][7] = PieceFactory.create('Pawn', 'black')
+  end
 
-    # front row
-    (0..7).each { |x| board.grid[1][x] = chess_pieces[:white_pcs][x] }
-    (0..7).each { |x| board.grid[6][x] = chess_pieces[:black_pcs][x] }
+  # delete layouts later
+  def layout_normal(chess_pieces)
+    (0..7).each { |x| board.grid[1][x] = chess_pieces[:white_pcs][x] } # front row
+    (0..7).each { |x| board.grid[6][x] = chess_pieces[:black_pcs][x] } # front row
+    (0..7).each { |x| board.grid[0][x] = chess_pieces[:white_pcs][x+8] } # back row
+    (0..7).each { |x| board.grid[7][x] = chess_pieces[:black_pcs][x+8] } # back row
+  end
 
-    # back row
-    (0..7).each { |x| board.grid[0][x] = chess_pieces[:white_pcs][x+8] }
-    (0..7).each { |x| board.grid[7][x] = chess_pieces[:black_pcs][x+8] }
+  # delete layouts later
+  def layout_en_passant
+    move_list.instance_variable_set(:@all_moves, ["Pa0+ Pe4+", "Pa0+ Pb1+"])
+    board.grid[4][3] = PieceFactory.create('Pawn', 'white')
+    board.grid[4][4] = PieceFactory.create('Pawn', 'black')
   end
 
   def play
@@ -59,7 +72,7 @@ class Game
 
   # use to factory later
   def create_move
-    move = Move.new(current_player: current_player, board: board)
+    move = Move.new(current_player: current_player, board: board, move_list: move_list)
     move_list.add(move)
     # print "move_list: #{move_list}\n"
     puts ">>> last_move: #{move_list.last_move}"

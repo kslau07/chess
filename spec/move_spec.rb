@@ -7,6 +7,11 @@ require_relative '../lib/display'
 require_relative '../lib/piece_factory'
 require_relative '../lib/piece'
 require_relative '../lib/pawn'
+require_relative '../lib/bishop'
+require_relative '../lib/knight'
+require_relative '../lib/rook'
+require_relative '../lib/queen'
+require_relative '../lib/king'
 require_relative '../lib/move'
 
 describe Move do
@@ -87,6 +92,26 @@ describe Move do
         expect(result).to eq(false)
       end
     end
+
+    context 'when "en passant" is a possible move and player executes move' do
+      before do
+        move.board.grid[1][3] = Pawn.new(color: 'white')
+        move.board.grid[3][4] = Pawn.new(color: 'black')
+        # move.board.grid[5][7] = 'unoccupied'
+        move.instance_variable_set(:@start_sq, [0, 2])
+        move.instance_variable_set(:@end_sq, [5, 7])
+      end
+
+      # it 'returns true' do
+
+      # end
+
+
+      it "captures the opponent's pawn" do
+        result = subject.move_valid?
+        expect(result).to eq(true)
+      end
+    end
   end
 
   describe '#reachable?' do
@@ -95,7 +120,7 @@ describe Move do
         start_sq = [0, 2]
         end_sq = [2, 4]
         piece = Bishop.new
-        subject.instance_variable_set(:@path, piece.find_route(start_sq, end_sq))
+        subject.instance_variable_set(:@path, piece.generate_path(start_sq, end_sq))
         subject.instance_variable_set(:@end_sq, end_sq)
 
         expect(subject.reachable?).to be(true)
@@ -107,7 +132,7 @@ describe Move do
         start_sq = [0, 2]
         end_sq = [7, 7]
         piece = Bishop.new
-        subject.instance_variable_set(:@path, piece.find_route(start_sq, end_sq))
+        subject.instance_variable_set(:@path, piece.generate_path(start_sq, end_sq))
         subject.instance_variable_set(:@end_sq, end_sq)
 
         expect(subject.reachable?).to be(false)
@@ -131,7 +156,7 @@ describe Move do
         piece = Pawn.new
         subject.board.grid[1, 6] = piece
         subject.board.grid[2, 5] = 'unoccupied'
-        subject.instance_variable_set(:@path, piece.find_route(start_sq, end_sq))
+        subject.instance_variable_set(:@path, piece.generate_path(start_sq, end_sq))
         subject.instance_variable_set(:@start_piece, piece)
         subject.instance_variable_set(:@start_sq, start_sq)
         subject.instance_variable_set(:@end_sq, end_sq)
@@ -159,7 +184,7 @@ describe Move do
         start_sq = [0, 2]
         end_sq = [5, 7]
         piece = Bishop.new
-        path = piece.find_route(start_sq, end_sq)
+        path = piece.generate_path(start_sq, end_sq)
         subject.instance_variable_set(:@path, path)
 
         result = subject.path_obstructed?(path, start_sq, end_sq)
@@ -177,7 +202,7 @@ describe Move do
         start_sq = [0, 2]
         end_sq = [2, 4]
         piece = Bishop.new
-        path = piece.find_route(start_sq, end_sq)
+        path = piece.generate_path(start_sq, end_sq)
         subject.instance_variable_set(:@path, path)
 
         result = subject.path_obstructed?(path, start_sq, end_sq)
@@ -195,7 +220,7 @@ describe Move do
         start_sq = [0, 2]
         end_sq = [2, 4]
         piece = Bishop.new
-        path = piece.find_route(start_sq, end_sq)
+        path = piece.generate_path(start_sq, end_sq)
         subject.instance_variable_set(:@path, path)
 
         result = subject.path_obstructed?(path, start_sq, end_sq)
@@ -214,7 +239,7 @@ describe Move do
         start_sq = [0, 2]
         end_sq = [1, 3]
         piece = Bishop.new
-        path = piece.find_route(start_sq, end_sq)
+        path = piece.generate_path(start_sq, end_sq)
         subject.instance_variable_set(:@path, path)
 
         result = subject.path_obstructed?(path, start_sq, end_sq)
@@ -232,7 +257,7 @@ describe Move do
         start_sq = [0, 2]
         end_sq = [1, 3]
         piece = Bishop.new
-        path = piece.find_route(start_sq, end_sq)
+        path = piece.generate_path(start_sq, end_sq)
         subject.instance_variable_set(:@path, path)
 
         result = subject.path_obstructed?(path, start_sq, end_sq)

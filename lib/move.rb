@@ -5,8 +5,8 @@ require_relative 'player'
 
 # This creates moves in chess
 class Move
-  attr_reader :current_player, :board, :start_sq, :end_sq,
-              :path, :start_piece, :end_piece, :captured_piece
+  attr_reader :current_player, :board, :start_sq, :end_sq, :path, :start_piece,
+              :end_piece, :captured_piece, :move_list
 
   # Array of all 64 squares in index notation
   def board_squares
@@ -16,6 +16,7 @@ class Move
   def initialize(**args)
     @current_player = args[:current_player] || Player.new
     @board = args[:board] || Board.new
+    @move_list = args[:move_list] || MoveList.new
     move_sequence # rename?
   end
 
@@ -70,13 +71,13 @@ class Move
     @path = start_piece.generate_path(start_sq, end_sq)
     # p "path inside #move_valid? : #{path}"
 
-    # puts 'reachable?'
+    puts 'reachable?'
     return false unless reachable?
 
-    # puts 'path_obstructed?'
+    puts 'path_obstructed?'
     return false if path_obstructed?(path, start_sq, end_sq)
 
-    # puts '>>> ALL CLEAR MOVE VALID'
+    puts '>>> ALL CLEAR MOVE VALID'
     true
   end
 
@@ -103,15 +104,23 @@ class Move
   end
 
   def reachable_by_pawn?
-    # base_move = [end_sq[0] - start_sq[0], end_sq[1] - start_sq[1]]
-
-    # Add En Passant
-    # Add your conditional to end of this line, after we have created move_list
+    return true if en_passant?
     return false if end_piece == 'unoccupied' && (base_move == [1, -1] || base_move == [1, 1])
 
-    # p '#reachable_by_pawn?'
-    # p 'base_move', base_move
     path.include?(end_sq) ? (return true) : (return false)
+  end
+
+  def en_passant?
+    
+    p "last_move : #{move_list.last_move}"
+    false
+
+    # @captured_piece = 'pawn that is beside players own pawn'
+
+    # white, left e.p.
+    # return true if end_piece == 'unoccupied' && base_move == [1, -1] # && other pawn's last move was 2 spaces and it sits adjacent left
+    # white, right e.p.
+    # return true if end_piece == 'unoccupied' && base_move == [1, 1] # && other pawn's last move was 2 spaces and it sits adjacent left
   end
 
   # rework some of this logic, seems overly complicated
@@ -132,7 +141,8 @@ class Move
   end
 
   def transfer_piece
-    @captured_piece = end_piece if end_piece.is_a?(Piece) # Keep track of captures later
+    @captured_piece = capture_piece
+
     # p 'end_piece', end_piece
     # p 'captured_piece', captured_piece
     
@@ -142,6 +152,12 @@ class Move
     start_piece.moved
     board.update_square(end_sq, start_piece)
     board.update_square(start_sq, 'unoccupied')
+  end
+
+  def capture_piece
+    return captured_piece if en_passant?
+
+    end_piece if end_piece.is_a?(Piece)
   end
 end
 

@@ -19,13 +19,15 @@ require_relative '../lib/knight'
 describe Game do
   subject(:game) { Game.new }
 
-  it 'tests #move_list' do
+  xit 'tests #move_list' do
     # remember to change Game#play >>> x.times { turn_loop }
+
+    # En passant
 
     # # 4 moves (2 complete sets)
     # allow_any_instance_of(Move).to receive(:gets).and_return(
     #   '17', '37', '64', '44', '06', '27', '75', '20')
-    
+
     # 5 moves (2 complete)
     allow_any_instance_of(Move).to receive(:gets).and_return(
         '17', '37', '64', '44', '06', '27', '75', '20', '11', '20')
@@ -33,11 +35,10 @@ describe Game do
     subject.play
   end
 
+
+
   describe '#initialize' do
     # Not tested
-    it '' do
-      # p ['game: ', subject.class]
-    end
   end
 
   describe '#play' do

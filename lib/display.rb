@@ -19,7 +19,8 @@ module Display
       puts "\t  |---+---+---+---+---+---+---+---|" unless x == 0
     end
     puts "\t  '-------------------------------'"
-    puts "\t    0   1   2   3   4   5   6   7"
+    # puts "\t    0   1   2   3   4   5   6   7"
+    puts "\t    A   B   C   D   E   F   G   H"
   end
 
   def self.turn_message(color)

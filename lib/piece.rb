@@ -100,7 +100,7 @@ because the size of their move array is small.
   #   path
   # end
 
-    # def find_route(start_sq, end_sq)
+    # def generate_path(start_sq, end_sq)
   #   case self.class.name
   #   when 'Pawn' # this could be its own class
 
