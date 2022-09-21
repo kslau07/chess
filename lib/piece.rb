@@ -42,10 +42,36 @@ class Piece
     move.map { |num| num * -1 }
   end
 
+  def generate_path(start_sq, end_sq)
+    p '#generate_path'
+    path = []
+    predefined_moves.each do |predefined_move|
+      p "predefined_move : #{predefined_move}"
+      predefined_move = invert(predefined_move) if color == 'black' && instance_of?(Pawn)
+      next_sq = start_sq
+      i = 0
+      loop do
+        i += 1
+        next_sq = [next_sq[0] + predefined_move[0], next_sq[1] + predefined_move[1]]
+        break unless board_squares.include?(next_sq)
+        path << next_sq
+        return path if next_sq == end_sq
+        break if i == 2 && instance_of?(Pawn) && unmoved == true # pawn 2 square first move
+        break if i == 1 && instance_of?(Pawn) && unmoved == false # pawn single square move
+        break if i == 1 && instance_of?(Pawn) && [[1, -1], [1, 1]].include?(predefined_move) # pawn capture moves
+        break if i == 1 && (instance_of?(Knight) || instance_of?(King))
+      end
+      puts ">>> counter: #{i}"
+      path = []
+    end
+    []
+  end
+
+
   # This method is unwieldy wholely because of Pawn's unusual movement including
   # capture move. I decided not to extract it into its own method to keep
   # code DRYer.
-  def generate_path(start_sq, end_sq)
+  def generate_path_refactor(start_sq, end_sq)
     path = []
     predefined_moves.each do |predefined_move|
       predefined_move = invert(predefined_move) if color == 'black' && instance_of?(Pawn)
@@ -63,8 +89,8 @@ class Piece
         break if i == 1 && instance_of?(Pawn) && [[1, -1], [1, 1]].include?(predefined_move) # pawn capture moves
         break if i == 1 && (instance_of?(Knight) || instance_of?(King))
       end
+      path = []
     end
-    path = []
   end
 end
 

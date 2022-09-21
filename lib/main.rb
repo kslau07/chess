@@ -26,6 +26,8 @@ play(game)
 "
 NOTES
 
+Display captured pieces to the right? Need up to 15 spaces.
+
 At the end:
 See how to add main and tests to replit
 

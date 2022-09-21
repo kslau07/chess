@@ -21,36 +21,19 @@ class Game
   end
 
   def setup_board(chess_pieces)
+    # board.grid[3][4] = PieceFactory.create('Queen', 'white')
+    # board.grid[4][3] = PieceFactory.create('Queen', 'black')
+
+    # board.grid[5][6] = PieceFactory.create('Pawn', 'white')
+    # board.grid[3][7] = PieceFactory.create('Pawn', 'black')
 
     # front row
-    # (0..7).each { |x| board.grid[1][x] = chess_pieces[:white_pcs][x] }
-    # (0..7).each { |x| board.grid[6][x] = chess_pieces[:black_pcs][x] }
+    (0..7).each { |x| board.grid[1][x] = chess_pieces[:white_pcs][x] }
+    (0..7).each { |x| board.grid[6][x] = chess_pieces[:black_pcs][x] }
 
     # back row
     (0..7).each { |x| board.grid[0][x] = chess_pieces[:white_pcs][x+8] }
     (0..7).each { |x| board.grid[7][x] = chess_pieces[:black_pcs][x+8] }
-
-
-
-    # # pawns
-    # board.grid[1][0] = PieceFactory.create('Pawn', 'white')
-    # board.grid[1][1] = PieceFactory.create('Pawn', 'white')
-    # board.grid[1][5] = PieceFactory.create('Pawn', 'white')
-    # board.grid[1][6] = PieceFactory.create('Pawn', 'white')
-    # board.grid[2][1] = PieceFactory.create('Pawn', 'black')
-    # board.grid[2][2] = PieceFactory.create('Pawn', 'black')
-    # board.grid[3][5] = PieceFactory.create('Pawn', 'black')
-
-    # # bishops
-    # board.grid[2][3] = PieceFactory.create('Bishop', 'white')
-    # board.grid[5][6] = PieceFactory.create('Bishop', 'black')
-    
-
-
-
-    # We can combine these 2 lines somehow. Do it later.
-    # (0..7).each { |x| board.grid[1][x] = chess_pieces[:white_pcs][x] }
-    # (0..7).each { |x| board.grid[6][x] = chess_pieces[:black_pcs][x] }
   end
 
   def play
@@ -83,7 +66,7 @@ class Game
   # option to display move list in regular notation, or human readable format
   def add_to_move_list(move)
     move_list << [move.start_sq, move.end_sq]
-    p move_list
+    # p move_list
   end
 
   def switch_players

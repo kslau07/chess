@@ -61,26 +61,26 @@ class Move
     @end_piece = board_object(end_sq)
     # p 'start_piece', start_piece
 
-    puts 'one'
+    puts 'out_of_bound?'
     return false if out_of_bound?
 
-    puts 'two'
+    puts 'unoccupied'
     return false if start_piece == 'unoccupied' # start must not be empty
 
-    puts 'three'
+    puts 'current_player.color'
+    puts start_piece.color != current_player.color
     return false if start_piece.color != current_player.color # start must be player's own piece
 
     @path = start_piece.generate_path(start_sq, end_sq)
-    # p "path: #{path}"
-    puts 'four'
+    p "path inside #move_valid? : #{path}"
+
+    puts 'reachable?'
     return false unless reachable?
 
-    puts 'five'
+    puts 'path_obstructed?'
     return false if path_obstructed?(path, start_sq, end_sq)
 
-    # return false unless capturable?(start_sq, end_sq) # include result of reachable somehow
-    # return false if path_blocked?(start_sq, end_sq)
-
+    puts '>>> ALL CLEAR MOVE VALID'
     true
   end
 
@@ -116,22 +116,15 @@ class Move
   # rework some of this logic, seems overly complicated
   def path_obstructed?(path, start_sq, end_sq)
     start_piece = board_object(start_sq)
-    first_occupied_sq = path.find { |coord| board.grid[coord[0]][coord[1]].is_a?(Piece) }
+    first_occupied_sq = path.find { |subary| board.grid[subary[0]][subary[1]].is_a?(Piece) }
     # piece_at_occupied_sq = board_object(first_occupied_sq)
     piece_at_end_sq = board_object(end_sq)
-    
     return false if first_occupied_sq.nil? # path is clear
-    
-    require 'pry-byebug'
-    binding.pry
     return true if end_sq != first_occupied_sq
-    
-
 
     if first_occupied_sq == end_sq
       # if pawn is obstructed trying to move 1 or 2 steps forward
       return true if start_piece.instance_of?(Pawn) && first_occupied_sq && (base_move == [1, 0] || base_move == [2, 0])
-
       return true if start_piece.color == piece_at_end_sq.color # same color obstruction
     end
     false
@@ -168,4 +161,4 @@ end
   #   # puts own_obj.color
   #   true
   # end
-  
+
