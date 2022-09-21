@@ -15,3 +15,12 @@ Eventually: En Passant
 Add conditionals to path obstructed for straight moves + opponent blocking
 Add conditionals to reachable? or path_obstructed? for diagonal capture moves with no opponent, prevent it
 
+Because:
+There was a broken hyperlink (https://www.theodinproject.com/paths/full-stack-ruby-on-rails/courses/getting-hired) in the FAQ section.
+This was likely due to this link not being updated after Odin added the JS path.
+The broken link could be replaced by either of these two links:
+https://www.theodinproject.com/paths/full-stack-ruby-on-rails/courses/getting-hired
+https://www.theodinproject.com/paths/full-stack-javascript/courses/getting-hired
+
+This commit:
+Replace broken 'getting-hired' hyperlink with one from the Rails path.

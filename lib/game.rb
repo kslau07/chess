@@ -66,23 +66,26 @@ class Game
 
   # option to display move list in regular notation, or human readable format
   def add_to_move_list(move)
-
+    
+    # count length, then join on evens
+    # get rid of below with pop
+    
     if !move_list.empty?
-      if move_list[-1].length < 4
+      if move_list[-1].length < 6
         popped_obj = move_list.pop
-        popped_obj << ' ' # logic for normal ' ', capture x, check +, checkmate #
+        popped_obj << ' '
       end
     end
 
     translated_move = [popped_obj]
-
-    
-
     # fix below line, too long
     move.start_piece.class.name == 'Knight' ? translated_move << 'N' : translated_move << move.start_piece.class.name[0]
-    translated_move << (move.end_sq[1] + 65).chr
-    translated_move << move.end_sq[0]
+    translated_move << 'x' # if capture
+    translated_move << (move.end_sq[1] + 97).chr
+    translated_move << move.end_sq[0+1]
+    translated_move << '+' # if check
     move_list << translated_move.join
+    
     # p move_list
   end
 
