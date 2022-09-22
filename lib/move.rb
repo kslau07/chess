@@ -27,9 +27,6 @@ class Move
 
   # add string matching later
   def input_move
-    # start_sq = gets.chomp.split('').map(&:to_i)
-    # end_sq = gets.chomp.split('').map(&:to_i)
-    # return
 
     loop do
       Display.input_start_msg
@@ -56,28 +53,15 @@ class Move
   def move_valid?
     @start_piece = board_object(start_sq)
     @end_piece = board_object(end_sq)
-    # p 'start_piece', start_piece
 
-    # puts 'out_of_bound?'
     return false if out_of_bound?
-
-    # puts 'unoccupied'
     return false if start_piece == 'unoccupied' # start must not be empty
-
-    # puts 'current_player.color'
-    # puts start_piece.color != current_player.color
     return false if start_piece.color != current_player.color # start must be player's own piece
-
     @path = start_piece.generate_path(start_sq, end_sq)
-    p ">>> path inside #move_valid? : #{path}"
-
-    # puts 'reachable?'
+    # p ">>> path inside #move_valid? : #{path}"
     return false unless reachable?
-
-    # puts 'path_obstructed?'
     return false if path_obstructed?(path, start_sq, end_sq)
 
-    puts '>>> ALL CLEAR MOVE VALID'
     true
   end
 
@@ -85,11 +69,7 @@ class Move
     board_squares.include?(start_sq) && board_squares.include?(end_sq) ? false : true
   end
 
-  # Maybe we use this for king check later
-  # add this later -> path = nil, path ||= reachable
   def reachable?
-
-    p '#reachable?'
 
     return castle? if start_piece.instance_of?(King) && (base_move == [0, 2] || base_move == [0, -2])
     return reachable_by_pawn? if start_piece.instance_of?(Pawn)
@@ -98,7 +78,6 @@ class Move
   end
 
   def castle?
-    p '#castle?'
 
     corner_piece = ''
     # You cannot exit check with a castle
@@ -210,25 +189,3 @@ class Move
     board.update_square(start_sq, 'unoccupied')
   end
 end
-
-# # check if any piece objects (non-capturable) blocking path to end_sq
-# def capturable?(start_sq, end_sq, reachable = nil)
-#   own_obj = board_object(start_sq)
-#   other_obj = board_object(end_sq)
-#   return false if other_obj == 'unoccupied'
-#   return false if own_obj.color == other_obj.color
-#   return true unless own_obj.instance_of?(Pawn)
-#   # return reachable || reachable?(start_sq, end_sq) unless own_obj.instance_of?(Pawn)
-#   # puts own_obj.color
-#   true
-# end
-
-
-# by the time pawn gets here, it should be a valid move (it passed #valid?)
-# def capture_piece(start_sq, end_sq)
-#   current_piece = board_object(start_sq)
-#   captured_piece = board_object(end_sq) # Keep track of captures
-#   current_piece.moved
-#   board.update_square(end_sq, current_piece)
-#   board.update_square(start_sq, 'unoccupied')
-# end

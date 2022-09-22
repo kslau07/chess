@@ -4,12 +4,6 @@ require_relative '../lib/pawn'
 require_relative '../lib/piece'
 require_relative '../lib/board'
 
-# require_relative '../lib/game'
-# require_relative '../lib/player'
-# require_relative '../lib/display'
-# require_relative '../lib/piece_factory'
-# require_relative '../lib/move'
-
 describe Pawn do
   describe '#generate_path' do
     context 'when pawn moves one space on the first move' do

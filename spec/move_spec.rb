@@ -272,16 +272,3 @@ describe Move do
     end
   end
 end
-
-# describe '#transfer_piece' do
-#   xit 'sends #update_square twice to @board' do
-#     start_sq = [1, 0]
-#     end_sq = [2, 0]
-#     pawn = instance_double(Pawn)
-#     allow(pawn).to receive(:moved)
-#     allow(subject).to receive(:board_object).and_return(pawn)
-
-#     expect(subject.board).to receive(:update_square).twice
-#     subject.transfer_piece(start_sq, end_sq)
-#   end
-# end

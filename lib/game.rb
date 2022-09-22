@@ -22,16 +22,9 @@ class Game
 
   def setup_board(chess_pieces)
     # delete layouts later
-
-    # layout_normal(chess_pieces)
     layout_castle
+    # layout_normal(chess_pieces)
 
-
-    # board.grid[3][4] = PieceFactory.create('Queen', 'white')
-    # board.grid[4][3] = PieceFactory.create('Queen', 'black')
-
-    # board.grid[5][6] = PieceFactory.create('Pawn', 'white')
-    # board.grid[3][7] = PieceFactory.create('Pawn', 'black')
   end
 
   def layout_castle
@@ -75,12 +68,8 @@ class Game
     switch_players
   end
 
-  # use to factory later
+  # create factory for this
   def create_move
-
-    # after break: why does move#en_passant NOT get last move, it's outdated
-    # perhaps it has something to do with the order of add here
-
     move = Move.new(current_player: current_player, board: board, move_list: move_list)
     move_list.add(move)
     # print "move_list: #{move_list}\n"

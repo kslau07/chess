@@ -8,11 +8,6 @@ class Pawn < Piece
     @unmoved = true
   end
 
-  # def initialize(**args)
-  #   super
-  #   @unmoved = true
-  # end
-
   def to_s
     color == 'white' ? '♙' : '♟'
   end

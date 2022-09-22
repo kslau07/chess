@@ -7,13 +7,7 @@ class Bishop < Piece
   def post_initialization(**args)
     @unmoved = true
   end
-
-  # def initialize(**args)
-  #   super
-  #   @unmoved = true
-  #   # @long_distance_traveler = true # keep this variable? rename?
-  # end
-
+  
   def to_s
     color == 'white' ? '♗' : '♝'
   end

@@ -4,13 +4,6 @@ require_relative '../lib/bishop'
 require_relative '../lib/piece'
 require_relative '../lib/board'
 
-# require_relative '../lib/pawn'
-# require_relative '../lib/game'
-# require_relative '../lib/player'
-# require_relative '../lib/display'
-# require_relative '../lib/piece_factory'
-# require_relative '../lib/move'
-
 describe Bishop do
   describe '#path_one' do
     context 'when end_sq is a possible next move' do

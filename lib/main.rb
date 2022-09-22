@@ -27,9 +27,12 @@ play(game)
 "
 NOTES
 
+For some reason, black cannot castle properly even though the code should be
+relative, i.e. white and black castle code should be identical.
+
 Is there an abstraction for castle? Much of the code seems repetitive.
 
-Add serializing after king-check logic.
+Add serializing after king-check logic.j
 
 Change notation from 0 to 1 when finished. Keep 0 for now, easier to read.
 
