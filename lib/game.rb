@@ -44,17 +44,29 @@ class Game
 
   # delete layouts later
   def layout_en_passant
-    seq = ["Pd3+ Pa0+", "Pd3+ Pe4+"]
+    # white, black right side
+    # seq = ["Pd3+", "Pa5+", "Pd4+", "Pe4+"]
+    # board.grid[4][3] = PieceFactory.create('Pawn', 'white')
+    # board.grid[4][4] = PieceFactory.create('Pawn', 'black')
+    
+    # white, black left side
+    # seq = ["Pd3+", "Pa5+", "Pd4+", "Pc4+"]
+    # board.grid[4][3] = PieceFactory.create('Pawn', 'white')
+    # board.grid[4][2] = PieceFactory.create('Pawn', 'black')
+    
+    # black, white right side
+    seq = ["Na2+", "Pd4+", "Nh2+", "Pd3+"]
+    board.grid[1][4] = PieceFactory.create('Pawn', 'white')
+    board.grid[3][3] = PieceFactory.create('Pawn', 'black')
+
     move_list.instance_variable_set(:@all_moves, seq)
-    board.grid[4][3] = PieceFactory.create('Pawn', 'white')
-    board.grid[4][4] = PieceFactory.create('Pawn', 'black')
   end
 
   def play
     Display.greeting
     Display.draw_board(board)
 
-    5.times { turn_loop }
+    8.times { turn_loop }
     # turn_loop until game_over?
   end
 
@@ -73,6 +85,10 @@ class Game
 
   # use to factory later
   def create_move
+
+    # after break: why does move#en_passant NOT get last move, it's outdated
+    # perhaps it has something to do with the order of add here
+
     move = Move.new(current_player: current_player, board: board, move_list: move_list)
     move_list.add(move)
     # print "move_list: #{move_list}\n"

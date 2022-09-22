@@ -104,16 +104,50 @@ class Move
   end
 
   def reachable_by_pawn?
-    return true if en_passant?
+    # puts 'move_list.all_moves.size.positive?', move_list.all_moves.size.positive?
+    return true if move_list.all_moves.size.positive? && en_passant?
+
     return false if end_piece == 'unoccupied' && (base_move == [1, -1] || base_move == [1, 1])
 
     path.include?(end_sq) ? (return true) : (return false)
   end
 
   def en_passant?
+
+
+
+    prev_sq = move_list.prev_sq
+    relative_diff = [prev_sq[0] - start_sq[0], prev_sq[1] - start_sq[1]]
+    # puts 'WE HAVE EN PASSANT' if move_list.last_move[0] == 'P' && relative_diff == [0, 1] && base_move == [1, 1]
     
-    p "last_move : #{move_list.last_move}"
+    p ">>>Move#enpassant relative_diff : #{relative_diff}"
+    p ">>>Move#enpassant base_move : #{base_move}"
+    p ">>>Move#enpassant last_move : #{move_list.last_move}"
+
+    
+    return true if move_list.last_move[0] == 'P' && relative_diff == [0, 1] && base_move == [1, 1]
+
+    return true if move_list.last_move[0] == 'P' && relative_diff == [0, -1] && base_move == [1, -1]
+
     false
+    
+    # get last move
+    # translate it to index notation
+
+    # check even or odd
+    # p ">>>Move#en_passant #{move_list.all_moves}"
+    # p ">>>Move#enpassant last_move : #{move_list.last_move}" #unless move_list.all_moves.empty?
+    # puts '>>> last move was Pe4' if move_list.last_move == 'Pe4'
+    # right_sq = [start_sq[0] + 0, start_sq[1] + 1]
+    # left_sq = [start_sq[0] + 0, start_sq[1] - 1]
+
+    # board_object(right_sq)
+
+
+    # if move_list.last_move == 'Pe4' && base_move == [1, 1]
+      # return true
+    # end
+
 
     # @captured_piece = 'pawn that is beside players own pawn'
 
@@ -141,11 +175,13 @@ class Move
   end
 
   def transfer_piece
-    @captured_piece = capture_piece
+    return en_passant_capture if move_list.all_moves.size.positive? && en_passant?
+
+    @captured_piece = end_piece if end_piece.is_a?(Piece)
 
     # p 'end_piece', end_piece
     # p 'captured_piece', captured_piece
-    
+
     # p "end_piece: #{end_piece}"
     # p "captured_piece: #{captured_piece}"
 
@@ -154,10 +190,11 @@ class Move
     board.update_square(start_sq, 'unoccupied')
   end
 
-  def capture_piece
-    return captured_piece if en_passant?
-
-    end_piece if end_piece.is_a?(Piece)
+  def en_passant_capture
+    @captured_piece = board_object(move_list.prev_sq)
+    board.update_square(end_sq, start_piece)
+    board.update_square(move_list.prev_sq, 'unoccupied')
+    board.update_square(start_sq, 'unoccupied')
   end
 end
 

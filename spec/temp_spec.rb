@@ -32,6 +32,7 @@ describe Move do
         move.instance_variable_set(:@end_sq, [5, 4])
       end
 
+      
       it 'returns true' do
         Display.draw_board(subject.board)
         result = subject.move_valid?
