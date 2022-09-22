@@ -120,16 +120,19 @@ class Move
     relative_diff = [prev_sq[0] - start_sq[0], prev_sq[1] - start_sq[1]]
     # puts 'WE HAVE EN PASSANT' if move_list.last_move[0] == 'P' && relative_diff == [0, 1] && base_move == [1, 1]
     
-    p ">>>Move#enpassant relative_diff : #{relative_diff}"
-    p ">>>Move#enpassant base_move : #{base_move}"
-    p ">>>Move#enpassant last_move : #{move_list.last_move}"
-
     
-    return true if move_list.last_move[0] == 'P' && relative_diff == [0, 1] && base_move == [1, 1]
-
-    return true if move_list.last_move[0] == 'P' && relative_diff == [0, -1] && base_move == [1, -1]
-
+    if start_piece.color == 'white' && move_list.last_move[0] == 'P'
+      return true if relative_diff == [0, 1] && base_move == [1, 1]
+      return true if relative_diff == [0, -1] && base_move == [1, -1]
+    elsif start_piece.color == 'black' && move_list.last_move[0] == 'P'
+      return true if relative_diff == [0, -1] && base_move == [1, 1]
+      return true if relative_diff == [0, 1] && base_move == [1, -1]
+    end
+    
     false
+    # p ">>>Move#enpassant relative_diff : #{relative_diff}"
+    # p ">>>Move#enpassant base_move : #{base_move}"
+    # p ">>>Move#enpassant last_move : #{move_list.last_move}"
     
     # get last move
     # translate it to index notation
