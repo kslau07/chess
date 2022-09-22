@@ -27,6 +27,8 @@ play(game)
 "
 NOTES
 
+Is there an abstraction for castle? Much of the code seems repetitive.
+
 Add serializing after king-check logic.
 
 Change notation from 0 to 1 when finished. Keep 0 for now, easier to read.
