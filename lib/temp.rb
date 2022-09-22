@@ -17,6 +17,7 @@ p john.instance_variable_get(:@foo)
 
 # Old code
 
+#
 # def display_board
 #   0.upto(5) do |i|
 #     print "|"
