@@ -58,3 +58,28 @@ p john.instance_variable_get(:@foo)
 #   converted_nums << chess_notation[0].ord - 65
 #   # board.grid[converted_nums[0]][converted_nums[1]].nil? ? false : true
 # end
+
+  # # delete layouts later
+  # def layout_en_passant
+  #   # white, black right side
+  #   # seq = ["Pd3+", "Pa5+", "Pd4+", "Pe4+"]
+  #   # board.grid[4][3] = PieceFactory.create('Pawn', 'white')
+  #   # board.grid[4][4] = PieceFactory.create('Pawn', 'black')
+    
+  #   # white, black left side
+  #   # seq = ["Pd3+", "Pa5+", "Pd4+", "Pc4+"]
+  #   # board.grid[4][3] = PieceFactory.create('Pawn', 'white')
+  #   # board.grid[4][2] = PieceFactory.create('Pawn', 'black')
+    
+  #   # black, white right side
+  #   seq = ["Na2+", "Pd4+", "Nh2+", "Pd3+"]
+  #   board.grid[1][4] = PieceFactory.create('Pawn', 'white')
+  #   board.grid[3][3] = PieceFactory.create('Pawn', 'black')
+
+  #   # black, white right side
+  #   # seq = ["Na2+", "Pd4+", "Nh2+", "Pd3+"]
+  #   # board.grid[1][2] = PieceFactory.create('Pawn', 'white')
+  #   # board.grid[3][3] = PieceFactory.create('Pawn', 'black')
+
+  #   move_list.instance_variable_set(:@all_moves, seq)
+  # end

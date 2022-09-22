@@ -24,7 +24,7 @@ class Game
     # delete layouts later
 
     # layout_normal(chess_pieces)
-    layout_en_passant
+    layout_castle
 
 
     # board.grid[3][4] = PieceFactory.create('Queen', 'white')
@@ -32,6 +32,18 @@ class Game
 
     # board.grid[5][6] = PieceFactory.create('Pawn', 'white')
     # board.grid[3][7] = PieceFactory.create('Pawn', 'black')
+  end
+
+  def layout_castle
+    # white
+    board.grid[0][0] = PieceFactory.create('Rook', 'white')
+    board.grid[0][4] = PieceFactory.create('King', 'white')
+    board.grid[0][7] = PieceFactory.create('Rook', 'white')
+
+    # black
+    board.grid[7][0] = PieceFactory.create('Rook', 'black')
+    board.grid[7][4] = PieceFactory.create('King', 'black')
+    board.grid[7][7] = PieceFactory.create('Rook', 'black')
   end
 
   # delete layouts later
@@ -42,36 +54,11 @@ class Game
     (0..7).each { |x| board.grid[7][x] = chess_pieces[:black_pcs][x+8] } # back row
   end
 
-  # delete layouts later
-  def layout_en_passant
-    # white, black right side
-    # seq = ["Pd3+", "Pa5+", "Pd4+", "Pe4+"]
-    # board.grid[4][3] = PieceFactory.create('Pawn', 'white')
-    # board.grid[4][4] = PieceFactory.create('Pawn', 'black')
-    
-    # white, black left side
-    # seq = ["Pd3+", "Pa5+", "Pd4+", "Pc4+"]
-    # board.grid[4][3] = PieceFactory.create('Pawn', 'white')
-    # board.grid[4][2] = PieceFactory.create('Pawn', 'black')
-    
-    # black, white right side
-    seq = ["Na2+", "Pd4+", "Nh2+", "Pd3+"]
-    board.grid[1][4] = PieceFactory.create('Pawn', 'white')
-    board.grid[3][3] = PieceFactory.create('Pawn', 'black')
-
-    # black, white right side
-    # seq = ["Na2+", "Pd4+", "Nh2+", "Pd3+"]
-    # board.grid[1][2] = PieceFactory.create('Pawn', 'white')
-    # board.grid[3][3] = PieceFactory.create('Pawn', 'black')
-
-    move_list.instance_variable_set(:@all_moves, seq)
-  end
-
   def play
     Display.greeting
     Display.draw_board(board)
 
-    8.times { turn_loop }
+    50.times { turn_loop }
     # turn_loop until game_over?
   end
 

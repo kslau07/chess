@@ -9,14 +9,13 @@ class MoveList
     @all_moves = []
   end
 
+  # count length, then join on evens, if we want to do a readable list
   def add(move)
-    # count length, then join on evens
-
-
     translated_move = []
-
     # fix below line, too long
-    move.start_piece.class.name == 'Knight' ? translated_move << 'N' : translated_move << move.start_piece.class.name[0]
+    piece_abbr = move.start_piece.class.name[0]
+    piece_abbr = 'N' if move.start_piece.instance_of?(Knight)
+    translated_move << piece_abbr
     translated_move << 'x' if move.captured_piece
     translated_move << (move.end_sq[1] + 97).chr
     translated_move << move.end_sq[0]
@@ -29,9 +28,6 @@ class MoveList
   # ^ in regex seems to only permit those characters
 
   def last_move
-    # return '' if all_moves.empty?
-    # puts '>>> find last move by using all_moves[-1]'
-    # puts ">>> MoveList#last_move all_moves: #{all_moves}"
     all_moves[-1].gsub(/[^0-9A-Za-h]/, '') # allow only alphanumeric chars
   end
 

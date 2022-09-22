@@ -69,12 +69,12 @@ class Move
     return false if start_piece.color != current_player.color # start must be player's own piece
 
     @path = start_piece.generate_path(start_sq, end_sq)
-    # p "path inside #move_valid? : #{path}"
+    p ">>> path inside #move_valid? : #{path}"
 
-    puts 'reachable?'
+    # puts 'reachable?'
     return false unless reachable?
 
-    puts 'path_obstructed?'
+    # puts 'path_obstructed?'
     return false if path_obstructed?(path, start_sq, end_sq)
 
     puts '>>> ALL CLEAR MOVE VALID'
@@ -88,9 +88,42 @@ class Move
   # Maybe we use this for king check later
   # add this later -> path = nil, path ||= reachable
   def reachable?
+
+    p '#reachable?'
+
+    return castle? if start_piece.instance_of?(King) && (base_move == [0, 2] || base_move == [0, -2])
     return reachable_by_pawn? if start_piece.instance_of?(Pawn)
 
     path.include?(end_sq) ? true : false
+  end
+
+  def castle?
+    p '#castle?'
+    # You cannot exit check with a castle
+    # Both King and Rook must be unmoved
+    # All spaces between must be empty
+
+    # how to qualify a castle?
+    # lets do king-side castle
+    # both pieces must be unmoved
+    # [0, 5] == 'unoccupied' -> [0, 1] relative_diff
+    # [0, 6] == 'unoccupied' -> [0, 2] relative diff
+    # king wants to move [0, 2] base move
+
+    factor = 3 if base_move == [0, 2]
+    factor = -4 if base_move == [0, -2]
+
+    corner_piece = board_object([start_sq[0] + 0, start_sq[1] + factor])
+
+    # p corner_piece
+
+    return false unless corner_piece.instance_of?(Rook) || corner_piece == 'unoccupied'
+    return false unless start_piece.unmoved && corner_piece.unmoved
+    # return false unless 
+
+
+    p '#castle?'
+    true
   end
 
   def base_move
@@ -104,23 +137,15 @@ class Move
   end
 
   def reachable_by_pawn?
-    # puts 'move_list.all_moves.size.positive?', move_list.all_moves.size.positive?
     return true if move_list.all_moves.size.positive? && en_passant?
-
     return false if end_piece == 'unoccupied' && (base_move == [1, -1] || base_move == [1, 1])
 
     path.include?(end_sq) ? (return true) : (return false)
   end
 
   def en_passant?
-
-
-
     prev_sq = move_list.prev_sq
     relative_diff = [prev_sq[0] - start_sq[0], prev_sq[1] - start_sq[1]]
-    # puts 'WE HAVE EN PASSANT' if move_list.last_move[0] == 'P' && relative_diff == [0, 1] && base_move == [1, 1]
-    
-    
     if start_piece.color == 'white' && move_list.last_move[0] == 'P'
       return true if relative_diff == [0, 1] && base_move == [1, 1]
       return true if relative_diff == [0, -1] && base_move == [1, -1]
@@ -128,36 +153,7 @@ class Move
       return true if relative_diff == [0, -1] && base_move == [1, 1]
       return true if relative_diff == [0, 1] && base_move == [1, -1]
     end
-    
     false
-    # p ">>>Move#enpassant relative_diff : #{relative_diff}"
-    # p ">>>Move#enpassant base_move : #{base_move}"
-    # p ">>>Move#enpassant last_move : #{move_list.last_move}"
-    
-    # get last move
-    # translate it to index notation
-
-    # check even or odd
-    # p ">>>Move#en_passant #{move_list.all_moves}"
-    # p ">>>Move#enpassant last_move : #{move_list.last_move}" #unless move_list.all_moves.empty?
-    # puts '>>> last move was Pe4' if move_list.last_move == 'Pe4'
-    # right_sq = [start_sq[0] + 0, start_sq[1] + 1]
-    # left_sq = [start_sq[0] + 0, start_sq[1] - 1]
-
-    # board_object(right_sq)
-
-
-    # if move_list.last_move == 'Pe4' && base_move == [1, 1]
-      # return true
-    # end
-
-
-    # @captured_piece = 'pawn that is beside players own pawn'
-
-    # white, left e.p.
-    # return true if end_piece == 'unoccupied' && base_move == [1, -1] # && other pawn's last move was 2 spaces and it sits adjacent left
-    # white, right e.p.
-    # return true if end_piece == 'unoccupied' && base_move == [1, 1] # && other pawn's last move was 2 spaces and it sits adjacent left
   end
 
   # rework some of this logic, seems overly complicated
@@ -181,13 +177,6 @@ class Move
     return en_passant_capture if move_list.all_moves.size.positive? && en_passant?
 
     @captured_piece = end_piece if end_piece.is_a?(Piece)
-
-    # p 'end_piece', end_piece
-    # p 'captured_piece', captured_piece
-
-    # p "end_piece: #{end_piece}"
-    # p "captured_piece: #{captured_piece}"
-
     start_piece.moved
     board.update_square(end_sq, start_piece)
     board.update_square(start_sq, 'unoccupied')

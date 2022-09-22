@@ -27,45 +27,14 @@ play(game)
 "
 NOTES
 
+Add serializing after king-check logic.
+
 Change notation from 0 to 1 when finished. Keep 0 for now, easier to read.
 
 Display captured pieces to the right? Need up to 15 spaces.
 
 At the end:
 See how to add main and tests to replit
-
-
-Change 'unoccupied' back to nil
-
-Keep a move list, at least 6 deep. Maybe make a list of all moves.
-Use class.name or get name for notation.
-Or, add @name to classes. (probably this one, but try other first)
-
-Make one pawn block the other.
-Make predefined_moves and capture_path_rename different for pawns, same for all other pieces.
-If capture and move do not match, do not capture. Illegal move.
-
-
-Who is responsible for creating game piece objects?
-
-row legend: A, B, C, D, E, F, G, H
-column legend: 8, 7, 6, 5, 4, 3, 2, 1 (top to bottom)
-
-white chess king	♔	U+2654	&#9812;	&#x2654;
-white chess queen	♕	U+2655	&#9813;	&#x2655;
-white chess rook	♖	U+2656	&#9814;	&#x2656;
-white chess bishop	♝♗	U+2657	&#9815;	&#x2657;
-white chess knight	♘	U+2658	&#9816;	&#x2658;
-white chess pawn	♙	U+2659	&#9817;	&#x2659;
-black chess king	♚	U+265A	&#9818;	&#x265A;
-black chess queen	♛	U+265B	&#9819;	&#x265B;
-black chess rook	♜	U+265C	&#9820;	&#x265C;
-black chess bishop	♝	U+265D	&#9821;	&#x265D;
-black chess knight	♘♞	U+265E	&#9822;	&#x265E;
-black chess pawn	♟	U+265F	&#9823;	&#x265F;
-
-
-Add serializing ASAP, after pawn works.
 
 We need to test what, not how.
 
@@ -92,7 +61,6 @@ castling
 cannot put yourself in check
 check after moving a piece
 double check
-en passant (must execute when available or lose it)
 pawn promotion
 
 draws:
