@@ -49,10 +49,10 @@ class Game
   end
 
   def play
-    Display.greeting
+    Display.greeting    # change Display to display somehow
     Display.draw_board(board)
 
-    50.times { turn_loop }
+    2.times { turn_loop }
     # turn_loop until game_over?
   end
 
@@ -80,16 +80,17 @@ class Game
 
   # create factory for this
   def create_move(new_move = nil)
+
     loop do
       # new_move = Move.new(current_player: current_player, board: board, move_list: move_list)
-      new_move = Move.user_input
+      new_move = Move.prefactory(current_player, board, move_list) # rename
       break
     end
 
-    move_list.add(new_move)
-    
+    # move_list.add(new_move)
+
     # print "move_list: #{move_list}\n"
-    puts ">>> last_move: #{move_list.last_move}"
+    # puts ">>> last_move: #{move_list.last_move}"
   end
 
 

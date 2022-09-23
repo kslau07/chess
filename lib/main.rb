@@ -27,6 +27,11 @@ play(game)
 "
 NOTES
 
+You can get rid of the data clump ... board.grid[start_sq[0]][start_sq[1]]
+by adding a method for board to accept an array and return that object.
+
+Refactor: Board.board_squares and #board_squares is now board.spaces
+
 For some reason, black cannot castle properly even though the code should be
 relative, i.e. white and black castle code should be identical.
 

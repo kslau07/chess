@@ -19,6 +19,20 @@ class Board
     generate_board
   end
 
+  def object(coord)
+    grid[coord[0]][coord[1]]
+  end
+
+  def spaces
+    squares = []
+    8.times do |x|
+      8.times do |y|
+        squares << [x, y]
+      end
+    end
+    squares
+  end
+
   def generate_board
     @grid = []
 

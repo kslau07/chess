@@ -9,12 +9,42 @@ class Move
               :end_piece, :captured_piece, :move_list, :castle
 
   # Array of all 64 squares in index notation
-  def board_squares
-    Board.board_squares
+  # def board_squares
+  #   Board.board_squares
+  # end
+
+  def self.prefactory(current_player, board, move_list) # rename
+    loop do
+      Display.input_start_msg
+      start_sq = gets.chomp.split('').map(&:to_i)
+      Display.input_end_msg
+      end_sq = gets.chomp.split('').map(&:to_i)
+
+      break if check_input(current_player, board, start_sq, end_sq)
+
+      Display.invalid_input_message
+    end
+    mid_factory
   end
 
-  def self.user_input
-    p 'user inputted move'
+  def self.check_input(current_player, board, start_sq, end_sq)
+    # one more method for character matching
+
+    return false if out_of_bound?(board, start_sq, end_sq)
+    return false if board.object(start_sq) == 'unoccupied' # start must not be empty
+    return true if board.object(start_sq).color == current_player.color # start must be player's own piece
+  end
+
+  def self.out_of_bound?(board, start_sq, end_sq)
+    board.spaces.include?(start_sq) && board.spaces.include?(end_sq) ? false : true
+  end
+
+  # Input has cleared easy to eliminate invalidations.
+  # 
+
+
+  def self.mid_factory
+    puts 'we are here'
   end
 
   def initialize(**args)
@@ -29,21 +59,7 @@ class Move
     transfer_piece
   end
 
-  # add string matching later
-  def input_move
 
-    loop do
-      Display.input_start_msg
-      @start_sq = gets.chomp.split('').map(&:to_i)
-      Display.input_end_msg
-      @end_sq = gets.chomp.split('').map(&:to_i)
-      return if move_valid?
-
-      # return [start_sq, end_sq] if move_valid?(start_sq, end_sq)
-
-      Display.invalid_input_message
-    end
-  end
 
   def board_object(sq_coord)
     return nil if sq_coord.nil? # checks for nil input, maybe delete later
@@ -58,9 +74,7 @@ class Move
     @start_piece = board_object(start_sq)
     @end_piece = board_object(end_sq)
 
-    return false if out_of_bound?
-    return false if start_piece == 'unoccupied' # start must not be empty
-    return false if start_piece.color != current_player.color # start must be player's own piece
+
     @path = start_piece.generate_path(start_sq, end_sq)
     # p ">>> path inside #move_valid? : #{path}"
     return false unless reachable?
@@ -69,9 +83,7 @@ class Move
     true
   end
 
-  def out_of_bound?
-    board_squares.include?(start_sq) && board_squares.include?(end_sq) ? false : true
-  end
+
 
   def reachable?
 
@@ -81,33 +93,7 @@ class Move
     path.include?(end_sq) ? true : false
   end
 
-  def castle?
 
-    corner_piece = ''
-    # You cannot exit check with a castle
-    # Both King and Rook must be unmoved
-    # All spaces between must be empty
-
-    if base_move == [0, 2]
-      corner_piece = board_object([start_sq[0] + 0, start_sq[1] + 3])
-      return false unless board_object([start_sq[0] + 0, start_sq[1] + 1]) == 'unoccupied'
-      return false unless board_object([start_sq[0] + 0, start_sq[1] + 2]) == 'unoccupied'
-    elsif base_move == [0, -2]
-      corner_piece = board_object([start_sq[0] + 0, start_sq[1] - 4])
-      return false unless board_object([start_sq[0] + 0, start_sq[1] - 1]) == 'unoccupied'
-      return false unless board_object([start_sq[0] + 0, start_sq[1] - 2]) == 'unoccupied'
-      return false unless board_object([start_sq[0] + 0, start_sq[1] - 3]) == 'unoccupied'
-    end
-    return false unless corner_piece.instance_of?(Rook)
-    return false unless start_piece.unmoved && corner_piece.unmoved
-    # return false unless
-
-    # Should we transfer pieces here, or 
-    # add a variable @castle = true
-    # then allow transfer piece to operate
-    @castle = true
-    true
-  end
 
   def base_move
     # i.e. 2 steps forward would be [2, 0]
@@ -126,18 +112,7 @@ class Move
     path.include?(end_sq) ? (return true) : (return false)
   end
 
-  def en_passant?
-    prev_sq = move_list.prev_sq
-    relative_diff = [prev_sq[0] - start_sq[0], prev_sq[1] - start_sq[1]]
-    if start_piece.color == 'white' && move_list.last_move[0] == 'P'
-      return true if relative_diff == [0, 1] && base_move == [1, 1]
-      return true if relative_diff == [0, -1] && base_move == [1, -1]
-    elsif start_piece.color == 'black' && move_list.last_move[0] == 'P'
-      return true if relative_diff == [0, -1] && base_move == [1, 1]
-      return true if relative_diff == [0, 1] && base_move == [1, -1]
-    end
-    false
-  end
+
 
   # rework some of this logic, seems overly complicated
   def path_obstructed?(path, start_sq, end_sq)
@@ -168,28 +143,45 @@ class Move
     board.update_square(start_sq, 'unoccupied')
   end
 
-  def perform_castle(rook = '', corner = [])
-    board.update_square(end_sq, start_piece) # king
-    board.update_square(start_sq, 'unoccupied')
+  # refactor properly
+  # delegate messages to the new classes, then comment out old code
+  def castle?
 
-    if base_move == [0, 2]
-      corner = [start_sq[0] + 0, start_sq[1] + 3]
-      new_sq = [start_sq[0] + 0, start_sq[1] + 1]
-      rook = board_object(corner)
-    elsif base_move == [0, -2]
-      corner = [start_sq[0] + 0, start_sq[1] - 4]
-      new_sq = [start_sq[0] + 0, start_sq[1] - 1]
-      rook = board_object(corner)
-    end
+    # forward message to Castle#castle?
+    # how?
 
-    board.update_square(new_sq, rook) # rook
-    board.update_square(corner, 'unoccupied')
+    # Look into how Metz performed a class extraction, how she refactored
+    # step by step in a painless and easy way.
+  end
+
+  def perform_castle
+  
+  end
+
+
+  def en_passant?
+
   end
 
   def en_passant_capture
-    @captured_piece = board_object(move_list.prev_sq)
-    board.update_square(end_sq, start_piece)
-    board.update_square(move_list.prev_sq, 'unoccupied')
-    board.update_square(start_sq, 'unoccupied')
+
   end
 end
+
+  # Figure out how @ works when used by classes
+
+  # Can we remove Display concretion
+  # add string matching later
+  # def input_move
+  #   loop do
+  #     Display.input_start_msg
+  #     @start_sq = gets.chomp.split('').map(&:to_i)
+  #     Display.input_end_msg
+  #     @end_sq = gets.chomp.split('').map(&:to_i)
+  #     return if move_valid?
+
+  #     # return [start_sq, end_sq] if move_valid?(start_sq, end_sq)
+
+  #     Display.invalid_input_message
+  #   end
+  # end
