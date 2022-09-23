@@ -23,12 +23,13 @@ class Game
 
   def setup_board(chess_pieces)
     # delete layouts later
-    # layout_normal(chess_pieces)
+    layout_normal(chess_pieces)
+    # layout_pawn_vs_pawn
     # layout_en_passant_white
     # layout_en_passant_black
     # layout_castle
     # layout_w_pawn_capture
-    layout_b_pawn_capture
+    # layout_b_pawn_capture
 
   end
 
@@ -38,6 +39,12 @@ class Game
     (0..7).each { |x| board.grid[6][x] = chess_pieces[:black_pcs][x] } # front row
     (0..7).each { |x| board.grid[0][x] = chess_pieces[:white_pcs][x+8] } # back row
     (0..7).each { |x| board.grid[7][x] = chess_pieces[:black_pcs][x+8] } # back row
+  end
+
+  def layout_pawn_vs_pawn
+    @current_player = @player2
+    board.grid[3][3] = PieceFactory.create('Pawn', 'white')
+    board.grid[5][3] = PieceFactory.create('Pawn', 'black')
   end
   
   def layout_castle
@@ -107,7 +114,7 @@ class Game
     Display.greeting    # change Display to display somehow
     Display.draw_board(board)
 
-    2.times { turn_loop }
+    40.times { turn_loop }
     # turn_loop until game_over?
   end
 
@@ -137,9 +144,9 @@ class Game
   def create_move(new_move = nil)
 
     loop do
-      # new_move = Move.new(current_player: current_player, board: board, move_list: move_list)
       new_move = Move.prefactory(current_player, board, move_list) # rename
-      break
+      break if new_move.validated
+      Display.invalid_input_message
     end
 
     # move_list.add(new_move)
@@ -153,3 +160,5 @@ class Game
     @current_player = current_player == player1 ? player2 : player1
   end
 end
+
+# new_move = Move.new(current_player: current_player, board: board, move_list: move_list)

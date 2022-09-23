@@ -20,7 +20,7 @@ class Board
   end
 
   def object(coord)
-    grid[coord[0]][coord[1]]
+    grid[coord[0]][coord[1]] unless coord.nil?
   end
 
   def spaces

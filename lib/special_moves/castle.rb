@@ -13,6 +13,10 @@ class Castle < Move
     cond2 = (end_sq[1] - start_sq[1]).abs == 2 # base move is > 1
     cond1 && cond2
   end
+  
+  def post_initialize(**args)
+    
+  end
 
   def castle?
 

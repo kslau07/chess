@@ -20,6 +20,10 @@ class EnPassant < Move
     cond1 && cond2 && cond3 && cond4
   end
 
+  def post_initialize(**args)
+    
+  end
+
   # Only thing left is to check last move, opp pawn moved 2 spaces to pass own pawn
   # Use shared method. Add 1 line condition for above, then super.
   # Then make sure black en passant works

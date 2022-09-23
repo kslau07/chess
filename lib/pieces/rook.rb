@@ -4,7 +4,7 @@
 class Rook < Piece
   attr_reader :color, :unmoved
 
-  def post_initialization(**args)
+  def post_initialize(**args)
     @unmoved = true
   end
 

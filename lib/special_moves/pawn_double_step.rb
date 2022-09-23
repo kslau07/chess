@@ -26,8 +26,28 @@ class PawnDoubleStep < Move
     cond2 = (end_sq[0] - start_sq[0]).abs == 2 # y-axis +1 step
     cond3 = current[:board].object(start_sq).unmoved
     # cond3 = (end_sq[1] - start_sq[1]).abs == 1 # x-axis +/- 1 step
-    # cond4 = board.object(end_sq) == 'unoccupied' # end_sq == 'unoccupied'
+    # cond4 = board.object(end_sq) == 'unoccupied' # end_sq == 'unoccupied'\
+
+    p 'bottom of' + name.to_s
+    p cond1 && cond2 && cond3
+    
     cond1 && cond2 && cond3
   end
+
+  def post_initialize(**args)
+    p self.name, __method__.to_s
+  end
+
+  # How do we get the pawn to move forward 2 steps?
+  # We must override generate path
+
+  def generate_path
+    path = []
+    path << [start_sq[0], start_sq[1] + 1]
+    path << [start_sq[0], start_sq[1] + 2]
+  end
+
+  # We may or may not override path_blocked
+  # path_blocked can use this path, which is better?
 end
 

@@ -2,17 +2,16 @@
 
 # This is the super class for all chess pieces
 class Piece
-
   def board_squares
     Board.board_squares
   end
 
   def initialize(**args)
     @color = args[:color] || 'white'
-    post_initialization(**args)
+    post_initialize(**args)
   end
 
-  def post_initialization(**args)
+  def post_initialize(**args)
     raise NotImplementedError, 'method should be implemented in concrete class'
   end
 
@@ -22,6 +21,9 @@ class Piece
 
   # Unwieldy method, not sure if it can be split
   def generate_path(start_sq, end_sq)
+    # p 'generate_path'
+    # p self.class.name, __method__.to_s
+
     path = []
     predefined_moves.each do |pdf_move|
       pdf_move = invert(pdf_move) if color == 'black' && instance_of?(Pawn)

@@ -27,5 +27,9 @@ class PawnCapture < Move
     cond4 = board.object(end_sq).is_a?(Piece) # end_sq == 'unoccupied'
     cond1 && cond2 && cond3 && cond4
   end
+
+  def post_initialize(**args)
+    
+  end
 end
 
