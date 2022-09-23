@@ -13,6 +13,10 @@ class Move
     Board.board_squares
   end
 
+  def self.user_input
+    p 'user inputted move'
+  end
+
   def initialize(**args)
     @current_player = args[:current_player] || Player.new
     @board = args[:board] || Board.new

@@ -9,6 +9,7 @@ class Game
     @player1 = args[:player1] || Player.new(color: 'white')
     @player2 = args[:player2] || Player.new(color: 'black')
     @current_player = @player1
+    @move = Move
     post_initialize(**args)
   end
 
@@ -68,10 +69,25 @@ class Game
     switch_players
   end
 
+  # We need to basically immediately get to the Move factory, which will choose
+  # among regular move, en passant, castle (and maybe more). We do NOT want to
+  # instantiate Move. We will do as Metz did, we will first go through Move
+  # class methods, the factory will also be a class method. The factory brings
+  # us the instance we need. 
+
+  # We loop new_move if it is not valid, as it's more difficult for us to 
+  # know if a move is valid without going through a Move or Move variant instance.
+
   # create factory for this
-  def create_move
-    move = Move.new(current_player: current_player, board: board, move_list: move_list)
-    move_list.add(move)
+  def create_move(new_move = nil)
+    loop do
+      # new_move = Move.new(current_player: current_player, board: board, move_list: move_list)
+      new_move = Move.user_input
+      break
+    end
+
+    move_list.add(new_move)
+    
     # print "move_list: #{move_list}\n"
     puts ">>> last_move: #{move_list.last_move}"
   end
