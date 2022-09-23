@@ -1,7 +1,17 @@
 # frozen_string_literal: true
 
 # This class is used to create castling moves
-class Castle
+class Castle < Move
+  Move.register(self)
+
+  # For castles, king's base move: [0, -2] or [0, 2].
+
+  def self.handles?
+    # pp 'Castle.handles?'
+    p @end_sq
+  end
+  
+
   def castle?
 
     corner_piece = ''

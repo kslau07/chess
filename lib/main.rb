@@ -4,6 +4,8 @@
 require_relative 'game'
 require_relative 'board'
 require_relative 'move'
+require_relative 'en_passant'
+require_relative 'castle'
 require_relative 'move_list'
 require_relative 'player'
 require_relative 'display'
@@ -26,6 +28,10 @@ play(game)
 
 "
 NOTES
+
+Pass your class instance variables from Move to subclasses, they are not 
+inherited. After that, figure out selection logic, then instantiate each
+Move variant.
 
 You can get rid of the data clump ... board.grid[start_sq[0]][start_sq[1]]
 by adding a method for board to accept an array and return that object.

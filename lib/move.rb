@@ -5,7 +5,8 @@ require_relative 'player'
 
 # This creates moves in chess
 class Move
-  attr_reader :current_player, :board, :start_sq, :end_sq, :path, :start_piece,
+  # attr_reader 
+  attr_reader :player, :board, :start_sq, :end_sq, :path, :start_piece,
               :end_piece, :captured_piece, :move_list, :castle
 
   # Array of all 64 squares in index notation
@@ -13,42 +14,91 @@ class Move
   #   Board.board_squares
   # end
 
-  def self.prefactory(current_player, board, move_list) # rename
+  # DataClump = Struct.new(:player, :board, :start_sq, :end_sq)
+
+  def self.test_number
+    puts '42'
+  end
+
+  def self.prefactory(player, board, move_list) # rename
+    @player = player
+    @board = board
+    @move_list = move_list
+    # data = DataClump.new(player, [0,0], [1,0])
+    # p data.start_sq
+
     loop do
       Display.input_start_msg
-      start_sq = gets.chomp.split('').map(&:to_i)
+      @start_sq = gets.chomp.split('').map(&:to_i)
       Display.input_end_msg
-      end_sq = gets.chomp.split('').map(&:to_i)
-
-      break if check_input(current_player, board, start_sq, end_sq)
+      @end_sq = gets.chomp.split('').map(&:to_i)
+      # current = DataClump.new(player, board, start_sq, end_sq)
+      break if check_input
 
       Display.invalid_input_message
     end
     mid_factory
   end
 
-  def self.check_input(current_player, board, start_sq, end_sq)
-    # one more method for character matching
-
-    return false if out_of_bound?(board, start_sq, end_sq)
-    return false if board.object(start_sq) == 'unoccupied' # start must not be empty
-    return true if board.object(start_sq).color == current_player.color # start must be player's own piece
+  def self.check_input
+    return false if out_of_bound?
+    return false if @board.object(@start_sq) == 'unoccupied'
+    return true if @board.object(@start_sq).color == @player.color
   end
 
-  def self.out_of_bound?(board, start_sq, end_sq)
-    board.spaces.include?(start_sq) && board.spaces.include?(end_sq) ? false : true
+  def self.out_of_bound?
+    @board.spaces.include?(@start_sq) && @board.spaces.include?(@end_sq) ? false : true
   end
 
-  # Input has cleared easy to eliminate invalidations.
-  # 
-
+  # Input has passed prelim check.
+  # Here we implement self-registering + self-selecting subclasses.
+  # We can utilize Move.inherited after we implement self-registering code.
+  # Default class will be this one, Move.
 
   def self.mid_factory
-    puts 'we are here'
+    factory
+  end
+
+  # Now we are in the #handles method. What do we use to self-select?
+
+  # For pawn_capture, we may or may not turn that into a variant.
+  # The base move would be the same, however end_sq would be an opponent's piece.
+  # It could work, it would have very little code though.
+
+  # How do we calculate base_move without instantiating?
+  # Condition for castle: difference in x axis is 2
+  # Condition for en passant: if y axis differs
+  # We can also use a module.
+
+  # Implement #inherited later
+  # To do so: remove self-registering code from each variant
+  # Then add a method #inherited, send #register message in body.
+  def self.factory
+
+    found_obj = registry.find(&:handles?)
+
+    # found_obj = registry.find { |candidate| candidate.handles? }
+    # found_obj =registry.find { |candidate| candidate.handles?(number) }.new(number)
+    pp found_obj
+  end
+
+  def self.registry
+    @registry ||= []
+  end
+
+  def self.register(candidate)
+    registry.prepend(candidate)
+  end
+
+  Move.register(self)
+
+  def self.handles?
+    # pp 'Move#handles?'
+    true
   end
 
   def initialize(**args)
-    @current_player = args[:current_player] || Player.new
+    @player = args[:player] || Player.new
     @board = args[:board] || Board.new
     @move_list = args[:move_list] || MoveList.new
     move_sequence # rename?
@@ -74,12 +124,10 @@ class Move
     @start_piece = board_object(start_sq)
     @end_piece = board_object(end_sq)
 
-
     @path = start_piece.generate_path(start_sq, end_sq)
     # p ">>> path inside #move_valid? : #{path}"
     return false unless reachable?
     return false if path_obstructed?(path, start_sq, end_sq)
-
     true
   end
 

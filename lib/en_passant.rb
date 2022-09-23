@@ -1,7 +1,22 @@
 # frozen_string_literal: true
 
 # This class is used to create en passant moves
-class EnPassant
+class EnPassant < Move
+  Move.register(self)
+
+  # For En Passant, the base move must be [1, -1] or [1, 1], AND
+  # the end_sq must be empty.
+  # If those conditions are met, self-select.
+  def self.handles?
+    
+    # pp 'EnPassant.handles?'
+
+    # class instance variables are not inherited. Move needs to pass its
+    # class instance variables to its subclasses
+    p @start_sq
+  end
+
+
   def en_passant?
     prev_sq = move_list.prev_sq
     relative_diff = [prev_sq[0] - start_sq[0], prev_sq[1] - start_sq[1]]
