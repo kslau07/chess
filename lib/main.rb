@@ -29,9 +29,12 @@ play(game)
 "
 NOTES
 
-Pass your class instance variables from Move to subclasses, they are not 
-inherited. After that, figure out selection logic, then instantiate each
-Move variant.
+To do:
+  1) Pass class i/vars to each variant.
+  2) Simplest selection logic for en passant and castle
+  3) Instantiation
+
+
 
 You can get rid of the data clump ... board.grid[start_sq[0]][start_sq[1]]
 by adding a method for board to accept an array and return that object.

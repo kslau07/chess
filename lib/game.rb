@@ -23,11 +23,20 @@ class Game
 
   def setup_board(chess_pieces)
     # delete layouts later
-    layout_castle
+    layout_en_passant
+    # layout_castle
     # layout_normal(chess_pieces)
 
   end
 
+  # delete layouts later
+  def layout_normal(chess_pieces)
+    (0..7).each { |x| board.grid[1][x] = chess_pieces[:white_pcs][x] } # front row
+    (0..7).each { |x| board.grid[6][x] = chess_pieces[:black_pcs][x] } # front row
+    (0..7).each { |x| board.grid[0][x] = chess_pieces[:white_pcs][x+8] } # back row
+    (0..7).each { |x| board.grid[7][x] = chess_pieces[:black_pcs][x+8] } # back row
+  end
+  
   def layout_castle
     # white
     board.grid[0][0] = PieceFactory.create('Rook', 'white')
@@ -40,12 +49,28 @@ class Game
     board.grid[7][7] = PieceFactory.create('Rook', 'black')
   end
 
-  # delete layouts later
-  def layout_normal(chess_pieces)
-    (0..7).each { |x| board.grid[1][x] = chess_pieces[:white_pcs][x] } # front row
-    (0..7).each { |x| board.grid[6][x] = chess_pieces[:black_pcs][x] } # front row
-    (0..7).each { |x| board.grid[0][x] = chess_pieces[:white_pcs][x+8] } # back row
-    (0..7).each { |x| board.grid[7][x] = chess_pieces[:black_pcs][x+8] } # back row
+  def layout_en_passant
+    # white, black right side
+    seq = ["Pd3+", "Pa5+", "Pd4+", "Pe4+"]
+    board.grid[4][3] = PieceFactory.create('Pawn', 'white')
+    board.grid[4][4] = PieceFactory.create('Pawn', 'black')
+
+    # white, black left side
+    # seq = ["Pd3+", "Pa5+", "Pd4+", "Pc4+"]
+    # board.grid[4][3] = PieceFactory.create('Pawn', 'white')
+    # board.grid[4][2] = PieceFactory.create('Pawn', 'black')
+
+    # black, white right side
+    # seq = ["Na2+", "Pd4+", "Nh2+", "Pd3+"]
+    # board.grid[1][4] = PieceFactory.create('Pawn', 'white')
+    # board.grid[3][3] = PieceFactory.create('Pawn', 'black')
+
+    # black, white right side
+    # seq = ["Na2+", "Pd4+", "Nh2+", "Pd3+"]
+    # board.grid[1][2] = PieceFactory.create('Pawn', 'white')
+    # board.grid[3][3] = PieceFactory.create('Pawn', 'black')
+
+    move_list.instance_variable_set(:@all_moves, seq)
   end
 
   def play

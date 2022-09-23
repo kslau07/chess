@@ -50,36 +50,20 @@ class Move
     @board.spaces.include?(@start_sq) && @board.spaces.include?(@end_sq) ? false : true
   end
 
-  # Input has passed prelim check.
-  # Here we implement self-registering + self-selecting subclasses.
-  # We can utilize Move.inherited after we implement self-registering code.
-  # Default class will be this one, Move.
-
   def self.mid_factory
     factory
   end
 
-  # Now we are in the #handles method. What do we use to self-select?
-
-  # For pawn_capture, we may or may not turn that into a variant.
-  # The base move would be the same, however end_sq would be an opponent's piece.
-  # It could work, it would have very little code though.
-
-  # How do we calculate base_move without instantiating?
-  # Condition for castle: difference in x axis is 2
-  # Condition for en passant: if y axis differs
-  # We can also use a module.
-
-  # Implement #inherited later
-  # To do so: remove self-registering code from each variant
-  # Then add a method #inherited, send #register message in body.
   def self.factory
+    current = { player: @player, board: @board, start_sq: @start_sq, end_sq: @end_sq }
 
-    found_obj = registry.find(&:handles?)
-
-    # found_obj = registry.find { |candidate| candidate.handles? }
-    # found_obj =registry.find { |candidate| candidate.handles?(number) }.new(number)
+    found_obj = registry.find { |candidate| candidate.handles?(current) }#.new(current)
     pp found_obj
+
+
+    # found_obj = registry.find(&:handles?(@start_sq, @end_sq)) # cannot send arguments with symbol
+
+    # found_obj =registry.find { |candidate| candidate.handles?(number) }.new(number)
   end
 
   def self.registry
@@ -92,7 +76,7 @@ class Move
 
   Move.register(self)
 
-  def self.handles?
+  def self.handles?(current)
     # pp 'Move#handles?'
     true
   end
@@ -108,8 +92,6 @@ class Move
     input_move
     transfer_piece
   end
-
-
 
   def board_object(sq_coord)
     return nil if sq_coord.nil? # checks for nil input, maybe delete later
@@ -140,8 +122,6 @@ class Move
 
     path.include?(end_sq) ? true : false
   end
-
-
 
   def base_move
     # i.e. 2 steps forward would be [2, 0]

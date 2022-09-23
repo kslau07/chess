@@ -4,17 +4,21 @@
 class EnPassant < Move
   Move.register(self)
 
-  # For En Passant, the base move must be [1, -1] or [1, 1], AND
-  # the end_sq must be empty.
-  # If those conditions are met, self-select.
-  def self.handles?
-    
-    # pp 'EnPassant.handles?'
+  # What are minimum requirements for en passant?
+  def self.handles?(current)
+    start_sq = current[:start_sq]
+    end_sq = current[:end_sq]
+    board = current[:board]
 
-    # class instance variables are not inherited. Move needs to pass its
-    # class instance variables to its subclasses
-    p @start_sq
+    cond1 = current[:board].object(start_sq).instance_of?(Pawn)
+    cond2 = end_sq[0] - start_sq[0] == 1 # y-axis +1 step
+    cond3 = (end_sq[1] - start_sq[1]).abs == 1 # x-axis +/- 1 step
+    cond4 = board.object(end_sq) == 'unoccupied' # end_sq == 'unoccupied'
+    cond1 && cond2 && cond3 && cond4
   end
+
+  # Only thing left is to check last move
+  # Then make sure black en passant works
 
 
   def en_passant?

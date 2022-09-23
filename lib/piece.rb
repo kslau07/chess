@@ -26,18 +26,18 @@ class Piece
     predefined_moves.each do |pdf_move|
       pdf_move = invert(pdf_move) if color == 'black' && instance_of?(Pawn)
       next_sq = start_sq
-      i = 0
+      # i = 0
       loop do
-        i += 1
+        # i += 1
         next_sq = [next_sq[0] + pdf_move[0], next_sq[1] + pdf_move[1]]
         break unless board_squares.include?(next_sq)
 
         path << next_sq
         return path if next_sq == end_sq
-        break if i == 2 && instance_of?(Pawn) && unmoved == true # pawn 2 steps forward
-        break if i == 1 && instance_of?(Pawn) && unmoved == false # pawn single step forward
-        break if i == 1 && instance_of?(Pawn) && [[1, -1], [1, 1]].include?(pdf_move) # pawn capture moves
-        break if i == 1 && (instance_of?(Knight) || instance_of?(King))
+        # break if i == 2 && instance_of?(Pawn) && unmoved == true # pawn 2 steps forward
+        # break if i == 1 && instance_of?(Pawn) && unmoved == false # pawn single step forward
+        # break if i == 1 && instance_of?(Pawn) && [[1, -1], [1, 1]].include?(pdf_move) # pawn capture moves
+        break if instance_of?(Knight) || instance_of?(King)) || instance_of?(Pawn)
       end
       # puts ">>> counter: #{i}"
       path = []
