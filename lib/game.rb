@@ -23,7 +23,8 @@ class Game
 
   def setup_board(chess_pieces)
     # delete layouts later
-    layout_en_passant
+    # layout_en_passant_white
+    layout_en_passant_black
     # layout_castle
     # layout_normal(chess_pieces)
 
@@ -38,6 +39,8 @@ class Game
   end
   
   def layout_castle
+    @current_player = @player2
+
     # white
     board.grid[0][0] = PieceFactory.create('Rook', 'white')
     board.grid[0][4] = PieceFactory.create('King', 'white')
@@ -49,21 +52,29 @@ class Game
     board.grid[7][7] = PieceFactory.create('Rook', 'black')
   end
 
-  def layout_en_passant
+  def layout_en_passant_white
+    @current_player = @player1
+
     # white, black right side
-    seq = ["Pd3+", "Pa5+", "Pd4+", "Pe4+"]
-    board.grid[4][3] = PieceFactory.create('Pawn', 'white')
-    board.grid[4][4] = PieceFactory.create('Pawn', 'black')
+    # seq = ["Pd3+", "Pa5+", "Pd4+", "Pe4+"]
+    # board.grid[4][3] = PieceFactory.create('Pawn', 'white')
+    # board.grid[4][4] = PieceFactory.create('Pawn', 'black')
 
     # white, black left side
     # seq = ["Pd3+", "Pa5+", "Pd4+", "Pc4+"]
     # board.grid[4][3] = PieceFactory.create('Pawn', 'white')
     # board.grid[4][2] = PieceFactory.create('Pawn', 'black')
 
+    move_list.instance_variable_set(:@all_moves, seq)
+  end
+
+  def layout_en_passant_black
+    @current_player = @player2
+
     # black, white right side
-    # seq = ["Na2+", "Pd4+", "Nh2+", "Pd3+"]
-    # board.grid[1][4] = PieceFactory.create('Pawn', 'white')
-    # board.grid[3][3] = PieceFactory.create('Pawn', 'black')
+    seq = ["Na2+", "Pd4+", "Nh2+", "Pd3+", "Pe3+"]
+    board.grid[3][4] = PieceFactory.create('Pawn', 'white')
+    board.grid[3][3] = PieceFactory.create('Pawn', 'black')
 
     # black, white right side
     # seq = ["Na2+", "Pd4+", "Nh2+", "Pd3+"]

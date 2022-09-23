@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# This class is used to create castling moves
+# This class is used help the factory method in Move to
+# self-register and self-select when player castles
 class Castle < Move
   Move.register(self)
 

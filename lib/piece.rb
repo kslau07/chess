@@ -34,10 +34,10 @@ class Piece
 
         path << next_sq
         return path if next_sq == end_sq
+        break if instance_of?(Knight) || instance_of?(King) || instance_of?(Pawn) # single step pieces
         # break if i == 2 && instance_of?(Pawn) && unmoved == true # pawn 2 steps forward
         # break if i == 1 && instance_of?(Pawn) && unmoved == false # pawn single step forward
         # break if i == 1 && instance_of?(Pawn) && [[1, -1], [1, 1]].include?(pdf_move) # pawn capture moves
-        break if instance_of?(Knight) || instance_of?(King)) || instance_of?(Pawn)
       end
       # puts ">>> counter: #{i}"
       path = []
