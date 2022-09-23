@@ -4,8 +4,10 @@
 require_relative 'game'
 require_relative 'board'
 require_relative 'move'
-require_relative 'en_passant'
-require_relative 'castle'
+require_relative 'special_moves/en_passant'
+require_relative 'special_moves/castle'
+require_relative 'special_moves/pawn_capture'
+require_relative 'special_moves/pawn_double_step'
 require_relative 'move_list'
 require_relative 'player'
 require_relative 'display'
@@ -30,9 +32,8 @@ play(game)
 NOTES
 
 To do:
-  1) Pass class i/vars to each variant.
-  2) Simplest selection logic for en passant and castle
   3) Instantiation
+  4) What happens after instantiation? Begin refactor with regular moves.
 
 
 

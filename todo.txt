@@ -1,18 +1,6 @@
-For pawn_capture, we may or may not turn that into a variant.
-The base move would be the same, however end_sq would be an opponent's piece.
-It could work, it would have very little code though.
-
-How do we calculate base_move without instantiating?
-Condition for castle: difference in x axis is 2
-Condition for en passant: if y axis differs
-We can also use a module.
-
 Implement #inherited later
 To do so: remove self-registering code from each variant
 Then add a method #inherited, send #register message in body.
-
-Fix castle for black. 
-Then work on MoveType, a factory
 
 
 tie (use move list)

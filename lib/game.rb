@@ -23,10 +23,12 @@ class Game
 
   def setup_board(chess_pieces)
     # delete layouts later
-    # layout_en_passant_white
-    layout_en_passant_black
-    # layout_castle
     # layout_normal(chess_pieces)
+    # layout_en_passant_white
+    # layout_en_passant_black
+    # layout_castle
+    # layout_w_pawn_capture
+    layout_b_pawn_capture
 
   end
 
@@ -66,6 +68,23 @@ class Game
     # board.grid[4][2] = PieceFactory.create('Pawn', 'black')
 
     move_list.instance_variable_set(:@all_moves, seq)
+  end
+
+  def layout_w_pawn_capture
+    @current_player = @player1
+
+    # white, black right side
+    board.grid[3][3] = PieceFactory.create('Pawn', 'white')
+    board.grid[4][2] = PieceFactory.create('Pawn', 'black')
+  end
+
+  def layout_b_pawn_capture
+    @current_player = @player2
+
+    board.grid[5][6] = PieceFactory.create('Pawn', 'black')
+    board.grid[4][5] = PieceFactory.create('Pawn', 'white')
+
+    board.object([5, 6]).instance_variable_set(:@unmoved, false)
   end
 
   def layout_en_passant_black
