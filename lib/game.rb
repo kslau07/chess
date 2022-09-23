@@ -2,7 +2,7 @@
 
 # This is the class for chess
 class Game
-  attr_reader :board, :player1, :player2, :current_player, :move_list
+  attr_reader :board, :player1, :player2, :current_player, :move, :move_list
 
   def initialize(**args)
     @board = args[:board] || Board.new
@@ -23,9 +23,9 @@ class Game
 
   def setup_board(chess_pieces)
     # delete layouts later
-    layout_normal(chess_pieces)
+    # layout_normal(chess_pieces)
     # layout_pawn_vs_pawn
-    # layout_en_passant_white
+    layout_en_passant_white
     # layout_en_passant_black
     # layout_castle
     # layout_w_pawn_capture
@@ -42,9 +42,9 @@ class Game
   end
 
   def layout_pawn_vs_pawn
-    @current_player = @player2
-    board.grid[3][3] = PieceFactory.create('Pawn', 'white')
-    board.grid[5][3] = PieceFactory.create('Pawn', 'black')
+    # @current_player = @player2
+    board.grid[1][3] = PieceFactory.create('Pawn', 'white')
+    board.grid[2][3] = PieceFactory.create('Pawn', 'black')
   end
   
   def layout_castle
@@ -65,9 +65,9 @@ class Game
     @current_player = @player1
 
     # white, black right side
-    # seq = ["Pd3+", "Pa5+", "Pd4+", "Pe4+"]
-    # board.grid[4][3] = PieceFactory.create('Pawn', 'white')
-    # board.grid[4][4] = PieceFactory.create('Pawn', 'black')
+    seq = ["Pd3+", "Pa5+', 'Pd4+", "Pe4+"]
+    board.grid[4][3] = PieceFactory.create('Pawn', 'white')
+    board.grid[4][4] = PieceFactory.create('Pawn', 'black')
 
     # white, black left side
     # seq = ["Pd3+", "Pa5+", "Pd4+", "Pc4+"]
@@ -144,8 +144,9 @@ class Game
   def create_move(new_move = nil)
 
     loop do
-      new_move = Move.prefactory(current_player, board, move_list) # rename
+      new_move = move.prefactory(current_player, board, move_list) # rename
       break if new_move.validated
+
       Display.invalid_input_message
     end
 

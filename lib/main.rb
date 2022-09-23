@@ -35,7 +35,7 @@ To do:
   3) Instantiation
   4) What happens after instantiation? Begin refactor with regular moves.
 
-
+Remove Display concretion, push class names lower in stack.
 
 You can get rid of the data clump ... board.grid[start_sq[0]][start_sq[1]]
 by adding a method for board to accept an array and return that object.

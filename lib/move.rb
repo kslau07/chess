@@ -10,11 +10,12 @@ class Move
 
   # DataClump = Struct.new(:player, :board, :start_sq, :end_sq)
 
-  def self.test_number
-    puts '42'
-  end
+  # def self.test_number
+    # puts '42'
+  # end
 
   # rename
+  # add string matching later
   def self.prefactory(player, board, move_list) 
     @player = player
     @board = board
@@ -62,8 +63,7 @@ class Move
   end
 
   def initialize(args)
-    p self.class.to_s
-    p __method__
+    p "#{self.class}##{__method__}"
 
     @player = args[:player] # || Player.new
     @board = args[:board] # || Board.new
@@ -73,23 +73,24 @@ class Move
     @end_sq = args[:end_sq]
     @start_piece = @board.object(start_sq)
     @end_piece = @board.object(end_sq)
-    
-    move_sequence # rename?
-    
-    return
-    post_initialize(**args)
+
+    # move_sequence # rename?
+    post_initialize
   end
 
   # delete if not in use
-  def post_initialize(**args)
-    raise NotImplementedError, 'method should be implemented in concrete class'
+  def post_initialize
+    @path = start_piece.generate_path(start_sq, end_sq)
+    move_sequence # rename?
+    # raise NotImplementedError, 'method should be implemented in concrete class'
   end
 
   def move_sequence
     @validated = true if move_valid?
 
-    p 'validated', validated
-    # transfer_piece if validated
+    print 'validated ', validated
+    puts
+    transfer_piece if validated
   end
 
   # delegate for now, replace soon
@@ -103,10 +104,11 @@ class Move
 
   # when EnPassant, we do not want to send :generate_path,
   # Should we override move_valid?
-  
+  # If we were to override move_valid, we will have to supply our own #path
+  # and everything else would remain the same. 
 
   def move_valid?
-    @path = start_piece.generate_path(start_sq, end_sq)
+    # @path = start_piece.generate_path(start_sq, end_sq)
     # p ">>> path inside #move_valid? : #{path}"
 
     return false unless reachable?
@@ -186,17 +188,4 @@ end
 
   # Can we remove Display concretion
 
-  # add string matching later
-  # def input_move
-  #   loop do
-  #     Display.input_start_msg
-  #     @start_sq = gets.chomp.split('').map(&:to_i)
-  #     Display.input_end_msg
-  #     @end_sq = gets.chomp.split('').map(&:to_i)
-  #     return if move_valid?
 
-  #     # return [start_sq, end_sq] if move_valid?(start_sq, end_sq)
-
-  #     Display.invalid_input_message
-  #   end
-  # end

@@ -16,11 +16,18 @@ class Pawn < Piece
     @unmoved = false
   end
 
+  def generate_path(start_sq, base_path)
+    # base_path = [[1, 0], [2, 0]]
+    path = base_path.map do |sq_index|
+      sq_index = invert(sq_index) if color == 'black'
+      [start_sq[0] + sq_index[0], start_sq[1] + sq_index[1]]
+    end
+  end
+
   private
 
-  def predefined_moves
-    [[1, 0]]
-    # special pawn moves handled by factory now
-    # [[1, 0], [1, -1], [1, 1]]
-  end
+  # def predefined_moves
+  #   [[1, 0]]
+  # end
+
 end
