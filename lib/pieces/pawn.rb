@@ -15,13 +15,18 @@ class Pawn < Piece
   def moved
     @unmoved = false
   end
-
-  def generate_path(start_sq, base_path)
+  
+  def generate_path(start_sq, end_sq, base_path = [[1, 0]])
+    # p self.class, __method__
+    # p ['base_path', base_path]
     # base_path = [[1, 0], [2, 0]]
     path = base_path.map do |sq_index|
+      # p ['sq_index', sq_index]
       sq_index = invert(sq_index) if color == 'black'
       [start_sq[0] + sq_index[0], start_sq[1] + sq_index[1]]
     end
+
+    # p ['path', path]
   end
 
   private

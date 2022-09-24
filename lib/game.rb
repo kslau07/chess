@@ -62,15 +62,20 @@ class Game
   end
 
   def layout_en_passant_white
+    puts "\n\t#{self.class}##{__method__}\n "
+
     @current_player = @player1
 
     # white, black right side
-    seq = ["Pd3+", "Pa5+', 'Pd4+", "Pe4+"]
+    # seq = ["Pd4+", "Pa6+", "Pd5+", "Pe5+"] # valid en passant
+    seq = ["Pd4+", "Pe6+", "Pd5+", "Pe5+"] # invalid, blk pawn moved twice in list
+    # "Bxg0+" capture looks like this
+
     board.grid[4][3] = PieceFactory.create('Pawn', 'white')
     board.grid[4][4] = PieceFactory.create('Pawn', 'black')
 
     # white, black left side
-    # seq = ["Pd3+", "Pa5+", "Pd4+", "Pc4+"]
+    # seq = ["Pd4+", "Pa6+", "Pd5+", "Pc5+"]
     # board.grid[4][3] = PieceFactory.create('Pawn', 'white')
     # board.grid[4][2] = PieceFactory.create('Pawn', 'black')
 
@@ -98,12 +103,12 @@ class Game
     @current_player = @player2
 
     # black, white right side
-    seq = ["Na2+", "Pd4+", "Nh2+", "Pd3+", "Pe3+"]
+    seq = ["Na3+", "Pd5+", "Nh3+", "Pd4+", "Pe4+"]
     board.grid[3][4] = PieceFactory.create('Pawn', 'white')
     board.grid[3][3] = PieceFactory.create('Pawn', 'black')
 
     # black, white right side
-    # seq = ["Na2+", "Pd4+", "Nh2+", "Pd3+"]
+    # seq = ["Na3+", "Pd5+", "Nh3+", "Pd4+"]
     # board.grid[1][2] = PieceFactory.create('Pawn', 'white')
     # board.grid[3][3] = PieceFactory.create('Pawn', 'black')
 
@@ -142,6 +147,9 @@ class Game
 
   # create factory for this
   def create_move(new_move = nil)
+    # puts "\n\t#{self.class}##{__method__}\n "
+
+    # p move_list
 
     loop do
       new_move = move.prefactory(current_player, board, move_list) # rename
@@ -150,10 +158,10 @@ class Game
       Display.invalid_input_message
     end
 
-    # move_list.add(new_move)
+    move_list.add(new_move)
 
-    # print "move_list: #{move_list}\n"
-    # puts ">>> last_move: #{move_list.last_move}"
+    puts "\n\tmove_list: #{move_list}\n"
+    # puts "\n\tlast_move: #{move_list.last_move}\n"
   end
 
 

@@ -1,19 +1,47 @@
-class Parent
-  def initialize(color)
-    @color = color
+seq0 = ["Pe5+"]
+seq1 = ["Pd4", "Pa6", "Pd5", "Pe5"] # valid, black's pawn took a double step
+seq2 = ["Pd4", "Pe6", "Pd5", "Pe5"] # invalid, black's pawn took 2 single steps
+
+def convert_move_list(move_list)
+  move_list.map do |move|
+    translate_notation_to_index(move)
   end
 end
 
-class Child < Parent
-  def initialize(color)
-    super
-    @foo = 'bar'
-  end
+def translate_notation_to_index(str_move)
+  split = str_move.split('')
+  [split[0], split[2].to_i - 1, split[1].ord - 97].join
 end
 
-john = Child.new('white')
-p john.instance_variable_get(:@color)
-p john.instance_variable_get(:@foo)
+# We actually have to do TWO things.
+# We have to see that opp's pawn parked beside us (you must translate notation for this)
+# We have to see that opp's pawn did not move earlier in the list (translation not needed for this)
+
+# We now have P44, we can extract target_sq from 44, which is str[-2..]
+
+# last move is Pe5
+# it will show: P 5=4 ,e=4
+# solution: P44
+
+p convert_move_list(seq1)
+
+
+# class Parent
+#   def initialize(color)
+#     @color = color
+#   end
+# end
+
+# class Child < Parent
+#   def initialize(color)
+#     super
+#     @foo = 'bar'
+#   end
+# end
+
+# john = Child.new('white')
+# p john.instance_variable_get(:@color)
+# p john.instance_variable_get(:@foo)
 
 # Old code
 

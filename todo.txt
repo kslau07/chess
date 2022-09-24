@@ -1,3 +1,10 @@
+Check that opp's pawn has taken a double step for en passant
+Complete en passant capture logic
+
+Work on pawn capture class
+
+Finish castle class
+
 Implement #inherited later
 To do so: remove self-registering code from each variant
 Then add a method #inherited, send #register message in body.

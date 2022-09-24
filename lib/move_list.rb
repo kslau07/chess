@@ -18,11 +18,13 @@ class MoveList
     translated_move << piece_abbr
     translated_move << 'x' if move.captured_piece
     translated_move << (move.end_sq[1] + 97).chr
-    translated_move << move.end_sq[0]
+    translated_move << move.end_sq[0] + 1
     translated_move << '+' # if check
     all_moves << translated_move.join
+  end
 
-    puts ">>> all_moves : #{all_moves}"
+  def notation_to_index_nums
+
   end
 
   # ^ in regex seems to only permit those characters
@@ -37,12 +39,15 @@ class MoveList
     [last_move[-1].to_i, last_move[-2].ord - 97]
   end
 
+  def clean_move_list
+    all_moves.map do |move|
+      move.gsub(/[^0-9A-Za-h]/, '')
+    end
 
-  def print_last_move
-
+    # all_moves
   end
 
   def to_s
-    puts 'print all moves here'
+    @all_moves.to_s
   end
 end

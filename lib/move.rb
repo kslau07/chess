@@ -44,7 +44,7 @@ class Move
   end
 
   def self.factory
-    current = { player: @player, board: @board, start_sq: @start_sq, end_sq: @end_sq }
+    current = { player: @player, board: @board, start_sq: @start_sq, end_sq: @end_sq, move_list: @move_list }
     registry.find { |candidate| candidate.handles?(current) }.new(current)
   end
 
@@ -63,12 +63,11 @@ class Move
   end
 
   def initialize(args)
-    p "#{self.class}##{__method__}"
+    # puts "\n\t#{self.class}##{__method__}\n "
 
     @player = args[:player] # || Player.new
     @board = args[:board] # || Board.new
     @move_list = args[:move_list] # || MoveList.new
-
     @start_sq = args[:start_sq]
     @end_sq = args[:end_sq]
     @start_piece = @board.object(start_sq)
@@ -88,8 +87,8 @@ class Move
   def move_sequence
     @validated = true if move_valid?
 
-    print 'validated ', validated
-    puts
+    # puts "\n\tvalidated:  #{validated}\n "
+    
     transfer_piece if validated
   end
 

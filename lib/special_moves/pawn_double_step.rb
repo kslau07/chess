@@ -35,9 +35,9 @@ class PawnDoubleStep < Move
   end
 
   def post_initialize
-    # p 'are we here?'
-    # p self.class, __method__
-    @path = start_piece.generate_path(start_sq, double_step_base_path)
+    p 'are we here?'
+    p self.class, __method__
+    @path = start_piece.generate_path(start_sq, end_sq, double_step_base_path)
     move_sequence # rename?
   end
 
