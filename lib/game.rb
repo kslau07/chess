@@ -26,7 +26,8 @@ class Game
     # delete layouts later
     # layout_normal(chess_pieces)
     # layout_pawn_vs_pawn
-    layout_en_passant_white
+    layout_en_passant_white_version1
+    # layout_en_passant_white_version2
     # layout_en_passant_black
     # layout_castle
     # layout_w_pawn_capture
@@ -62,14 +63,14 @@ class Game
     board.grid[7][7] = PieceFactory.create('Rook', 'black')
   end
 
-  def layout_en_passant_white
+  def layout_en_passant_white_version1
     puts "\n\t#{self.class}##{__method__}\n "
 
     @current_player = @player1
 
     # white, black right side
-    # seq = ["Pd4+", "Pa6+", "Pd5+", "Pe5+"] # valid en passant
-    seq = ["Pd4+", "Pe6+", "Pd5+", "Pe5+"] # invalid, blk pawn moved twice in list
+    seq = ["Pd2d4+", "Pa7a6+", "Pd4d5+", "Pe7e5+"] # valid en passant
+    # seq = ["Pd2d4+", "Pe7e6+", "Pd4d5+", "Pe6e5+"] # invalid, blk pawn moved twice in list
     # "Bxg0+" capture looks like this
 
     board.grid[4][3] = PieceFactory.create('Pawn', 'white')
@@ -79,6 +80,27 @@ class Game
     # seq = ["Pd4+", "Pa6+", "Pd5+", "Pc5+"]
     # board.grid[4][3] = PieceFactory.create('Pawn', 'white')
     # board.grid[4][2] = PieceFactory.create('Pawn', 'black')
+
+    move_list.instance_variable_set(:@all_moves, seq)
+  end
+
+  def layout_en_passant_white_version2
+    puts "\n\t#{self.class}##{__method__}\n "
+
+    @current_player = @player1
+
+    # white, black right side
+    # seq = ["Pg2g4+", "Pc7c6+", "Pg4g5+", "Ph7h5+"] # valid en passant
+    # seq = ["Pg2g4+", "Ph7h6+", "Pg4g5+", "Ph6h5+"] # invalid, blk pawn moved twice in list
+    # "Bxg0+" capture looks like this
+
+    board.grid[4][6] = PieceFactory.create('Pawn', 'white')
+    board.grid[4][7] = PieceFactory.create('Pawn', 'black')
+
+    # white, black left side
+    # seq = 
+    # board.grid[4][6] = PieceFactory.create('Pawn', 'white')
+    # board.grid[4][7] = PieceFactory.create('Pawn', 'black')
 
     move_list.instance_variable_set(:@all_moves, seq)
   end

@@ -16,9 +16,11 @@ class MoveList
     piece_abbr = move.start_piece.class.name[0]
     piece_abbr = 'N' if move.start_piece.instance_of?(Knight)
     translated_move << piece_abbr
+    translated_move << (move.start_sq[1] + 97).chr # convert to notation
+    translated_move << move.start_sq[0] + 1 # convert to notation
     translated_move << 'x' if move.captured_piece
-    translated_move << (move.end_sq[1] + 97).chr
-    translated_move << move.end_sq[0] + 1
+    translated_move << (move.end_sq[1] + 97).chr # convert to notation
+    translated_move << move.end_sq[0] + 1 # convert to notation
     translated_move << '+' # if check
     all_moves << translated_move.join
   end
@@ -34,10 +36,10 @@ class MoveList
   end
 
   def prev_sq
-    translate_notation_to_idx(last_move)
+    translate_notation_to_square_index(last_move)
   end
   
-  def translate_notation_to_idx(str_move)
+  def translate_notation_to_square_index(str_move)
     [str_move[-1].to_i - 1, str_move[-2].ord - 97]
   end
 
