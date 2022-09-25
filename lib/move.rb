@@ -119,7 +119,7 @@ class Move
   end
 
   def base_move
-    # i.e. 2 steps forward would be [2, 0]
+    # i.e. 2 steps forward would be [2, 0] for either color
     case start_piece.color
     when 'black'
       [start_sq[0] - end_sq[0], start_sq[1] - end_sq[1]]

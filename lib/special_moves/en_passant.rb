@@ -31,56 +31,33 @@ class EnPassant < Move
   def move_valid?
     puts "\n\t#{self.class}##{__method__}\n "
 
-
-    # We now have to write move_list to include the long form version
-    # of each move
-    # ["Pd2d4+", "Pe7e6+", "Pd4d5+", "Pe6e5+"]
-
-    # puts move_list
-    # puts move_list.cleaned_list
-    # puts move_list.last_move
-    # to prove that opponent's last move was valid
-    # it must be 1 of 2 relative moves:
-    # if opponent passes on right,
-    # if base_move = [1, 1], oppo last move must = Pe6e5
-    # You must abstract the e.
-    
-    # opp_last_move = 'Pe6e5'
-    # cond2 = opp_last_move == 'Pe6e5'
-    # p base_move
-    # p cond1
-    # p cond2
-    
-    # turn start_sq of [4, 3] to Pe6e5
-    # switch x and y to [3, 4]
-    # convert 3 to e
-    # convert 4 to 5
-    # duplicate above 2 chars
-    # add 1 to e5 to make it e6
-    # add P to the front
-
-    # if opponent passes on left, 
-    # start_sq + [0, ]
-    
-    
     pawn_on_correct_row? && oppo_prev_move_allows_en_passant?
   end
 
   def pawn_on_correct_row?
     puts "\n\t#{self.class}##{__method__}\n "
-    if player.color == 'white'
+    case player.color
+    when 'white'
       return true if start_sq[0] == 4
+    when 'black'
+      return true if start_sq[0] == 3
     end
   end
 
+  # calculate valid previous move relative to player's start_sq
   def oppo_prev_move_allows_en_passant?
     puts "\n\t#{self.class}##{__method__}\n "
+
+    # p move_list.cleaned_list
+
     if base_move == [1, 1]
-      # calculate valid previous move relative to player's start_sq
+      puts 'as;dlfkj'
       valid_opp_last_move = ['P', (start_sq[1] + 98).chr, start_sq[0] + 3, (start_sq[1] + 98).chr, start_sq[0] + 1].join
-
-      p valid_opp_last_move
-
+      return true if move_list.last_move == valid_opp_last_move
+    elsif base_move = [1, -1]
+      valid_opp_last_move = ['P', (start_sq[1] + 96).chr, start_sq[0] + 3, (start_sq[1] + 96).chr, start_sq[0] + 1].join
+      puts move_list.last_move
+      puts valid_opp_last_move
       return true if move_list.last_move == valid_opp_last_move
     end
   end
@@ -161,3 +138,36 @@ end
 # duplicate above 2 chars
 # add 1 to e5 to make it e6
 # add P to the front
+
+
+    # We now have to write move_list to include the long form version
+    # of each move
+    # ["Pd2d4+", "Pe7e6+", "Pd4d5+", "Pe6e5+"]
+
+    # puts move_list
+    # puts move_list.cleaned_list
+    # puts move_list.last_move
+    # to prove that opponent's last move was valid
+    # it must be 1 of 2 relative moves:
+    # if opponent passes on right,
+    # if base_move = [1, 1], oppo last move must = Pe6e5
+    # You must abstract the e.
+    
+    # opp_last_move = 'Pe6e5'
+    # cond2 = opp_last_move == 'Pe6e5'
+    # p base_move
+    # p cond1
+    # p cond2
+    
+    # turn start_sq of [4, 3] to Pe6e5
+    # switch x and y to [3, 4]
+    # convert 3 to e
+    # convert 4 to 5
+    # duplicate above 2 chars
+    # add 1 to e5 to make it e6
+    # add P to the front
+
+    # if opponent passes on left, 
+    # start_sq + [0, ]
+    
+    
