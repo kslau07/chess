@@ -44,11 +44,11 @@ class MoveList
   end
 
 
-  def cleaned_list
-    all_moves.map do |move|
-      move.gsub(/[^0-9A-Za-h]/, '')
-    end
-  end
+  # def cleaned_list
+  #   all_moves.map do |move|
+  #     move.gsub(/[^0-9A-Za-h]/, '')
+  #   end
+  # end
 
   def to_s
     @all_moves.to_s

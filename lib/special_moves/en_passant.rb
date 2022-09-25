@@ -1,4 +1,3 @@
-\
 # frozen_string_literal: true
 
 # This class is used help the factory method in Move to
@@ -48,16 +47,23 @@ class EnPassant < Move
   def oppo_prev_move_allows_en_passant?
     puts "\n\t#{self.class}##{__method__}\n "
 
-    # p move_list.cleaned_list
-
-    if base_move == [1, 1]
+    case base_move
+    when [1, 1]
       puts 'as;dlfkj'
-      valid_opp_last_move = ['P', (start_sq[1] + 98).chr, start_sq[0] + 3, (start_sq[1] + 98).chr, start_sq[0] + 1].join
+      # when white
+      # valid_opp_last_move = ['P', (start_sq[1] + 98).chr, start_sq[0] + 3, (start_sq[1] + 98).chr, start_sq[0] + 1].join
+
+      # when black
+      valid_opp_last_move = ['P', (start_sq[1] + 96).chr, start_sq[0] - 1, (start_sq[1] + 96).chr, start_sq[0] + 1].join
+
       return true if move_list.last_move == valid_opp_last_move
-    elsif base_move = [1, -1]
-      valid_opp_last_move = ['P', (start_sq[1] + 96).chr, start_sq[0] + 3, (start_sq[1] + 96).chr, start_sq[0] + 1].join
-      puts move_list.last_move
-      puts valid_opp_last_move
+    when [1, -1]
+      # when white
+      # valid_opp_last_move = ['P', (start_sq[1] + 96).chr, start_sq[0] + 3, (start_sq[1] + 96).chr, start_sq[0] + 1].join
+
+      # when black
+      valid_opp_last_move = ['P', (start_sq[1] + 98).chr, start_sq[0] - 1, (start_sq[1] + 98).chr, start_sq[0] + 1].join
+
       return true if move_list.last_move == valid_opp_last_move
     end
   end

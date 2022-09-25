@@ -15,6 +15,7 @@ module Display
       0.upto(7) do |y|
         print board.grid[x][y] == 'unoccupied' ? "   |" : " #{board.grid[x][y]} |"
       end
+      print "#{x+1}N" # notation number
       puts
       puts "\t  |---+---+---+---+---+---+---+---|" unless x == 0
     end
