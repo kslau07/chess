@@ -28,43 +28,32 @@ class EnPassant < Move
   end
 
   def move_valid?
-    # puts "\n\t#{self.class}##{__method__}\n "
-    return true
-  end
+    # Let's do last_move translated into an index
+    # Then see if it is the square to the right
 
-  # You must verify if opponent's pawn double stepped on the last move.
-  # You check if that same pawn made a single step earlier in the move list.
-  # In order to use an odd/even filter, we'd have to use && in an enumerator, that could get confusing.
-  # We will hard-code a check for y-axis of 5 and the 2 char match.
-  # If player is white, check if black pawn was on y 5.
-  # If player is black, check if white pawn was on y 2.
+    # left_sq = [start_sq[0] + 0, start_sq[1] - 1]
+    
+    # p ['prev_sq', prev_sq]
+    # p ['right_sq', right_sq]
 
-  def other_pawn_double_stepped?
-    # puts "\n\t#{self.class}##{__method__}\n "
+
+    prev_sq = move_list.prev_sq
+    right_sq = [start_sq[0], start_sq[1] + 1]
+    cond1 = start_sq[0] == 4 # en passant for white happens on row 4
+    cond2 = prev_sq == right_sq # previous sq to the right of own pawn
+    cond3 = move_list.last_move.include?('P')
+
+    # Check if opponent's pawn moved 1 step already
     last_move = move_list.last_move
-    move_list.clean_move_list
+    single_step = "#{last_move[0..1]}6"
+    list = move_list.cleaned_list
+    cond4 = list.include?(single_step)
 
-    ct = move_list.clean_move_list.find do |str|
-      str.include?('Pe')
-    end
+    p [cond1, cond2, cond3, cond4]
 
+    return false
   end
 
-  # first clean the list, remove + and x.
-
-  # Next: check that move_list still works
-  # Instead of changing to long-form, we have to instead look through
-  # list and make sure opp's same pawn did not take a single step
-  # earlier.
-  # Add conditional:
-  # Y-axis wht 4, blk 3
-
-  # Then: Look at last move, determine if en passant
-
-  # Use shared method. Add 1 line condition for above, then super.
-  # Then make sure black en passant works
-
-  
   def transfer_piece
     puts "\n\t#{self.class}##{__method__}\n "
     @captured_piece = board_object(move_list.prev_sq)
@@ -78,6 +67,28 @@ class EnPassant < Move
     board.update_square(start_sq, 'unoccupied')
   end
 end
+
+
+# You must verify if opponent's pawn double stepped on the last move.
+# You check if that same pawn made a single step earlier in the move list.
+# In order to use an odd/even filter, we'd have to use && in an enumerator, that could get confusing.
+# We will hard-code a check for y-axis of 5 and the 2 char match.
+# If player is white, check if black pawn was on y 5.
+# If player is black, check if white pawn was on y 2.
+
+# first clean the list, remove + and x.
+
+# Next: check that move_list still works
+# Instead of changing to long-form, we have to instead look through
+# list and make sure opp's same pawn did not take a single step
+# earlier.
+# Add conditional:
+# Y-axis wht 4, blk 3
+
+# Then: Look at last move, determine if en passant
+
+# Use shared method. Add 1 line condition for above, then super.
+# Then make sure black en passant works
 
 # def en_passant?
 #   prev_sq = move_list.prev_sq

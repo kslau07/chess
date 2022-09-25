@@ -11,6 +11,7 @@ class Game
     @current_player = @player1
     @move = Move
     post_initialize(**args)
+
   end
 
   def post_initialize(**args)

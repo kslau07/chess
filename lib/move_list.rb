@@ -30,21 +30,22 @@ class MoveList
   # ^ in regex seems to only permit those characters
 
   def last_move
-    all_moves[-1].gsub(/[^0-9A-Za-h]/, '') # allow only alphanumeric chars
+    all_moves[-1].gsub(/[^0-9A-Za-h]/, '') # alphanumeric, lowercase a-h, x not included
   end
 
   def prev_sq
-    # return '' if all_moves.empty?
-
-    [last_move[-1].to_i, last_move[-2].ord - 97]
+    translate_notation_to_idx(last_move)
+  end
+  
+  def translate_notation_to_idx(str_move)
+    [str_move[-1].to_i - 1, str_move[-2].ord - 97]
   end
 
-  def clean_move_list
+
+  def cleaned_list
     all_moves.map do |move|
       move.gsub(/[^0-9A-Za-h]/, '')
     end
-
-    # all_moves
   end
 
   def to_s
