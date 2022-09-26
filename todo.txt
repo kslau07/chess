@@ -1,14 +1,5 @@
-Use name attackable? checks_other_king?
 
 King-checking:
-  After player turn has been validated but BEFORE piece transfer,
-  must test to see if player has self-king-checked.
-
-  Piece transfer should not run if player self-checked.
-
-  Pawns, kings and knights cannot self-check a player.
-  Only test if queen, rook, and bishop put player in self-check.
-
   After piece transfer, perform another check.
   Other player's king may be put in check by:
   The piece that just moved,

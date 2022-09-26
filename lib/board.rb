@@ -23,6 +23,7 @@ class Board
     grid[coord[0]][coord[1]] unless coord.nil?
   end
 
+  # You have duplicated #spaces and self.board_squares, delete one.
   def spaces
     squares = []
     8.times do |x|

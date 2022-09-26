@@ -37,8 +37,6 @@ class Game
 
   end
 
-  
-
   def play
     Display.greeting    # change Display to display somehow
     Display.draw_board(board)
@@ -77,7 +75,7 @@ class Game
 
     loop do
       new_move = move.prefactory(current_player, board, move_list) # rename
-      break if new_move.validated
+      break if new_move.move_legal
 
       Display.invalid_input_message
     end

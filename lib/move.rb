@@ -6,7 +6,7 @@ require_relative 'player'
 # This creates moves in chess
 class Move
   attr_reader :player, :board, :start_sq, :end_sq, :path, :start_piece,
-              :end_piece, :captured_piece, :move_list, :castle, :validated
+              :end_piece, :captured_piece, :move_list, :castle, :move_legal
 
 
   # rename
@@ -81,20 +81,54 @@ class Move
   end
 
   def move_sequence
-    @validated = true if move_valid?
+    @move_legal = true if move_valid? && not_in_check?
 
-    checks_own_king?
-
-    # transfer_piece if validated
+    transfer_piece if move_legal
   end
 
-  def checks_own_king?
+  def not_in_check?
     puts "\n\t#{self.class}##{__method__}\n "
+    false if check_condition
     # What is the first step?
-    # Let's create a layout for self-check
+    # Let's create a layout for self-check'
+
+    true
   end
 
-  def checks_other_king?
+  def check_condition
+    # here we must loop through bishop, rook, and queen, generate path
+    # loop through board
+    # look for opponent's color
+    # look for multi_stepper
+    
+    board.spaces do |space|
+      p board.object(space)
+      # p attacks_other_king?(board_object)
+    end
+    
+    # board.grid.each do |row|
+    #   row.each do |board_object|
+    #   end
+    # end
+  end
+
+  def opponent_color
+    player.color == 'white' ? 'black' : 'white'
+  end
+
+  def opponent_king_square
+    board.squares do |square|
+      p board.object(square)
+    end
+  end
+
+  def attacks_other_king?(board_object)
+    other_king_sq = other_king_sq
+    # work out logic first
+    # then figure out if we should only include multi-steppers
+    if board_object.is_a?(Piece) && board_object.color == opponent_color
+      board_object.generate_path(end_sq)
+    end
 
   end
 
