@@ -2,10 +2,11 @@
 
 # This class represents pawns in chess
 class Pawn < Piece
-  attr_reader :color, :unmoved
+  attr_reader :color, :unmoved, :multi_stepper
 
   def post_initialize(**args)
     @unmoved = true
+    @multi_stepper = false
   end
 
   def to_s

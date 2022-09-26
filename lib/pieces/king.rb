@@ -2,7 +2,7 @@
 
 # This class represents the king in chess
 class King < Piece
-  attr_reader :color, :unmoved
+  attr_reader :color, :unmoved, :multi_stepper
 
   def post_initialize(**args)
     @unmoved = true

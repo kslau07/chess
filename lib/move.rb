@@ -82,7 +82,20 @@ class Move
 
   def move_sequence
     @validated = true if move_valid?
-    transfer_piece if validated
+
+    checks_own_king?
+
+    # transfer_piece if validated
+  end
+
+  def checks_own_king?
+    puts "\n\t#{self.class}##{__method__}\n "
+    # What is the first step?
+    # Let's create a layout for self-check
+  end
+
+  def checks_other_king?
+
   end
 
   # delegate for now, replace soon

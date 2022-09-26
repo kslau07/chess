@@ -2,7 +2,7 @@
 
 # This class represents the queen in chess
 class Queen < Piece
-  attr_reader :color, :unmoved
+  attr_reader :color, :unmoved, :multi_stepper
 
   def post_initialize(**args)
     @unmoved = true

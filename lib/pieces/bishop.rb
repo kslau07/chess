@@ -2,11 +2,11 @@
 
 # This class represents bishops in chess
 class Bishop < Piece
-  attr_reader :color, :unmoved
+  attr_reader :color, :unmoved, :multi_stepper
 
   def post_initialize(**args)
     @unmoved = true
-    @multi_stepper = false
+    @multi_stepper = true
   end
   
   def to_s
