@@ -113,8 +113,16 @@ class Move
     # return
 
     board.grid.each_with_index do |ary, y|
-      ary.each_with_index do |elem, x|
-        [y, x]
+      ary.each_with_index do |board_obj, x|
+        if board_obj.is_a?(Piece) && board_obj.color == opponent_color
+          start_sq = [y, x]
+          end_sq = sq_of_current_player_king
+          p start_sq
+          p end_sq
+          p board_obj.class
+          path = board_obj.generate_path(board, start_sq, end_sq)
+          p path
+        end
       end
     end
   end
@@ -123,7 +131,6 @@ class Move
     puts "\n\t#{self.class}##{__method__}\n "
 
     board.squares.find do |square|
-      # find other king
       board.object(square).instance_of?(King) && board.object(square).color == player.color
     end
   end

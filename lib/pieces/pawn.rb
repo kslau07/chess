@@ -18,6 +18,8 @@ class Pawn < Piece
     @long_reach = false
   end
   
+  # This method, as it stands, is a lie. A person wouldn't know what
+  # this method really does. You have to rewrite Pawn#generate_path.
   def generate_path(board, start_sq, end_sq, base_path = [[1, 0]])
     # p self.class, __method__
     # p ['base_path', base_path]

@@ -1,3 +1,11 @@
+Rewrite Pawn#generate_path
+Why?
+#generate_path works intuitively for every piece except for Pawn.
+Pawn's generate path looks very different.
+How can we make Pawn#generate_path more intuitive, while keeping its unique
+implementation?
+We could override #generate_path, and inside generate_path, delegate
+to helper methods based on conditionals.
 
 King-checking:
   After piece transfer, perform another check.

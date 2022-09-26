@@ -30,10 +30,11 @@ class Piece
     predefined_moves.each do |pdf_move|
       pdf_move = invert(pdf_move) if color == 'black' && instance_of?(Pawn)
       next_sq = start_sq
-      i = 0
+      # i = 0
       loop do
-        i += 1
-        puts ">>> counter: #{i}"
+        # i += 1
+        # puts ">>> counter: #{i}"
+        
         next_sq = [next_sq[0] + pdf_move[0], next_sq[1] + pdf_move[1]]
         break unless board.squares.include?(next_sq)
 
