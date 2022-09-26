@@ -6,6 +6,7 @@ class King < Piece
 
   def post_initialize(**args)
     @unmoved = true
+    @multi_stepper = false
   end
 
   def to_s

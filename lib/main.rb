@@ -31,9 +31,11 @@ play(game)
 "
 NOTES
 
-To do:
-  3) Instantiation
-  4) What happens after instantiation? Begin refactor with regular moves.
+Checking:
+After player turn has been validated but BEFORE piece transfer,
+must test to see if player has self-checked.
+
+After piece transfer, perform another check.
 
 Remove Display concretion, push class names lower in stack.
 

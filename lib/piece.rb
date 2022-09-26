@@ -16,7 +16,8 @@ class Piece
   end
 
   def invert(move)
-    move.map { |num| num * -1 }
+    # return
+    return move.map { |num| num * -1 } if move.is_a?(Array)
   end
 
   # Unwieldy method, not sure if it can be split

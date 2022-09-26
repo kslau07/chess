@@ -54,19 +54,17 @@ class Castle < Move
   def execute_castle(rook = '', corner = [])
     puts "\n\t#{self.class}##{__method__}\n "
 
-    # problem: base_move inverts indexes
-    # solution: ?
-    
+    temp = start_piece.invert(base_move) if player.color == 'black'
+    base_move = temp if player.color == 'black'
+
     board.update_square(end_sq, start_piece) # king
     board.update_square(start_sq, 'unoccupied')
-  
+
     if base_move == [0, 2]
-      puts 'basemove [0,2]'
       corner = [start_sq[0] + 0, start_sq[1] + 3]
       new_sq = [start_sq[0] + 0, start_sq[1] + 1]
       rook = board.object(corner)
     elsif base_move == [0, -2]
-      puts 'basemove [0,-2]'
       corner = [start_sq[0] + 0, start_sq[1] - 4]
       new_sq = [start_sq[0] + 0, start_sq[1] - 1]
       rook = board.object(corner)

@@ -14,6 +14,7 @@ class Pawn < Piece
 
   def moved
     @unmoved = false
+    @multi_stepper = false
   end
   
   def generate_path(start_sq, end_sq, base_path = [[1, 0]])
