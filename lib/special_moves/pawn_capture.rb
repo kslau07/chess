@@ -24,12 +24,17 @@ class PawnCapture < Move
     cond1 = current[:board].object(start_sq).instance_of?(Pawn)
     cond2 = end_sq[0] - start_sq[0] == yaxis_diff # y-axis +1 step
     cond3 = (end_sq[1] - start_sq[1]).abs == 1 # x-axis +/- 1 step
-    cond4 = board.object(end_sq).is_a?(Piece) # end_sq == 'unoccupied'
+    cond4 = board.object(end_sq).is_a?(Piece)
     cond1 && cond2 && cond3 && cond4
   end
 
   def post_initialize(**args)
-    
+    # puts "\n\t#{self.class}##{__method__}\n "
+    @path = [end_sq]
+    move_sequence
+  end
+
+  def move_valid?
+    board.object(end_sq).is_a?(Piece) && board.object(end_sq).color != player.color
   end
 end
-

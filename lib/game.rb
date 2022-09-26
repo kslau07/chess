@@ -25,10 +25,10 @@ class Game
   def setup_board(chess_pieces)
     # delete layouts later
     # layout_normal(chess_pieces)
-    # layout_pawn_vs_pawn
+    layout_pawn_vs_pawn
     # layout_en_passant_white_version1
     # layout_en_passant_white_version2
-    layout_en_passant_black
+    # layout_en_passant_black
     # layout_castle
     # layout_w_pawn_capture
     # layout_b_pawn_capture
@@ -44,9 +44,9 @@ class Game
   end
 
   def layout_pawn_vs_pawn
-    # @current_player = @player2
-    board.grid[1][3] = PieceFactory.create('Pawn', 'white')
-    board.grid[2][3] = PieceFactory.create('Pawn', 'black')
+    @current_player = @player2
+    board.grid[6][1] = PieceFactory.create('Pawn', 'black')
+    board.grid[5][0] = PieceFactory.create('Pawn', 'white')
   end
   
   def layout_castle
@@ -69,8 +69,8 @@ class Game
     @current_player = @player1
 
     # white, black pass on right
-    # seq = ["Pd2d4+", "Pa7a6+", "Pd4d5+", "Pe7e5+"] # valid en passant
-    seq = ["Pd2d4+", "Pe7e6+", "Pd4d5+", "Pe6e5+"] # invalid, blk pawn moved twice in list
+    seq = ["Pd2d4+", "Pa7a6+", "Pd4d5+", "Pe7e5+"] # valid en passant
+    # seq = ["Pd2d4+", "Pe7e6+", "Pd4d5+", "Pe6e5+"] # invalid, blk pawn moved twice in list
     board.grid[4][3] = PieceFactory.create('Pawn', 'white')
     board.grid[4][4] = PieceFactory.create('Pawn', 'black')
 

@@ -8,11 +8,6 @@ class Move
   attr_reader :player, :board, :start_sq, :end_sq, :path, :start_piece,
               :end_piece, :captured_piece, :move_list, :castle, :validated
 
-  # DataClump = Struct.new(:player, :board, :start_sq, :end_sq)
-
-  # def self.test_number
-    # puts '42'
-  # end
 
   # rename
   # add string matching later
@@ -35,8 +30,9 @@ class Move
 
   def self.check_input
     return false if out_of_bound?
-    return false if @board.object(@start_sq) == 'unoccupied'
-    return true if @player.color == @board.object(@start_sq).color
+    # return false if @board.object(@start_sq) == 'unoccupied'
+    return false if @board.object(@end_sq).is_a?(Piece) && @board.object(@end_sq).color == @player.color
+    return true if @board.object(@start_sq).is_a?(Piece) && @board.object(@start_sq).color == @player.color
   end
 
   def self.out_of_bound?
@@ -73,7 +69,6 @@ class Move
     @start_piece = @board.object(start_sq)
     @end_piece = @board.object(end_sq)
 
-    # move_sequence # rename?
     post_initialize
   end
 
@@ -81,35 +76,21 @@ class Move
   def post_initialize
     @path = start_piece.generate_path(start_sq, end_sq)
     move_sequence # rename?
+    
     # raise NotImplementedError, 'method should be implemented in concrete class'
   end
 
   def move_sequence
     @validated = true if move_valid?
-
-    # puts "\n\tvalidated:  #{validated}\n "
-    
     transfer_piece if validated
   end
 
   # delegate for now, replace soon
   def board_object(target_sq)
-    # return nil if sq_coord.nil? # checks for nil input, maybe delete later
-
-    # board.grid.dig(sq_coord[0], sq_coord[1])
-
     board.object(target_sq)
   end
 
-  # when EnPassant, we do not want to send :generate_path,
-  # Should we override move_valid?
-  # If we were to override move_valid, we will have to supply our own #path
-  # and everything else would remain the same. 
-
   def move_valid?
-    # @path = start_piece.generate_path(start_sq, end_sq)
-    # p ">>> path inside #move_valid? : #{path}"
-
     return false unless reachable?
     return true unless path_obstructed?(path, start_sq, end_sq) # this condition returns true
   end
@@ -155,36 +136,8 @@ class Move
     board.update_square(end_sq, start_piece)
     board.update_square(start_sq, 'unoccupied')
   end
-
-  # NOTE: We may not have to delegate if subclasses respond now
-  # refactor properly
-  # delegate messages to the new classes, then comment out old code
-  
-  # possibly unused
-  # def reachable_by_pawn?
-  #   return true if move_list.all_moves.size.positive? && en_passant?
-  #   return false if end_piece == 'unoccupied' && (base_move == [1, -1] || base_move == [1, 1])
-
-  #   path.include?(end_sq) ? (return true) : (return false)
-  # end
-
-  # def castle?
-  # end
-
-  # def reachable_by_pawn?
-  # end
-
-  # def perform_castle
-  # end
-
-  # def en_passant?
-  # end
-
-  # def en_passant_capture
-  # end
 end
 
-
-  # Can we remove Display concretion
+# Can we remove Display concretion
 
 
