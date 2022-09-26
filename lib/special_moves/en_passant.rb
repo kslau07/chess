@@ -41,7 +41,7 @@ class EnPassant < Move
     end
   end
 
-  # refactor this later!
+  # refactor this later! -> we can split conditional into separate methods
   # calculate valid previous move relative to player's start_sq
   def opp_prev_move_allows_en_passant?
     case base_move

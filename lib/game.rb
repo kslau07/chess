@@ -25,11 +25,11 @@ class Game
   def setup_board(chess_pieces)
     # delete layouts later
     # layout_normal(chess_pieces)
-    layout_pawn_vs_pawn
+    # layout_pawn_vs_pawn
     # layout_en_passant_white_version1
     # layout_en_passant_white_version2
     # layout_en_passant_black
-    # layout_castle
+    layout_castle
     # layout_w_pawn_capture
     # layout_b_pawn_capture
 

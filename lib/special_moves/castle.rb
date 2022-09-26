@@ -14,50 +14,62 @@ class Castle < Move
     cond1 && cond2
   end
   
-  def post_initialize(**args)
-    
+  def post_initialize
+    move_sequence
   end
 
-  def castle?
+  # You cannot exit check with a castle
+  def move_valid?
+    puts "\n\t#{self.class}##{__method__}\n "
 
-    corner_piece = ''
-    # You cannot exit check with a castle
-    # Both King and Rook must be unmoved
-    # All spaces between must be empty
-  
-    if base_move == [0, 2]
-      corner_piece = board_object([start_sq[0] + 0, start_sq[1] + 3])
-      return false unless board_object([start_sq[0] + 0, start_sq[1] + 1]) == 'unoccupied'
-      return false unless board_object([start_sq[0] + 0, start_sq[1] + 2]) == 'unoccupied'
-    elsif base_move == [0, -2]
-      corner_piece = board_object([start_sq[0] + 0, start_sq[1] - 4])
-      return false unless board_object([start_sq[0] + 0, start_sq[1] - 1]) == 'unoccupied'
-      return false unless board_object([start_sq[0] + 0, start_sq[1] - 2]) == 'unoccupied'
-      return false unless board_object([start_sq[0] + 0, start_sq[1] - 3]) == 'unoccupied'
+    case base_move
+    when [0, 2]
+      king_side_castle
+    when [0, -2]
+      queen_side_castle
     end
+  end
+
+  def king_side_castle
+    corner_piece = board.object([start_sq[0] + 0, start_sq[1] + 3])
     return false unless corner_piece.instance_of?(Rook)
-    return false unless start_piece.unmoved && corner_piece.unmoved
-    # return false unless
-  
-    # Should we transfer pieces here, or 
-    # add a variable @castle = true
-    # then allow transfer piece to operate
-    @castle = true
-    true
+    return false unless board.object([start_sq[0], start_sq[1] + 1]) == 'unoccupied'
+    return false unless board.object([start_sq[0], start_sq[1] + 2]) == 'unoccupied'
+    return true if start_piece.unmoved && corner_piece.unmoved
+  end
+
+  def queen_side_castle
+    corner_piece = board.object([start_sq[0] + 0, start_sq[1] - 4])
+    return false unless corner_piece.instance_of?(Rook)
+    return false unless board.object([start_sq[0], start_sq[1] - 1]) == 'unoccupied'
+    return false unless board.object([start_sq[0], start_sq[1] - 2]) == 'unoccupied'
+    return false unless board.object([start_sq[0], start_sq[1] - 3]) == 'unoccupied'
+    return true if start_piece.unmoved && corner_piece.unmoved
   end
   
-  def perform_castle(rook = '', corner = [])
+  def transfer_piece
+    execute_castle
+  end
+
+  def execute_castle(rook = '', corner = [])
+    puts "\n\t#{self.class}##{__method__}\n "
+
+    # problem: base_move inverts indexes
+    # solution: ?
+    
     board.update_square(end_sq, start_piece) # king
     board.update_square(start_sq, 'unoccupied')
   
     if base_move == [0, 2]
+      puts 'basemove [0,2]'
       corner = [start_sq[0] + 0, start_sq[1] + 3]
       new_sq = [start_sq[0] + 0, start_sq[1] + 1]
-      rook = board_object(corner)
+      rook = board.object(corner)
     elsif base_move == [0, -2]
+      puts 'basemove [0,-2]'
       corner = [start_sq[0] + 0, start_sq[1] - 4]
       new_sq = [start_sq[0] + 0, start_sq[1] - 1]
-      rook = board_object(corner)
+      rook = board.object(corner)
     end
   
     board.update_square(new_sq, rook) # rook
