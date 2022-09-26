@@ -2,11 +2,11 @@
 
 # This class represents pawns in chess
 class Pawn < Piece
-  attr_reader :color, :unmoved, :multi_stepper
+  attr_reader :color, :unmoved, :long_reach
 
   def post_initialize(**args)
     @unmoved = true
-    @multi_stepper = false
+    @long_reach = false
   end
 
   def to_s
@@ -15,10 +15,10 @@ class Pawn < Piece
 
   def moved
     @unmoved = false
-    @multi_stepper = false
+    @long_reach = false
   end
   
-  def generate_path(start_sq, end_sq, base_path = [[1, 0]])
+  def generate_path(board, start_sq, end_sq, base_path = [[1, 0]])
     # p self.class, __method__
     # p ['base_path', base_path]
     # base_path = [[1, 0], [2, 0]]

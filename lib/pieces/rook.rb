@@ -2,11 +2,11 @@
 
 # This class represents the rook in chess
 class Rook < Piece
-  attr_reader :color, :unmoved, :multi_stepper
+  attr_reader :color, :unmoved, :long_reach
 
   def post_initialize(**args)
     @unmoved = true
-    @multi_stepper = true
+    @long_reach = true
   end
 
   def to_s

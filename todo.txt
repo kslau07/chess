@@ -4,7 +4,7 @@ King-checking:
   Other player's king may be put in check by:
   The piece that just moved,
   and rooks, bishops and the queen.
-  We have created a new i/var @multi_stepper to aid in testing.
+  We have created a new i/var @long_reach to aid in testing.
 
   How do we actual test for king-check?
 

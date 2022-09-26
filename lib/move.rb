@@ -36,7 +36,7 @@ class Move
   end
 
   def self.out_of_bound?
-    @board.spaces.include?(@start_sq) && @board.spaces.include?(@end_sq) ? false : true
+    @board.squares.include?(@start_sq) && @board.squares.include?(@end_sq) ? false : true
   end
 
   def self.factory
@@ -74,9 +74,9 @@ class Move
 
   # delete if not in use
   def post_initialize
-    @path = start_piece.generate_path(start_sq, end_sq)
+    @path = start_piece.generate_path(board, start_sq, end_sq)
     move_sequence # rename?
-    
+
     # raise NotImplementedError, 'method should be implemented in concrete class'
   end
 
@@ -88,48 +88,51 @@ class Move
 
   def not_in_check?
     puts "\n\t#{self.class}##{__method__}\n "
-    false if check_condition
-    # What is the first step?
-    # Let's create a layout for self-check'
 
+    p sq_of_current_player_king
+
+    # what is our goal?
+    # we want to make sure current player's king is NOT in check
+    # We need current player king's square
+    # Then we take each of opponent's pieces and see if it can attack current player's king.
+    
+    # How do we look at each of opponent's pieces?
+    # We can use board.grid or board.squares
+    # board.grid is the live board, we can use it to return a square using x/y
+    # using board.grid, we can generate the piece, the start_sq as [x, y]
+    # and we have sq_of_current_player_king.
+
+    any_piece_that_can_check_king
+    
+    # After that we can look at more factors
     true
   end
 
-  def check_condition
-    # here we must loop through bishop, rook, and queen, generate path
-    # loop through board
-    # look for opponent's color
-    # look for multi_stepper
-    
-    board.spaces do |space|
-      p board.object(space)
-      # p attacks_other_king?(board_object)
+  def any_piece_that_can_check_king
+    # p board.grid[0][4]
+    # return
+
+    board.grid.each_with_index do |ary, y|
+      ary.each_with_index do |elem, x|
+        [y, x]
+      end
     end
-    
-    # board.grid.each do |row|
-    #   row.each do |board_object|
-    #   end
-    # end
   end
 
+  def sq_of_current_player_king
+    puts "\n\t#{self.class}##{__method__}\n "
+
+    board.squares.find do |square|
+      # find other king
+      board.object(square).instance_of?(King) && board.object(square).color == player.color
+    end
+  end
+
+
+
+  
   def opponent_color
     player.color == 'white' ? 'black' : 'white'
-  end
-
-  def opponent_king_square
-    board.squares do |square|
-      p board.object(square)
-    end
-  end
-
-  def attacks_other_king?(board_object)
-    other_king_sq = other_king_sq
-    # work out logic first
-    # then figure out if we should only include multi-steppers
-    if board_object.is_a?(Piece) && board_object.color == opponent_color
-      board_object.generate_path(end_sq)
-    end
-
   end
 
   # delegate for now, replace soon

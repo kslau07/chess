@@ -4,17 +4,6 @@
 class Board
   attr_reader :grid
 
-  # Array of all 64 squares in index notation
-  def self.board_squares
-    squares = []
-    8.times do |x|
-      8.times do |y|
-        squares << [x, y]
-      end
-    end
-    squares
-  end
-
   def initialize
     generate_board
   end
@@ -23,15 +12,14 @@ class Board
     grid[coord[0]][coord[1]] unless coord.nil?
   end
 
-  # You have duplicated #spaces and self.board_squares, delete one.
-  def spaces
-    squares = []
+  def squares
+    arr_of_squares = []
     8.times do |x|
       8.times do |y|
-        squares << [x, y]
+        arr_of_squares << [x, y]
       end
     end
-    squares
+    arr_of_squares
   end
 
   def generate_board
