@@ -72,7 +72,6 @@ class Move
     post_initialize
   end
 
-  # delete if not in use
   def post_initialize
     @path = start_piece.generate_path(board, start_sq, end_sq)
     move_sequence # rename?
@@ -134,9 +133,6 @@ class Move
       board.object(square).instance_of?(King) && board.object(square).color == player.color
     end
   end
-
-
-
   
   def opponent_color
     player.color == 'white' ? 'black' : 'white'
@@ -170,8 +166,8 @@ class Move
   # pawn_double_step will override this
   # return false if castle
   def path_obstructed?(path, start_sq, end_sq)
-    start_piece = board_object(start_sq)
-    end_piece = board.object(end_sq)
+    start_piece = board_object(start_sq) # delete redundant assignments if we do not repurpose this method
+    end_piece = board.object(end_sq) # perhaps redundant
     first_occupied_sq = path.find { |curr_sq| board.object(curr_sq).is_a?(Piece) }
     piece_at_occupied_sq = board.object(first_occupied_sq)
     return false if first_occupied_sq.nil? # no piece found in path using .find
@@ -185,16 +181,11 @@ class Move
   end
 
   def transfer_piece
-    # return perform_castle if castle
-    # return en_passant_capture if move_list.all_moves.size.positive? && en_passant?
-
     @captured_piece = end_piece if end_piece.is_a?(Piece)
     start_piece.moved
     board.update_square(end_sq, start_piece)
     board.update_square(start_sq, 'unoccupied')
   end
 end
-
-# Can we remove Display concretion
 
 

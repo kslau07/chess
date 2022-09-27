@@ -25,26 +25,30 @@ class Piece
   end
 
   # Unwieldy method, not sure if it can be split
-  def generate_path(board, start_sq, end_sq)
+  def generate_path(board, start_sq, end_sq, pdf_moves = nil)
+    pdf_moves ||= predefined_moves # we may not use this
+    
     path = []
-    predefined_moves.each do |pdf_move|
+    pdf_moves.each do |pdf_move|
       pdf_move = invert(pdf_move) if color == 'black' && instance_of?(Pawn)
       next_sq = start_sq
       # i = 0
       loop do
         # i += 1
         # puts ">>> counter: #{i}"
-        
         next_sq = [next_sq[0] + pdf_move[0], next_sq[1] + pdf_move[1]]
         break unless board.squares.include?(next_sq)
 
         path << next_sq
         return path if next_sq == end_sq
-        # break if instance_of?(Knight) || instance_of?(King) # single step pieces
         break unless long_reach
       end
       path = []
     end
     []
+  end
+
+  def generate_attack_path
+    generate_path(board, start_sq, end_sq)
   end
 end

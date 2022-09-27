@@ -1,11 +1,22 @@
+Test each one:
+en passant, unchanged done
+pawn double step
+pawn capture, unchanged
+pawn single move
+
+
 Rewrite Pawn#generate_path
 Why?
 #generate_path works intuitively for every piece except for Pawn.
 Pawn's generate path looks very different.
 How can we make Pawn#generate_path more intuitive, while keeping its unique
 implementation?
-We could override #generate_path, and inside generate_path, delegate
-to helper methods based on conditionals.
+Get rid of #generate_path in Pawn, do not override.
+Allow #generate_path to accept an additional argument, a path, which we will provide for pawn.
+For single steps, it will still take predetermined_moves from pawn.
+For a double step, we will provide the double forward step. HOWEVER,
+we must override #path_obstructed in order to add in the missing step.
+For pawn_capture we will provide generate_path with both attack directions.
 
 King-checking:
   After piece transfer, perform another check.
@@ -17,6 +28,8 @@ King-checking:
   How do we actual test for king-check?
 
 .
+
+When pawn reaches other side, player may convert it.
 
 tie (use move list)
 

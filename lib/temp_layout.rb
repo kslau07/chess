@@ -1,6 +1,6 @@
 # delete later
 class TempLayout
-  attr_reader :board, :current_player
+  attr_reader :board, :current_player, :move_list
 
   def normal(chess_pieces)
     (0..7).each { |x| board.grid[1][x] = chess_pieces[:white_pcs][x] } # front row
@@ -12,6 +12,7 @@ class TempLayout
   def initialize(**args)
     @board = args[:board]
     @current_player = args[:current_player]
+    @move_list = args[:move_list]
 
   end
 
@@ -26,9 +27,9 @@ class TempLayout
   end
 
   def pawn_vs_pawn
-    @current_player = @player2
-    board.grid[6][1] = PieceFactory.create('Pawn', 'black')
-    board.grid[5][0] = PieceFactory.create('Pawn', 'white')
+    # @current_player = @player2
+    board.grid[1][0] = PieceFactory.create('Pawn', 'white')
+    board.grid[2][0] = PieceFactory.create('Pawn', 'black')
   end
   
   def castle

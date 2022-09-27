@@ -30,7 +30,7 @@ class PawnCapture < Move
 
   def post_initialize(**args)
     # puts "\n\t#{self.class}##{__method__}\n "
-    @path = [end_sq]
+    @path = start_piece.generate_attack_path
     move_sequence
   end
 
