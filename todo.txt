@@ -1,7 +1,7 @@
 Test each one:
 en passant, unchanged done
-pawn double step
-pawn capture, unchanged
+pawn double step, done
+pawn capture, done
 pawn single move
 
 

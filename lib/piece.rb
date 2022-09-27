@@ -27,7 +27,7 @@ class Piece
   # Unwieldy method, not sure if it can be split
   def generate_path(board, start_sq, end_sq, pdf_moves = nil)
     pdf_moves ||= predefined_moves # we may not use this
-    
+
     path = []
     pdf_moves.each do |pdf_move|
       pdf_move = invert(pdf_move) if color == 'black' && instance_of?(Pawn)
@@ -48,7 +48,7 @@ class Piece
     []
   end
 
-  def generate_attack_path
+  def generate_attack_path(board, start_sq, end_sq)
     generate_path(board, start_sq, end_sq)
   end
 end
