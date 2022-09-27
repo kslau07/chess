@@ -6,7 +6,7 @@ require_relative 'player'
 # This creates moves in chess
 class Move
   attr_reader :player, :board, :start_sq, :end_sq, :path, :start_piece,
-              :end_piece, :captured_piece, :move_list, :castle, :move_legal
+              :end_obj, :captured_piece, :move_list, :castle, :validated
 
 
   # rename
@@ -67,7 +67,7 @@ class Move
     @start_sq = args[:start_sq]
     @end_sq = args[:end_sq]
     @start_piece = @board.object(start_sq)
-    @end_piece = @board.object(end_sq)
+    @end_obj = @board.object(end_sq)
 
     post_initialize
   end
@@ -79,55 +79,53 @@ class Move
     # raise NotImplementedError, 'method should be implemented in concrete class'
   end
 
-  def move_sequence
-    @move_legal = true if move_valid? && not_in_check?
-
-    transfer_piece if move_legal
-  end
-
-  def not_in_check?
+  def revert_board
     puts "\n\t#{self.class}##{__method__}\n "
+    # how do we revert board?
+    # captured_piece goes back on end_sq, if it exists
+    board.update_square(end_sq, end_obj)
+    board.update_square(start_sq, start_piece)
+    # whatever is on end_sq is set to start_sq
+    # unmoved changes state AFTER we pass test_king_check
 
-    p sq_of_current_player_king
-
-    # what is our goal?
-    # we want to make sure current player's king is NOT in check
-    # We need current player king's square
-    # Then we take each of opponent's pieces and see if it can attack current player's king.
-    
-    # How do we look at each of opponent's pieces?
-    # We can use board.grid or board.squares
-    # board.grid is the live board, we can use it to return a square using x/y
-    # using board.grid, we can generate the piece, the start_sq as [x, y]
-    # and we have sq_of_current_player_king.
-
-    any_piece_that_can_check_king
-    
-    # After that we can look at more factors
-    true
   end
 
-  def any_piece_that_can_check_king
-    # p board.grid[0][4]
-    # return
+  def move_sequence
+    transfer_piece if move_permitted?
 
-    board.grid.each_with_index do |ary, y|
-      ary.each_with_index do |board_obj, x|
-        if board_obj.is_a?(Piece) && board_obj.color == opponent_color
-          start_sq = [y, x]
-          end_sq = sq_of_current_player_king
-          p start_sq
-          p end_sq
-          p board_obj.class
-          path = board_obj.generate_path(board, start_sq, end_sq)
-          p path
-        end
-      end
+    if current_player_king_in_check?
+      revert_board
+    else
+      @validated = true
+      start_piece.moved
     end
   end
 
-  def sq_of_current_player_king
+  def current_player_king_in_check?
     puts "\n\t#{self.class}##{__method__}\n "
+
+    any_attack_path?(sq_of_current_player_king)
+  end
+
+  def any_attack_path?(target_sq)
+    puts "\n\t#{self.class}##{__method__}\n "
+
+    result = board.squares.any? do |square|
+      board_obj = board.object(square)
+      next unless board_obj.is_a?(Piece) && board_obj.color == opponent_color
+
+      start_sq = square
+      # end_sq = sq_of_current_player_king
+      end_sq = target_sq
+      attack_path = board_obj.generate_attack_path(board, start_sq, end_sq)
+      p attack_path
+      attack_path != []
+    end
+    result
+  end
+
+  def sq_of_current_player_king
+    # puts "\n\t#{self.class}##{__method__}\n "
 
     board.squares.find do |square|
       board.object(square).instance_of?(King) && board.object(square).color == player.color
@@ -143,7 +141,7 @@ class Move
     board.object(target_sq)
   end
 
-  def move_valid?
+  def move_permitted?
     return false unless reachable?
     return true unless path_obstructed?(path, start_sq, end_sq) # this condition returns true
   end
@@ -167,7 +165,7 @@ class Move
   # return false if castle
   def path_obstructed?(path, start_sq, end_sq)
     start_piece = board_object(start_sq) # delete redundant assignments if we do not repurpose this method
-    end_piece = board.object(end_sq) # perhaps redundant
+    end_obj = board.object(end_sq) # perhaps redundant
     first_occupied_sq = path.find { |curr_sq| board.object(curr_sq).is_a?(Piece) }
     piece_at_occupied_sq = board.object(first_occupied_sq)
     return false if first_occupied_sq.nil? # no piece found in path using .find
@@ -175,17 +173,15 @@ class Move
 
     if first_occupied_sq == end_sq
       return true if start_piece.instance_of?(Pawn) && piece_at_occupied_sq.is_a?(Piece)
-      return true if start_piece.color == end_piece.color # same color obstruction
+      return true if start_piece.color == end_obj.color # same color obstruction
     end
     false
   end
 
   def transfer_piece
-    @captured_piece = end_piece if end_piece.is_a?(Piece)
-    start_piece.moved
+    @captured_piece = end_obj if end_obj.is_a?(Piece)
+    # start_piece.moved
     board.update_square(end_sq, start_piece)
     board.update_square(start_sq, 'unoccupied')
   end
 end
-
-

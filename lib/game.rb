@@ -24,9 +24,9 @@ class Game
 
   def setup_board(chess_pieces)
     tl = TempLayout.new(current_player: current_player, board: board, move_list: move_list, game: self) # delete later
-    tl.normal(chess_pieces)
+    # tl.normal(chess_pieces)
 
-    # tl.bishop_self_check
+    tl.bishop_self_check
     # tl.pawn_vs_pawn
     # tl.en_passant_white_version1
     # tl.en_passant_white_version2
@@ -75,7 +75,7 @@ class Game
 
     loop do
       new_move = move.prefactory(current_player, board, move_list) # rename
-      break if new_move.move_legal
+      break if new_move.validated
 
       Display.invalid_input_message
     end
