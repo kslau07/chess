@@ -28,7 +28,7 @@ class Piece
   def generate_path(board, start_sq, end_sq, pdf_moves = nil)
     pdf_moves ||= predefined_moves # we may not use this
 
-    path = []
+    path = [start_sq]
     pdf_moves.each do |pdf_move|
       pdf_move = invert(pdf_move) if color == 'black' && instance_of?(Pawn)
       next_sq = start_sq
@@ -43,7 +43,7 @@ class Piece
         return path if next_sq == end_sq
         break unless long_reach
       end
-      path = []
+      path = [start_sq]
     end
     []
   end

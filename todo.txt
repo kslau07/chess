@@ -1,6 +1,14 @@
+Rework generate_path to include starting square, as we need it now to determine
+if a path is blocked.
+After we rework generate_path, test:
+castle
+en_passant
+pawn_capture
+pawn_double_step
+
 Problem: We are not taking obstacles into account in our attack path
-Solution: for method #any_attack_path you will have to send a message
-to path_obstructed? with relevant args
+Solution: use both #any_attack_path along with path_obstructed to determine
+if current player is in check
 
 King-checking:
   After piece transfer, perform another check.
@@ -14,7 +22,7 @@ King-checking:
   If check happens, add + to notation for that move.
 .
 
-When pawn reaches other side, player may convert it.
+When pawn reaches other side, player may convert it to another piece.
 
 tie (use move list)
 
