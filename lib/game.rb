@@ -26,7 +26,7 @@ class Game
     tl = TempLayout.new(current_player: current_player, board: board, move_list: move_list, game: self) # delete later
     # tl.normal(chess_pieces)
 
-    tl.bishop_self_check
+    tl.self_check
     # tl.pawn_vs_pawn
     # tl.en_passant_white_version1
     # tl.en_passant_white_version2

@@ -93,7 +93,7 @@ class Move
   def move_sequence
     transfer_piece if move_permitted?
 
-    if current_player_king_in_check?
+    if current_player_in_check?
       revert_board
     else
       @validated = true
@@ -101,7 +101,7 @@ class Move
     end
   end
 
-  def current_player_king_in_check?
+  def current_player_in_check?
     puts "\n\t#{self.class}##{__method__}\n "
 
     any_attack_path?(sq_of_current_player_king)

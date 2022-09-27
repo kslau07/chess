@@ -1,15 +1,6 @@
-
-
-Problem: when we check for an attack path, if we move our king, the checker
-looks at the king's old square. We have to add an exception when we move our king
-so that we're looking at the new square.
-
-Solution: We will have to change our live board, run our check_checker, then if
-it comes back invalid, return our live board to its previous state then ask
-user to try another input, that will happen naturally in class Game.
-
-When we look to see if the other Bishop can reach our King, we also need
-to take into account any obstacles in the way, which we're not doing now.
+Problem: We are not taking obstacles into account in our attack path
+Solution: for method #any_attack_path you will have to send a message
+to path_obstructed? with relevant args
 
 King-checking:
   After piece transfer, perform another check.
