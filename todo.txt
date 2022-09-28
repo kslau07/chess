@@ -3,7 +3,8 @@ if a path is blocked.
 After we rework generate_path, test:
 castle
 en_passant
-pawn_capture -> this is broken
+pawn_capture, fixed
+king cannot move into pawn's attack square, broken
 pawn_double_step
 
 After we get generate_path working, we will work on testing for check

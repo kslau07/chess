@@ -8,7 +8,6 @@ class Move
   attr_reader :player, :board, :start_sq, :end_sq, :path, :start_piece,
               :end_obj, :captured_piece, :move_list, :castle, :validated
 
-
   # rename
   # add string matching later
   def self.prefactory(player, board, move_list) 
@@ -74,6 +73,7 @@ class Move
 
   def post_initialize
     @path = start_piece.generate_path(board, start_sq, end_sq)
+
     move_sequence # rename?
 
     # raise NotImplementedError, 'method should be implemented in concrete class'
@@ -85,14 +85,10 @@ class Move
     board.update_square(start_sq, start_piece)
   end
 
-  # what do you want to test now?
-  # can we put ourselves into check?
-  # can we move freely if our rook is blocking the other rook?
-  # try queen, bishop too
-  # then try black
-
-
   def move_sequence
+
+    p ['move_permitted?', move_permitted?]
+
     move_permitted? ? transfer_piece : return
 
     p ['current_player_in_check?', current_player_in_check?]
@@ -119,7 +115,7 @@ class Move
     attack_paths = []
     board.squares.each do |square|
       board_obj = board.object(square)
-      next unless board_obj.is_a?(Piece) && board_obj.color == opponent_color
+      next unless board_obj.is_a?(Piece) && board_obj.color == opposing_color
 
       start_sq = square
       end_sq = sq_of_king
@@ -136,8 +132,8 @@ class Move
       board.object(square).instance_of?(King) && board.object(square).color == player.color
     end
   end
-  
-  def opponent_color
+
+  def opposing_color
     player.color == 'white' ? 'black' : 'white'
   end
 
@@ -170,6 +166,8 @@ class Move
   # pawn_double_step will override this
   # return false if castle
   def path_obstructed?(path)
+    puts "\n\t#{self.class}##{__method__}\n "
+    
     begin_sq = path.shift
     finish_sq = path[-1]
 
@@ -181,7 +179,8 @@ class Move
     return true if finish_sq != first_occupied_sq
 
     if first_occupied_sq == finish_sq
-      return true if begin_piece.instance_of?(Pawn) && piece_at_occupied_sq.is_a?(Piece)
+      return false if begin_piece.instance_of?(Pawn) && (base_move == [1, 1] || base_move == [1, -1]) # other piece is diagonal to pawn
+      return true if begin_piece.instance_of?(Pawn) && piece_at_occupied_sq.is_a?(Piece) # other piece is in front of pawn
       return true if begin_piece.color == finish_obj.color # same color obstruction
     end
     false
