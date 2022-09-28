@@ -34,7 +34,11 @@ King-checking:
 
 When pawn reaches other side, player may convert it to another piece.
 
-tie (use move list)
+Tie (6 repeated moves)
+- Check move_list
+Tie (stuck)
+- Iterate through pdf moves, if one legal move is found, this tie type is false.
+
 
 When player's input is not correct, offer help (by typing help).
 
