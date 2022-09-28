@@ -81,71 +81,53 @@ class Move
 
   def revert_board
     puts "\n\t#{self.class}##{__method__}\n "
-    # how do we revert board?
-    # captured_piece goes back on end_sq, if it exists
     board.update_square(end_sq, end_obj)
     board.update_square(start_sq, start_piece)
-    # whatever is on end_sq is set to start_sq
-    # unmoved changes state AFTER we pass test_king_check
-
   end
 
+  # what do you want to test now?
+  # can we put ourselves into check?
+  # can we move freely if our rook is blocking the other rook?
+  # try queen, bishop too
+  # then try black
+
+
   def move_sequence
-    transfer_piece if move_permitted?
-    
-    current_player_in_check?
+    move_permitted? ? transfer_piece : return
 
+    p ['current_player_in_check?', current_player_in_check?]
 
-
-    # if current_player_in_check?
-    #   revert_board
-    # else
-    #   @validated = true
-    #   start_piece.moved
-    # end
+    if current_player_in_check?
+      revert_board
+    else
+      @validated = true
+      start_piece.moved
+    end
   end
 
   def current_player_in_check?
-    puts "\n\t#{self.class}##{__method__}\n "
-
-    # any_attack_path?(sq_of_current_player_king)
     attack_paths = paths_that_attack_king(sq_of_current_player_king)
-    # check each attacking piece, see if they're obstructed
+    p ['attack_paths', attack_paths]
+    return false if attack_paths.empty?
+
     attack_paths.none? do |attack_path|
-      # path_obstructed?(attack_path)
       path_obstructed?(attack_path)
     end
   end
 
-  def paths_that_attack_king(target_sq)
-    result = board.squares.filter do |square|
+  def paths_that_attack_king(sq_of_king)
+    attack_paths = []
+    board.squares.each do |square|
       board_obj = board.object(square)
       next unless board_obj.is_a?(Piece) && board_obj.color == opponent_color
 
       start_sq = square
-      end_sq = target_sq
+      end_sq = sq_of_king
       attack_path = board_obj.generate_attack_path(board, start_sq, end_sq)
-      attack_path != []
+      attack_paths << attack_path unless attack_path.empty?
     end
-    result
+    attack_paths
   end
-
-  # def any_attack_path?(target_sq)
-  #   puts "\n\t#{self.class}##{__method__}\n "
-
-  #   result = board.squares.any? do |square|
-  #     board_obj = board.object(square)
-  #     next unless board_obj.is_a?(Piece) && board_obj.color == opponent_color
-
-  #     start_sq = square
-  #     # end_sq = sq_of_current_player_king
-  #     end_sq = target_sq
-  #     attack_path = board_obj.generate_attack_path(board, start_sq, end_sq)
-  #     p attack_path
-  #     attack_path != []
-  #   end
-  #   result
-  # end
 
   def sq_of_current_player_king
     # puts "\n\t#{self.class}##{__method__}\n "
@@ -165,8 +147,9 @@ class Move
   end
 
   def move_permitted?
+    # puts "\n\t#{self.class}##{__method__}\n "
     return false unless reachable?
-    return true unless path_obstructed?(path, start_sq, end_sq) # this condition returns true
+    return true unless path_obstructed?(path) # this condition returns true
   end
 
   def reachable?
@@ -187,19 +170,19 @@ class Move
   # pawn_double_step will override this
   # return false if castle
   def path_obstructed?(path)
-    begin_sq = path[0]
+    begin_sq = path.shift
     finish_sq = path[-1]
-    
-    start_piece = board_object(begin_sq)
-    end_obj = board.object(finish_sq)
+
+    begin_piece = board_object(begin_sq)
+    finish_obj = board.object(finish_sq)
     first_occupied_sq = path.find { |curr_sq| board.object(curr_sq).is_a?(Piece) }
     piece_at_occupied_sq = board.object(first_occupied_sq)
     return false if first_occupied_sq.nil? # no piece found in path using .find
     return true if finish_sq != first_occupied_sq
 
     if first_occupied_sq == finish_sq
-      return true if start_piece.instance_of?(Pawn) && piece_at_occupied_sq.is_a?(Piece)
-      return true if start_piece.color == end_obj.color # same color obstruction
+      return true if begin_piece.instance_of?(Pawn) && piece_at_occupied_sq.is_a?(Piece)
+      return true if begin_piece.color == finish_obj.color # same color obstruction
     end
     false
   end

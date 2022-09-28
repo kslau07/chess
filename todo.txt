@@ -3,12 +3,18 @@ if a path is blocked.
 After we rework generate_path, test:
 castle
 en_passant
-pawn_capture
+pawn_capture -> this is broken
 pawn_double_step
 
-Problem: We are not taking obstacles into account in our attack path
-Solution: use both #any_attack_path along with path_obstructed to determine
-if current player is in check
+After we get generate_path working, we will work on testing for check
+at the beginning of Move. If check is found, we must then test for checkmate.
+
+How do we test for checkmate?
+First test if the king can get itself out of checkmate by simply moving.
+The king must move for these checks: pawn, knight.
+To test the king moving, you just create new Moves.
+If the king cannot remove check by moving, AND one of the pieces is a pawn or bishop, that's checkmate.
+If two pieces are checking the king, then the king MUST move. If not, that's checkmate.
 
 King-checking:
   After piece transfer, perform another check.

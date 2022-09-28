@@ -18,13 +18,13 @@ class TempLayout
   end
 
   def self_check
-    # game.instance_variable_set(:@current_player, Player.new(color: 'black')) # player = black
-    board.grid[0][7] = PieceFactory.create('Queen', 'white')
-    board.grid[7][7] = PieceFactory.create('Queen', 'black')
-    board.grid[5][4] = PieceFactory.create('Rook', 'white')
-    board.grid[6][4] = PieceFactory.create('Rook', 'black')
-    board.grid[0][4] = PieceFactory.create('King', 'white')
-    board.grid[7][4] = PieceFactory.create('King', 'black')
+    game.instance_variable_set(:@current_player, Player.new(color: 'black')) # player = black
+    board.grid[4][1] = PieceFactory.create('Pawn', 'white')
+    board.grid[5][0] = PieceFactory.create('Pawn', 'black')
+    board.grid[1][3] = PieceFactory.create('Pawn', 'white')
+    board.grid[5][2] = PieceFactory.create('Pawn', 'black')
+    board.grid[3][2] = PieceFactory.create('King', 'white')
+    board.grid[1][4] = PieceFactory.create('King', 'black')
   end
 
   def pawn_vs_pawn
