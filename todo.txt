@@ -1,5 +1,12 @@
-Problem: Pawn double step is allow even if there is a piece blocking pawn.
+Problem: white pawn moving from 13 to 33 raises error in #base_move
+Solution: note sure
+Notes: begin_sq in #base_move is the sq in front of pawn, why? #generate_path is
+likely doing something weird, or there's an override.
+Stack trace provides clues.
+
+Problem: Pawn double step is allowed even when pawn's path is obstructed.
 Solution: look in #path_obstructed? and see what's going on.
+
 
 Rework generate_path to include starting square, as we need it now to determine
 if a path is blocked.

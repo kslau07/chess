@@ -154,8 +154,14 @@ class Move
 
   # i.e. 2 steps forward would be [2, 0] for either color
   def base_move(begin_sq = nil, finish_sq = nil)
+    puts "\n\t#{self.class}##{__method__}\n "
+
     begin_sq ||= start_sq
     finish_sq ||= end_sq
+    
+    p ['begin_sq', begin_sq]
+    p ['finish_sq', finish_sq]
+    
     color = board.object(begin_sq).color
 
     case color
@@ -175,6 +181,8 @@ class Move
     finish_sq = path.last
     base_move = base_move(begin_sq, finish_sq)
 
+    p ['base_move', base_move]
+
     begin_piece = board_object(begin_sq)
     finish_obj = board.object(finish_sq)
 
@@ -187,6 +195,8 @@ class Move
     piece_at_occupied_sq = board.object(first_occupied_sq)
     return false if first_occupied_sq.nil? # no piece found in path using .find
     return true if finish_sq != first_occupied_sq
+
+    p 'testing 1 2 3 '
 
     if first_occupied_sq == finish_sq
       # return false if begin_piece.instance_of?(Pawn) && (base_move == [1, 1] || base_move == [1, -1]) # other piece is diagonal to pawn
