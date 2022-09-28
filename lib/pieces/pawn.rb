@@ -23,7 +23,7 @@ class Pawn < Piece
     pdf_move = [1, 0]
     pdf_move = [-1, 0] if color == 'black'
     next_sq = start_sq
-    path = []
+    path = [start_sq]
     2.times do
       next_sq = [next_sq[0] + pdf_move[0], next_sq[1] + pdf_move[1]]
       path << next_sq

@@ -1,12 +1,7 @@
-Problem: white pawn moving from 13 to 33 raises error in #base_move
-Solution: note sure
-Notes: begin_sq in #base_move is the sq in front of pawn, why? #generate_path is
-likely doing something weird, or there's an override.
-Stack trace provides clues.
-
-Problem: Pawn double step is allowed even when pawn's path is obstructed.
-Solution: look in #path_obstructed? and see what's going on.
-
+Problem: en passant is not working
+Notes: #base_move is broken, it's again the color variable
+Our begin_sq is not the home sq, somewhere earlier in the stack
+we need to add home sq to our path.
 
 Rework generate_path to include starting square, as we need it now to determine
 if a path is blocked.
@@ -15,7 +10,18 @@ castle
 en_passant
 pawn_attack, fixed
 king cannot move into pawn's attack square, fixed
-pawn_double_step
+pawn_double_step, fixed
+
+Problem: Pawn double step is allowed even when pawn's path is obstructed.
+Solution: look in #path_obstructed? and see what's going on.
+Solved: When we fixed generate_path_double_step below.
+
+Problem: white pawn moving from 13 to 33 raises error in #base_move
+Solution: note sure
+Notes: begin_sq in #base_move is the sq in front of pawn, why? #generate_path is
+likely doing something weird, or there's an override.
+Stack trace provides clues.
+Solved: #generate_path_double_step had
 
 After we get generate_path working, we will work on testing for check
 at the beginning of Move. If check is found, we must then test for checkmate.
