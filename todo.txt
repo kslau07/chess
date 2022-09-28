@@ -2,6 +2,11 @@ Problem: en passant is not working
 Notes: #base_move is broken, it's again the color variable
 Our begin_sq is not the home sq, somewhere earlier in the stack
 we need to add home sq to our path.
+We will now override #generate_path in Pawn. Here is the checklist:
+single step
+double step
+en passant
+attack / capture
 
 Rework generate_path to include starting square, as we need it now to determine
 if a path is blocked.

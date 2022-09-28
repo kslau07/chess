@@ -21,7 +21,7 @@ class EnPassant < Move
   end
 
   def post_initialize
-    @path = [end_sq]
+    @path = [start_sq, end_sq]
     move_sequence
   end
 
