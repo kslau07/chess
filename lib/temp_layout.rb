@@ -19,11 +19,12 @@ class TempLayout
 
   def self_check
     game.instance_variable_set(:@current_player, Player.new(color: 'black')) # player = black
+    board.grid[7][5] = PieceFactory.create('Rook', 'white')
     board.grid[4][1] = PieceFactory.create('Pawn', 'white')
     board.grid[5][0] = PieceFactory.create('Pawn', 'black')
     board.grid[1][3] = PieceFactory.create('Pawn', 'white')
-    board.grid[5][2] = PieceFactory.create('Pawn', 'black')
-    board.grid[3][2] = PieceFactory.create('King', 'white')
+    board.grid[5][1] = PieceFactory.create('Pawn', 'black')
+    board.grid[3][1] = PieceFactory.create('King', 'white')
     board.grid[1][4] = PieceFactory.create('King', 'black')
   end
 
@@ -89,7 +90,7 @@ class TempLayout
     move_list.instance_variable_set(:@all_moves, seq)
   end
 
-  def w_pawn_capture
+  def w_pawn_attack
     @current_player = @player1
 
     # white, black right side
@@ -97,7 +98,7 @@ class TempLayout
     board.grid[4][2] = PieceFactory.create('Pawn', 'black')
   end
 
-  def b_pawn_capture
+  def b_pawn_attack
     @current_player = @player2
 
     board.grid[5][6] = PieceFactory.create('Pawn', 'black')

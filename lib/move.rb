@@ -152,35 +152,45 @@ class Move
     path.include?(end_sq) ? true : false
   end
 
-  def base_move
-    # i.e. 2 steps forward would be [2, 0] for either color
-    case start_piece.color
+  # i.e. 2 steps forward would be [2, 0] for either color
+  def base_move(begin_sq = nil, finish_sq = nil)
+    begin_sq ||= start_sq
+    finish_sq ||= end_sq
+    color = board.object(begin_sq).color
+
+    case color
     when 'black'
-      [start_sq[0] - end_sq[0], start_sq[1] - end_sq[1]]
+      [begin_sq[0] - finish_sq[0], begin_sq[1] - finish_sq[1]]
     when 'white'
-      [end_sq[0] - start_sq[0], end_sq[1] - start_sq[1]]
+      [finish_sq[0] - begin_sq[0], finish_sq[1] - begin_sq[1]]
     end
   end
 
-  # rework some of this logic, seems overly complicated
-  # pawn_double_step will override this
-  # return false if castle
+  # This method has ballooned, how do we fix it?
   def path_obstructed?(path)
-    puts "\n\t#{self.class}##{__method__}\n "
-    
-    begin_sq = path.shift
-    finish_sq = path[-1]
+    # puts "\n\t#{self.class}##{__method__}\n "
+    # p ['path', path]
+
+    begin_sq = path.first
+    finish_sq = path.last
+    base_move = base_move(begin_sq, finish_sq)
 
     begin_piece = board_object(begin_sq)
     finish_obj = board.object(finish_sq)
-    first_occupied_sq = path.find { |curr_sq| board.object(curr_sq).is_a?(Piece) }
+
+    first_occupied_sq = path.find.with_index do |curr_sq, idx|
+      next if idx.zero? # do not check begin_sq
+
+      board.object(curr_sq).is_a?(Piece)
+    end
+
     piece_at_occupied_sq = board.object(first_occupied_sq)
     return false if first_occupied_sq.nil? # no piece found in path using .find
     return true if finish_sq != first_occupied_sq
 
     if first_occupied_sq == finish_sq
-      return false if begin_piece.instance_of?(Pawn) && (base_move == [1, 1] || base_move == [1, -1]) # other piece is diagonal to pawn
-      return true if begin_piece.instance_of?(Pawn) && piece_at_occupied_sq.is_a?(Piece) # other piece is in front of pawn
+      # return false if begin_piece.instance_of?(Pawn) && (base_move == [1, 1] || base_move == [1, -1]) # other piece is diagonal to pawn
+      return true if begin_piece.instance_of?(Pawn) && piece_at_occupied_sq.is_a?(Piece) && base_move[1].zero? # other piece is in front of pawn
       return true if begin_piece.color == finish_obj.color # same color obstruction
     end
     false
@@ -188,7 +198,6 @@ class Move
 
   def transfer_piece
     @captured_piece = end_obj if end_obj.is_a?(Piece)
-    # start_piece.moved
     board.update_square(end_sq, start_piece)
     board.update_square(start_sq, 'unoccupied')
   end

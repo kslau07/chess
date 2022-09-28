@@ -3,7 +3,7 @@
 # This class is used help the factory method in Move to
 # self-register and self-select when Pawn captures another piece
 
-class PawnCapture < Move
+class PawnAttack < Move
   Move.register(self)
 
   def self.handles?(current)

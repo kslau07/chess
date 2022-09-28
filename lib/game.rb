@@ -32,8 +32,8 @@ class Game
     # tl.en_passant_white_version2
     # tl.en_passant_black
     # tl.castle
-    # tl.w_pawn_capture
-    # tl.b_pawn_capture
+    # tl.w_pawn_attack
+    # tl.b_pawn_attack
 
   end
 

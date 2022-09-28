@@ -1,10 +1,13 @@
+Problem: Pawn double step is allow even if there is a piece blocking pawn.
+Solution: look in #path_obstructed? and see what's going on.
+
 Rework generate_path to include starting square, as we need it now to determine
 if a path is blocked.
 After we rework generate_path, test:
 castle
 en_passant
-pawn_capture, fixed
-king cannot move into pawn's attack square, broken
+pawn_attack, fixed
+king cannot move into pawn's attack square, fixed
 pawn_double_step
 
 After we get generate_path working, we will work on testing for check
