@@ -1,5 +1,12 @@
 Testing checkmate:
 First test if the king can get itself out of checkmate by simply moving.
+- Create a simple layout:
+-- 1 where the king can move out of check
+-- 1 where the king must capture the piece (Queen)
+-- 1 where another piece must block the attacker (Bishop, Rook, or Queen)
+-- 1 where another piece must capture the attacker
+-- 1 where 2 pieces are checking the King at the same time
+
 For Pawn or Knight checks, either capture said piece or King must move.
 To test which squares King may move to, create new Move(s) for each of King's 8 moves
 If two pieces are checking the King, then the king MUST move. If not, that's checkmate.
