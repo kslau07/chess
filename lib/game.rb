@@ -2,13 +2,14 @@
 
 # This is the class for chess
 class Game
-  attr_reader :board, :player1, :player2, :current_player, :move, :move_list
+  attr_reader :board, :player1, :player2, :current_player, :opposing_player, :move, :move_list
 
   def initialize(**args)
     @board = args[:board] || Board.new
     @player1 = args[:player1] || Player.new(color: 'white')
     @player2 = args[:player2] || Player.new(color: 'black')
     @current_player = @player1
+    @opposing_player = @player2
     @move = Move
     post_initialize(**args)
 
@@ -75,7 +76,7 @@ class Game
     # p move_list
 
     loop do
-      new_move = move.prefactory(current_player, board, move_list) # rename
+      new_move = move.prefactory(current_player, opposing_player, board, move_list) # rename
       break if new_move.validated
 
       Display.invalid_input_message
@@ -90,6 +91,7 @@ class Game
 
   def switch_players
     @current_player = current_player == player1 ? player2 : player1
+    @opposing_player = current_player == player1 ? player2 : player1
   end
 end
 

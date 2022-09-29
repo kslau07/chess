@@ -8,13 +8,15 @@ require_relative 'chess_tools'
 class Move
   include ChessTools
 
-  attr_reader :player, :board, :start_sq, :end_sq, :path, :start_piece,
-              :end_obj, :captured_piece, :move_list, :castle, :validated
+  attr_reader :current_player, :board, :start_sq, :end_sq, :path, :start_piece,
+              :end_obj, :captured_piece, :move_list, :castle, :validated,
+              :opposing_player, :check_next
 
   # rename
   # add string matching later
-  def self.prefactory(player, board, move_list) 
-    @player = player
+  def self.prefactory(current_player, opposing_player, board, move_list)
+    @current_player = current_player
+    @opposing_player = opposing_player
     @board = board
     @move_list = move_list
 
@@ -40,8 +42,8 @@ class Move
   def self.check_input
     return false if out_of_bound?
     # return false if @board.object(@start_sq) == 'unoccupied'
-    return false if @board.object(@end_sq).is_a?(Piece) && @board.object(@end_sq).color == @player.color
-    return true if @board.object(@start_sq).is_a?(Piece) && @board.object(@start_sq).color == @player.color
+    return false if @board.object(@end_sq).is_a?(Piece) && @board.object(@end_sq).color == @current_player.color
+    return true if @board.object(@start_sq).is_a?(Piece) && @board.object(@start_sq).color == @current_player.color
   end
 
   def self.out_of_bound?
@@ -49,7 +51,13 @@ class Move
   end
 
   def self.factory
-    current = { player: @player, board: @board, start_sq: @start_sq, end_sq: @end_sq, move_list: @move_list }
+    current = { current_player: @current_player,
+                opposing_player: @opposing_player,
+                board: @board,
+                start_sq: @start_sq,
+                end_sq: @end_sq,
+                move_list: @move_list }
+
     registry.find { |candidate| candidate.handles?(current) }.new(current)
   end
 
@@ -70,7 +78,8 @@ class Move
   def initialize(args)
     # puts "\n\t#{self.class}##{__method__}\n "
 
-    @player = args[:player] # || Player.new
+    @current_player = args[:current_player] # || Player.new
+    @opposing_player = args[:opposing_player] # || Player.new
     @board = args[:board] # || Board.new
     @move_list = args[:move_list] # || MoveList.new
     @start_sq = args[:start_sq]
@@ -93,20 +102,26 @@ class Move
 
   def move_sequence
     # puts "\n\t#{self.class}##{__method__}\n "
-    
+
     p ['move_permitted?', move_permitted?]
-    
+
     move_permitted? ? transfer_piece : return
 
-    p ['current_player_in_check?', current_player_in_check?]
+    p ['player_in_check?', player_in_check?]
 
-    if current_player_in_check?
+    if player_in_check?
       revert_board
     else
       validate_move
-      # @validated = true
-      # start_piece.moved
+      test_check_for_opposing_player
     end
+  end
+
+  def test_check_for_opposing_player
+    puts "\n\t#{self.class}##{__method__}\n "
+    p ['opposing_player', opposing_player]
+    @current_player = @opposing_player
+    @check = true if player_in_check?
   end
 
   def validate_move
@@ -114,9 +129,9 @@ class Move
     start_piece.moved
   end
 
-  def current_player_in_check?
+  def player_in_check?
     # puts "\n\t#{self.class}##{__method__}\n "
-    
+
     attack_paths = paths_that_attack_king(sq_of_current_player_king)
     p ['attack_paths', attack_paths]
     return false if attack_paths.empty?
@@ -144,12 +159,12 @@ class Move
     # puts "\n\t#{self.class}##{__method__}\n "
 
     board.squares.find do |square|
-      board.object(square).instance_of?(King) && board.object(square).color == player.color
+      board.object(square).instance_of?(King) && board.object(square).color == current_player.color
     end
   end
 
   def opposing_color
-    player.color == 'white' ? 'black' : 'white'
+    current_player.color == 'white' ? 'black' : 'white'
   end
 
   # delegate for now, replace soon
@@ -174,7 +189,7 @@ class Move
 
     begin_sq = path.first
     finish_sq = path.last
-    
+
     begin_piece = board_object(begin_sq)
     finish_obj = board.object(finish_sq)
     base_move = base_move(begin_sq, finish_sq)
