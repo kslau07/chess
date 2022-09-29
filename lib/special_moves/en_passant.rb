@@ -10,8 +10,8 @@ class EnPassant < Move
     start_sq = current[:start_sq]
     end_sq = current[:end_sq]
     board = current[:board]
-    player = current[:player]
-    yaxis_diff = player.color == 'white' ? 1 : -1
+    current_player = current[:current_player]
+    yaxis_diff = current_player.color == 'white' ? 1 : -1
 
     cond1 = current[:board].object(start_sq).instance_of?(Pawn)
     cond2 = end_sq[0] - start_sq[0] == yaxis_diff # y-axis +1 step
@@ -31,7 +31,7 @@ class EnPassant < Move
   end
 
   def pawn_on_correct_row?
-    case player.color
+    case current_player.color
     when 'white'
       return true if start_sq[0] == 4
     when 'black'
@@ -44,11 +44,11 @@ class EnPassant < Move
   def opp_prev_move_allows_en_passant?
     case base_move
     when [1, 1]
-      valid_opp_last_move = ['P', (start_sq[1] + 96).chr, start_sq[0] - 1, (start_sq[1] + 96).chr, start_sq[0] + 1].join  if player.color == 'black'
-      valid_opp_last_move = ['P', (start_sq[1] + 98).chr, start_sq[0] + 3, (start_sq[1] + 98).chr, start_sq[0] + 1].join  if player.color == 'white'
+      valid_opp_last_move = ['P', (start_sq[1] + 96).chr, start_sq[0] - 1, (start_sq[1] + 96).chr, start_sq[0] + 1].join  if current_player.color == 'black'
+      valid_opp_last_move = ['P', (start_sq[1] + 98).chr, start_sq[0] + 3, (start_sq[1] + 98).chr, start_sq[0] + 1].join  if current_player.color == 'white'
     when [1, -1]
-      valid_opp_last_move = ['P', (start_sq[1] + 96).chr, start_sq[0] + 3, (start_sq[1] + 96).chr, start_sq[0] + 1].join if player.color == 'white'
-      valid_opp_last_move = ['P', (start_sq[1] + 98).chr, start_sq[0] - 1, (start_sq[1] + 98).chr, start_sq[0] + 1].join if player.color == 'black'
+      valid_opp_last_move = ['P', (start_sq[1] + 96).chr, start_sq[0] + 3, (start_sq[1] + 96).chr, start_sq[0] + 1].join if current_player.color == 'white'
+      valid_opp_last_move = ['P', (start_sq[1] + 98).chr, start_sq[0] - 1, (start_sq[1] + 98).chr, start_sq[0] + 1].join if current_player.color == 'black'
     end
     move_list.last_move == valid_opp_last_move
   end

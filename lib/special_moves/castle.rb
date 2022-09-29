@@ -23,8 +23,8 @@ class Castle < Move
   def move_permitted?
     puts "\n\t#{self.class}##{__method__}\n "
     base_move = base_move(start_sq, end_sq, board.object(start_sq).color)
-    temp = start_piece.invert(base_move) if player.color == 'black'
-    base_move = temp if player.color == 'black'
+    temp = start_piece.invert(base_move) if current_player.color == 'black'
+    base_move = temp if current_player.color == 'black'
 
     case base_move
     when [0, 2]
@@ -59,8 +59,8 @@ class Castle < Move
     puts "\n\t#{self.class}##{__method__}\n "
 
     base_move = base_move(start_sq, end_sq, board.object(start_sq).color)
-    temp = start_piece.invert(base_move) if player.color == 'black'
-    base_move = temp if player.color == 'black'
+    temp = start_piece.invert(base_move) if current_player.color == 'black'
+    base_move = temp if current_player.color == 'black'
 
     board.update_square(end_sq, start_piece) # king
     board.update_square(start_sq, 'unoccupied')
@@ -82,8 +82,8 @@ class Castle < Move
   def revert_board
     puts "\n\t#{self.class}##{__method__}\n "
     base_move = base_move(start_sq, end_sq, board.object(end_sq).color)
-    temp = start_piece.invert(base_move) if player.color == 'black'
-    base_move = temp if player.color == 'black'
+    temp = start_piece.invert(base_move) if current_player.color == 'black'
+    base_move = temp if current_player.color == 'black'
 
     if base_move == [0, 2]
       corner = [start_sq[0], start_sq[1] + 3]
@@ -112,8 +112,8 @@ class Castle < Move
 
   def validate_move
     base_move = base_move(start_sq, end_sq, board.object(end_sq).color)
-    temp = start_piece.invert(base_move) if player.color == 'black'
-    base_move = temp if player.color == 'black'
+    temp = start_piece.invert(base_move) if current_player.color == 'black'
+    base_move = temp if current_player.color == 'black'
 
     if base_move == [0, 2]
       rook = board.object([start_sq[0], start_sq[1] + 1])

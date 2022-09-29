@@ -10,13 +10,13 @@ class PawnAttack < Move
     start_sq = current[:start_sq]
     end_sq = current[:end_sq]
     board = current[:board]
-    player = current[:player]
-    yaxis_diff = player.color == 'white' ? 1 : -1
+    current_player = current[:current_player]
+    yaxis_diff = current_player.color == 'white' ? 1 : -1
 
     cond1 = current[:board].object(start_sq).instance_of?(Pawn)
     cond2 = end_sq[0] - start_sq[0] == yaxis_diff # y-axis +1 step
     cond3 = (end_sq[1] - start_sq[1]).abs == 1 # x-axis +/- 1 step
-    cond4 = board.object(end_sq).is_a?(Piece) && board.object(end_sq).color != player.color
+    cond4 = board.object(end_sq).is_a?(Piece) && board.object(end_sq).color != current_player.color
     cond1 && cond2 && cond3 && cond4
   end
 
@@ -28,6 +28,6 @@ class PawnAttack < Move
   end
 
   def move_permitted?
-    board.object(end_sq).is_a?(Piece) && board.object(end_sq).color != player.color
+    board.object(end_sq).is_a?(Piece) && board.object(end_sq).color != current_player.color
   end
 end

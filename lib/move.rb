@@ -107,13 +107,13 @@ class Move
 
     move_permitted? ? transfer_piece : return
 
-    p ['player_in_check?', player_in_check?]
+    p ['in_check?', in_check?(current_player)]
 
-    if player_in_check?
+    if in_check?(current_player)
       revert_board
     else
       validate_move
-      test_check_for_opposing_player
+      # test_check_for_opposing_player
     end
   end
 
@@ -121,7 +121,7 @@ class Move
     puts "\n\t#{self.class}##{__method__}\n "
     p ['opposing_player', opposing_player]
     @current_player = @opposing_player
-    @check = true if player_in_check?
+    @check = true if in_check?
   end
 
   def validate_move
@@ -129,10 +129,9 @@ class Move
     start_piece.moved
   end
 
-  def player_in_check?
+  def in_check?(player)
     # puts "\n\t#{self.class}##{__method__}\n "
-
-    attack_paths = paths_that_attack_king(sq_of_current_player_king)
+    attack_paths = paths_that_attack_king(square_of_king(player.color))
     p ['attack_paths', attack_paths]
     return false if attack_paths.empty?
 
@@ -142,10 +141,11 @@ class Move
   end
 
   def paths_that_attack_king(sq_of_king)
+    kings_color = board.object(sq_of_king).color
     attack_paths = []
     board.squares.each do |square|
       board_obj = board.object(square)
-      next unless board_obj.is_a?(Piece) && board_obj.color == opposing_color
+      next unless board_obj.is_a?(Piece) && board_obj.color == opposing_color(kings_color)
 
       start_sq = square
       end_sq = sq_of_king
@@ -155,16 +155,16 @@ class Move
     attack_paths
   end
 
-  def sq_of_current_player_king
+  def square_of_king(color)
     # puts "\n\t#{self.class}##{__method__}\n "
 
     board.squares.find do |square|
-      board.object(square).instance_of?(King) && board.object(square).color == current_player.color
+      board.object(square).instance_of?(King) && board.object(square).color == color
     end
   end
 
-  def opposing_color
-    current_player.color == 'white' ? 'black' : 'white'
+  def opposing_color(color)
+    color == 'white' ? 'black' : 'white'
   end
 
   # delegate for now, replace soon
