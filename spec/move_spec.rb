@@ -64,7 +64,7 @@ describe Move do
     end
   end
 
-  describe '#move_valid?' do
+  describe '#move_permitted?' do
     context 'when start_sq and end_sq are permitted for Bishop' do
       before do
         move.board.grid[0][2] = Bishop.new
@@ -74,7 +74,7 @@ describe Move do
       end
 
       it 'returns true' do
-        result = subject.move_valid?
+        result = subject.move_permitted?
         expect(result).to eq(true)
       end
     end
@@ -88,7 +88,7 @@ describe Move do
       end
 
       it 'returns false' do
-        result = subject.move_valid?
+        result = subject.move_permitted?
         expect(result).to eq(false)
       end
     end
@@ -108,7 +108,7 @@ describe Move do
 
 
       it "captures the opponent's pawn" do
-        result = subject.move_valid?
+        result = subject.move_permitted?
         expect(result).to eq(true)
       end
     end

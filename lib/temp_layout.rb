@@ -29,11 +29,11 @@ class TempLayout
   end
 
   def pawn_vs_pawn
-    game.instance_variable_set(:@current_player, Player.new(color: 'black'))
+    # game.instance_variable_set(:@current_player, Player.new(color: 'black'))
     board.grid[1][1] = PieceFactory.create('Pawn', 'white')
     board.grid[1][3] = PieceFactory.create('Pawn', 'white')
-    board.grid[2][2] = PieceFactory.create('Pawn', 'black')
-    board.grid[2][4] = PieceFactory.create('Pawn', 'black')
+    board.grid[2][1] = PieceFactory.create('Pawn', 'black')
+    board.grid[2][3] = PieceFactory.create('Pawn', 'black')
   end
   
   def castle

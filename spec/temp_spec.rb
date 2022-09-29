@@ -22,7 +22,7 @@ describe Move do
     allow_any_instance_of(Move).to receive(:move_sequence)
   end
 
-  describe '#move_valid?' do
+  describe '#move_permitted?' do
     context 'when "en passant" is possible and player executes this move' do
       before do
         move.board.grid[4][3] = Pawn.new(color: 'white')
@@ -35,7 +35,7 @@ describe Move do
       
       it 'returns true' do
         Display.draw_board(subject.board)
-        result = subject.move_valid?
+        result = subject.move_permitted?
         expect(result).to eq(true)
       end
     end

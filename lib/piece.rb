@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
+require_relative 'chess_tools'
+
 # This is the super class for all chess pieces
 class Piece
-  # def board_squares
-  #   Board.board_squares
-  # end
+  include ChessTools
 
   def initialize(**args)
     @color = args[:color] || 'white'
@@ -25,16 +25,14 @@ class Piece
   end
 
   # Unwieldy method, not sure if it can be split
-  def generate_path(board, start_sq, end_sq)
-    raise 'Pawn class must implement #generate_path!' if instance_of?(Pawn)
-    
+  def generate_path(board, start_sq, end_sq, pdf_moves = nil)
     puts "\n\t#{self.class}##{__method__}\n "
-
-    # pdf_moves ||= predefined_moves # we may not use this
+    
+    pdf_moves ||= predefined_moves # we may not use this
 
     path = [start_sq]
-    pdf_moves.each do |pdf_move|
-      # pdf_move = invert(pdf_move) if color == 'black' && instance_of?(Pawn)
+    predefined_moves.each do |pdf_move|
+      pdf_move = invert(pdf_move) if color == 'black' && instance_of?(Pawn)
       next_sq = start_sq
       # i = 0
       loop do

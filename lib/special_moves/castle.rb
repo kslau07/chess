@@ -19,7 +19,7 @@ class Castle < Move
   end
 
   # You cannot exit check with a castle
-  def move_valid?
+  def move_permitted?
     puts "\n\t#{self.class}##{__method__}\n "
 
     case base_move

@@ -36,7 +36,7 @@ class PawnAttack < Move
     move_sequence
   end
 
-  def move_valid?
+  def move_permitted?
     board.object(end_sq).is_a?(Piece) && board.object(end_sq).color != player.color
   end
 end

@@ -21,18 +21,16 @@ class EnPassant < Move
   end
 
   def post_initialize
+    puts "\n\t#{self.class}##{__method__}\n "
     @path = [start_sq, end_sq]
     move_sequence
   end
 
-  def move_valid?
-    puts "\n\t#{self.class}##{__method__}\n "
-
+  def move_permitted?
     pawn_on_correct_row? && opp_prev_move_allows_en_passant?
   end
 
   def pawn_on_correct_row?
-    # puts "\n\t#{self.class}##{__method__}\n "
     case player.color
     when 'white'
       return true if start_sq[0] == 4
@@ -52,7 +50,6 @@ class EnPassant < Move
       valid_opp_last_move = ['P', (start_sq[1] + 96).chr, start_sq[0] + 3, (start_sq[1] + 96).chr, start_sq[0] + 1].join if player.color == 'white'
       valid_opp_last_move = ['P', (start_sq[1] + 98).chr, start_sq[0] - 1, (start_sq[1] + 98).chr, start_sq[0] + 1].join if player.color == 'black'
     end
-    # return true if move_list.last_move == valid_opp_last_move
     move_list.last_move == valid_opp_last_move
   end
 
@@ -66,10 +63,6 @@ class EnPassant < Move
   end
 end
 
-
-
-
-# You must verify if opponent's pawn double stepped on the last move.
 
 # pseudo for oppo's last move
 # switch x and y to [3, 4]

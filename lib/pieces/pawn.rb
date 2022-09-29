@@ -18,39 +18,16 @@ class Pawn < Piece
     @long_reach = false
   end
 
-  def generate_path(board, start_sq, end_sq)
+  def generate_double_step_path(board, start_sq, end_sq)
     puts "\n\t#{self.class}##{__method__}\n "
+    # base_move = base_move(start_sq, end_sq, board.object(start_sq).color)
 
-    pdf_moves ||= predefined_moves # we may not use this
-
-    path = [start_sq]
-    pdf_moves.each do |pdf_move|
-      pdf_move = invert(pdf_move) if color == 'black' && instance_of?(Pawn)
-      next_sq = start_sq
-      # i = 0
-      loop do
-        # i += 1
-        # puts ">>> counter: #{i}"
-        next_sq = [next_sq[0] + pdf_move[0], next_sq[1] + pdf_move[1]]
-        break unless board.squares.include?(next_sq)
-
-        path << next_sq
-        return path if next_sq == end_sq
-        break unless long_reach
-      end
-      path = [start_sq]
-    end
-    []
-  end
-
-  def generate_path_double_step(start_sq)
-    # puts "\n\t#{self.class}##{__method__}\n "
-    pdf_move = [1, 0]
-    pdf_move = [-1, 0] if color == 'black'
+    predefined_move = [1, 0]
+    predefined_move = invert(predefined_move) if color == 'black'
     next_sq = start_sq
     path = [start_sq]
     2.times do
-      next_sq = [next_sq[0] + pdf_move[0], next_sq[1] + pdf_move[1]]
+      next_sq = [next_sq[0] + predefined_move[0], next_sq[1] + predefined_move[1]]
       path << next_sq
     end
     # p ">>> path: #{path}"

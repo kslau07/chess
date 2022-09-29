@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
-require_relative 'board'
-require_relative 'player'
+# require_relative 'board'
+# require_relative 'player'
+require_relative 'chess_tools'
 
 # This creates moves in chess
 class Move
+  include ChessTools
+
   attr_reader :player, :board, :start_sq, :end_sq, :path, :start_piece,
               :end_obj, :captured_piece, :move_list, :castle, :validated
 
@@ -72,11 +75,13 @@ class Move
   end
 
   def post_initialize
+    puts "\n\t#{self.class}##{__method__}\n "
+
     @path = start_piece.generate_path(board, start_sq, end_sq)
 
     move_sequence # rename?
 
-    # raise NotImplementedError, 'method should be implemented in concrete class'
+    # raise NotImplementedError, 'method should be implemented in subclass for Pawn'
   end
 
   def revert_board
@@ -86,9 +91,10 @@ class Move
   end
 
   def move_sequence
-
+    puts "\n\t#{self.class}##{__method__}\n "
+    
     p ['move_permitted?', move_permitted?]
-
+    
     move_permitted? ? transfer_piece : return
 
     p ['current_player_in_check?', current_player_in_check?]
@@ -152,26 +158,6 @@ class Move
     path.include?(end_sq) ? true : false
   end
 
-  # i.e. 2 steps forward would be [2, 0] for either color
-  def base_move(begin_sq = nil, finish_sq = nil)
-    puts "\n\t#{self.class}##{__method__}\n "
-
-    begin_sq ||= start_sq
-    finish_sq ||= end_sq
-    
-    p ['begin_sq', begin_sq]
-    p ['finish_sq', finish_sq]
-    
-    color = board.object(begin_sq).color
-
-    case color
-    when 'black'
-      [begin_sq[0] - finish_sq[0], begin_sq[1] - finish_sq[1]]
-    when 'white'
-      [finish_sq[0] - begin_sq[0], finish_sq[1] - begin_sq[1]]
-    end
-  end
-
   # This method has ballooned, how do we fix it?
   def path_obstructed?(path)
     # puts "\n\t#{self.class}##{__method__}\n "
@@ -179,12 +165,12 @@ class Move
 
     begin_sq = path.first
     finish_sq = path.last
-    base_move = base_move(begin_sq, finish_sq)
-
+    
     p ['base_move', base_move]
-
+    
     begin_piece = board_object(begin_sq)
     finish_obj = board.object(finish_sq)
+    base_move = base_move(begin_sq, finish_sq)
 
     first_occupied_sq = path.find.with_index do |curr_sq, idx|
       next if idx.zero? # do not check begin_sq
