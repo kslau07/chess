@@ -129,7 +129,7 @@ class Move
   end
 
   def test_checkmate
-
+    
   end
 
   def validate_move

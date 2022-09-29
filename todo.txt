@@ -1,27 +1,23 @@
-For tomorrow: double check special moves all work, see list directly below.
-Begin work on testing for check BEFORE move input.
-We can either:
-- test right before input OR
-- test right after a move is validated
+Testing checkmate:
+First test if the king can get itself out of checkmate by simply moving.
+For Pawn or Knight checks, either capture said piece or King must move.
+To test which squares King may move to, create new Move(s) for each of King's 8 moves
+If two pieces are checking the King, then the king MUST move. If not, that's checkmate.
+If piece with long_reach is checking the king
+- test for capture
+- test if any of player's pieces can block the path
+- if any are found, checkmate false
 
-Checklist:
-single step, working
-double step, working
-en passant, working
+Checkmate:
+What about double check?
+
+Test these again:
+single step
+double step
+en passant
 pawn attack / capture
-castle, working
-
-King-checking:
-  After piece transfer, perform another check.
-  Other player's king may be put in check by:
-  The piece that just moved,
-  and rooks, bishops and the queen.
-  We have created a new i/var @long_reach to aid in testing.
-
-  How do we actual test for king-check?
-
-  If check happens, add + to notation for that move.
-.
+castle
+- add exception, if prev move was check, cannot castle
 
 Bugs (take screenshot, save move list):
 - white king could move in black pawn's attack square, when blk pawn was on row 1 (couldn't reproduce)
@@ -34,41 +30,16 @@ Tie (stuck)
 - Iterate through pdf moves, if one legal move is found, this tie type is false.
 
 base_move is repeated a lot in #castle, can we DRY it?
-
 When player's input is not correct, offer help (by typing help).
-
 Rework special moves and Move, do not spend too much time refactoring.
-
 We're not using **args in each piece's post init
-
-Remove Display concretion, push class names lower in stack.
-
-You can get rid of the data clump ... board.grid[start_sq[0]][start_sq[1]]
-by adding a method for board to accept an array and return that object.
-
-Refactor: Board.board_squares and #board_squares is now board.spaces
-
-For some reason, black cannot castle properly even though the code should be
-relative, i.e. white and black castle code should be identical.
-
 Is there an abstraction for castle? Much of the code seems repetitive.
-
-Add serializing after king-check logic.j
-
-Change notation from 0 to 1 when finished. Keep 0 for now, easier to read.
-
 Display captured pieces to the right? Need up to 15 spaces.
 
 At the end:
 See how to add main and tests to replit
-
 We need to test what, not how.
-
 You must write edge cases for all of your tests.
-
-Start testing asap. Use tests to repeatedly do the same thing.
-Use Display::method
--> what is namespacing?
 
 Other testing tools to use:
 p/puts anywhere in test
@@ -82,11 +53,7 @@ instance_variable_get
 instance_variable_set
 use mocks/stubs sparringly
 
-Rememeber to include:
-Castle - add to move list
-cannot put yourself in check
-check after moving a piece
-double check
+
 pawn promotion
 
 draws:
@@ -137,13 +104,3 @@ Notes: begin_sq in #base_move is the sq in front of pawn, why? #generate_path is
 likely doing something weird, or there's an override.
 Stack trace provides clues.
 Solved: #generate_path_double_step had
-
-After we get generate_path working, we will work on testing for check
-at the beginning of Move. If check is found, we must then test for checkmate.
-
-How do we test for checkmate?
-First test if the king can get itself out of checkmate by simply moving.
-The king must move for these checks: pawn, knight.
-To test the king moving, you just create new Moves.
-If the king cannot remove check by moving, AND one of the pieces is a pawn or bishop, that's checkmate.
-If two pieces are checking the king, then the king MUST move. If not, that's checkmate.
