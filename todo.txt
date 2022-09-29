@@ -1,46 +1,15 @@
+For tomorrow: double check special moves all work, see list directly below.
+Begin work on testing for check BEFORE move input.
+We can either:
+- test right before input OR
+- test right after a move is validated
+
 Checklist:
 single step, working
 double step, working
 en passant, working
 pawn attack / capture
 castle, working
-
-move king into pawn's attack square
-Problem: When we move white king into black pawn's attack path, nothing happens.
-Possible causes: During the test for check, when generate_attack_path is sent,
-generate_path is sent directly after, but no response is given. No attack_path is returned.
-For reasons unknown, #generate_path will not return a path even when we give it
-Pawn's attack moves and an end_sq (which is the king).
-
-Rework generate_path to include starting square, as we need it now to determine
-if a path is blocked.
-After we rework generate_path, test:
-castle
-en_passant
-pawn_attack, fixed
-king cannot move into pawn's attack square, fixed
-pawn_double_step, fixed
-
-Problem: Pawn double step is allowed even when pawn's path is obstructed.
-Solution: look in #path_obstructed? and see what's going on.
-Solved: When we fixed generate_path_double_step below.
-
-Problem: white pawn moving from 13 to 33 raises error in #base_move
-Solution: note sure
-Notes: begin_sq in #base_move is the sq in front of pawn, why? #generate_path is
-likely doing something weird, or there's an override.
-Stack trace provides clues.
-Solved: #generate_path_double_step had
-
-After we get generate_path working, we will work on testing for check
-at the beginning of Move. If check is found, we must then test for checkmate.
-
-How do we test for checkmate?
-First test if the king can get itself out of checkmate by simply moving.
-The king must move for these checks: pawn, knight.
-To test the king moving, you just create new Moves.
-If the king cannot remove check by moving, AND one of the pieces is a pawn or bishop, that's checkmate.
-If two pieces are checking the king, then the king MUST move. If not, that's checkmate.
 
 King-checking:
   After piece transfer, perform another check.
@@ -53,6 +22,9 @@ King-checking:
 
   If check happens, add + to notation for that move.
 .
+
+Bugs (take screenshot, save move list):
+- white king could move in black pawn's attack square, when blk pawn was on row 1 (couldn't reproduce)
 
 When pawn reaches other side, player may convert it to another piece.
 
@@ -144,3 +116,34 @@ your bearings.
 Have fun! Check out the unicode characters for a little spice for your gameboard.
 (Optional extension) Build a very simple AI computer player (perhaps who does a
 random legal move)
+
+old:
+
+
+move king into pawn's attack square
+Problem: When we move white king into black pawn's attack path, nothing happens.
+Possible causes: During the test for check, when generate_attack_path is sent,
+generate_path is sent directly after, but no response is given. No attack_path is returned.
+For reasons unknown, #generate_path will not return a path even when we give it
+Pawn's attack moves and an end_sq (which is the king).
+
+Problem: Pawn double step is allowed even when pawn's path is obstructed.
+Solution: look in #path_obstructed? and see what's going on.
+Solved: When we fixed generate_path_double_step below.
+
+Problem: white pawn moving from 13 to 33 raises error in #base_move
+Solution: note sure
+Notes: begin_sq in #base_move is the sq in front of pawn, why? #generate_path is
+likely doing something weird, or there's an override.
+Stack trace provides clues.
+Solved: #generate_path_double_step had
+
+After we get generate_path working, we will work on testing for check
+at the beginning of Move. If check is found, we must then test for checkmate.
+
+How do we test for checkmate?
+First test if the king can get itself out of checkmate by simply moving.
+The king must move for these checks: pawn, knight.
+To test the king moving, you just create new Moves.
+If the king cannot remove check by moving, AND one of the pieces is a pawn or bishop, that's checkmate.
+If two pieces are checking the king, then the king MUST move. If not, that's checkmate.

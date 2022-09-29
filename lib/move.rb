@@ -20,9 +20,10 @@ class Move
 
     loop do
       Display.input_start_msg
-      @start_sq = gets.chomp.split('').map(&:to_i)
+      first_input = gets.chomp.split('').map(&:to_i)
       Display.input_end_msg
-      @end_sq = gets.chomp.split('').map(&:to_i)
+      second_input = gets.chomp.split('').map(&:to_i)
+      @start_sq, @end_sq = translate()
       break if check_input
 
       Display.invalid_input_message
@@ -108,10 +109,10 @@ class Move
   end
 
   def current_player_in_check?
-    puts "\n\t#{self.class}##{__method__}\n "
+    # puts "\n\t#{self.class}##{__method__}\n "
     
     attack_paths = paths_that_attack_king(sq_of_current_player_king)
-    # p ['attack_paths', attack_paths]
+    p ['attack_paths', attack_paths]
     return false if attack_paths.empty?
 
     attack_paths.none? do |attack_path|
