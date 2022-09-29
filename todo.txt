@@ -3,14 +3,14 @@ single step, working
 double step, working
 en passant, working
 pawn attack / capture
+castle, working
+
 move king into pawn's attack square
-castle, broken
-- get castle working again
-- override #revert_board if castle results in check
-- revert board, revert everything we moved:
--- king goes back to home spot
--- rook goes back in the corner
--- the 2 middle spaces become unoccupied
+Problem: When we move white king into black pawn's attack path, nothing happens.
+Possible causes: During the test for check, when generate_attack_path is sent,
+generate_path is sent directly after, but no response is given. No attack_path is returned.
+For reasons unknown, #generate_path will not return a path even when we give it
+Pawn's attack moves and an end_sq (which is the king).
 
 Rework generate_path to include starting square, as we need it now to determine
 if a path is blocked.
@@ -61,6 +61,7 @@ Tie (6 repeated moves)
 Tie (stuck)
 - Iterate through pdf moves, if one legal move is found, this tie type is false.
 
+base_move is repeated a lot in #castle, can we DRY it?
 
 When player's input is not correct, offer help (by typing help).
 

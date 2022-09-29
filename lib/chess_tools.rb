@@ -10,12 +10,6 @@ module ChessTools
     finish_sq ||= end_sq
     color ||= board.object(begin_sq).color
 
-    # p ['color', color]
-    
-    # p ['begin_sq', begin_sq]
-    # p ['finish_sq', finish_sq]
-    
-
     case color
     when 'black'
       [begin_sq[0] - finish_sq[0], begin_sq[1] - finish_sq[1]]

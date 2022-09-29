@@ -19,7 +19,7 @@ class Pawn < Piece
   end
 
   def generate_double_step_path(board, start_sq, end_sq)
-    puts "\n\t#{self.class}##{__method__}\n "
+    # puts "\n\t#{self.class}##{__method__}\n "
     # base_move = base_move(start_sq, end_sq, board.object(start_sq).color)
 
     predefined_move = [1, 0]
@@ -35,7 +35,8 @@ class Pawn < Piece
   end
 
   def generate_attack_path(board, start_sq, end_sq)
-    # call generate_path with pawn_attack_moves below
+    # puts "\n\t#{self.class}##{__method__}\n "
+    attack_path = generate_path(board, start_sq, end_sq, pawn_attack_moves)
     generate_path(board, start_sq, end_sq, pawn_attack_moves)
   end
 

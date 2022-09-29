@@ -29,7 +29,7 @@ module Display
   end
 
   def self.invalid_input_message
-    puts 'That is not a legal move!'.red
+    puts 'That move is not permitted!'.red
   end
 
   def self.input_start_msg

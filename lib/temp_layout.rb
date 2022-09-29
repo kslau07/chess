@@ -23,8 +23,8 @@ class TempLayout
     board.grid[1][2] = PieceFactory.create('Pawn', 'white')
     board.grid[2][2] = PieceFactory.create('Pawn', 'black')
     board.grid[1][3] = PieceFactory.create('Pawn', 'white')
-    board.grid[5][1] = PieceFactory.create('Pawn', 'black')
-    board.grid[3][1] = PieceFactory.create('King', 'white')
+    board.grid[1][6] = PieceFactory.create('Pawn', 'black')
+    board.grid[0][6] = PieceFactory.create('King', 'white')
     board.grid[1][4] = PieceFactory.create('King', 'black')
   end
 
@@ -40,8 +40,8 @@ class TempLayout
     @current_player = @player2
     
     # test check
-    board.grid[4][3] = PieceFactory.create('Bishop', 'white')
-    board.grid[3][3] = PieceFactory.create('Bishop', 'black')
+    board.grid[4][5] = PieceFactory.create('Bishop', 'white')
+    board.grid[3][5] = PieceFactory.create('Bishop', 'black')
 
     # white
     board.grid[0][0] = PieceFactory.create('Rook', 'white')

@@ -91,7 +91,7 @@ class Move
     
     move_permitted? ? transfer_piece : return
 
-    # p ['current_player_in_check?', current_player_in_check?]
+    p ['current_player_in_check?', current_player_in_check?]
 
     if current_player_in_check?
       revert_board
@@ -108,6 +108,8 @@ class Move
   end
 
   def current_player_in_check?
+    puts "\n\t#{self.class}##{__method__}\n "
+    
     attack_paths = paths_that_attack_king(sq_of_current_player_king)
     # p ['attack_paths', attack_paths]
     return false if attack_paths.empty?

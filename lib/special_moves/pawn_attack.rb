@@ -7,15 +7,6 @@ class PawnAttack < Move
   Move.register(self)
 
   def self.handles?(current)
-    # p name
-
-    # return
-
-    # What logic do we need here?
-    # Must be instance of Pawn
-    # Pawn moves diagonally 1 step
-    # [1, -1] or [1, 1]
-
     start_sq = current[:start_sq]
     end_sq = current[:end_sq]
     board = current[:board]
@@ -30,9 +21,9 @@ class PawnAttack < Move
   end
 
   def post_initialize(**args)
-    puts "\n\t#{self.class}##{__method__}\n "
+    # puts "\n\t#{self.class}##{__method__}\n "
     @path = start_piece.generate_attack_path(board, start_sq, end_sq)
-    p ['@path', @path]
+    # p ['@path', @path]
     move_sequence
   end
 

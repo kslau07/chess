@@ -22,6 +22,9 @@ class Castle < Move
   # Maybe add the logic here
   def move_permitted?
     puts "\n\t#{self.class}##{__method__}\n "
+    base_move = base_move(start_sq, end_sq, board.object(start_sq).color)
+    temp = start_piece.invert(base_move) if player.color == 'black'
+    base_move = temp if player.color == 'black'
 
     case base_move
     when [0, 2]
@@ -47,7 +50,7 @@ class Castle < Move
     return false unless board.object([start_sq[0], start_sq[1] - 3]) == 'unoccupied'
     return true if start_piece.unmoved && corner_piece.unmoved
   end
-  
+
   def transfer_piece
     execute_castle
   end
@@ -76,13 +79,6 @@ class Castle < Move
     board.update_square(corner, 'unoccupied')
   end
 
-  # def revert_board
-  #   puts "\n\t#{self.class}##{__method__}\n "
-  #   board.update_square(end_sq, end_obj)
-  #   board.update_square(start_sq, start_piece)
-  # end
-
-  # override
   def revert_board
     puts "\n\t#{self.class}##{__method__}\n "
     base_move = base_move(start_sq, end_sq, board.object(end_sq).color)
@@ -112,14 +108,23 @@ class Castle < Move
     board.update_square(start_sq, king) # move king back to home spot
     board.update_square(rook_sq, 'unoccupied') # middle space back to 'unoccupied'
     board.update_square(end_sq, 'unoccupied') # middle space back to 'unoccupied'
-    
-    # Display.draw_board(board)
   end
 
   def validate_move
-    raise NotImplementedError, 'Update King and Rook to unmoved'
-    # @validated = true
-    # start_piece.moved
+    base_move = base_move(start_sq, end_sq, board.object(end_sq).color)
+    temp = start_piece.invert(base_move) if player.color == 'black'
+    base_move = temp if player.color == 'black'
+
+    if base_move == [0, 2]
+      rook = board.object([start_sq[0], start_sq[1] + 1])
+      # rook = board.object(corner)
+    elsif base_move == [0, -2]
+      rook = board.object([start_sq[0], start_sq[1] - 1])
+    end
+
+    @validated = true
+    start_piece.moved
+    rook.moved
   end
 end
 
