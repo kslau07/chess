@@ -1,12 +1,12 @@
-
-
 Checklist:
 single step, working
 double step, working
 en passant, working
 pawn attack / capture
-try to move king into pawn's attack square
+move king into pawn's attack square
 castle, broken
+- get castle working again
+- override #revert_board if castle results in check
 
 Rework generate_path to include starting square, as we need it now to determine
 if a path is blocked.

@@ -4,15 +4,13 @@
 module ChessTools
   # i.e. 2 steps forward would be [2, 0] for either color
   def base_move(begin_sq = nil, finish_sq = nil, color =  nil)
-    puts "\n\t#{self.class}##{__method__}\n "
+    # puts "\n\t#{self.class}##{__method__}\n "
 
     begin_sq ||= start_sq
     finish_sq ||= end_sq
     color ||= board.object(begin_sq).color
 
-
-
-    p ['color', color]
+    # p ['color', color]
     
     # p ['begin_sq', begin_sq]
     # p ['finish_sq', finish_sq]

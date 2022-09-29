@@ -75,7 +75,7 @@ class Move
   end
 
   def post_initialize
-    puts "\n\t#{self.class}##{__method__}\n "
+    # puts "\n\t#{self.class}##{__method__}\n "
 
     @path = start_piece.generate_path(board, start_sq, end_sq)
 
@@ -84,32 +84,32 @@ class Move
     # raise NotImplementedError, 'method should be implemented in subclass for Pawn'
   end
 
-  def revert_board
-    puts "\n\t#{self.class}##{__method__}\n "
-    board.update_square(end_sq, end_obj)
-    board.update_square(start_sq, start_piece)
-  end
-
   def move_sequence
-    puts "\n\t#{self.class}##{__method__}\n "
+    # puts "\n\t#{self.class}##{__method__}\n "
     
     p ['move_permitted?', move_permitted?]
     
     move_permitted? ? transfer_piece : return
 
-    p ['current_player_in_check?', current_player_in_check?]
+    # p ['current_player_in_check?', current_player_in_check?]
 
     if current_player_in_check?
       revert_board
     else
-      @validated = true
-      start_piece.moved
+      validate_move
+      # @validated = true
+      # start_piece.moved
     end
+  end
+
+  def validate_move
+    @validated = true
+    start_piece.moved
   end
 
   def current_player_in_check?
     attack_paths = paths_that_attack_king(sq_of_current_player_king)
-    p ['attack_paths', attack_paths]
+    # p ['attack_paths', attack_paths]
     return false if attack_paths.empty?
 
     attack_paths.none? do |attack_path|
@@ -166,8 +166,6 @@ class Move
     begin_sq = path.first
     finish_sq = path.last
     
-    p ['base_move', base_move]
-    
     begin_piece = board_object(begin_sq)
     finish_obj = board.object(finish_sq)
     base_move = base_move(begin_sq, finish_sq)
@@ -182,8 +180,6 @@ class Move
     return false if first_occupied_sq.nil? # no piece found in path using .find
     return true if finish_sq != first_occupied_sq
 
-    p 'testing 1 2 3 '
-
     if first_occupied_sq == finish_sq
       # return false if begin_piece.instance_of?(Pawn) && (base_move == [1, 1] || base_move == [1, -1]) # other piece is diagonal to pawn
       return true if begin_piece.instance_of?(Pawn) && piece_at_occupied_sq.is_a?(Piece) && base_move[1].zero? # other piece is in front of pawn
@@ -196,5 +192,11 @@ class Move
     @captured_piece = end_obj if end_obj.is_a?(Piece)
     board.update_square(end_sq, start_piece)
     board.update_square(start_sq, 'unoccupied')
+  end
+
+  def revert_board
+    puts "\n\t#{self.class}##{__method__}\n "
+    board.update_square(end_sq, end_obj)
+    board.update_square(start_sq, start_piece)
   end
 end

@@ -38,6 +38,10 @@ class TempLayout
   
   def castle
     @current_player = @player2
+    
+    # test check
+    board.grid[4][3] = PieceFactory.create('Bishop', 'white')
+    board.grid[3][3] = PieceFactory.create('Bishop', 'black')
 
     # white
     board.grid[0][0] = PieceFactory.create('Rook', 'white')

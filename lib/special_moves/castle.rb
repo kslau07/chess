@@ -19,18 +19,19 @@ class Castle < Move
   end
 
   # You cannot exit check with a castle
+  # Maybe add the logic here
   def move_permitted?
     puts "\n\t#{self.class}##{__method__}\n "
 
     case base_move
     when [0, 2]
-      king_side_castle
+      king_side_castle?
     when [0, -2]
-      queen_side_castle
+      queen_side_castle?
     end
   end
 
-  def king_side_castle
+  def king_side_castle?
     corner_piece = board.object([start_sq[0] + 0, start_sq[1] + 3])
     return false unless corner_piece.instance_of?(Rook)
     return false unless board.object([start_sq[0], start_sq[1] + 1]) == 'unoccupied'
@@ -38,7 +39,7 @@ class Castle < Move
     return true if start_piece.unmoved && corner_piece.unmoved
   end
 
-  def queen_side_castle
+  def queen_side_castle?
     corner_piece = board.object([start_sq[0] + 0, start_sq[1] - 4])
     return false unless corner_piece.instance_of?(Rook)
     return false unless board.object([start_sq[0], start_sq[1] - 1]) == 'unoccupied'
@@ -54,6 +55,7 @@ class Castle < Move
   def execute_castle(rook = '', corner = [])
     puts "\n\t#{self.class}##{__method__}\n "
 
+    base_move = base_move(start_sq, end_sq, board.object(start_sq).color)
     temp = start_piece.invert(base_move) if player.color == 'black'
     base_move = temp if player.color == 'black'
 
@@ -72,6 +74,21 @@ class Castle < Move
   
     board.update_square(new_sq, rook) # rook
     board.update_square(corner, 'unoccupied')
+  end
+
+  # override
+  def revert_board
+    puts "\n\t#{self.class}##{__method__}\n "
+    board.update_square(new_sq, rook) # rook
+    board.update_square(new_sq, rook) # rook
+    board.update_square(new_sq, rook) # rook
+    board.update_square(new_sq, rook) # rook
+  end
+
+  def validate_move
+    raise NotImplementedError, 'Update King and Rook to moved'
+    # @validated = true
+    # start_piece.moved
   end
 end
 

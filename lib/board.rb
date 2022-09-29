@@ -31,6 +31,7 @@ class Board
   end
 
   def update_square(coord, new_value)
+    p ['coord', coord]
     grid[coord[0]][coord[1]] = new_value
   end
 end
