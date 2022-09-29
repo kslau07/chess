@@ -26,9 +26,9 @@ class Game
   def setup_board(chess_pieces)
     tl = TempLayout.new(current_player: current_player, board: board, move_list: move_list, game: self) # delete later
 
-    tl.normal(chess_pieces)
+    # tl.normal(chess_pieces)
 
-    # tl.self_check
+    tl.self_check
     # tl.pawn_vs_pawn
     # tl.en_passant_white_version1
     # tl.en_passant_white_version2
@@ -55,7 +55,10 @@ class Game
 
   def turn_loop
     Display.turn_message(current_player.color)
-    create_move # use factory later
+    new_move = create_move # use factory later
+    move_list.add(new_move)
+    new_move.test_mate(opposing_player, current_player, move) if new_move.check
+    
     Display.draw_board(board)
     switch_players
   end
@@ -69,23 +72,19 @@ class Game
   # We loop new_move if it is not valid, as it's more difficult for us to 
   # know if a move is valid without going through a Move or Move variant instance.
 
+
+
   # create factory for this
   def create_move(new_move = nil)
     # puts "\n\t#{self.class}##{__method__}\n "
-
-    # p move_list
-
     loop do
       new_move = move.prefactory(current_player, opposing_player, board, move_list) # rename
       break if new_move.validated
 
       Display.invalid_input_message
     end
-
-    move_list.add(new_move)
-
-    puts "\n\tmove_list: #{move_list}\n "
-    # puts "\n\tlast_move_cleaned: #{move_list.last_move_cleaned}\n"
+    # puts "\n\tmove_list: #{move_list}\n "
+    new_move
   end
 
 

@@ -17,6 +17,10 @@ class King < Piece
     @unmoved = false
   end
 
+  def possible_moves
+    predefined_moves
+  end
+
   private
 
   def predefined_moves

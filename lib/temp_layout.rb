@@ -21,13 +21,10 @@ class TempLayout
     seq = ["Pd2d4", "Pa7a6", "Pd4d5", "Pe7e5"] # valid en passant
 
     # game.instance_variable_set(:@current_player, Player.new(color: 'black')) # player = black
-    board.grid[7][5] = PieceFactory.create('Rook', 'white')
-    board.grid[1][2] = PieceFactory.create('Pawn', 'white')
-    board.grid[2][2] = PieceFactory.create('Pawn', 'black')
-    board.grid[1][3] = PieceFactory.create('Pawn', 'white')
-    board.grid[2][6] = PieceFactory.create('Pawn', 'black')
-    board.grid[0][6] = PieceFactory.create('King', 'white')
-    board.grid[1][4] = PieceFactory.create('King', 'black')
+    board.grid[0][4] = PieceFactory.create('King', 'white')
+    board.grid[2][5] = PieceFactory.create('Rook', 'white')
+    board.grid[7][4] = PieceFactory.create('King', 'black')
+    board.grid[6][2] = PieceFactory.create('Rook', 'black')
 
     move_list.instance_variable_set(:@all_moves, seq)
   end

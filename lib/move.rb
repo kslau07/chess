@@ -27,11 +27,18 @@ class Move
       Display.input_end_msg
       second_input = gets.chomp.downcase.split('')
       @start_sq, @end_sq = translate_input([first_input, second_input])
-      break if check_input
+      break if check_input # rename this to reflect test_mate, also to reflect boolean return
 
       Display.invalid_input_message
     end
     factory
+  end
+
+  # rename later
+  def self.prefactory_test_mate
+    puts "\n\t#{self.class}##{__method__}\n "
+
+    p ['@current_player', @current_player]
   end
 
   def self.translate_input(input_ary)
@@ -120,16 +127,27 @@ class Move
 
   def test_check_for_opposing_player
     # puts "\n\t#{self.class}##{__method__}\n "
-    # p ['opposing_player', opposing_player]
-    @current_player = opposing_player
+    # @current_player = opposing_player
+
     if in_check?(opposing_player)
       @check = true
-      test_checkmate
     end
   end
 
-  def test_checkmate
-    
+  def test_mate(player, other_player, move)
+    puts "\n\t#{self.class}##{__method__}\n "
+
+    move.prefactory_test_mate
+    return
+
+    sq_king = square_of_king(player.color)
+    king = board.object(sq_king)
+
+    # def self.prefactory(current_player, opposing_player, board, move_list)
+
+    king.possible_moves.each do |possible_move|
+      # move.prefactory(player, other_player, )
+    end
   end
 
   def validate_move
