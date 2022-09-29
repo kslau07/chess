@@ -11,11 +11,13 @@ module Display
     puts "\t    0   1   2   3   4   5   6   7  second"
     puts "\t  .-------------------------------."
     7.downto(0) do |x|
-      print "\t#{x} |"
+      print "\t#{x+1}n|" # notation num
+      # print "\t#{x} |" # index num
       0.upto(7) do |y|
         print board.grid[x][y] == 'unoccupied' ? "   |" : " #{board.grid[x][y]} |"
       end
-      print "#{x+1}N" # notation number
+      print "#{x}i" # notation num
+      # print "#{x+1}n" # notation num
       puts
       puts "\t  |---+---+---+---+---+---+---+---|" unless x == 0
     end
@@ -38,6 +40,10 @@ module Display
 
   def self.input_end_msg
     puts 'Enter ending square:'
+  end
+
+  def self.check
+    puts 'Check!'.bg_red
   end
 end
 

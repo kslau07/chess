@@ -83,7 +83,7 @@ instance_variable_set
 use mocks/stubs sparringly
 
 Rememeber to include:
-castling
+Castle - add to move list
 cannot put yourself in check
 check after moving a piece
 double check

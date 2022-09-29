@@ -50,7 +50,7 @@ class EnPassant < Move
       valid_opp_last_move = ['P', (start_sq[1] + 96).chr, start_sq[0] + 3, (start_sq[1] + 96).chr, start_sq[0] + 1].join if current_player.color == 'white'
       valid_opp_last_move = ['P', (start_sq[1] + 98).chr, start_sq[0] - 1, (start_sq[1] + 98).chr, start_sq[0] + 1].join if current_player.color == 'black'
     end
-    move_list.last_move == valid_opp_last_move
+    move_list.last_move_cleaned == valid_opp_last_move
   end
 
   def transfer_piece

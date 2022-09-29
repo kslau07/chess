@@ -3,7 +3,7 @@
 # This class creates all_movess
 class MoveList
   # perhaps add option to display move list in chess notation, or human readable format
-  attr_reader :all_moves # :last_move
+  attr_reader :all_moves # :last_move_cleaned
   
   def initialize
     @all_moves = []
@@ -21,7 +21,7 @@ class MoveList
     translated_move << 'x' if move.captured_piece
     translated_move << (move.end_sq[1] + 97).chr # convert to notation
     translated_move << move.end_sq[0] + 1 # convert to notation
-    translated_move << '+' #if move.check # if check
+    translated_move << '+' if move.check
     all_moves << translated_move.join
   end
 
@@ -31,12 +31,12 @@ class MoveList
 
   # ^ in regex seems to only permit those characters
 
-  def last_move
-    all_moves[-1].gsub(/[^0-9A-Za-h]/, '') # alphanumeric, lowercase a-h, x not included
+  def last_move_cleaned
+    all_moves[-1].gsub(/[^0-9A-Za-h]/, '') unless all_moves.empty?# alphanumeric, lowercase a-h, x not included
   end
 
   def prev_sq
-    translate_notation_to_square_index(last_move)
+    translate_notation_to_square_index(last_move_cleaned)
   end
   
   def translate_notation_to_square_index(str_move)
@@ -49,6 +49,15 @@ class MoveList
   #     move.gsub(/[^0-9A-Za-h]/, '')
   #   end
   # end
+  
+  def prev_move
+    all_moves[-1] unless all_moves.empty?
+  end
+
+  def prev_move_check?
+    # puts "\n\t#{self.class}##{__method__}\n "
+    prev_move[-1] == '+' unless all_moves.empty?
+  end
 
   def to_s
     @all_moves.to_s

@@ -26,9 +26,9 @@ class Game
   def setup_board(chess_pieces)
     tl = TempLayout.new(current_player: current_player, board: board, move_list: move_list, game: self) # delete later
 
-    # tl.normal(chess_pieces)
+    tl.normal(chess_pieces)
 
-    tl.self_check
+    # tl.self_check
     # tl.pawn_vs_pawn
     # tl.en_passant_white_version1
     # tl.en_passant_white_version2
@@ -85,7 +85,7 @@ class Game
     move_list.add(new_move)
 
     puts "\n\tmove_list: #{move_list}\n "
-    # puts "\n\tlast_move: #{move_list.last_move}\n"
+    # puts "\n\tlast_move_cleaned: #{move_list.last_move_cleaned}\n"
   end
 
 

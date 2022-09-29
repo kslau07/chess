@@ -10,7 +10,7 @@ class Move
 
   attr_reader :current_player, :board, :start_sq, :end_sq, :path, :start_piece,
               :end_obj, :captured_piece, :move_list, :castle, :validated,
-              :opposing_player, :check_next
+              :opposing_player, :check
 
   # rename
   # add string matching later
@@ -20,6 +20,7 @@ class Move
     @board = board
     @move_list = move_list
 
+    Display.check if @move_list.prev_move_check?
     loop do
       Display.input_start_msg
       first_input = gets.chomp.downcase.split('')
@@ -113,15 +114,22 @@ class Move
       revert_board
     else
       validate_move
-      # test_check_for_opposing_player
+      test_check_for_opposing_player
     end
   end
 
   def test_check_for_opposing_player
-    puts "\n\t#{self.class}##{__method__}\n "
-    p ['opposing_player', opposing_player]
-    @current_player = @opposing_player
-    @check = true if in_check?
+    # puts "\n\t#{self.class}##{__method__}\n "
+    # p ['opposing_player', opposing_player]
+    @current_player = opposing_player
+    if in_check?(opposing_player)
+      @check = true
+      test_checkmate
+    end
+  end
+
+  def test_checkmate
+
   end
 
   def validate_move
