@@ -20,15 +20,21 @@ class Move
 
     loop do
       Display.input_start_msg
-      first_input = gets.chomp.split('').map(&:to_i)
+      first_input = gets.chomp.downcase.split('')
       Display.input_end_msg
-      second_input = gets.chomp.split('').map(&:to_i)
-      @start_sq, @end_sq = translate()
+      second_input = gets.chomp.downcase.split('')
+      @start_sq, @end_sq = translate_input([first_input, second_input])
       break if check_input
 
       Display.invalid_input_message
     end
     factory
+  end
+
+  def self.translate_input(input_ary)
+    input_ary.map do |subary|
+      [subary[1].to_i - 1, subary[0].ord - 97]
+    end
   end
 
   def self.check_input
