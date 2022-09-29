@@ -7,6 +7,10 @@ move king into pawn's attack square
 castle, broken
 - get castle working again
 - override #revert_board if castle results in check
+- revert board, revert everything we moved:
+-- king goes back to home spot
+-- rook goes back in the corner
+-- the 2 middle spaces become unoccupied
 
 Rework generate_path to include starting square, as we need it now to determine
 if a path is blocked.
