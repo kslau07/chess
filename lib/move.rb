@@ -27,7 +27,7 @@ class Move
       Display.input_end_msg
       second_input = gets.chomp.downcase.split('')
       @start_sq, @end_sq = translate_input([first_input, second_input])
-      break if check_start_end_squares
+      break if check_input
 
       Display.invalid_input_message
     end
@@ -45,8 +45,8 @@ class Move
     @start_sq = attributes[:begin_sq]
     @end_sq = attributes[:finish_sq]
 
-    check_start_end_squares
-
+    
+    factory
   end
 
   def self.translate_input(input_ary)
@@ -55,7 +55,7 @@ class Move
     end
   end
 
-  def self.check_start_end_squares
+  def self.check_input
     return false if out_of_bound?
     # return false if @board.object(@start_sq) == 'unoccupied'
     return false if @board.object(@end_sq).is_a?(Piece) && @board.object(@end_sq).color == @current_player.color
@@ -155,7 +155,9 @@ class Move
 
     king.possible_moves.each do |possible_move|
       begin_sq = sq_king
-      finish_sq = possible_move
+      finish_sq = [sq_king[0] + possible_move[0], sq_king[1] + possible_move[1]]
+      next if out_of_bound?(board, begin_sq, finish_sq) # check if square is out of bound
+
       attributes = { current_player: player,
                      opposing_player: other_player,
                      board: board,
@@ -163,9 +165,10 @@ class Move
                      begin_sq: sq_king,
                      finish_sq: possible_move }
 
-      next if out_of_bound?(board, begin_sq, finish_sq) # check if square is out of bound
+      king_escape_move = move.prefactory_test_mate(attributes) # then we instantiate
 
-      # move.prefactory_test_mate(attributes) # then we instantiate
+      p ['finish_sq', finish_sq]
+      p ['king_escape_move.validated', king_escape_move.validated]
     end
   end
 
