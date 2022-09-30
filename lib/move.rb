@@ -27,7 +27,7 @@ class Move
       Display.input_end_msg
       second_input = gets.chomp.downcase.split('')
       @start_sq, @end_sq = translate_input([first_input, second_input])
-      break if check_input # rename this to reflect test_mate, also to reflect boolean return
+      break if check_start_end_squares
 
       Display.invalid_input_message
     end
@@ -35,10 +35,18 @@ class Move
   end
 
   # rename later
-  def self.prefactory_test_mate
+  def self.prefactory_test_mate(attributes)
     puts "\n\t#{self.class}##{__method__}\n "
 
-    p ['@current_player', @current_player]
+    @current_player = attributes[:current_player]
+    @opposing_player = attributes[:opposing_player]
+    @board = attributes[:board]
+    @move_list = attributes[:move_list]
+    @start_sq = attributes[:begin_sq]
+    @end_sq = attributes[:finish_sq]
+
+    check_start_end_squares
+
   end
 
   def self.translate_input(input_ary)
@@ -47,7 +55,7 @@ class Move
     end
   end
 
-  def self.check_input
+  def self.check_start_end_squares
     return false if out_of_bound?
     # return false if @board.object(@start_sq) == 'unoccupied'
     return false if @board.object(@end_sq).is_a?(Piece) && @board.object(@end_sq).color == @current_player.color
@@ -137,16 +145,27 @@ class Move
   def test_mate(player, other_player, move)
     puts "\n\t#{self.class}##{__method__}\n "
 
-    move.prefactory_test_mate
-    return
+    king_escapes?(player, other_player, move)
+  end
+
+  def king_escapes?(player, other_player, move)
 
     sq_king = square_of_king(player.color)
     king = board.object(sq_king)
 
-    # def self.prefactory(current_player, opposing_player, board, move_list)
-
     king.possible_moves.each do |possible_move|
-      # move.prefactory(player, other_player, )
+      begin_sq = sq_king
+      finish_sq = possible_move
+      attributes = { current_player: player,
+                     opposing_player: other_player,
+                     board: board,
+                     move_list: move_list,
+                     begin_sq: sq_king,
+                     finish_sq: possible_move }
+
+      next if out_of_bound?(board, begin_sq, finish_sq) # check if square is out of bound
+
+      # move.prefactory_test_mate(attributes) # then we instantiate
     end
   end
 
