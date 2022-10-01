@@ -1,18 +1,18 @@
 
-seq0 = ["Pe5+"]
-seq1 = ["Pd4", "Pa6", "Pd5", "Pe5"] # valid, black's pawn took a double step
-seq2 = ["Pd4", "Pe6", "Pd5", "Pe5"] # invalid, black's pawn took 2 single steps
+# seq0 = ["Pe5+"]
+# seq1 = ["Pd4", "Pa6", "Pd5", "Pe5"] # valid, black's pawn took a double step
+# seq2 = ["Pd4", "Pe6", "Pd5", "Pe5"] # invalid, black's pawn took 2 single steps
 
-def convert_move_list(move_list)
-  move_list.map do |move|
-    translate_notation_to_index(move)
-  end
-end
+# def convert_move_list(move_list)
+#   move_list.map do |move|
+#     translate_notation_to_index(move)
+#   end
+# end
 
-def translate_notation_to_index(str_move)
-  split = str_move.split('')
-  [split[0], split[2].to_i - 1, split[1].ord - 97].join
-end
+# def translate_notation_to_index(str_move)
+#   split = str_move.split('')
+#   [split[0], split[2].to_i - 1, split[1].ord - 97].join
+# end
 
 # We actually have to do TWO things.
 # We have to see that opp's pawn parked beside us (you must translate notation for this)
@@ -24,7 +24,7 @@ end
 # it will show: P 5=4 ,e=4
 # solution: P44
 
-p convert_move_list(seq1)
+# p convert_move_list(seq1)
 
 
 # class Parent

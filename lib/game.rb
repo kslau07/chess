@@ -57,9 +57,21 @@ class Game
     Display.turn_message(current_player.color)
     new_move = create_move # use factory later
     move_list.add(new_move)
+    # board.test_check
+    # board.test_mate
     new_move.test_mate(opposing_player, current_player, move) if new_move.check
     
     Display.draw_board(board)
+
+    board_clone = board.clone
+
+    p '>>> original board'
+    p board
+
+    p '>>> board_clone'
+    p board_clone
+ 
+
     switch_players
   end
 

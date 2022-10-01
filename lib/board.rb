@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
+require_relative 'piece'
+require_relative 'pieces/pawn'
+
+require 'json'
+
 # This is the chess board
 class Board
   attr_reader :grid
@@ -28,9 +33,18 @@ class Board
     8.times do
       @grid.push Array.new(8, 'unoccupied')
     end
+
+    @grid << Pawn.new
   end
 
   def update_square(coord, new_value)
     grid[coord[0]][coord[1]] = new_value
   end
+
+  # def to_json
+  #   JSON.dump ({
+  #     grid: @grid
+  #   })
+  # end
 end
+

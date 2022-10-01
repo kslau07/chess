@@ -1,3 +1,11 @@
+I think looking for paths belongs to Board and not Move.
+Move path related methods to Board.
+
+Creating a copy of Board
+- We will serialize and unserialize instances of Board so that
+we can test for check, checkmate and to be able to save and load games.
+- How do we serialize something? We will use JSON.
+
 Testing checkmate:
 - iterate through King's predefined moves, create new Move objs, look for @validated == true
 - look at list of attacking paths
