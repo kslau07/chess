@@ -1,3 +1,17 @@
+We now have a working version of methods that serialize and unserialize @grid,
+also we can save to file, and load from file.
+We will place these methods into Game and Board now, then test again.
+We ignore test_mate for now.
+
+next steps:
+Create a new start menu, show options for New Game and Load Game
+-> 1 is for new game, 2 is for load game
+Start a new chess game, make several moves, then save the game.
+-> type 'menu' to bring up menu, save from this menu
+Start another game, select load game.
+When we save a game, save filename as its date and time.
+When we load a game, show 5 file names, load file 1-5 using user input.
+
 I think looking for paths belongs to Board and not Move.
 Move path related methods to Board.
 

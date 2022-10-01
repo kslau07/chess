@@ -29,6 +29,11 @@ def play(game)
 end
 
 game = Game.new
+
+play(game)
+
+return
+
 # p game.board
 
 p game.board.grid
@@ -53,6 +58,6 @@ loaded_board = game.board.instance_variable_set(:@grid, unserialized_grid)
 
 Display.draw_board(game.board)
 
-# play(game)
+
 
 

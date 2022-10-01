@@ -41,10 +41,17 @@ class Game
 
   def play
     Display.greeting    # change Display to display somehow
+    start_sequence
     Display.draw_board(board)
 
     40.times { turn_loop }
     # turn_loop until game_over?
+  end
+  
+  def start_sequence
+    start_input = gets.chomp
+    # condition for 1 -> new game
+    # condition for 2 -> load game
   end
 
   def game_over?
@@ -63,14 +70,8 @@ class Game
     
     Display.draw_board(board)
 
-    board_clone = board.clone
-
-    p '>>> original board'
-    p board
-
-    p '>>> board_clone'
-    p board_clone
- 
+    # We use board_clone for #test_mate
+    # board_clone = board.clone
 
     switch_players
   end

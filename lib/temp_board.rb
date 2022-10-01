@@ -92,3 +92,9 @@ loaded_board = Board.unserialize_board(loaded_serialized_grid)
 
 puts "\nloaded_board\n "
 p loaded_board
+
+
+# we need to serialize game_list, then serialize board
+# entire saved_game will be an ary, like this: [saved_move_list, saved_grid]
+# first create this array with its serialized components
+# then we unserialize it

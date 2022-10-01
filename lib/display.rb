@@ -4,6 +4,9 @@
 module Display
   def self.greeting
     puts "\n\t\tWelcome to chess!\n ".red
+    puts "\t\tSelect an option:".green
+    puts "\t\t1. New Game"
+    puts "\t\t2. Load game"
   end
 
 
