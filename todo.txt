@@ -1,14 +1,18 @@
-We now have a working version of methods that serialize and unserialize @grid,
-also we can save to file, and load from file.
-We will place these methods into Game and Board now, then test again.
-We ignore test_mate for now.
+to load move_list, instantiate new MoveList, you have to pass along
+(2) and use a conditional, 1 -> new list + new variables, 2 -> new list and load instance variables
+then for load move_list, use instance_variable_set @all_moves
+to load grid, instantiate new Board, pass along 1/2, use conditional
+to either create new list + new variables, or new list + load saved variables
+We've gone as far as we can go with this class, we now need to implement
+real methods in Game, MoveList and Board.
+Begin with creating the in game menu -> Type 'menu' to see options
+In the menu, first create save game option
+You will then use our dummy methods to create a real save file
+You may try reducing the size of the game board for this part
+After we can save a file we then work on load file
+First start with loading from beginning, then later implement load 
+in the middle of a game.
 
-next steps:
-Create a new start menu, show options for New Game and Load Game
--> 1 is for new game, 2 is for load game
-Start a new chess game, make several moves, then save the game.
--> type 'menu' to bring up menu, save from this menu
-Start another game, select load game.
 When we save a game, save filename as its date and time.
 When we load a game, show 5 file names, load file 1-5 using user input.
 
