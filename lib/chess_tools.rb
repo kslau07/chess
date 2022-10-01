@@ -1,7 +1,13 @@
 # frozen_string_literal: true
 
+require 'json'
+
 # This module provides methods used in different classes for Chess
 module ChessTools
+  # NOTE: extract methods from Move to ChessTools
+  # ALSO: have methods you can include AND extend, so that
+  # the prefactory has access to them.
+
   # i.e. 2 steps forward would be [2, 0] for either color
   def base_move(begin_sq = nil, finish_sq = nil, color =  nil)
     # puts "\n\t#{self.class}##{__method__}\n "
