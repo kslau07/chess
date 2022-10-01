@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
-# require_relative 'piece'
-# require_relative 'pieces/pawn'
+require_relative 'piece'
+require_relative 'pieces/pawn'
+require_relative 'pieces/rook'
+require_relative 'pieces/bishop'
 
 require 'json'
 require_relative 'serializable'
@@ -18,22 +20,12 @@ class Board
   def generate_board
     @grid = []
     
-    # @grid << ['unoccupied']
-
-    # @grid.push [TempRook.new, TempBishop.new, TempBishop.new]
+    @grid.push [TempRook.new, TempBishop.new, TempBishop.new]
     @grid.push Array.new(3, TempPawn.new)
     @grid.push Array.new(3, 'unoccupied')
-
-    # 2.times do
-    #   @grid.push Array.new(3, 'unoccupied')
-    # end
-
-
-
   end
 
   def serialize_board
-    # obj = @grid.map(&:serialize)
     obj = @grid.map do |row|
       row.map do |square|
         if square.is_a?(String)
@@ -48,11 +40,7 @@ class Board
   end
 
   def self.unserialize_board(string)
-    puts "\n\t#{self.class}##{__method__}\n "
-
     obj = JSON.parse(string)
-
-    # p obj
 
     obj.map do |row|
       row.map do |elem|
@@ -60,7 +48,7 @@ class Board
         if elem == 'unoccupied'
           elem
         else
-          JSON.parse(elem)
+          unserialize_instance(elem)
         end
       end
     end
@@ -70,16 +58,16 @@ class Board
   # and unserializing instances? (instantiating + setting instance variables)
   # Maybe create new class: SaveLoadGame
   # Maybe create a module to be used in Game?
-  def self.unserialize_instance(obj)
-    puts "\n\t#{self.class}##{__method__}\n "
-
-    return 'Piece instance'
-
-    class_name = obj['@class']
+  def self.unserialize_instance(string)
+    obj = JSON.parse(string)
+    class_name = obj['@class_name']
     piece = Object.const_get(class_name).new
+
     obj.keys.each do |key|
       piece.instance_variable_set(key, obj[key])
     end
+
+    piece
   end
 end
 
