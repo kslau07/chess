@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'json'
+require_relative 'serializable'
 require_relative 'chess_tools'
 
 # This is the super class for all chess pieces

@@ -2,6 +2,7 @@
 
 # This class represents knights in chess
 class Knight < Piece
+  include Serializable
   attr_reader :color, :unmoved, :long_reach
 
   def post_initialize(**args)

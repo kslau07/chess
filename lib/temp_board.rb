@@ -20,9 +20,9 @@ class Board
   def generate_board
     @grid = []
     
-    @grid.push [TempRook.new, TempBishop.new, TempBishop.new]
-    @grid.push Array.new(3, TempPawn.new)
-    @grid.push Array.new(3, 'unoccupied')
+    @grid.push [Rook.new, Bishop.new]
+    # @grid.push Array.new(3, Pawn.new)
+    @grid.push Array.new(2, 'unoccupied')
   end
 
   def serialize_board
@@ -43,12 +43,12 @@ class Board
     obj = JSON.parse(string)
 
     obj.map do |row|
-      row.map do |elem|
-        # JSON.parse(elem)
-        if elem == 'unoccupied'
-          elem
+      row.map do |string|
+        if string == 'unoccupied'
+          string
         else
-          unserialize_instance(elem)
+          obj = JSON.parse(string)
+          instantiate_board_obj(obj)
         end
       end
     end
@@ -58,8 +58,7 @@ class Board
   # and unserializing instances? (instantiating + setting instance variables)
   # Maybe create new class: SaveLoadGame
   # Maybe create a module to be used in Game?
-  def self.unserialize_instance(string)
-    obj = JSON.parse(string)
+  def self.instantiate_board_obj(obj)
     class_name = obj['@class_name']
     piece = Object.const_get(class_name).new
 
@@ -71,52 +70,25 @@ class Board
   end
 end
 
-class TempPawn
-  include Serializable
-
-  def initialize(color = 'white')
-    @class_name = self.class
-    @color = color
-  end
-end
-
-class TempRook
-  include Serializable
-  
-  def initialize(color = 'white')
-    @class_name = self.class
-    @color = color
-  end
-end
-
-class TempBishop
-  include Serializable
-
-  def initialize(color = 'white')
-    @class_name = self.class
-    @color = color
-  end
-end
-
-class TempKnight
-  include Serializable
-
-  def initialize(color = 'white')
-    @class_name = self.class
-    @color = color
-  end
-end
-
 # Let's serialize an array with ONE pawn, then unserialize it
 board = Board.new
 puts "\nboard.grid\n "
 p board.grid
 
-serialized_board = board.serialize_board
-puts "\nserialized_board\n "
-p serialized_board
+serialized_grid = board.serialize_board
+puts "\nserialized_grid\n "
+p serialized_grid
 
-loaded_board = Board.unserialize_board(serialized_board)
+dirname = 'saved_games'
+Dir.mkdir(dirname) unless File.exist?(dirname)
+File.open("#{dirname}/saved_game.json", 'w') { |f| f.write(serialized_grid) }
+
+loaded_serialized_grid = ''
+File.open("saved_games/saved_game.json", "r").each do |f|
+  loaded_serialized_grid = f
+end
+
+loaded_board = Board.unserialize_board(loaded_serialized_grid)
 
 puts "\nloaded_board\n "
 p loaded_board
