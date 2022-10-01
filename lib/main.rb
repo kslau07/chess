@@ -29,6 +29,8 @@ def play(game)
 end
 
 game = Game.new
+p game.board
+
 play(game)
 
 

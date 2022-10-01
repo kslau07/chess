@@ -7,12 +7,12 @@ module Serializable
     instance_variables.map do |var|
       obj[var] = instance_variable_get(var)
     end
-  
+
     JSON.dump(obj)
   end
   
   def unserialize(string)
-  
+    # How do we implement?
   end
 end
 

@@ -33,8 +33,6 @@ class Board
     8.times do
       @grid.push Array.new(8, 'unoccupied')
     end
-
-    @grid << Pawn.new
   end
 
   def update_square(coord, new_value)

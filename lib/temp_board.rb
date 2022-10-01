@@ -17,24 +17,30 @@ class Board
 
   def generate_board
     @grid = []
+    
+    # @grid << ['unoccupied']
 
-    @grid.push 'unoccupied'
-    new_pawn = TempPawn.new
-    new_pawn.instance_variable_set(:@color, 'green')
-    @grid.push new_pawn
+    # @grid.push [TempRook.new, TempBishop.new, TempBishop.new]
+    @grid.push Array.new(3, TempPawn.new)
+    @grid.push Array.new(3, 'unoccupied')
 
     # 2.times do
-    #   @grid.push Array.new(2, 'unoccupied')
+    #   @grid.push Array.new(3, 'unoccupied')
     # end
+
+
+
   end
 
   def serialize_board
     # obj = @grid.map(&:serialize)
-    obj = @grid.map do |square|
-      if square.is_a?(String)
-        square
-      else
-        square.serialize
+    obj = @grid.map do |row|
+      row.map do |square|
+        if square.is_a?(String)
+          square
+        else
+          square.serialize
+        end
       end
     end
 
@@ -42,19 +48,32 @@ class Board
   end
 
   def self.unserialize_board(string)
-    obj = JSON.parse(string)
-    whole_board = []
-    obj.each do |obj_str|
-      next if obj_str == 'unoccupied'
+    puts "\n\t#{self.class}##{__method__}\n "
 
-      unserialize_instance(obj_str)
+    obj = JSON.parse(string)
+
+    # p obj
+
+    obj.map do |row|
+      row.map do |elem|
+        # JSON.parse(elem)
+        if elem == 'unoccupied'
+          elem
+        else
+          JSON.parse(elem)
+        end
+      end
     end
   end
 
-  def self.unserialize_instance(string)
-    p 'self.unserialize_instance'
+  # Who should be in charge of serialzing the board, unserializing the board
+  # and unserializing instances? (instantiating + setting instance variables)
+  # Maybe create new class: SaveLoadGame
+  # Maybe create a module to be used in Game?
+  def self.unserialize_instance(obj)
+    puts "\n\t#{self.class}##{__method__}\n "
 
-    obj = JSON.parse(string)
+    return 'Piece instance'
 
     class_name = obj['@class']
     piece = Object.const_get(class_name).new
@@ -62,45 +81,54 @@ class Board
       piece.instance_variable_set(key, obj[key])
     end
   end
-
-  # def to_json
-  #   JSON.dump ({
-  #     grid: @grid
-  #   })
-  # end
-
-  # def self.from_json(string)
-  #   data = JSON.load string # this is a hash, you access info like this: data['grid']
-  #   board_inst = self.new
-  #   board_inst.instance_variable_set(:@grid, data['grid'])
-  #   board_inst
-  # end
 end
 
 class TempPawn
   include Serializable
+
+  def initialize(color = 'white')
+    @class_name = self.class
+    @color = color
+  end
+end
+
+class TempRook
+  include Serializable
   
   def initialize(color = 'white')
-    @class = self.class
+    @class_name = self.class
     @color = color
   end
 end
 
 class TempBishop
-  # include Serializable
+  include Serializable
 
   def initialize(color = 'white')
+    @class_name = self.class
+    @color = color
+  end
+end
+
+class TempKnight
+  include Serializable
+
+  def initialize(color = 'white')
+    @class_name = self.class
     @color = color
   end
 end
 
 # Let's serialize an array with ONE pawn, then unserialize it
 board = Board.new
+puts "\nboard.grid\n "
+p board.grid
+
 serialized_board = board.serialize_board
-# p serialized_board
+puts "\nserialized_board\n "
+p serialized_board
 
 loaded_board = Board.unserialize_board(serialized_board)
 
+puts "\nloaded_board\n "
 p loaded_board
-# pawn = TempPawn.new
-# p pawn
