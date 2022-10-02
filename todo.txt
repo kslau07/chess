@@ -1,3 +1,9 @@
+When we press 1 -> normal new game, as before
+When new game is loaded, change the message to: 
+"Type 'menu' to see options"
+
+We will no longer take 2 inputs, take 1 input which will have the beginning and finish squares.
+
 to load move_list, instantiate new MoveList, you have to pass along
 (2) and use a conditional, 1 -> new list + new variables, 2 -> new list and load instance variables
 then for load move_list, use instance_variable_set @all_moves

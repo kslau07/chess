@@ -14,7 +14,7 @@ class Move
 
   # rename
   # add string matching later
-  def self.prefactory(current_player, opposing_player, board, move_list)
+  def self.prefactory(current_player, opposing_player, board, move_list, game)
     @current_player = current_player
     @opposing_player = opposing_player
     @board = board
@@ -24,8 +24,14 @@ class Move
     loop do
       Display.input_start_msg
       first_input = gets.chomp.downcase.split('')
+
+      return game.menu if first_input.join == 'menu'
+      
       Display.input_end_msg
       second_input = gets.chomp.downcase.split('')
+      
+      return game.menu if second_input.join == 'menu'
+      
       @start_sq, @end_sq = translate_input([first_input, second_input])
       break if check_input
 

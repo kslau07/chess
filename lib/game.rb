@@ -40,7 +40,7 @@ class Game
   end
 
   def play
-    Display.greeting    # change Display to display somehow
+    Display.greeting # change Display to display somehow
     start_sequence
     Display.draw_board(board)
 
@@ -50,8 +50,14 @@ class Game
   
   def start_sequence
     start_input = gets.chomp
-    # condition for 1 -> new game
-    # condition for 2 -> load game
+
+    case start_input
+    when '1'
+      puts 'New game!'
+    when '2'
+      puts 'Loading game!'
+      # Write this branch when we are able to save game files
+    end
   end
 
   def game_over?
@@ -91,19 +97,23 @@ class Game
   def create_move(new_move = nil)
     # puts "\n\t#{self.class}##{__method__}\n "
     loop do
-      new_move = move.prefactory(current_player, opposing_player, board, move_list) # rename
-      break if new_move.validated
+      new_move = move.prefactory(current_player, opposing_player, board, move_list, self) # rename
+      break if new_move.validated || new_move.nil?
 
       Display.invalid_input_message
     end
     # puts "\n\tmove_list: #{move_list}\n "
-    new_move
+    new_move || 
   end
 
 
   def switch_players
     @current_player = current_player == player1 ? player2 : player1
     @opposing_player = current_player == player1 ? player2 : player1
+  end
+
+  def menu
+    puts 'you are now at the menu'
   end
 end
 
