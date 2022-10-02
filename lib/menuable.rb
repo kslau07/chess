@@ -2,13 +2,7 @@
 
 # This module provides the menu for chess
 module Menuable
-  def menu_options
-    puts "\n\tMenu Options"
-    puts "\t1. Save Game"
-    puts "\t2. Load Game"
-    puts "\t3. Help"
-  end
-
+  
   def game_menu
     menu_options
     menu_input = gets.chomp.downcase
@@ -22,6 +16,7 @@ module Menuable
       help_from_menu
       # type any key to continue
     end
+
     # menu branch, display menu
     # save -> display saved message, then return to get input
     # bring up help -> return to get input
@@ -29,7 +24,16 @@ module Menuable
     # allow backing out of menu -> return to get input
   end
 
+  def menu_options
+    puts "\n\tMenu Options"
+    puts "\t1. Save Game"
+    puts "\t2. Load Game"
+    puts "\t3. Help"
+  end
+
   def save_from_menu
+    save_game_file
+
     puts 'Game has been saved!'
     puts 'Press any key to continue.'
     gets

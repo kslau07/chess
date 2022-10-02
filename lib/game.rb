@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
 require_relative 'menuable'
+require_relative 'save_and_load'
 
 # This is the class for chess
 class Game
   include Menuable
+  include SaveAndLoad
+
   attr_reader :board, :player1, :player2, :current_player, :opposing_player, :move, :move_list
 
   def initialize(**args)
