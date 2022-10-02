@@ -1,6 +1,11 @@
+We will do preliminary check to see if the user has entered a valid move or "menu".
+If it passes this preliminary check, then we will pass on the input to Move.
+
 When we press 1 -> normal new game, as before
 When new game is loaded, change the message to: 
 "Type 'menu' to see options"
+
+
 
 We will no longer take 2 inputs, take 1 input which will have the beginning and finish squares.
 

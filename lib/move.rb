@@ -21,56 +21,46 @@ class Move
     @move_list = move_list
 
     Display.check if @move_list.prev_move_check?
-    loop do
-      Display.input_start_msg
-      first_input = gets.chomp.downcase.split('')
+    # loop do
+    #   Display.input_start_msg
+    #   first_input = gets.chomp.downcase.split('')
 
-      return game.menu if first_input.join == 'menu'
-      
-      Display.input_end_msg
-      second_input = gets.chomp.downcase.split('')
-      
-      return game.menu if second_input.join == 'menu'
-      
-      @start_sq, @end_sq = translate_input([first_input, second_input])
-      break if check_input
+    #   Display.input_end_msg
+    #   second_input = gets.chomp.downcase.split('')
 
-      Display.invalid_input_message
-    end
+    #   @start_sq, @end_sq = translate_input([first_input, second_input])
+    #   break if check_input
+
+    #   Display.invalid_input_message
+    # end
+
+    return
+
     factory
   end
 
   # rename later
-  def self.prefactory_test_mate(attributes)
-    puts "\n\t#{self.class}##{__method__}\n "
+  # def self.prefactory_test_mate(attributes)
+  #   puts "\n\t#{self.class}##{__method__}\n "
 
-    @current_player = attributes[:current_player]
-    @opposing_player = attributes[:opposing_player]
-    @board = attributes[:board]
-    @move_list = attributes[:move_list]
-    @start_sq = attributes[:begin_sq]
-    @end_sq = attributes[:finish_sq]
+  #   @current_player = attributes[:current_player]
+  #   @opposing_player = attributes[:opposing_player]
+  #   @board = attributes[:board]
+  #   @move_list = attributes[:move_list]
+  #   @start_sq = attributes[:begin_sq]
+  #   @end_sq = attributes[:finish_sq]
 
     
-    factory
-  end
+  #   factory
+  # end
 
-  def self.translate_input(input_ary)
-    input_ary.map do |subary|
-      [subary[1].to_i - 1, subary[0].ord - 97]
-    end
-  end
+  # def self.translate_input(input_ary)
+  #   input_ary.map do |subary|
+  #     [subary[1].to_i - 1, subary[0].ord - 97]
+  #   end
+  # end
 
-  def self.check_input
-    return false if out_of_bound?
-    # return false if @board.object(@start_sq) == 'unoccupied'
-    return false if @board.object(@end_sq).is_a?(Piece) && @board.object(@end_sq).color == @current_player.color
-    return true if @board.object(@start_sq).is_a?(Piece) && @board.object(@start_sq).color == @current_player.color
-  end
 
-  def self.out_of_bound?
-    @board.squares.include?(@start_sq) && @board.squares.include?(@end_sq) ? false : true
-  end
 
   def self.factory
     current = { current_player: @current_player,

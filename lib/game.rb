@@ -36,7 +36,6 @@ class Game
     # tl.castle
     # tl.w_pawn_attack
     # tl.b_pawn_attack
-
   end
 
   def play
@@ -44,10 +43,11 @@ class Game
     start_sequence
     Display.draw_board(board)
 
-    40.times { turn_loop }
+    turn_loop # run once, testing
+    # 40.times { turn_loop }
     # turn_loop until game_over?
   end
-  
+
   def start_sequence
     start_input = gets.chomp
 
@@ -56,54 +56,82 @@ class Game
       puts 'New game!'
     when '2'
       puts 'Loading game!'
+      # load_from_start
       # Write this branch when we are able to save game files
+      # load game will simply overwrite @board and move_list, use move_list to calculate @current_player
     end
-  end
-
-  def game_over?
-    # check_mate
-    # draw
-    false
   end
 
   def turn_loop
     Display.turn_message(current_player.color)
-    new_move = create_move # use factory later
-    move_list.add(new_move)
+    user_input
+    return load if user_input == 'load'
+
+    # pass move input to prefactory
+    # new_move = create_move
+    move_list.add(new_move) # No longer test for check within Move
     # board.test_check
     # board.test_mate
-    new_move.test_mate(opposing_player, current_player, move) if new_move.check
-    
     Display.draw_board(board)
-
     # We use board_clone for #test_mate
     # board_clone = board.clone
-
     switch_players
   end
 
-  # We need to basically immediately get to the Move factory, which will choose
-  # among regular move, en passant, castle (and maybe more). We do NOT want to
-  # instantiate Move. We will do as Metz did, we will first go through Move
-  # class methods, the factory will also be a class method. The factory brings
-  # us the instance we need. 
+  def user_input(input = '')
+    loop do
+      input = gets.chomp.downcase
+      if input == 'menu'
+        game_menu
+      else
+        # move branch -> check input, continue turn loop
+      end
 
-  # We loop new_move if it is not valid, as it's more difficult for us to 
-  # know if a move is valid without going through a Move or Move variant instance.
+      # break if input is good
+    end
+    # input
+  end
 
+  def game_menu
+    Display.menu_options
+    menu_input = gets.chomp.downcase
 
+    case menu_input
+    when 1
+      save_from_menu
+    when 2
+      load_from_menu
+    when 3
+      help_from_menu
+      # type any key to continue
+    end
+    # menu branch, display menu
+    # save -> display saved message, then return to get input
+    # bring up help -> return to get input
+    # load game, variables -> return to get input
+    # allow backing out of menu -> return to get input
+  end
 
-  # create factory for this
+  def check_input
+    return false if out_of_bound?
+    # return false if @board.object(@start_sq) == 'unoccupied'
+    return false if @board.object(@end_sq).is_a?(Piece) && @board.object(@end_sq).color == @current_player.color
+    return true if @board.object(@start_sq).is_a?(Piece) && @board.object(@start_sq).color == @current_player.color
+  end
+
+  def out_of_bound?
+    @board.squares.include?(@start_sq) && @board.squares.include?(@end_sq) ? false : true
+  end
+
+  # create factory for this?
   def create_move(new_move = nil)
-    # puts "\n\t#{self.class}##{__method__}\n "
     loop do
       new_move = move.prefactory(current_player, opposing_player, board, move_list, self) # rename
       break if new_move.validated || new_move.nil?
 
       Display.invalid_input_message
     end
-    # puts "\n\tmove_list: #{move_list}\n "
-    new_move || 
+    new_move
   end
 
 
@@ -115,6 +143,11 @@ class Game
   def menu
     puts 'you are now at the menu'
   end
-end
 
-# new_move = Move.new(current_player: current_player, board: board, move_list: move_list)
+
+  def game_over?
+    # check_mate
+    # draw
+    false
+  end
+end
