@@ -9,12 +9,6 @@ module Display
     puts "\t\t2. Load game"
   end
 
-  def self.menu_options
-    puts "\n\tMenu Options"
-    puts "\t1. Save Game"
-    puts "\t2. Load Game"
-    puts "\t3. Help"
-  end
 
 
   def self.draw_board(board)

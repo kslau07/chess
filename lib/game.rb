@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
+require_relative 'menuable'
+
 # This is the class for chess
 class Game
+  include Menuable
   attr_reader :board, :player1, :player2, :current_player, :opposing_player, :move, :move_list
 
   def initialize(**args)
@@ -65,7 +68,6 @@ class Game
   def turn_loop
     Display.turn_message(current_player.color)
     user_input
-    return load if user_input == 'load'
 
     # pass move input to prefactory
     # new_move = create_move
@@ -80,36 +82,21 @@ class Game
 
   def user_input(input = '')
     loop do
+      puts 'Another message goes here?'
+      puts 'Enter a move:'
       input = gets.chomp.downcase
       if input == 'menu'
         game_menu
       else
         # move branch -> check input, continue turn loop
+        prelim_check(input)
+
       end
 
+      Display.invalid_input_message unless input == 'menu'
       # break if input is good
     end
     # input
-  end
-
-  def game_menu
-    Display.menu_options
-    menu_input = gets.chomp.downcase
-
-    case menu_input
-    when 1
-      save_from_menu
-    when 2
-      load_from_menu
-    when 3
-      help_from_menu
-      # type any key to continue
-    end
-    # menu branch, display menu
-    # save -> display saved message, then return to get input
-    # bring up help -> return to get input
-    # load game, variables -> return to get input
-    # allow backing out of menu -> return to get input
   end
 
   def check_input
