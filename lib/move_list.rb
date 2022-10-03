@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
+require_relative 'chess_tools'
 require_relative 'serializable'
 # This class creates all_movess
 class MoveList
+  include ChessTools
   include Serializable
   # perhaps add option to display move list in chess notation, or human readable format
   attr_reader :all_moves # :last_move_cleaned
@@ -31,8 +33,7 @@ class MoveList
 
   end
 
-  # ^ in regex seems to only permit those characters
-
+  # ^ carat in regex will invert matches, here, anything that is NOT in [] is matched and gsubbed with a blank space ('').
   def last_move_cleaned
     all_moves[-1].gsub(/[^0-9A-Za-h]/, '') unless all_moves.empty?# alphanumeric, lowercase a-h, x not included
   end
@@ -41,9 +42,9 @@ class MoveList
     translate_notation_to_square_index(last_move_cleaned)
   end
   
-  def translate_notation_to_square_index(str_move)
-    [str_move[-1].to_i - 1, str_move[-2].ord - 97]
-  end
+  # def translate_notation_to_square_index(str_move)
+  #   [str_move[-1].to_i - 1, str_move[-2].ord - 97]
+  # end
 
 
   # def cleaned_list

@@ -1,3 +1,6 @@
+input = 'g6z5'
+p input.match(/^[a-h][0-8][a-h][0-8]$/)
+
 
 # seq0 = ["Pe5+"]
 # seq1 = ["Pd4", "Pa6", "Pd5", "Pe5"] # valid, black's pawn took a double step

@@ -2,10 +2,12 @@
 
 require_relative 'menuable'
 require_relative 'save_and_load'
+require_relative 'chess_tools'
 # This is the class for chess
 class Game
   include Menuable
   include SaveAndLoad
+  include ChessTools
   attr_reader :board, :player1, :player2, :current_player, :opposing_player, :move, :move_list
 
   def initialize(**args)
@@ -61,16 +63,17 @@ class Game
       # puts 'Loading game!'
       load_game_file
       press_any_key
-
-      # load_from_start
-      # Write this branch when we are able to save game files
-      # load game will simply overwrite @board and move_list, use move_list to calculate @current_player
     end
   end
 
   def turn_loop
     Display.turn_message(current_player.color)
-    user_input
+    start_sq, end_sq = user_input
+
+    puts 'you are here'
+    p start_sq
+    p end_sq
+    gets
 
     # pass move input to prefactory
     # new_move = create_move
@@ -83,45 +86,49 @@ class Game
     switch_players
   end
 
-  def user_input(input = '')
+  def user_input(start_sq = '', end_sq = '')
     loop do
-      puts 'Another message goes here?'
+      # puts 'Another message goes here?'
       puts 'Enter a move:'
       input = gets.chomp.downcase
+
       if input == 'menu'
         menu_sequence
       else
-        # move branch -> check input, continue turn loop
-        cleaned_input = clean(input)
-        prelim_check(cleaned_input)
-
+        cleaned_input = clean(input) # cleaned input may be nil now
+        start_sq, end_sq = convert_to_squares(cleaned_input)
+        break if pass_prelim_check?(start_sq, end_sq)
       end
 
       Display.invalid_input_message unless input == 'menu'
-      # break if input is good
     end
-    # input
+    [start_sq, end_sq]
   end
 
   def clean(input)
-    # how should we clean input?
-    input
+    input = input.gsub(/[^0-8a-h]/, '')
+    input if input.match(/^[a-h][0-8][a-h][0-8]$/) # same as checking if in-bounds
   end
 
-  def prelim_check(input)
-    
-    check_input(input)
+  def convert_to_squares(input)
+    return if input.nil?
+
+    inputted_beg_sq = input[0..1]
+    inputted_fin_sq = input[2..3]
+    start_sq = translate_notation_to_square_index(inputted_beg_sq)
+    end_sq = translate_notation_to_square_index(inputted_fin_sq)
+    [start_sq, end_sq]
   end
 
-  def check_input(input)
-    return false if out_of_bound?
-    # return false if @board.object(@start_sq) == 'unoccupied'
-    return false if @board.object(@end_sq).is_a?(Piece) && @board.object(@end_sq).color == @current_player.color
-    return true if @board.object(@start_sq).is_a?(Piece) && @board.object(@start_sq).color == @current_player.color
+  def pass_prelim_check?(start_sq, end_sq)
+    # return false if board.object(start_sq) == 'unoccupied'
+    return false if out_of_bound?(start_sq, end_sq)
+    return false if board.object(end_sq).is_a?(Piece) && board.object(end_sq).color == current_player.color
+    return true if board.object(start_sq).is_a?(Piece) && board.object(start_sq).color == current_player.color
   end
 
-  def out_of_bound?
-    @board.squares.include?(@start_sq) && @board.squares.include?(@end_sq) ? false : true
+  def out_of_bound?(start_sq, end_sq)
+    board.squares.include?(start_sq) && board.squares.include?(end_sq) ? false : true
   end
 
   def menu_sequence
@@ -131,7 +138,6 @@ class Game
       save_game_file
     when 'load'
       load_game_file
-      # Display.draw_board(board)
     when 'move_list'
       puts move_list.all_moves.join(', ').magenta
       puts ' '
@@ -153,7 +159,7 @@ class Game
   end
 
   def switch_players
-    @current_player = current_player == player1 ? player2 : player1
+    current_player = current_player == player1 ? player2 : player1
     @opposing_player = current_player == player1 ? player2 : player1
   end
 

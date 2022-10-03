@@ -28,4 +28,8 @@ module ChessTools
   def out_of_bound?(board, start_sq, end_sq)
     board.squares.include?(start_sq) && board.squares.include?(end_sq) ? false : true
   end
+
+  def translate_notation_to_square_index(str_move)
+    [str_move[-1].to_i - 1, str_move[-2].ord - 97]
+  end
 end
