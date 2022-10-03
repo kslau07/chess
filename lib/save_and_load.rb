@@ -12,7 +12,8 @@ module SaveAndLoad
   def load_game_file
     # show list of most recent 5 saves
     # user inputs num 1-5 to load a game file
-    fname = choose_file
+    file_list = show_saved_games
+    fname = choose_file(file_list)
     return if fname.nil?
 
     json_obj_ary = read_file(fname)
@@ -22,19 +23,20 @@ module SaveAndLoad
 
   private
 
-  def choose_file
-    # a_file = ''
-    puts 'Choose a file to load:'.magenta
-    file_list = Dir.glob('saved_games/**').map.with_index do |fname, index|
+  def show_saved_games
+    puts 'Choose a saved game to load:'.magenta
+    Dir.glob('saved_games/**').map.with_index do |fname, index|
       break if index >= 5
+
       puts "#{index + 1}. #{fname.split('/').last.split('.').first}"
-      # a_file = fname.split('/').last
       fname.split('/').last.split('.').first
     end
+  end
 
-    puts 'No saved games found.' if file_list.empty?
-    input = gets unless file_list.empty?
-    file_list[input.to_i - 1]
+  def choose_file(f_list)
+    puts 'No saved games found.' if f_list.empty?
+    input = gets unless f_list.empty?
+    f_list[input.to_i - 1]
   end
 
   def serialize_game_objects
@@ -80,6 +82,7 @@ module SaveAndLoad
     end
 
     board.instance_variable_set(:@grid, loaded_grid) # perhaps create method in Board (i.e. Board#load_grid)
+    puts 'Game file has been loaded!'
   end
 
   def instantiate_board_piece(piece_hash)

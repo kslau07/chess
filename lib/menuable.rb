@@ -11,7 +11,7 @@ module Menuable
       save_from_menu
       'save'
     when '2'
-      load_from_menu
+      # load_from_menu
       'load'
     when '3'
       view_move_list_from_menu
@@ -34,21 +34,20 @@ module Menuable
   end
 
   def save_from_menu
-    # save_game_file
     puts 'Game has been saved!'
   end
 
-  def load_from_menu
-    puts 'Game has been loaded!'
-  end
+  # def load_from_menu
+  #   puts 'Game has been loaded!'
+  # end
 
   def view_move_list_from_menu
     puts "\nHere is the move list:".blue
   end
 
   def help_from_menu
-    puts "\n<< Help >>"
-    puts "To input a move you may use any of the following notation:".green
+    puts "\nHelp:"
+    puts 'To input a move you may use any of the following notation:'.blue
     puts 'a2a4 | a2 to a4 | a2-a4 | a2 - a4'.red
   end
 
