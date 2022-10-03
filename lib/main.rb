@@ -12,6 +12,7 @@ require_relative 'move_list'
 require_relative 'player'
 require_relative 'display'
 require_relative 'menuable'
+require_relative 'save_and_load'
 require_relative 'serializable'
 require_relative 'chess_tools'
 require_relative 'piece_factory'
@@ -35,31 +36,6 @@ game = Game.new
 play(game)
 
 return
-
-# p game.board
-
-p game.board.grid
-
-serialized_grid = game.board.serialize_board
-
-dirname = 'saved_games'
-Dir.mkdir(dirname) unless File.exist?(dirname)
-File.open("#{dirname}/saved_game.json", 'w') { |f| f.write(serialized_grid) }
-
-loaded_serialized_grid = ''
-File.open("saved_games/saved_game.json", "r").each do |f|
-  loaded_serialized_grid = f
-end
-
-# p json_string
-
-unserialized_grid = Board.unserialize_board(loaded_serialized_grid)
-
-loaded_board = game.board.instance_variable_set(:@grid, unserialized_grid)
-
-
-Display.draw_board(game.board)
-
 
 
 

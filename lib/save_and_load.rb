@@ -7,12 +7,33 @@ module SaveAndLoad
 
   def save_game_file
     puts "\n\t#{self.class}##{__method__}\n "
-    # mechanics of game save go here.
-    # serialize(move_list)
-    # serialize(board)
 
-    move_list.serialize
-    # board.serializable
+    move_list_json = move_list.serialize # not 100% sure we have jsonified correctly
+    board_json = board.serialize
+    game_ary = [move_list_json, board_json]
+    game_json = jsonify(game_ary)
+    save_to_file(game_json)
+
+    # what's next?
+    # save to folder as new file
+    # save date and time in files
+  end
+
+  def jsonify(obj)
+    JSON.dump(obj)
+  end
+
+  def save_to_file(json_str)
+    time = Time.new
+    time_str = time.strftime('%Y%b%d_%I%M%p').downcase
+    dirname = 'saved_games'
+    Dir.mkdir(dirname) unless File.exist?(dirname)
+    File.open("#{dirname}/#{time_str}.json", 'w') { |f| f.write(json_str) }
+  end
+
+  def load_file(json_file)
+    # show list of most recent 5 saves
+    # user inputs num 1-5 to load a game file
   end
 
   # def serialize
@@ -95,3 +116,30 @@ def self.instantiate_board_obj(obj)
 
   piece
 end
+
+
+# p game.board
+
+p game.board.grid
+
+serialized_grid = game.board.serialize_board
+
+dirname = 'saved_games'
+Dir.mkdir(dirname) unless File.exist?(dirname)
+File.open("#{dirname}/saved_game.json", 'w') { |f| f.write(serialized_grid) }
+
+loaded_serialized_grid = ''
+File.open("saved_games/saved_game.json", "r").each do |f|
+  loaded_serialized_grid = f
+end
+
+# p json_string
+
+unserialized_grid = Board.unserialize_board(loaded_serialized_grid)
+
+loaded_board = game.board.instance_variable_set(:@grid, unserialized_grid)
+
+
+Display.draw_board(game.board)
+
+

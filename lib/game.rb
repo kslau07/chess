@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'menuable'
+require_relative 'save_and_load'
 # This is the class for chess
 class Game
   include Menuable
@@ -28,11 +29,11 @@ class Game
   def setup_board(chess_pieces)
     tl = TempLayout.new(current_player: current_player, board: board, move_list: move_list, game: self) # delete later
 
-    tl.normal(chess_pieces)
+    # tl.normal(chess_pieces)
 
     # tl.self_check
     # tl.pawn_vs_pawn
-    # tl.en_passant_white_version1
+    tl.en_passant_white_version1
     # tl.en_passant_white_version2
     # tl.en_passant_black
     # tl.castle

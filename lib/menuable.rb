@@ -1,11 +1,7 @@
 # frozen_string_literal: true
 
-require_relative 'save_and_load'
-
 # This module provides the menu for chess
 module Menuable
-  
-  
   def game_menu
     menu_options
     menu_input = gets.chomp.downcase
