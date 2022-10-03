@@ -44,7 +44,11 @@ class Game
   def play
     Display.greeting # change Display to display somehow
     start_sequence
+
+    # return
+
     Display.draw_board(board)
+
 
     turn_loop # run once, testing
     # 40.times { turn_loop }
@@ -58,6 +62,7 @@ class Game
       puts 'New game!'
     when '2'
       puts 'Loading game!'
+      load_game_file
       # load_from_start
       # Write this branch when we are able to save game files
       # load game will simply overwrite @board and move_list, use move_list to calculate @current_player

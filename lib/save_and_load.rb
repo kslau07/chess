@@ -7,51 +7,89 @@ module SaveAndLoad
 
   def save_game_file
     puts "\n\t#{self.class}##{__method__}\n "
+    json_obj_ary = serialize_game_objects
+    save_to_file(json_obj_ary)
+  end
 
+  def serialize_game_objects
     move_list_json = move_list.serialize # not 100% sure we have jsonified correctly
     board_json = board.serialize
-    game_ary = [move_list_json, board_json]
-    game_json = jsonify(game_ary)
-    save_to_file(game_json)
-
-    # what's next?
-    # save to folder as new file
-    # save date and time in files
+    [move_list_json, board_json]
   end
 
-  def jsonify(obj)
-    JSON.dump(obj)
-  end
-
-  def save_to_file(json_str)
+  def save_to_file(json_obj_ary)
     time = Time.new
     time_str = time.strftime('%Y%b%d_%I%M%p').downcase
     dirname = 'saved_games'
     Dir.mkdir(dirname) unless File.exist?(dirname)
-    File.open("#{dirname}/#{time_str}.json", 'w') { |f| f.write(json_str) }
+    File.open("#{dirname}/#{time_str}.json", 'w') do |f|
+      json_obj_ary.each { |json_obj| f.puts(json_obj) }
+    end
+
+    # File.open("#{dirname}/#{time_str}.json", 'w') do |f| # 2nd way to write lines
+    #   f.puts(json_obj_ary)
+    # end
   end
 
-  def load_game_file(json_file = nil)
-    puts "\n\t#{self.class}##{__method__}\n "
+  def load_game_file
     # show list of most recent 5 saves
     # user inputs num 1-5 to load a game file
-    saved_games_path = File.dirname(__FILE__) + '/../saved_games/**'
-    puts Dir.glob(saved_games_path)
+    json_obj_ary = read_file
+    load_move_list(json_obj_ary[0])
+    load_board(json_obj_ary[1])
   end
 
-  # def serialize
-  #   # some method to serialize move_list
+  def load_move_list(json_str)
+    obj = JSON.parse(json_str)
+    JSON.parse(obj) # strangely we have to parse twice
+  end
 
-  #   move_list = ["Pd2d4", "Pa7a6", "Pd4d5", "Pe7e5"]
-  #   serialized_move_list = serialize_list(move_list)
-  #   serialized_grid = serialize_grid
+  def load_board(json_str)
+    # puts __method__
+    # return
+    obj = JSON.parse(json_str)
 
-  #   game_json = []
-  #   game_json << serialized_move_list
-  #   game_json << serialized_grid
-  #   # game_json
-  # end
+    obj.map do |row|
+      row.map do |string|
+        if string == 'unoccupied'
+          string
+        else
+          obj2 = JSON.parse(string)
+          instantiate_board_piece(obj2)
+        end
+      end
+    end
+  end
 
+  def instantiate_board_piece(obj)
+    class_name = obj['@class_name']
+    obj = Object.const_get(class_name).new
+  
+    obj.keys.each do |key|
+      piece.instance_variable_set(key, obj[key])
+    end
+  
+    piece
+  end
+
+  # Allow user to load any of most recent 5 saved games
+  def read_file
+    a_file = ''
+    Dir.glob('saved_games/**').each do |fname|
+      a_file = fname.split('/').last
+    end
+
+    p a_file
+
+    file = File.open("saved_games/#{a_file}", 'r')
+    json_obj_ary = []
+    until file.eof?
+      line = file.readline
+      json_obj_ary.push line
+    end
+
+    json_obj_ary
+  end
 end
 
 return
@@ -90,7 +128,7 @@ def serialize_board
   p JSON.dump(obj)
 end
 
-def self.unserialize_board(string)
+def self.load_board(string)
   obj = JSON.parse(string)
 
   obj.map do |row|
@@ -99,7 +137,7 @@ def self.unserialize_board(string)
         string
       else
         obj = JSON.parse(string)
-        instantiate_board_obj(obj)
+        instantiate_board_piece(obj)
       end
     end
   end
@@ -109,7 +147,7 @@ end
 # and unserializing instances? (instantiating + setting instance variables)
 # Maybe create new class: SaveLoadGame
 # Maybe create a module to be used in Game?
-def self.instantiate_board_obj(obj)
+def self.instantiate_board_piece(obj)
   class_name = obj['@class_name']
   piece = Object.const_get(class_name).new
 
@@ -131,14 +169,14 @@ dirname = 'saved_games'
 Dir.mkdir(dirname) unless File.exist?(dirname)
 File.open("#{dirname}/saved_game.json", 'w') { |f| f.write(serialized_grid) }
 
-loaded_serialized_grid = ''
+loaded_json = ''
 File.open("saved_games/saved_game.json", "r").each do |f|
-  loaded_serialized_grid = f
+  loaded_json = f
 end
 
 # p json_string
 
-unserialized_grid = Board.unserialize_board(loaded_serialized_grid)
+unserialized_grid = Board.load_board(loaded_json)
 
 loaded_board = game.board.instance_variable_set(:@grid, unserialized_grid)
 
@@ -146,3 +184,9 @@ loaded_board = game.board.instance_variable_set(:@grid, unserialized_grid)
 Display.draw_board(game.board)
 
 
+
+# saved_games_path = File.dirname(__FILE__) + '/../saved_games/**'
+# fnames = Dir.glob(saved_games_path)
+# fnames.each do |fname|
+#   a_file = fname.split('/').last
+# end

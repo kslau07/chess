@@ -2,8 +2,6 @@
 
 # This module allows objects to be serialized in JSON format
 module Serializable
-  # Test for 'types' then implement their serialization
-
   def serialize
     if instance_of?(MoveList)
       jsonify_move_list
@@ -13,10 +11,6 @@ module Serializable
       jsonify_piece
     end
   end
-
-  # def unserialize(string)
-  #   # How do we implement?
-  # end
 
   private
 
