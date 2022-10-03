@@ -105,7 +105,7 @@ class Game
     when 'save'
       save_game_file
     when 'load'
-
+      load_game_file
     when 'help'
 
     end

@@ -31,9 +31,12 @@ module SaveAndLoad
     File.open("#{dirname}/#{time_str}.json", 'w') { |f| f.write(json_str) }
   end
 
-  def load_file(json_file)
+  def load_game_file(json_file = nil)
+    puts "\n\t#{self.class}##{__method__}\n "
     # show list of most recent 5 saves
     # user inputs num 1-5 to load a game file
+    saved_games_path = File.dirname(__FILE__) + '/../saved_games/**'
+    puts Dir.glob(saved_games_path)
   end
 
   # def serialize
