@@ -1,5 +1,8 @@
 # temp file to hold check methods, until we know where to put them
 
+def opposing_color(color)
+  color == 'white' ? 'black' : 'white'
+end
 
   # def test_check_for_opposing_player
   #   # puts "\n\t#{self.class}##{__method__}\n "

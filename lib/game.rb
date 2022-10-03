@@ -76,7 +76,7 @@ class Game
 
     # board.test_check
     board.transfer_piece(new_move)#if new_move.valid && !board.check
-    # piece.moved
+    new_move.start_piece.moved#we can put this in #transfer_piece, or elsewhere
 
     # move_list.add(new_move) # No longer test for check within Move
     # board.test_mate
