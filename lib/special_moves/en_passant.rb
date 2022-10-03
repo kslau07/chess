@@ -6,14 +6,14 @@ class EnPassant < Move
   Move.register(self)
 
   # What are minimum requirements for en passant?
-  def self.handles?(current)
-    start_sq = current[:start_sq]
-    end_sq = current[:end_sq]
-    board = current[:board]
-    current_player = current[:current_player]
-    yaxis_diff = current_player.color == 'white' ? 1 : -1
+  def self.handles?(**args)
+    start_sq = args[:start_sq]
+    end_sq = args[:end_sq]
+    board = args[:board]
+    player = args[:player]
+    yaxis_diff = player.color == 'white' ? 1 : -1
 
-    cond1 = current[:board].object(start_sq).instance_of?(Pawn)
+    cond1 = args[:board].object(start_sq).instance_of?(Pawn)
     cond2 = end_sq[0] - start_sq[0] == yaxis_diff # y-axis +1 step
     cond3 = (end_sq[1] - start_sq[1]).abs == 1 # x-axis +/- 1 step
     cond4 = board.object(end_sq) == 'unoccupied'
@@ -31,7 +31,7 @@ class EnPassant < Move
   end
 
   def pawn_on_correct_row?
-    case current_player.color
+    case player.color
     when 'white'
       return true if start_sq[0] == 4
     when 'black'
@@ -44,11 +44,11 @@ class EnPassant < Move
   def opp_prev_move_allows_en_passant?
     case base_move
     when [1, 1]
-      valid_opp_last_move = ['P', (start_sq[1] + 96).chr, start_sq[0] - 1, (start_sq[1] + 96).chr, start_sq[0] + 1].join  if current_player.color == 'black'
-      valid_opp_last_move = ['P', (start_sq[1] + 98).chr, start_sq[0] + 3, (start_sq[1] + 98).chr, start_sq[0] + 1].join  if current_player.color == 'white'
+      valid_opp_last_move = ['P', (start_sq[1] + 96).chr, start_sq[0] - 1, (start_sq[1] + 96).chr, start_sq[0] + 1].join  if player.color == 'black'
+      valid_opp_last_move = ['P', (start_sq[1] + 98).chr, start_sq[0] + 3, (start_sq[1] + 98).chr, start_sq[0] + 1].join  if player.color == 'white'
     when [1, -1]
-      valid_opp_last_move = ['P', (start_sq[1] + 96).chr, start_sq[0] + 3, (start_sq[1] + 96).chr, start_sq[0] + 1].join if current_player.color == 'white'
-      valid_opp_last_move = ['P', (start_sq[1] + 98).chr, start_sq[0] - 1, (start_sq[1] + 98).chr, start_sq[0] + 1].join if current_player.color == 'black'
+      valid_opp_last_move = ['P', (start_sq[1] + 96).chr, start_sq[0] + 3, (start_sq[1] + 96).chr, start_sq[0] + 1].join if player.color == 'white'
+      valid_opp_last_move = ['P', (start_sq[1] + 98).chr, start_sq[0] - 1, (start_sq[1] + 98).chr, start_sq[0] + 1].join if player.color == 'black'
     end
     move_list.last_move_cleaned == valid_opp_last_move
   end

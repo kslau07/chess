@@ -40,5 +40,11 @@ class Board
   def update_square(coord, new_value)
     grid[coord[0]][coord[1]] = new_value
   end
+
+  def transfer_piece(move)
+    move.capture_piece
+    update_square(move.end_sq, move.start_piece)
+    update_square(move.start_sq, 'unoccupied')
+  end
 end
 

@@ -1,41 +1,12 @@
-Add verification to 'gets' methods.
-
-We will do preliminary check to see if the user has entered a valid move or "menu".
-If it passes this preliminary check, then we will pass on the input to Move.
-
-When we press 1 -> normal new game, as before
-When new game is loaded, change the message to: 
-"Type 'menu' to see options"
-
-
-
-We will no longer take 2 inputs, take 1 input which will have the beginning and finish squares.
-
-to load move_list, instantiate new MoveList, you have to pass along
-(2) and use a conditional, 1 -> new list + new variables, 2 -> new list and load instance variables
-then for load move_list, use instance_variable_set @all_moves
-to load grid, instantiate new Board, pass along 1/2, use conditional
-to either create new list + new variables, or new list + load saved variables
-We've gone as far as we can go with this class, we now need to implement
-real methods in Game, MoveList and Board.
-Begin with creating the in game menu -> Type 'menu' to see options
-In the menu, first create save game option
-You will then use our dummy methods to create a real save file
-You may try reducing the size of the game board for this part
-After we can save a file we then work on load file
-First start with loading from beginning, then later implement load 
-in the middle of a game.
-
-When we save a game, save filename as its date and time.
-When we load a game, show 5 file names, load file 1-5 using user input.
-
-I think looking for paths belongs to Board and not Move.
-Move path related methods to Board.
+move #transfer_piece to Board
+move #path_obstructed to Board
 
 Creating a copy of Board
 - We will serialize and unserialize instances of Board so that
 we can test for check, checkmate and to be able to save and load games.
 - How do we serialize something? We will use JSON.
+
+Add validation for all 'gets'
 
 Testing checkmate:
 - iterate through King's predefined moves, create new Move objs, look for @validated == true

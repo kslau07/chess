@@ -5,11 +5,11 @@
 class Castle < Move
   Move.register(self)
 
-  def self.handles?(current)
-    start_sq = current[:start_sq]
-    end_sq = current[:end_sq]
+  def self.handles?(**args)
+    start_sq = args[:start_sq]
+    end_sq = args[:end_sq]
 
-    cond1 = current[:board].object(start_sq).instance_of?(King)
+    cond1 = args[:board].object(start_sq).instance_of?(King)
     cond2 = (end_sq[1] - start_sq[1]).abs == 2 # base move is > 1
     cond1 && cond2
   end

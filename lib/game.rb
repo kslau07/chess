@@ -48,13 +48,16 @@ class Game
     start_sequence
     # Display.draw_board(board)
 
-    turn_loop # run once, testing
-    # 40.times { turn_loop }
-    # turn_loop until game_over?
+    turn_sequence # run once, testing
+    # 40.times { turn_sequence }
+    # turn_sequence until game_over?
   end
 
   def start_sequence
-    start_input = gets.chomp
+    
+    # start_input = gets.chomp # auto new game, revert later
+    start_input = '1'
+
     case start_input
     when '1'
       Display.draw_board(board)
@@ -66,21 +69,21 @@ class Game
     end
   end
 
-  def turn_loop
+  def turn_sequence
     Display.turn_message(current_player.color)
     start_sq, end_sq = user_input
     new_move = create_move(start_sq, end_sq)
 
-    puts 'you are here'
-    gets
-
-    # pass move input to prefactory
-    move_list.add(new_move) # No longer test for check within Move
     # board.test_check
+    board.transfer_piece(new_move)#if new_move.valid && !board.check
+    # piece.moved
+
+    # move_list.add(new_move) # No longer test for check within Move
     # board.test_mate
-    Display.draw_board(board)
     # We use board_clone for #test_mate
     # board_clone = board.clone
+
+    Display.draw_board(board)
     switch_players
   end
 
