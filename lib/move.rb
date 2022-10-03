@@ -9,7 +9,7 @@ class Move
   include ChessTools
 
   attr_reader :player, :board, :move_list, :start_sq, :end_sq, :start_piece, :end_obj,
-              :path
+              :path, :validated
 
   # attr_reader :player, :board, :start_sq, :end_sq, :path, :start_piece,
   #             :end_obj, :captured_piece, :move_list, :castle, :validated,
@@ -65,7 +65,7 @@ class Move
   def move_permitted?
     # puts "\n\t#{self.class}##{__method__}\n "
     return false unless reachable?
-    return true unless board.path_obstructed?(path) # this condition returns true
+    return true unless board.path_obstructed?(path)
   end
 
   def reachable?

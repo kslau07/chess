@@ -8,6 +8,7 @@ require 'json'
 # This is the chess board
 class Board
   include Serializable
+  include ChessTools
   
   attr_reader :grid
 

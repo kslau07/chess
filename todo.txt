@@ -1,5 +1,5 @@
-move #transfer_piece to Board
-move #path_obstructed to Board
+Problem: White castle moved through White Pawn
+Causes: #path_obstructed is likely to blame, see if it's returning a boolean, and to where.
 
 Creating a copy of Board
 - We will serialize and unserialize instances of Board so that

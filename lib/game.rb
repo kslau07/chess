@@ -8,14 +8,14 @@ class Game
   include Menuable
   include SaveAndLoad
   include ChessTools
-  attr_reader :board, :player1, :player2, :current_player, :opposing_player, :move, :move_list
+  attr_reader :board, :player1, :player2, :current_player, :move, :move_list #:opposing_player, 
 
   def initialize(**args)
     @board = args[:board] || Board.new
     @player1 = args[:player1] || Player.new(color: 'white')
     @player2 = args[:player2] || Player.new(color: 'black')
     @current_player = @player1
-    @opposing_player = @player2
+    # @opposing_player = @player2
     @move = Move
     post_initialize(**args)
   end
@@ -48,12 +48,13 @@ class Game
     start_sequence
     # Display.draw_board(board)
 
-    turn_sequence # run once, testing
-    # 40.times { turn_sequence }
+    # turn_sequence # run once, testing
+    50.times { turn_sequence }
     # turn_sequence until game_over?
   end
 
   def start_sequence
+    p __method__
     
     # start_input = gets.chomp # auto new game, revert later
     start_input = '1'
@@ -71,13 +72,12 @@ class Game
 
   def turn_sequence
     Display.turn_message(current_player.color)
-    start_sq, end_sq = user_input
-    new_move = create_move(start_sq, end_sq)
 
-    # board.test_check
-    board.transfer_piece(new_move)#if new_move.valid && !board.check
-    new_move.start_piece.moved#we can put this in #transfer_piece, or elsewhere
-
+    legal_move
+    
+    # new method to encompass these actions:
+    # new_move.start_piece.moved#we can put this in #transfer_piece, or elsewhere
+    # test_check for other player
     # move_list.add(new_move) # No longer test for check within Move
     # board.test_mate
     # We use board_clone for #test_mate
@@ -100,9 +100,24 @@ class Game
     # new_move
   end
 
+  def legal_move
+    loop do
+      start_sq, end_sq = user_input
+      new_move = create_move(start_sq, end_sq)
+      board.transfer_piece(new_move) if new_move.validated
+      # board.test_check
+      break if new_move.validated # temp line, delete later
+      # break # if player is not in check
+
+      #revert_board and enter the loop again
+    end
+    # validated and no check, continue
+  end
+
   def switch_players
-    current_player = current_player == player1 ? player2 : player1
-    @opposing_player = current_player == player1 ? player2 : player1
+    p __method__
+    @current_player = current_player == player1 ? player2 : player1
+    # @opposing_player = current_player == player1 ? player2 : player1
   end
 
   def user_input(start_sq = '', end_sq = '')
