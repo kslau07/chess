@@ -6,6 +6,7 @@ require_relative 'chess_tools'
 
 # This is the super class for all chess pieces
 class Piece
+  include Serializable
   include ChessTools
 
   def initialize(**args)

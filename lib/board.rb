@@ -7,6 +7,8 @@ require 'json'
 
 # This is the chess board
 class Board
+  include Serializable
+  
   attr_reader :grid
 
   def initialize

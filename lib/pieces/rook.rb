@@ -2,7 +2,7 @@
 
 # This class represents the rook in chess
 class Rook < Piece
-  include Serializable
+  # include Serializable
   attr_reader :color, :unmoved, :long_reach
 
   def post_initialize(**args)

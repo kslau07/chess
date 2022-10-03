@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
+require_relative 'serializable'
 # This class creates all_movess
 class MoveList
+  include Serializable
   # perhaps add option to display move list in chess notation, or human readable format
   attr_reader :all_moves # :last_move_cleaned
   

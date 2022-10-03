@@ -2,7 +2,7 @@
 
 # This class represents the queen in chess
 class Queen < Piece
-  include Serializable
+  # include Serializable
   attr_reader :color, :unmoved, :long_reach
 
   def post_initialize(**args)

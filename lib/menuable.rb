@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
+require_relative 'save_and_load'
+
 # This module provides the menu for chess
 module Menuable
+  
   
   def game_menu
     menu_options
@@ -10,10 +13,13 @@ module Menuable
     case menu_input
     when '1'
       save_from_menu
+      'save'
     when '2'
       load_from_menu
+      'load'
     when '3'
       help_from_menu
+      'help'
       # type any key to continue
     end
 
@@ -32,26 +38,22 @@ module Menuable
   end
 
   def save_from_menu
-    save_game_file
-
+    # save_game_file
     puts 'Game has been saved!'
-    puts 'Press any key to continue.'
-    gets
-    nil
   end
 
   def load_from_menu
     puts 'Game has been loaded!'
-    puts 'Press any key to continue.'
-    gets
-    nil
   end
 
   def help_from_menu
     puts "\n<< Help >>"
     puts "To input a move you may use any of the following notation:".green
     puts 'a2a4 / a2 to a4 / a2-a4 / a2 - a4'.red
-    puts 'Press any key to continue'
+  end
+
+  def press_any_key
+    puts 'Press any key to continue'.blink
     gets
     nil
   end

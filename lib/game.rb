@@ -1,13 +1,10 @@
 # frozen_string_literal: true
 
 require_relative 'menuable'
-require_relative 'save_and_load'
-
 # This is the class for chess
 class Game
   include Menuable
   include SaveAndLoad
-
   attr_reader :board, :player1, :player2, :current_player, :opposing_player, :move, :move_list
 
   def initialize(**args)
@@ -18,7 +15,6 @@ class Game
     @opposing_player = @player2
     @move = Move
     post_initialize(**args)
-
   end
 
   def post_initialize(**args)
@@ -56,7 +52,6 @@ class Game
 
   def start_sequence
     start_input = gets.chomp
-
     case start_input
     when '1'
       puts 'New game!'
@@ -89,7 +84,8 @@ class Game
       puts 'Enter a move:'
       input = gets.chomp.downcase
       if input == 'menu'
-        game_menu
+        execute_menu
+        # game_menu
       else
         # move branch -> check input, continue turn loop
         prelim_check(input)
@@ -100,6 +96,19 @@ class Game
       # break if input is good
     end
     # input
+  end
+
+  def execute_menu
+    menu_choice = game_menu
+    case menu_choice
+    when 'save'
+      save_game_file
+    when 'load'
+
+    when 'help'
+
+    end
+    press_any_key
   end
 
   def check_input
@@ -130,9 +139,9 @@ class Game
     @opposing_player = current_player == player1 ? player2 : player1
   end
 
-  def menu
-    puts 'you are now at the menu'
-  end
+  # def menu
+  #   puts 'you are now at the menu'
+  # end
 
 
   def game_over?
