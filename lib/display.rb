@@ -9,8 +9,6 @@ module Display
     puts "\t\t2. Load game"
   end
 
-
-
   def self.draw_board(board)
     puts "\t    0   1   2   3   4   5   6   7  second"
     puts "\t  .-------------------------------."
@@ -77,23 +75,6 @@ end
 # end
 
 
-# Uses chess notation legend
-  # # Later: remove #{x}, it's 3 spaces
-  # def self.draw_board(board)
-  #   puts "\t      (0) (1) (2) (3) (4) (5) (6) (7) second"
-  #   puts "\t     .-------------------------------."
-  #   7.downto(0) do |x|
-  #     print "\t#{x+1}(#{x}) |" # <- remove here
-  #     0.upto(7) do |y|
-  #       print board.grid[x][y].nil? ? "   |" : " #{board.grid[x][y]} |"
-  #     end
-  #     puts
-  #     puts "\t     |---+---+---+---+---+---+---+---|" unless x == 0
-  #   end
-  #   puts "\t     '-------------------------------'"
-  #   puts "\t       A   B   C   D   E   F   G   H"
-  # end
-
 class String
   def black;          "\e[30m#{self}\e[0m" end
   def red;            "\e[31m#{self}\e[0m" end
@@ -120,19 +101,3 @@ class String
   def blink;          "\e[5m#{self}\e[25m" end
   def reverse_color;  "\e[7m#{self}\e[27m" end
 end
-
-# puts "\t.-------------------------------."
-# puts "\t| ♜ | ♞ | ♝ | ♛ | ♚ | ♝ | ♞ | ♜ |"
-# puts "\t|---+---+---+---+---+---+---+---|"
-# puts "\t| ♟ | ♟ | ♟ | ♟ | ♟ | ♟ | ♟ | ♟ |"
-# puts "\t|---+---+---+---+---+---+---+---|"
-# puts "\t|   |   |   |   |   |   |   |   |"
-# puts "\t|---+---+---+---+---+---+---+---|"
-# puts "\t|   |   |   |   |   |   |   |   |"
-# puts "\t|---+---+---+---+---+---+---+---|"
-# puts "\t|   |   |   |   |   |   |   |   |"
-# puts "\t|---+---+---+---+---+---+---+---|"
-# puts "\t| ♙ | ♙ | ♙ | ♙ | ♙ | ♙ | ♙ | ♙ |"
-# puts "\t|---+---+---+---+---+---+---+---|"
-# puts "\t| ♖ | ♘ | ♗ | ♕ | ♔ | ♗ | ♘ | ♖ |"
-# puts "\t'-------------------------------'"

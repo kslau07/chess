@@ -1,3 +1,5 @@
+Add verification to 'gets' methods.
+
 We will do preliminary check to see if the user has entered a valid move or "menu".
 If it passes this preliminary check, then we will pass on the input to Move.
 

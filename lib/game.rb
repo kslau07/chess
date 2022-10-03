@@ -29,11 +29,11 @@ class Game
   def setup_board(chess_pieces)
     tl = TempLayout.new(current_player: current_player, board: board, move_list: move_list, game: self) # delete later
 
-    # tl.normal(chess_pieces)
+    tl.normal(chess_pieces)
 
     # tl.self_check
     # tl.pawn_vs_pawn
-    tl.en_passant_white_version1
+    # tl.en_passant_white_version1
     # tl.en_passant_white_version2
     # tl.en_passant_black
     # tl.castle
@@ -44,11 +44,7 @@ class Game
   def play
     Display.greeting # change Display to display somehow
     start_sequence
-
-    # return
-
     Display.draw_board(board)
-
 
     turn_loop # run once, testing
     # 40.times { turn_loop }
@@ -63,6 +59,8 @@ class Game
     when '2'
       puts 'Loading game!'
       load_game_file
+      press_any_key
+
       # load_from_start
       # Write this branch when we are able to save game files
       # load game will simply overwrite @board and move_list, use move_list to calculate @current_player
@@ -90,8 +88,7 @@ class Game
       puts 'Enter a move:'
       input = gets.chomp.downcase
       if input == 'menu'
-        execute_menu
-        # game_menu
+        menu_sequence
       else
         # move branch -> check input, continue turn loop
         prelim_check(input)
@@ -104,17 +101,21 @@ class Game
     # input
   end
 
-  def execute_menu
+  def menu_sequence
     menu_choice = game_menu
     case menu_choice
     when 'save'
       save_game_file
     when 'load'
       load_game_file
+      # Display.draw_board(board)
+    when 'move_list'
+      puts move_list.all_moves.join(', ').magenta
+      puts ' '
     when 'help'
-
     end
     press_any_key
+    Display.draw_board(board)
   end
 
   def check_input
@@ -144,11 +145,6 @@ class Game
     @current_player = current_player == player1 ? player2 : player1
     @opposing_player = current_player == player1 ? player2 : player1
   end
-
-  # def menu
-  #   puts 'you are now at the menu'
-  # end
-
 
   def game_over?
     # check_mate

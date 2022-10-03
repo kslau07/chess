@@ -1,14 +1,40 @@
 # frozen_string_literal: true
 
-# require_relative 'serializable'
 # Module class provides saving and loading games for chess
 module SaveAndLoad
-  # include Serializable
 
   def save_game_file
-    puts "\n\t#{self.class}##{__method__}\n "
+    # puts "\n\t#{self.class}##{__method__}\n "
     json_obj_ary = serialize_game_objects
     save_to_file(json_obj_ary)
+  end
+
+  def load_game_file
+    # show list of most recent 5 saves
+    # user inputs num 1-5 to load a game file
+    fname = choose_file
+    return if fname.nil?
+
+    json_obj_ary = read_file(fname)
+    load_move_list(json_obj_ary[0])
+    load_board(json_obj_ary[1])
+  end
+
+  private
+
+  def choose_file
+    # a_file = ''
+    puts 'Choose a file to load:'.magenta
+    file_list = Dir.glob('saved_games/**').map.with_index do |fname, index|
+      break if index >= 5
+      puts "#{index + 1}. #{fname.split('/').last.split('.').first}"
+      # a_file = fname.split('/').last
+      fname.split('/').last.split('.').first
+    end
+
+    puts 'No saved games found.' if file_list.empty?
+    input = gets unless file_list.empty?
+    file_list[input.to_i - 1]
   end
 
   def serialize_game_objects
@@ -31,57 +57,45 @@ module SaveAndLoad
     # end
   end
 
-  def load_game_file
-    # show list of most recent 5 saves
-    # user inputs num 1-5 to load a game file
-    json_obj_ary = read_file
-    load_move_list(json_obj_ary[0])
-    load_board(json_obj_ary[1])
-  end
-
   def load_move_list(json_str)
     obj = JSON.parse(json_str)
-    JSON.parse(obj) # strangely we have to parse twice
+    a_move_list = JSON.parse(obj) # strangely we have to parse twice
+    move_list.instance_variable_set(:@all_moves, a_move_list) # perhaps create a method within MoveList
   end
 
   def load_board(json_str)
     # puts __method__
     # return
-    obj = JSON.parse(json_str)
+    grid_obj = JSON.parse(json_str)
 
-    obj.map do |row|
+    loaded_grid = grid_obj.map do |row|
       row.map do |string|
         if string == 'unoccupied'
           string
         else
-          obj2 = JSON.parse(string)
-          instantiate_board_piece(obj2)
+          piece_hash = JSON.parse(string)
+          instantiate_board_piece(piece_hash)
         end
       end
     end
+
+    board.instance_variable_set(:@grid, loaded_grid) # perhaps create method in Board (i.e. Board#load_grid)
   end
 
-  def instantiate_board_piece(obj)
-    class_name = obj['@class_name']
-    obj = Object.const_get(class_name).new
-  
-    obj.keys.each do |key|
-      piece.instance_variable_set(key, obj[key])
+  def instantiate_board_piece(piece_hash)
+    class_name = piece_hash['@class_name']
+    piece = Object.const_get(class_name).new
+
+    piece_hash.each_key do |key|
+      piece.instance_variable_set(key, piece_hash[key])
     end
-  
+
     piece
   end
 
-  # Allow user to load any of most recent 5 saved games
-  def read_file
-    a_file = ''
-    Dir.glob('saved_games/**').each do |fname|
-      a_file = fname.split('/').last
-    end
-
-    p a_file
-
-    file = File.open("saved_games/#{a_file}", 'r')
+  def read_file(fname)
+    fname += '.json'
+    file = File.open("saved_games/#{fname}", 'r')
     json_obj_ary = []
     until file.eof?
       line = file.readline
@@ -91,102 +105,3 @@ module SaveAndLoad
     json_obj_ary
   end
 end
-
-return
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# unused stuff, delete later
-
-def serialize_board
-  obj = board.grid.map do |row|
-    row.map do |square|
-      if square.is_a?(String)
-        square
-      else
-        square.serialize
-      end
-    end
-  end
-
-  p JSON.dump(obj)
-end
-
-def self.load_board(string)
-  obj = JSON.parse(string)
-
-  obj.map do |row|
-    row.map do |string|
-      if string == 'unoccupied'
-        string
-      else
-        obj = JSON.parse(string)
-        instantiate_board_piece(obj)
-      end
-    end
-  end
-end
-
-# Who should be in charge of serialzing the board, unserializing the board
-# and unserializing instances? (instantiating + setting instance variables)
-# Maybe create new class: SaveLoadGame
-# Maybe create a module to be used in Game?
-def self.instantiate_board_piece(obj)
-  class_name = obj['@class_name']
-  piece = Object.const_get(class_name).new
-
-  obj.keys.each do |key|
-    piece.instance_variable_set(key, obj[key])
-  end
-
-  piece
-end
-
-
-# p game.board
-
-p game.board.grid
-
-serialized_grid = game.board.serialize_board
-
-dirname = 'saved_games'
-Dir.mkdir(dirname) unless File.exist?(dirname)
-File.open("#{dirname}/saved_game.json", 'w') { |f| f.write(serialized_grid) }
-
-loaded_json = ''
-File.open("saved_games/saved_game.json", "r").each do |f|
-  loaded_json = f
-end
-
-# p json_string
-
-unserialized_grid = Board.load_board(loaded_json)
-
-loaded_board = game.board.instance_variable_set(:@grid, unserialized_grid)
-
-
-Display.draw_board(game.board)
-
-
-
-# saved_games_path = File.dirname(__FILE__) + '/../saved_games/**'
-# fnames = Dir.glob(saved_games_path)
-# fnames.each do |fname|
-#   a_file = fname.split('/').last
-# end
