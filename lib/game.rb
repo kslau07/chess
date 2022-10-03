@@ -69,14 +69,12 @@ class Game
   def turn_loop
     Display.turn_message(current_player.color)
     start_sq, end_sq = user_input
+    new_move = create_move(start_sq, end_sq)
 
     puts 'you are here'
-    p start_sq
-    p end_sq
     gets
 
     # pass move input to prefactory
-    # new_move = create_move
     move_list.add(new_move) # No longer test for check within Move
     # board.test_check
     # board.test_mate
@@ -84,6 +82,24 @@ class Game
     # We use board_clone for #test_mate
     # board_clone = board.clone
     switch_players
+  end
+
+  # create factory for this?
+  def create_move(start_sq, end_sq, new_move = nil)
+      new_move = move.factory(player: current_player, board: board, move_list: move_list, start_sq: start_sq, end_sq: end_sq)
+
+    # loop do
+    #   new_move = move.prefactory(current_player, opposing_player, board, move_list, self)
+    #   break if new_move.validated || new_move.nil?
+
+    #   Display.invalid_input_message
+    # end
+    # new_move
+  end
+
+  def switch_players
+    current_player = current_player == player1 ? player2 : player1
+    @opposing_player = current_player == player1 ? player2 : player1
   end
 
   def user_input(start_sq = '', end_sq = '')
@@ -145,22 +161,6 @@ class Game
     end
     press_any_key
     Display.draw_board(board)
-  end
-
-  # create factory for this?
-  def create_move(new_move = nil)
-    loop do
-      new_move = move.prefactory(current_player, opposing_player, board, move_list, self) # rename
-      break if new_move.validated || new_move.nil?
-
-      Display.invalid_input_message
-    end
-    new_move
-  end
-
-  def switch_players
-    current_player = current_player == player1 ? player2 : player1
-    @opposing_player = current_player == player1 ? player2 : player1
   end
 
   def game_over?

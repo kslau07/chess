@@ -8,69 +8,19 @@ require_relative 'chess_tools'
 class Move
   include ChessTools
 
-  attr_reader :current_player, :board, :start_sq, :end_sq, :path, :start_piece,
-              :end_obj, :captured_piece, :move_list, :castle, :validated,
-              :opposing_player, :check
+  # attr_reader :current_player, :board, :start_sq, :end_sq, :path, :start_piece,
+  #             :end_obj, :captured_piece, :move_list, :castle, :validated,
+  #             :opposing_player, :check
 
-  # rename
-  # add string matching later
-  def self.prefactory(current_player, opposing_player, board, move_list, game)
-    @current_player = current_player
-    @opposing_player = opposing_player
-    @board = board
-    @move_list = move_list
+  def self.factory(**args)
+    # current = { current_player: @current_player,
+    #             opposing_player: @opposing_player,
+    #             board: @board,
+    #             start_sq: @start_sq,
+    #             end_sq: @end_sq,
+    #             move_list: @move_list }
 
-    Display.check if @move_list.prev_move_check?
-    # loop do
-    #   Display.input_start_msg
-    #   first_input = gets.chomp.downcase.split('')
-
-    #   Display.input_end_msg
-    #   second_input = gets.chomp.downcase.split('')
-
-    #   @start_sq, @end_sq = translate_input([first_input, second_input])
-    #   break if check_input
-
-    #   Display.invalid_input_message
-    # end
-
-    return
-
-    factory
-  end
-
-  # rename later
-  # def self.prefactory_test_mate(attributes)
-  #   puts "\n\t#{self.class}##{__method__}\n "
-
-  #   @current_player = attributes[:current_player]
-  #   @opposing_player = attributes[:opposing_player]
-  #   @board = attributes[:board]
-  #   @move_list = attributes[:move_list]
-  #   @start_sq = attributes[:begin_sq]
-  #   @end_sq = attributes[:finish_sq]
-
-    
-  #   factory
-  # end
-
-  # def self.translate_input(input_ary)
-  #   input_ary.map do |subary|
-  #     [subary[1].to_i - 1, subary[0].ord - 97]
-  #   end
-  # end
-
-
-
-  def self.factory
-    current = { current_player: @current_player,
-                opposing_player: @opposing_player,
-                board: @board,
-                start_sq: @start_sq,
-                end_sq: @end_sq,
-                move_list: @move_list }
-
-    registry.find { |candidate| candidate.handles?(current) }.new(current)
+    registry.find { |candidate| candidate.handles?(**args) }.new(**args)
   end
 
   def self.registry
