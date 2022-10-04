@@ -50,6 +50,12 @@ class Move
     @captured_piece = end_obj if end_obj.is_a?(Piece)
   end
 
+  def transfer_piece
+    capture_piece
+    board.update_square(end_sq, start_piece)
+    board.update_square(start_sq, 'unoccupied')
+  end
+
   private
 
   def post_initialize
@@ -80,4 +86,6 @@ class Move
   # def path_obstructed?(path)
   #   board.path_obstructed?(path)
   # end
+
+
 end

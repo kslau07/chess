@@ -91,7 +91,7 @@ class Game
       grid_json = board.serialize
       start_sq, end_sq = user_input
       new_move = create_move(start_sq, end_sq)
-      board.transfer_piece(new_move) if new_move.validated
+      new_move.transfer_piece if new_move.validated
       break if !board.check?(current_player) && new_move.validated
 
       Display.invalid_input_message
