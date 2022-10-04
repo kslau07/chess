@@ -35,4 +35,9 @@ module ChessTools
   def opposing_color(color)
     color == 'white' ? 'black' : 'white'
   end
+
+  def opposite_player
+    current_player ||= player
+    current_player == player1 ? player2 : player1
+  end
 end

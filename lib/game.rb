@@ -8,7 +8,7 @@ class Game
   include Menuable
   include SaveAndLoad
   include ChessTools
-  attr_reader :board, :player1, :player2, :current_player, :move, :move_list #:opposing_player, 
+  attr_reader :board, :player1, :player2, :current_player, :move, :move_list
 
   def initialize(**args)
     @board = args[:board] || Board.new
@@ -33,8 +33,8 @@ class Game
 
     # tl.normal(chess_pieces)
 
-    # tl.self_check
-    tl.pawn_vs_pawn
+    tl.self_check
+    # tl.pawn_vs_pawn
     # tl.en_passant_white_version1
     # tl.en_passant_white_version2
     # tl.en_passant_black
@@ -72,11 +72,17 @@ class Game
   def turn_sequence
     Display.turn_message(current_player.color)
 
-    legal_move
+    new_move = legal_move
 
-    # new method to encompass these actions:
-    # new_move.start_piece.moved#we can put this in #transfer_piece, or elsewhere
+    # new method to encompass these actions (???)
     # test_check for other player
+    new_move.checks_other_player?
+
+    require 'pry-byebug' # debugging, delete
+    binding.pry # debugging, delete
+
+    # test for check for opposite player, then update new_move to reflect that
+
     # move_list.add(new_move) # No longer test for check within Move
     # board.test_mate
     # We use board_clone for #test_mate
@@ -86,17 +92,19 @@ class Game
     switch_players
   end
 
-  def legal_move
+  def legal_move(new_move = nil)
     loop do
       grid_json = board.serialize
       start_sq, end_sq = user_input
       new_move = create_move(start_sq, end_sq)
+
       new_move.transfer_piece if new_move.validated
       break if !board.check?(current_player) && new_move.validated
 
       Display.invalid_input_message
       revert_board(grid_json) if board.check?(current_player) # duplicated board.check, better way??
     end
+    new_move
   end
 
   def revert_board(grid_json)

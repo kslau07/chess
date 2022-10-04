@@ -1,12 +1,14 @@
 Test these again:
-castle
-- delete Castle#revert_board, use Game#revert_board
-- add exception, if prev move was check, cannot castle
-en passant -> get move list working first
-pawn attack / capture
-Pawn single step, working
-Pawn double step, working
 
+  castle, working
+  - add exception, if prev move was check, cannot castle -> get move list working
+
+  en passant -> get move list working first
+
+  pawn attack / capture, working
+  Pawn single step, working
+  Pawn double step, working
+#
 
 When move_list is working again, you have to set @current_player by using even or 
 odd number of moves in list.

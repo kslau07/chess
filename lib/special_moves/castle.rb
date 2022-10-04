@@ -3,6 +3,8 @@
 # This class is used help the factory method in Move to
 # self-register and self-select when player castles
 class Castle < Move
+  attr_reader :base_move_castle
+
   Move.register(self)
 
   def self.handles?(**args)
@@ -15,6 +17,14 @@ class Castle < Move
   end
   
   def post_initialize
+    @base_move_castle = base_move(start_sq, end_sq, player.color)
+    @base_move_castle = start_piece.invert(base_move_castle) if player.color == 'black'
+    # temp = start_piece.invert(base_move_castle) if player.color == 'black' # try to get rid of this line
+    # @base_move_castle = temp if player.color == 'black'
+
+    # require 'pry-byebug' # debugging, delete
+    # binding.pry # debugging, delete
+
     move_sequence
   end
 
@@ -22,11 +32,11 @@ class Castle < Move
   # Maybe add the logic here
   def move_permitted?
     puts "\n\t#{self.class}##{__method__}\n "
-    base_move = base_move(start_sq, end_sq, board.object(start_sq).color)
-    temp = start_piece.invert(base_move) if current_player.color == 'black'
-    base_move = temp if current_player.color == 'black'
+    # base_move = base_move(start_sq, end_sq, board.object(start_sq).color)
+    # temp = start_piece.invert(base_move) if player.color == 'black'
+    # base_move = temp if player.color == 'black'
 
-    case base_move
+    case base_move_castle
     when [0, 2]
       king_side_castle?
     when [0, -2]
@@ -51,25 +61,46 @@ class Castle < Move
     return true if start_piece.unmoved && corner_piece.unmoved
   end
 
+
+  # def validate_move
+  #   p __method__
+  #   # base_move = base_move(start_sq, end_sq, board.object(end_sq).color)
+  #   # temp = start_piece.invert(base_move) if player.color == 'black'
+  #   # base_move = temp if player.color == 'black'
+
+
+  #   # Display.draw_board(board)
+  #   # gets
+
+  #   @validated = true
+    
+  # end
+
   def transfer_piece
+    # p __method__
+
+    # if base_move_castle == [0, 2]
+    #   rook = board.object([start_sq[0], start_sq[1] + 1])
+    #   # rook = board.object(corner)
+    # elsif base_move_castle == [0, -2]
+    #   rook = board.object([start_sq[0], start_sq[1] - 1])
+    # end
+
+
     execute_castle
+    # start_piece.moved
+    # rook.moved
   end
 
   def execute_castle(rook = '', corner = [])
-    puts "\n\t#{self.class}##{__method__}\n "
-
-    base_move = base_move(start_sq, end_sq, board.object(start_sq).color)
-    temp = start_piece.invert(base_move) if current_player.color == 'black'
-    base_move = temp if current_player.color == 'black'
-
     board.update_square(end_sq, start_piece) # king
     board.update_square(start_sq, 'unoccupied')
 
-    if base_move == [0, 2]
+    if base_move_castle == [0, 2]
       corner = [start_sq[0], start_sq[1] + 3]
       rook_new_sq = [start_sq[0], start_sq[1] + 1]
       rook = board.object(corner)
-    elsif base_move == [0, -2]
+    elsif base_move_castle == [0, -2]
       corner = [start_sq[0], start_sq[1] - 4]
       rook_new_sq = [start_sq[0], start_sq[1] - 1]
       rook = board.object(corner)
@@ -77,55 +108,8 @@ class Castle < Move
   
     board.update_square(rook_new_sq, rook) # rook
     board.update_square(corner, 'unoccupied')
-  end
 
-  # def revert_board
-  #   puts "\n\t#{self.class}##{__method__}\n "
-  #   base_move = base_move(start_sq, end_sq, board.object(end_sq).color)
-  #   temp = start_piece.invert(base_move) if current_player.color == 'black'
-  #   base_move = temp if current_player.color == 'black'
-
-  #   if base_move == [0, 2]
-  #     corner = [start_sq[0], start_sq[1] + 3]
-  #     rook_sq = [start_sq[0], start_sq[1] + 1]
-  #     rook = board.object([start_sq[0], start_sq[1] + 1])
-  #     # rook = board.object(corner)
-  #   elsif base_move == [0, -2]
-  #     corner = [start_sq[0], start_sq[1] - 4]
-  #     rook_sq = [start_sq[0], start_sq[1] - 1]
-  #     rook = board.object([start_sq[0], start_sq[1] - 1])
-  #     # rook = board.object(corner)
-  #   end
-
-  #   king = board.object(end_sq)
-
-  #   # - revert board, revert everything we moved:
-  #   # -- king goes back to home spot
-  #   # -- rook goes back in the corner
-  #   # -- the 2 middle spaces become unoccupied
-
-  #   board.update_square(corner, rook) # move rook back to corner
-  #   board.update_square(start_sq, king) # move king back to home spot
-  #   board.update_square(rook_sq, 'unoccupied') # middle space back to 'unoccupied'
-  #   board.update_square(end_sq, 'unoccupied') # middle space back to 'unoccupied'
-  # end
-
-  def validate_move
-    base_move = base_move(start_sq, end_sq, board.object(end_sq).color)
-    temp = start_piece.invert(base_move) if current_player.color == 'black'
-    base_move = temp if current_player.color == 'black'
-
-    if base_move == [0, 2]
-      rook = board.object([start_sq[0], start_sq[1] + 1])
-      # rook = board.object(corner)
-    elsif base_move == [0, -2]
-      rook = board.object([start_sq[0], start_sq[1] - 1])
-    end
-
-    @validated = true
     start_piece.moved
     rook.moved
   end
 end
-
-

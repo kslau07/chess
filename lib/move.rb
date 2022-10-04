@@ -54,6 +54,12 @@ class Move
     capture_piece
     board.update_square(end_sq, start_piece)
     board.update_square(start_sq, 'unoccupied')
+    start_piece.moved
+  end
+
+  def checks_other_player?
+    board.check?(opposite_player)
+    @checks_opposite_player == true
   end
 
   private
@@ -69,7 +75,7 @@ class Move
 
   def validate_move
     @validated = true
-    start_piece.moved
+    # start_piece.moved
   end
 
   def move_permitted?
@@ -87,5 +93,5 @@ class Move
   #   board.path_obstructed?(path)
   # end
 
-
+  private
 end
