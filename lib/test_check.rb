@@ -3,12 +3,12 @@
 # This module tests for check in Board objects
 module TestCheck
   def check?(player)
-    p __method__
-    p player
+    # p __method__
+    # p player
 
     attack_paths = paths_that_attack_king(square_of_king(player.color))
 
-    p ['attack_paths', attack_paths]
+    # p ['attack_paths', attack_paths]
     
     # gets
     

@@ -1,6 +1,8 @@
 # https://www.theodinproject.com/lessons/ruby-ruby-final-project
 # frozen_string_literal: true
 
+require 'awesome_print'
+
 require_relative 'game'
 require_relative 'board'
 require_relative 'move'

@@ -1,4 +1,7 @@
-Work on test_check
+Work on #revert_board
+
+When move_list is working again, you have to set @current_player by using even or 
+odd number of moves in list.
 
 Later today, test these again:
 single step
@@ -67,6 +70,7 @@ Figure out private vs public methods
 See how to add main and tests to replit
 We need to test what, not how.
 You must write edge cases for all of your tests.
+Perhaps rename grid to... | live_squares | live_board | squares | ...
 
 Other testing tools to use:
 p/puts anywhere in test

@@ -81,5 +81,8 @@ class Board
     false
   end
 
+  def load_grid(grid_obj)
+    # board.instance_variable_set(:@grid, loaded_grid) # perhaps create method in Board (i.e. Board#load_grid)
+    @grid = grid_obj
+  end
 end
-

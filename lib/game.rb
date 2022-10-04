@@ -89,17 +89,25 @@ class Game
 
   def legal_move
     loop do
+      grid_json = board.serialize
       start_sq, end_sq = user_input
       new_move = create_move(start_sq, end_sq)
       board.transfer_piece(new_move) if new_move.validated
+      # Display.draw_board(board) # temp, delete
 
       break unless board.check?(current_player)
 
-      Display.draw_board(board) # temp, delete
       Display.invalid_input_message
-      #revert_board and enter the loop again
+      # revert_board and enter the loop again
+      revert_board(grid_json) if board.check?(current_player) # duplicated board.check, better way??
+
+      # Display.draw_board(board) # temp, delete
     end
     # validated and no check, continue
+  end
+
+  def revert_board(grid_json)
+    load_board(grid_json)
   end
 
   # create factory for this?

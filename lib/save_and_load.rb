@@ -19,6 +19,7 @@ module SaveAndLoad
     json_obj_ary = read_file(fname)
     load_move_list(json_obj_ary[0])
     load_board(json_obj_ary[1])
+    puts 'Game file has been loaded!'
   end
 
   private
@@ -66,11 +67,9 @@ module SaveAndLoad
   end
 
   def load_board(json_str)
-    # puts __method__
-    # return
     grid_obj = JSON.parse(json_str)
 
-    loaded_grid = grid_obj.map do |row|
+    parsed_grid_obj = grid_obj.map do |row|
       row.map do |string|
         if string == 'unoccupied'
           string
@@ -81,8 +80,7 @@ module SaveAndLoad
       end
     end
 
-    board.instance_variable_set(:@grid, loaded_grid) # perhaps create method in Board (i.e. Board#load_grid)
-    puts 'Game file has been loaded!'
+    board.load_grid(parsed_grid_obj)
   end
 
   def instantiate_board_piece(piece_hash)
