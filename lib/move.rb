@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# require_relative 'board'
-# require_relative 'player'
 require_relative 'chess_tools'
 
 # This creates moves in chess
@@ -48,6 +46,12 @@ class Move
     post_initialize
   end
 
+  def capture_piece
+    @captured_piece = end_obj if end_obj.is_a?(Piece)
+  end
+
+  private
+
   def post_initialize
     @path = start_piece.generate_path(board, start_sq, end_sq)
     move_sequence
@@ -63,7 +67,6 @@ class Move
   end
 
   def move_permitted?
-    # puts "\n\t#{self.class}##{__method__}\n "
     return false unless reachable?
     return true unless board.path_obstructed?(path)
   end
@@ -72,12 +75,9 @@ class Move
     path.include?(end_sq) ? true : false
   end
 
+  # If no classes are using this method, we can comment out, then delete
   # delegate, then delete
-  def path_obstructed?(path)
-    board.path_obstructed?(path)
-  end
-
-  def capture_piece
-    @captured_piece = end_obj if end_obj.is_a?(Piece)
-  end
+  # def path_obstructed?(path)
+  #   board.path_obstructed?(path)
+  # end
 end

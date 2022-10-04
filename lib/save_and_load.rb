@@ -2,7 +2,6 @@
 
 # Module class provides saving and loading games for chess
 module SaveAndLoad
-
   def save_game_file
     # puts "\n\t#{self.class}##{__method__}\n "
     json_obj_ary = serialize_game_objects

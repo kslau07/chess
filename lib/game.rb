@@ -33,8 +33,8 @@ class Game
 
     # tl.normal(chess_pieces)
 
-    tl.self_check
-    # tl.pawn_vs_pawn
+    # tl.self_check
+    tl.pawn_vs_pawn
     # tl.en_passant_white_version1
     # tl.en_passant_white_version2
     # tl.en_passant_black
@@ -54,7 +54,6 @@ class Game
   end
 
   def start_sequence
-    p __method__
 
     # start_input = gets.chomp # auto new game, revert later
     start_input = '1'
@@ -93,17 +92,11 @@ class Game
       start_sq, end_sq = user_input
       new_move = create_move(start_sq, end_sq)
       board.transfer_piece(new_move) if new_move.validated
-      # Display.draw_board(board) # temp, delete
-
-      break unless board.check?(current_player)
+      break if !board.check?(current_player) && new_move.validated
 
       Display.invalid_input_message
-      # revert_board and enter the loop again
       revert_board(grid_json) if board.check?(current_player) # duplicated board.check, better way??
-
-      # Display.draw_board(board) # temp, delete
     end
-    # validated and no check, continue
   end
 
   def revert_board(grid_json)
@@ -120,6 +113,7 @@ class Game
     # @opposing_player = current_player == player1 ? player2 : player1
   end
 
+  # the follow 4 methods could be moved, or extracted
   def user_input(start_sq = '', end_sq = '')
     loop do
       # puts 'Another message goes here?'
