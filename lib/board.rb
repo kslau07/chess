@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
+# require_relative 'main'
 require_relative 'piece'
-require_relative 'pieces/pawn'
+require_relative 'test_check'
+# require_relative 'pieces/pawn'
 
 require 'json'
 
@@ -9,6 +11,7 @@ require 'json'
 class Board
   include Serializable
   include ChessTools
+  include TestCheck
   
   attr_reader :grid
 
@@ -77,5 +80,6 @@ class Board
     end
     false
   end
+
 end
 

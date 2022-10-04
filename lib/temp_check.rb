@@ -1,8 +1,7 @@
+# delete this file
 # temp file to hold check methods, until we know where to put them
 
-def opposing_color(color)
-  color == 'white' ? 'black' : 'white'
-end
+
 
   # def test_check_for_opposing_player
   #   # puts "\n\t#{self.class}##{__method__}\n "
@@ -44,6 +43,19 @@ end
   # end
 
 
+
+
+
+
+  def revert_board
+    puts "\n\t#{self.class}##{__method__}\n "
+    board.update_square(end_sq, end_obj)
+    board.update_square(start_sq, start_piece)
+  end
+
+
+  ### repurposedly already
+  
   # def in_check?(player)
   #   # puts "\n\t#{self.class}##{__method__}\n "
   #   attack_paths = paths_that_attack_king(square_of_king(player.color))
@@ -55,7 +67,7 @@ end
   #   end
   # end
 
-  # def paths_that_attack_king(sq_of_king)
+    # def paths_that_attack_king(sq_of_king)
   #   kings_color = board.object(sq_of_king).color
   #   attack_paths = []
   #   board.squares.each do |square|
@@ -70,7 +82,7 @@ end
   #   attack_paths
   # end
 
-  # def square_of_king(color)
+    # def square_of_king(color)
   #   # puts "\n\t#{self.class}##{__method__}\n "
 
   #   board.squares.find do |square|
@@ -78,8 +90,6 @@ end
   #   end
   # end
 
-  def revert_board
-    puts "\n\t#{self.class}##{__method__}\n "
-    board.update_square(end_sq, end_obj)
-    board.update_square(start_sq, start_piece)
-  end
+  # def opposing_color(color)
+  #   color == 'white' ? 'black' : 'white'
+  # end

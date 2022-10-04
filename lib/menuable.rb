@@ -11,7 +11,6 @@ module Menuable
       save_from_menu
       'save'
     when '2'
-      # load_from_menu
       'load'
     when '3'
       view_move_list_from_menu
@@ -19,10 +18,9 @@ module Menuable
     when '4'
       help_from_menu
       'help'
-      # type any key to continue
+    when '5'
+      exit_from_menu
     end
-
-    # allow backing out of menu -> return to get input
   end
 
   def menu_options
@@ -31,6 +29,7 @@ module Menuable
     puts "\t2. Load Game"
     puts "\t3. View Move List"
     puts "\t4. Help"
+    puts "\t5. Exit"
   end
 
   def save_from_menu
@@ -49,6 +48,11 @@ module Menuable
     puts "\nHelp:"
     puts 'To input a move you may use any of the following notation:'.blue
     puts 'a2a4 | a2 to a4 | a2-a4 | a2 - a4'.red
+  end
+
+  def exit_from_menu
+    puts 'Oh okay. See you next time!'
+    exit
   end
 
   def press_any_key

@@ -31,9 +31,9 @@ class Game
   def setup_board(chess_pieces)
     tl = TempLayout.new(current_player: current_player, board: board, move_list: move_list, game: self) # delete later
 
-    tl.normal(chess_pieces)
+    # tl.normal(chess_pieces)
 
-    # tl.self_check
+    tl.self_check
     # tl.pawn_vs_pawn
     # tl.en_passant_white_version1
     # tl.en_passant_white_version2
@@ -55,7 +55,7 @@ class Game
 
   def start_sequence
     p __method__
-    
+
     # start_input = gets.chomp # auto new game, revert later
     start_input = '1'
 
@@ -74,7 +74,7 @@ class Game
     Display.turn_message(current_player.color)
 
     legal_move
-    
+
     # new method to encompass these actions:
     # new_move.start_piece.moved#we can put this in #transfer_piece, or elsewhere
     # test_check for other player
@@ -87,35 +87,27 @@ class Game
     switch_players
   end
 
-  # create factory for this?
-  def create_move(start_sq, end_sq, new_move = nil)
-      new_move = move.factory(player: current_player, board: board, move_list: move_list, start_sq: start_sq, end_sq: end_sq)
-
-    # loop do
-    #   new_move = move.prefactory(current_player, opposing_player, board, move_list, self)
-    #   break if new_move.validated || new_move.nil?
-
-    #   Display.invalid_input_message
-    # end
-    # new_move
-  end
-
   def legal_move
     loop do
       start_sq, end_sq = user_input
       new_move = create_move(start_sq, end_sq)
       board.transfer_piece(new_move) if new_move.validated
-      # board.test_check
-      break if new_move.validated # temp line, delete later
-      # break # if player is not in check
 
+      break unless board.check?(current_player)
+
+      Display.draw_board(board) # temp, delete
+      Display.invalid_input_message
       #revert_board and enter the loop again
     end
     # validated and no check, continue
   end
 
+  # create factory for this?
+  def create_move(start_sq, end_sq)
+    move.factory(player: current_player, board: board, move_list: move_list, start_sq: start_sq, end_sq: end_sq)
+  end
+
   def switch_players
-    p __method__
     @current_player = current_player == player1 ? player2 : player1
     # @opposing_player = current_player == player1 ? player2 : player1
   end
@@ -156,13 +148,9 @@ class Game
 
   def pass_prelim_check?(start_sq, end_sq)
     # return false if board.object(start_sq) == 'unoccupied'
-    return false if out_of_bound?(start_sq, end_sq)
+    return false if out_of_bound?(board, start_sq, end_sq)
     return false if board.object(end_sq).is_a?(Piece) && board.object(end_sq).color == current_player.color
     return true if board.object(start_sq).is_a?(Piece) && board.object(start_sq).color == current_player.color
-  end
-
-  def out_of_bound?(start_sq, end_sq)
-    board.squares.include?(start_sq) && board.squares.include?(end_sq) ? false : true
   end
 
   def menu_sequence

@@ -1,5 +1,12 @@
-Problem: White castle moved through White Pawn
-Causes: #path_obstructed is likely to blame, see if it's returning a boolean, and to where.
+Work on test_check
+
+Later today, test these again:
+single step
+double step
+en passant
+pawn attack / capture
+castle
+- add exception, if prev move was check, cannot castle
 
 Creating a copy of Board
 - We will serialize and unserialize instances of Board so that
@@ -36,13 +43,7 @@ If piece with long_reach is checking the king
 Checkmate:
 What about double check?
 
-Test these again:
-single step
-double step
-en passant
-pawn attack / capture
-castle
-- add exception, if prev move was check, cannot castle
+
 
 Bugs (take screenshot, save move list):
 - white king could move in black pawn's attack square, when blk pawn was on row 1 (couldn't reproduce)

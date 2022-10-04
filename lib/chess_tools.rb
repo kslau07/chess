@@ -31,4 +31,8 @@ module ChessTools
   def translate_notation_to_square_index(str_move)
     [str_move[-1].to_i - 1, str_move[-2].ord - 97]
   end
+
+  def opposing_color(color)
+    color == 'white' ? 'black' : 'white'
+  end
 end
