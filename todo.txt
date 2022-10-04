@@ -1,9 +1,9 @@
 Test these again:
+  en passant, last try self-checking
 
   castle, working
   - add exception, if prev move was check, cannot castle -> get move list working
 
-  en passant -> get move list working first
 
   pawn attack / capture, working
   Pawn single step, working
@@ -73,6 +73,7 @@ See how to add main and tests to replit
 We need to test what, not how.
 You must write edge cases for all of your tests.
 Perhaps rename grid to... | live_squares | live_board | squares | ...
+invalid move results in TWO msgs about help. One is from the invalid move, one is always sent.
 
 Other testing tools to use:
 p/puts anywhere in test

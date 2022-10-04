@@ -7,11 +7,11 @@ class Move
   include ChessTools
 
   attr_reader :player, :board, :move_list, :start_sq, :end_sq, :start_piece, :end_obj,
-              :path, :validated
+              :path, :validated, :captured_piece, :checks
 
   # attr_reader :player, :board, :start_sq, :end_sq, :path, :start_piece,
   #             :end_obj, :captured_piece, :move_list, :castle, :validated,
-  #             :opposing_player, :check
+  #             :opposing_player, :checks
 
   def self.factory(**args)
     registry.find { |candidate| candidate.handles?(**args) }.new(**args)
@@ -46,9 +46,6 @@ class Move
     post_initialize
   end
 
-  def capture_piece
-    @captured_piece = end_obj if end_obj.is_a?(Piece)
-  end
 
   def transfer_piece
     capture_piece
@@ -58,11 +55,14 @@ class Move
   end
 
   def checks_other_player?
-    board.check?(opposite_player)
-    @checks_opposite_player == true
+    @checks = true if board.check?(opposing_color(player.color))
   end
 
   private
+
+  def capture_piece
+    @captured_piece = end_obj if end_obj.is_a?(Piece)
+  end
 
   def post_initialize
     @path = start_piece.generate_path(board, start_sq, end_sq)

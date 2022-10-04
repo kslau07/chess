@@ -25,7 +25,7 @@ class MoveList
     translated_move << 'x' if move.captured_piece
     translated_move << (move.end_sq[1] + 97).chr # convert to notation
     translated_move << move.end_sq[0] + 1 # convert to notation
-    translated_move << '+' if move.check
+    translated_move << '+' if move.checks
     all_moves << translated_move.join
   end
 

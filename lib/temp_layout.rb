@@ -119,20 +119,22 @@ class TempLayout
   end
 
   def en_passant_black
-    @current_player = @player2
+    game.instance_variable_set(:@current_player, Player.new(color: 'black'))
 
     # black, white passes on right
     # seq = ["Pa2a3+", "Pd7d5+", "Pg2g4+", "Pd5d4+", "Pe2e4+"] # valid
-    # seq = ["Pa2a3+", "Pd7d5+", "Pg2g4+", "Pd5d4+", "Pe3e4+"] # invalid
-    # board.grid[3][4] = PieceFactory.create('Pawn', 'white')
-    # board.grid[3][3] = PieceFactory.create('Pawn', 'black')
+    seq = ["Pa2a3+", "Pd7d5+", "Pg2g4+", "Pd5d4+", "Pe3e4+"] # invalid
+    board.grid[3][4] = PieceFactory.create('Pawn', 'white')
+    board.grid[3][3] = PieceFactory.create('Pawn', 'black') # en passant -> d4e3
 
     # black, white passes on left
-    seq = ["Pa2a3+", "Pd7d5+", "Pg2g4+", "Pd5d4+", "Pc2c4+"] # valid
+    # seq = ["Pa2a3+", "Pd7d5+", "Pg2g4+", "Pd5d4+", "Pc2c4+"] # valid
     # seq = ["Pa2a3+", "Pd7d5+", "Pg2g4+", "Pd5d4+", "Pe3e4+"] # invalid
-    board.grid[3][2] = PieceFactory.create('Pawn', 'white')
-    board.grid[3][3] = PieceFactory.create('Pawn', 'black')
+    # board.grid[3][2] = PieceFactory.create('Pawn', 'white')
+    # board.grid[3][3] = PieceFactory.create('Pawn', 'black')
 
+    board.grid[0][4] = PieceFactory.create('King', 'white')
+    board.grid[7][4] = PieceFactory.create('King', 'black')
     move_list.instance_variable_set(:@all_moves, seq)
   end
 end

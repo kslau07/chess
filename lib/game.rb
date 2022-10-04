@@ -33,11 +33,11 @@ class Game
 
     # tl.normal(chess_pieces)
 
-    tl.self_check
+    # tl.self_check
     # tl.pawn_vs_pawn
     # tl.en_passant_white_version1
     # tl.en_passant_white_version2
-    # tl.en_passant_black
+    tl.en_passant_black
     # tl.castle
     # tl.w_pawn_attack
     # tl.b_pawn_attack
@@ -70,20 +70,13 @@ class Game
   end
 
   def turn_sequence
-    Display.turn_message(current_player.color)
+    
 
     new_move = legal_move
-
-    # new method to encompass these actions (???)
-    # test_check for other player
     new_move.checks_other_player?
+    move_list.add(new_move) # No longer test for check within Move
 
-    require 'pry-byebug' # debugging, delete
-    binding.pry # debugging, delete
-
-    # test for check for opposite player, then update new_move to reflect that
-
-    # move_list.add(new_move) # No longer test for check within Move
+    # gets
     # board.test_mate
     # We use board_clone for #test_mate
     # board_clone = board.clone
@@ -99,10 +92,10 @@ class Game
       new_move = create_move(start_sq, end_sq)
 
       new_move.transfer_piece if new_move.validated
-      break if !board.check?(current_player) && new_move.validated
+      break if !board.check?(current_player.color) && new_move.validated
 
       Display.invalid_input_message
-      revert_board(grid_json) if board.check?(current_player) # duplicated board.check, better way??
+      revert_board(grid_json) if board.check?(current_player.color) # duplicated board.check, better way??
     end
     new_move
   end
@@ -124,7 +117,7 @@ class Game
   # the follow 4 methods could be moved, or extracted
   def user_input(start_sq = '', end_sq = '')
     loop do
-      # puts 'Another message goes here?'
+      Display.turn_message(current_player.color)
       puts 'Enter a move:'
       input = gets.chomp.downcase
 
