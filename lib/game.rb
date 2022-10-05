@@ -98,14 +98,11 @@ class Game
       break if !board.check?(current_player.color) && new_move.validated
 
       Display.invalid_input_message
-      revert_board(grid_json) if board.check?(current_player.color) # duplicated board.check, better way??
+      revert_board(grid_json, board) if board.check?(current_player.color) # duplicated board.check, better way??
     end
     new_move
   end
 
-  def revert_board(grid_json)
-    load_board(grid_json)
-  end
 
   # create factory for this?
   def create_move(start_sq, end_sq)

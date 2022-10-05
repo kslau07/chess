@@ -2,6 +2,8 @@
 
 # This module tests for check in Board objects
 module TestCheck
+  include SaveAndLoad
+
   def check?(color)
     attack_paths = paths_that_attack_king(square_of_king(color))
     return false if attack_paths.empty?
@@ -37,9 +39,10 @@ module TestCheck
   # test if checkate for color indicated
   # remove delegation if not needed
   def checkmate?(move_data)
+    p __method__
 
     
-    king_escapes?(move_data)
+    p king_escapes?(move_data)
 
     gets
   end
@@ -57,7 +60,9 @@ module TestCheck
     king = object(sq_king)
 
 
-    king.possible_moves.each do |possible_move|
+    king.possible_moves.any? do |possible_move|
+
+      
       begin_sq = sq_king
       finish_sq = [sq_king[0] + possible_move[0], sq_king[1] + possible_move[1]]
       next if out_of_bound?(self, begin_sq, finish_sq) # check if square is out of bound
@@ -76,14 +81,22 @@ module TestCheck
       #
 
       # serialize board + move_list here
+      grid_json = serialize
+      revert_board(grid_json, self)
+      # load_board(grid_json)
+
+      require 'pry-byebug'; binding.pry # debugging, delete
+      
       p king_escape_move.start_sq
       p king_escape_move.end_sq
-      p check?(color)
+      p king_escape_move.validated
+      p !check?(color)
+
+      
       # revert board and move_list if move results in check
       # return true if king escapes (move is valid and move does not result in check)
-      gets
 
-                                      
+      king_escape_move.validated && !check?(color)
       # p ['king_escape_move.validated', king_escape_move.validated]
     end
   end
