@@ -65,8 +65,8 @@ module TestCheck
 
     counter = 0
     king.possible_moves.each do |possible_move| # change to any?
-      break if counter == 2
-      print 'counter', counter += 1; puts
+      # break if counter == 2
+      # print 'counter', counter += 1; puts
 
       begin_sq = sq_king
       finish_sq = [sq_king[0] + possible_move[0], sq_king[1] + possible_move[1]]
@@ -81,24 +81,22 @@ module TestCheck
   end
 
   def test_king_move(move_data)
-    print 'move_data keys', move_data.keys; puts
     move = move_data[:move]
-    possible_king_escape_mv = move.factory(move_data)
+    color = move_data[:player].color
 
-    # serialize board + move_list here
     grid_json = serialize
-    # load_board(grid_json)
+    possible_king_escape_mv = move.factory(move_data)
+    possible_king_escape_mv.transfer_piece if possible_king_escape_mv.validated
+
+    # check out results
+    # print possible_king_escape_mv.start_sq, possible_king_escape_mv.end_sq; puts
+    # print 'validated ', possible_king_escape_mv.validated; puts
+    # print 'NOT check? ', !check?(move_data[:player].color); puts
 
 
-    print possible_king_escape_mv.start_sq, possible_king_escape_mv.end_sq; puts
-    print 'validated ', possible_king_escape_mv.validated; puts
-    print 'NOT check? ', !check?(move_data[:player].color); puts
-
-    Display.draw_board(move_data[:board])
+    result = !check?(color) && possible_king_escape_mv.validated
     revert_board(grid_json, self)
-    Display.draw_board(move_data[:board])
-    # we know which escape moves are 1) valid and 2) not check
-    # let's test the next escape move
+    result
   end
 end
 
@@ -114,3 +112,14 @@ end
     # on the other side we will automate setting variables
     # possible_king_escape_mv = move.factory(player: player, board: self,
                                     # move_list: move_list, start_sq: start_sq, end_sq: end_sq)
+
+
+
+    # methods involving a new Move
+    # serialize board
+    # new_move.factory(init_hsh)
+    # new_move.transfer_piece if new_move.validated
+    # revert board if check
+    # pass if !new_move.check? && new_move.validated
+
+    # break if !board.check?(current_player.color) && new_move.validated
