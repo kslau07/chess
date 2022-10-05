@@ -34,9 +34,14 @@ module TestCheck
 
   # checkmate methods
 
-  def checkmate?(color)
-    p __method__
-    king_escapes?(player, other_player, move)
+  # test if checkate for color indicated
+  # remove delegation if not needed
+  def checkmate?(move_data)
+
+    
+    king_escapes?(move_data)
+
+    gets
   end
 
   # How do we start this?
@@ -44,29 +49,42 @@ module TestCheck
   # Find one single square it can legally move to
   # checkmate is false at that point
 
-  def king_escapes?(player, other_player, move)
+  # does king of given color have one escape square
+  def king_escapes?(move_data)
+    p __method__
+    color = move_data[:player].color
+    sq_king = square_of_king(color)
+    king = object(sq_king)
 
-    gets
-
-    sq_king = square_of_king(player.color)
-    king = board.object(sq_king)
 
     king.possible_moves.each do |possible_move|
       begin_sq = sq_king
       finish_sq = [sq_king[0] + possible_move[0], sq_king[1] + possible_move[1]]
-      next if out_of_bound?(board, begin_sq, finish_sq) # check if square is out of bound
+      next if out_of_bound?(self, begin_sq, finish_sq) # check if square is out of bound
 
-      attributes = { player: player,
-                     opposing_player: other_player,
-                     board: board,
-                     move_list: move_list,
-                     begin_sq: sq_king,
-                     finish_sq: possible_move }
+      # p ['finish_sq', finish_sq]
 
-      king_escape_move = move.prefactory_test_mate(attributes) # then we instantiate
+      move = move_data[:move]
+      player = move_data[:player]
+      move_list = move_data[:move_list]
+      start_sq = begin_sq
+      end_sq = finish_sq
 
-      p ['finish_sq', finish_sq]
-      p ['king_escape_move.validated', king_escape_move.validated]
+
+      king_escape_move = move.factory(player: player, board: self,
+                                      move_list: move_list, start_sq: start_sq, end_sq: end_sq)
+      #
+
+      # serialize board + move_list here
+      p king_escape_move.start_sq
+      p king_escape_move.end_sq
+      p check?(color)
+      # revert board and move_list if move results in check
+      # return true if king escapes (move is valid and move does not result in check)
+      gets
+
+                                      
+      # p ['king_escape_move.validated', king_escape_move.validated]
     end
   end
 end

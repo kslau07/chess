@@ -72,17 +72,20 @@ class Game
   def turn_sequence
     new_move = legal_move
     new_move.test_check_other_player
-    new_move.test_checkmate_other_player if new_move.checks
-    move_list.add(new_move)
 
-    # gets
-    # board.test_mate
-    # We use board_clone for #test_mate
-    # board_clone = board.clone
+    Display.draw_board(board) # temp, delete
+    new_move.test_checkmate_other_player(move_data) if new_move.checks
+    move_list.add(new_move)
 
     Display.draw_board(board)
     switch_players
     puts 'Check!'.bg_red if new_move.checks
+  end
+
+  # what do we need to instantiate Move?
+  # player, board, move_list, start_sq, end_sq
+  def move_data
+    { player: other_player, board: board, move_list: move_list, move: move}
   end
 
   def legal_move(new_move = nil)
@@ -110,8 +113,11 @@ class Game
   end
 
   def switch_players
-    @current_player = current_player == player1 ? player2 : player1
-    # @opposing_player = current_player == player1 ? player2 : player1
+    @current_player = other_player
+  end
+
+  def other_player
+    current_player == player1 ? player2 : player1
   end
 
   # the follow 4 methods could be moved, or extracted

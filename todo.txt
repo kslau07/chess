@@ -1,3 +1,5 @@
+remember to use bookmarks
+
 test_mate
 
 pawn promotion

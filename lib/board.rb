@@ -12,7 +12,7 @@ class Board
   include Serializable
   include ChessTools
   include TestCheck
-  
+
   attr_reader :grid
 
   def initialize

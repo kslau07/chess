@@ -9,6 +9,9 @@ class Move
   attr_reader :player, :board, :move_list, :start_sq, :end_sq, :start_piece, :end_obj,
               :path, :validated, :captured_piece, :checks, :checkmates
 
+  # what do we need to instantiate Move?
+  # player, board, move_list, start_sq, end_sq
+
   def self.factory(**args)
     registry.find { |candidate| candidate.handles?(**args) }.new(**args)
   end
@@ -50,8 +53,8 @@ class Move
     @checks = true if board.check?(opposing_color(player.color))
   end
 
-  def test_checkmate_other_player
-    @checkmates = true if board.checkmate?(opposing_color(player.color))
+  def test_checkmate_other_player(move_data)
+    @checkmates = true if board.checkmate?(move_data)
   end
 
   private
