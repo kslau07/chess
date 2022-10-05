@@ -62,42 +62,48 @@ module TestCheck
 
     king.possible_moves.any? do |possible_move|
 
-      
       begin_sq = sq_king
       finish_sq = [sq_king[0] + possible_move[0], sq_king[1] + possible_move[1]]
       next if out_of_bound?(self, begin_sq, finish_sq) # check if square is out of bound
 
-      # p ['finish_sq', finish_sq]
-
-      move = move_data[:move]
-      player = move_data[:player]
-      move_list = move_data[:move_list]
-      start_sq = begin_sq
-      end_sq = finish_sq
-
-
-      king_escape_move = move.factory(player: player, board: self,
-                                      move_list: move_list, start_sq: start_sq, end_sq: end_sq)
-      #
-
-      # serialize board + move_list here
-      grid_json = serialize
-      revert_board(grid_json, self)
-      # load_board(grid_json)
-
-      require 'pry-byebug'; binding.pry # debugging, delete
-      
-      p king_escape_move.start_sq
-      p king_escape_move.end_sq
-      p king_escape_move.validated
-      p !check?(color)
-
-      
-      # revert board and move_list if move results in check
-      # return true if king escapes (move is valid and move does not result in check)
+      move_data[start_sq] = begin_sq
+      move_data[end_sq] = finish_sq
+      test_king_move(move_data)
 
       king_escape_move.validated && !check?(color)
       # p ['king_escape_move.validated', king_escape_move.validated]
     end
+  end
+
+  def test_king_move(move_data)
+
+    move = move_data[:move]
+    player = move_data[:player]
+    move_list = move_data[:move_list]
+    start_sq = begin_sq
+    end_sq = finish_sq
+
+
+    # pass in a hash, there are too many variables to set
+    # on the other side we will automate setting variables
+    king_escape_move = move.factory(player: player, board: self,
+                                    move_list: move_list, start_sq: start_sq, end_sq: end_sq)
+    #
+
+    # serialize board + move_list here
+    grid_json = serialize
+    # load_board(grid_json)
+
+    require 'pry-byebug'; binding.pry # debugging, delete
+
+    p king_escape_move.start_sq
+    p king_escape_move.end_sq
+    p king_escape_move.validated
+    p !check?(color)
+
+    # revert board and move_list if move results in check
+    # return true if king escapes (move is valid and move does not result in check)
+
+    revert_board(grid_json, self)
   end
 end

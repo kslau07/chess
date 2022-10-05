@@ -1,3 +1,6 @@
+for Move.initialize we should not set each individual variable, there are too many.
+https://stackoverflow.com/questions/2680523/dry-ruby-initialization-with-hash-argument
+
 remember to use bookmarks
 
 test_mate
