@@ -54,7 +54,7 @@ class Move
     start_piece.moved
   end
 
-  def checks_other_player?
+  def checks_other_player
     @checks = true if board.check?(opposing_color(player.color))
   end
 

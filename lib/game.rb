@@ -73,7 +73,7 @@ class Game
     
 
     new_move = legal_move
-    new_move.checks_other_player?
+    new_move.checks_other_player
     move_list.add(new_move) # No longer test for check within Move
 
     # gets
@@ -83,6 +83,7 @@ class Game
 
     Display.draw_board(board)
     switch_players
+    puts 'Check!'.bg_red if new_move.checks
   end
 
   def legal_move(new_move = nil)

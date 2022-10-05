@@ -1,8 +1,7 @@
 test_mate
 
 pawn promotion
-
-puts 'Check!' when check
+x puts 'Check!' when check
 
 When move_list is working again, you have to set @current_player by using even or 
 odd number of moves in list.

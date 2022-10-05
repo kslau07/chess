@@ -51,7 +51,7 @@ module Menuable
   end
 
   def exit_from_menu
-    puts 'Oh okay. See you next time!'
+    puts 'Oh, okay. See you next time!'
     exit
   end
 
