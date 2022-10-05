@@ -37,8 +37,8 @@ class Game
     # tl.pawn_vs_pawn
     # tl.en_passant_white_version1
     # tl.en_passant_white_version2
-    tl.en_passant_black
-    # tl.castle
+    # tl.en_passant_black
+    tl.castle
     # tl.w_pawn_attack
     # tl.b_pawn_attack
   end
@@ -118,7 +118,6 @@ class Game
   def user_input(start_sq = '', end_sq = '')
     loop do
       Display.turn_message(current_player.color)
-      puts 'Enter a move:'
       input = gets.chomp.downcase
 
       if input == 'menu'

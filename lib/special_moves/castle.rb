@@ -19,22 +19,11 @@ class Castle < Move
   def post_initialize
     @base_move_castle = base_move(start_sq, end_sq, player.color)
     @base_move_castle = start_piece.invert(base_move_castle) if player.color == 'black'
-    # temp = start_piece.invert(base_move_castle) if player.color == 'black' # try to get rid of this line
-    # @base_move_castle = temp if player.color == 'black'
-
-    # require 'pry-byebug' # debugging, delete
-    # binding.pry # debugging, delete
-
     move_sequence
   end
 
-  # You cannot exit check with a castle
-  # Maybe add the logic here
   def move_permitted?
-    puts "\n\t#{self.class}##{__method__}\n "
-    # base_move = base_move(start_sq, end_sq, board.object(start_sq).color)
-    # temp = start_piece.invert(base_move) if player.color == 'black'
-    # base_move = temp if player.color == 'black'
+    return false if move_list.prev_move_check?
 
     case base_move_castle
     when [0, 2]
@@ -61,35 +50,9 @@ class Castle < Move
     return true if start_piece.unmoved && corner_piece.unmoved
   end
 
-
-  # def validate_move
-  #   p __method__
-  #   # base_move = base_move(start_sq, end_sq, board.object(end_sq).color)
-  #   # temp = start_piece.invert(base_move) if player.color == 'black'
-  #   # base_move = temp if player.color == 'black'
-
-
-  #   # Display.draw_board(board)
-  #   # gets
-
-  #   @validated = true
-    
-  # end
-
   def transfer_piece
-    # p __method__
-
-    # if base_move_castle == [0, 2]
-    #   rook = board.object([start_sq[0], start_sq[1] + 1])
-    #   # rook = board.object(corner)
-    # elsif base_move_castle == [0, -2]
-    #   rook = board.object([start_sq[0], start_sq[1] - 1])
-    # end
-
 
     execute_castle
-    # start_piece.moved
-    # rook.moved
   end
 
   def execute_castle(rook = '', corner = [])
@@ -106,10 +69,37 @@ class Castle < Move
       rook = board.object(corner)
     end
   
-    board.update_square(rook_new_sq, rook) # rook
+    board.update_square(rook_new_sq, rook)
     board.update_square(corner, 'unoccupied')
 
     start_piece.moved
     rook.moved
   end
 end
+
+
+
+# def validate_move
+#   p __method__
+#   # base_move = base_move(start_sq, end_sq, board.object(end_sq).color)
+#   # temp = start_piece.invert(base_move) if player.color == 'black'
+#   # base_move = temp if player.color == 'black'
+
+
+#   # Display.draw_board(board)
+#   # gets
+
+#   @validated = true
+  
+# end
+
+
+    # p __method__
+
+    # if base_move_castle == [0, 2]
+    #   rook = board.object([start_sq[0], start_sq[1] + 1])
+    #   # rook = board.object(corner)
+    # elsif base_move_castle == [0, -2]
+    #   rook = board.object([start_sq[0], start_sq[1] - 1])
+    # end
+

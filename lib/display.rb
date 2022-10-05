@@ -31,6 +31,7 @@ module Display
   def self.turn_message(color)
     puts "\nType 'menu' to see options\n ".green
     puts "#{color.capitalize}, it's your turn!"
+    puts 'Enter a move:'
   end
 
   def self.invalid_input_message

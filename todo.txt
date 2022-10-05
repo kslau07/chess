@@ -1,14 +1,8 @@
-Test these again:
-  en passant, last try self-checking
+test_mate
 
-  castle, working
-  - add exception, if prev move was check, cannot castle -> get move list working
+pawn promotion
 
-
-  pawn attack / capture, working
-  Pawn single step, working
-  Pawn double step, working
-#
+puts 'Check!' when check
 
 When move_list is working again, you have to set @current_player by using even or 
 odd number of moves in list.
@@ -60,12 +54,18 @@ Tie (6 repeated moves)
 Tie (stuck)
 - Iterate through pdf moves, if one legal move is found, this tie type is false.
 
-base_move is repeated a lot in #castle, can we DRY it?
-When player's input is not correct, offer help (by typing help).
 Rework special moves and Move, do not spend too much time refactoring.
-We're not using **args in each piece's post init
+Look at methods with lots of args, maybe use a hash
 Is there an abstraction for castle? Much of the code seems repetitive.
 Display captured pieces to the right? Need up to 15 spaces.
+
+Test these again:
+  castle, working
+  pawn attack / capture, working
+  Pawn single step, working
+  Pawn double step, working
+  en passant, working
+#
 
 At the end:
 Figure out private vs public methods
@@ -74,6 +74,7 @@ We need to test what, not how.
 You must write edge cases for all of your tests.
 Perhaps rename grid to... | live_squares | live_board | squares | ...
 invalid move results in TWO msgs about help. One is from the invalid move, one is always sent.
+Try to reduce number of "require_relative" lines
 
 Other testing tools to use:
 p/puts anywhere in test

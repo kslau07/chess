@@ -46,9 +46,8 @@ class TempLayout
     game.instance_variable_set(:@current_player, Player.new(color: 'black'))
     
     # test check
-    board.grid[5][4] = PieceFactory.create('Bishop', 'white') # check black king, king side
-    # board.grid[3][5] = PieceFactory.create('Bishop', 'black') # check white king, king side
-    # board.grid[3][3] = PieceFactory.create('Bishop', 'black') # check white king, queen side
+    # board.grid[5][4] = PieceFactory.create('Bishop', 'white') # check black king, king side
+    board.grid[2][4] = PieceFactory.create('Bishop', 'black') # check white king, king side
 
     # white
     board.grid[0][0] = PieceFactory.create('Rook', 'white')
@@ -67,8 +66,8 @@ class TempLayout
     @current_player = @player1
 
     # white, black pass on right
-    seq = ["Pd2d4+", "Pa7a6+", "Pd4d5+", "Pe7e5+"] # valid en passant
-    # seq = ["Pd2d4+", "Pe7e6+", "Pd4d5+", "Pe6e5+"] # invalid, blk pawn moved twice in list
+    # seq = ["Pd2d4+", "Pa7a6+", "Pd4d5+", "Pe7e5+"] # valid en passant
+    seq = ["Pd2d4+", "Pe7e6+", "Pd4d5+", "Pe6e5+"] # invalid, blk pawn moved twice in list
     board.grid[4][3] = PieceFactory.create('Pawn', 'white')
     board.grid[4][4] = PieceFactory.create('Pawn', 'black')
 
@@ -77,7 +76,12 @@ class TempLayout
     # seq =  ["Pd2d4+", "Pc7c6+", "Pd4d5+", "Pc6c5+"] # invalid, blk pawn moved twice in list
     # board.grid[4][3] = PieceFactory.create('Pawn', 'white')
     # board.grid[4][2] = PieceFactory.create('Pawn', 'black')
+    
+    # test if self-check works
+    # board.grid[5][3] = PieceFactory.create('Rook', 'black')
 
+    board.grid[0][3] = PieceFactory.create('King', 'white')
+    board.grid[7][4] = PieceFactory.create('King', 'black')
     move_list.instance_variable_set(:@all_moves, seq)
   end
 
@@ -98,6 +102,9 @@ class TempLayout
     board.grid[4][6] = PieceFactory.create('Pawn', 'white')
     board.grid[4][5] = PieceFactory.create('Pawn', 'black')
 
+    # kings
+    board.grid[0][4] = PieceFactory.create('King', 'white')
+    board.grid[7][3] = PieceFactory.create('King', 'black')
     move_list.instance_variable_set(:@all_moves, seq)
   end
 
@@ -122,8 +129,8 @@ class TempLayout
     game.instance_variable_set(:@current_player, Player.new(color: 'black'))
 
     # black, white passes on right
-    # seq = ["Pa2a3+", "Pd7d5+", "Pg2g4+", "Pd5d4+", "Pe2e4+"] # valid
-    seq = ["Pa2a3+", "Pd7d5+", "Pg2g4+", "Pd5d4+", "Pe3e4+"] # invalid
+    seq = ["Pa2a3+", "Pd7d5+", "Pg2g4+", "Pd5d4+", "Pe2e4+"] # valid
+    # seq = ["Pa2a3+", "Pd7d5+", "Pg2g4+", "Pd5d4+", "Pe3e4+"] # invalid
     board.grid[3][4] = PieceFactory.create('Pawn', 'white')
     board.grid[3][3] = PieceFactory.create('Pawn', 'black') # en passant -> d4e3
 
@@ -133,8 +140,12 @@ class TempLayout
     # board.grid[3][2] = PieceFactory.create('Pawn', 'white')
     # board.grid[3][3] = PieceFactory.create('Pawn', 'black')
 
+    # rooks test for self-check
+    board.grid[2][3] = PieceFactory.create('Rook', 'white')
+    board.grid[7][7] = PieceFactory.create('Rook', 'black')
+
     board.grid[0][4] = PieceFactory.create('King', 'white')
-    board.grid[7][4] = PieceFactory.create('King', 'black')
+    board.grid[7][3] = PieceFactory.create('King', 'black')
     move_list.instance_variable_set(:@all_moves, seq)
   end
 end
