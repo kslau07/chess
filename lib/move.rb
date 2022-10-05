@@ -12,8 +12,10 @@ class Move
   # what do we need to instantiate Move?
   # player, board, move_list, start_sq, end_sq
 
-  def self.factory(**args)
-    registry.find { |candidate| candidate.handles?(**args) }.new(**args)
+  def self.factory(args)
+    # p args
+    # gets
+    registry.find { |candidate| candidate.handles?(args) }.new(args)
   end
 
   def self.registry
@@ -26,16 +28,14 @@ class Move
 
   Move.register(self)
 
-  def self.handles?(**args)
+  def self.handles?(args)
     true
   end
 
-  def initialize(**args)
-    @player = args[:player]
-    @board = args[:board]
-    @move_list = args[:move_list]
-    @start_sq = args[:start_sq]
-    @end_sq = args[:end_sq]
+  def initialize(args)
+    args.each do |k, v|
+      instance_variable_set("@#{k}", v) unless v.nil?
+    end
     @start_piece = @board.object(start_sq)
     @end_obj = @board.object(end_sq)
 

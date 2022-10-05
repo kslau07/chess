@@ -11,10 +11,10 @@ class Piece
 
   def initialize(**args)
     @color = args[:color] || 'white'
-    post_initialize(**args)
+    post_initialize(args)
   end
 
-  def post_initialize(**args)
+  def post_initialize(args)
     raise NotImplementedError, 'method should be implemented in concrete class'
   end
 

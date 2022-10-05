@@ -7,7 +7,7 @@ class Castle < Move
 
   Move.register(self)
 
-  def self.handles?(**args)
+  def self.handles?(args)
     start_sq = args[:start_sq]
     end_sq = args[:end_sq]
 

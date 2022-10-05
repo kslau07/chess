@@ -17,10 +17,10 @@ class Game
     @current_player = @player1
     # @opposing_player = @player2
     @move = Move
-    post_initialize(**args)
+    post_initialize(args)
   end
 
-  def post_initialize(**args)
+  def post_initialize(args)
     @move_list = args[:move_list] || MoveList.new
     white_set = PieceFactory.create_set('white')
     black_set = PieceFactory.create_set('black')
@@ -106,7 +106,8 @@ class Game
 
   # create factory for this?
   def create_move(start_sq, end_sq)
-    move.factory(player: current_player, board: board, move_list: move_list, start_sq: start_sq, end_sq: end_sq)
+    init_hsh = { player: current_player, board: board, move_list: move_list, start_sq: start_sq, end_sq: end_sq }
+    move.factory(**init_hsh)
   end
 
   def switch_players

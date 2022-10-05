@@ -9,7 +9,7 @@ class TempLayout
     (0..7).each { |x| board.grid[7][x] = chess_pieces[:black_pcs][x+8] } # back row
   end
 
-  def initialize(**args)
+  def initialize(args)
     @board = args[:board]
     @current_player = args[:current_player]
     @move_list = args[:move_list]

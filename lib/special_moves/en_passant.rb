@@ -6,7 +6,7 @@ class EnPassant < Move
   Move.register(self)
 
   # What are minimum requirements for en passant?
-  def self.handles?(**args)
+  def self.handles?(args)
     start_sq = args[:start_sq]
     end_sq = args[:end_sq]
     board = args[:board]

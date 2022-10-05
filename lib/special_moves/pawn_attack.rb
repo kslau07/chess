@@ -6,7 +6,7 @@
 class PawnAttack < Move
   Move.register(self)
 
-  def self.handles?(**args)
+  def self.handles?(args)
     start_sq = args[:start_sq]
     end_sq = args[:end_sq]
     board = args[:board]
@@ -20,7 +20,7 @@ class PawnAttack < Move
     cond1 && cond2 && cond3 && cond4
   end
 
-  def post_initialize(**args)
+  def post_initialize(args)
     # puts "\n\t#{self.class}##{__method__}\n "
     @path = start_piece.generate_attack_path(board, start_sq, end_sq)
     # p ['@path', @path]
