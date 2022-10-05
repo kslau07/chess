@@ -1,5 +1,8 @@
-for Move.initialize we should not set each individual variable, there are too many.
+try to understand how Struct is used here:
 https://stackoverflow.com/questions/2680523/dry-ruby-initialization-with-hash-argument
+
+problem: King is not moving when we #draw_board after initializing a new Move
+next steps: check what we are initializing, check those variables, then draw_board again.
 
 remember to use bookmarks
 

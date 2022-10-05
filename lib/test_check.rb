@@ -63,8 +63,10 @@ module TestCheck
     sq_king = square_of_king(color)
     king = object(sq_king)
 
-
-    king.possible_moves.any? do |possible_move|
+    counter = 0
+    king.possible_moves.each do |possible_move| # change to any?
+      break if counter == 2
+      print 'counter', counter += 1; puts
 
       begin_sq = sq_king
       finish_sq = [sq_king[0] + possible_move[0], sq_king[1] + possible_move[1]]
@@ -74,30 +76,29 @@ module TestCheck
       move_data[:end_sq] = finish_sq
       test_king_move(move_data)
 
-      king_escape_move.validated && !check?(color)
-      # p ['king_escape_move.validated', king_escape_move.validated]
+      # possible_king_escape_mv.validated && !check?(color)
     end
   end
 
   def test_king_move(move_data)
+    print 'move_data keys', move_data.keys; puts
     move = move_data[:move]
-    king_escape_move = move.factory(move_data)
+    possible_king_escape_mv = move.factory(move_data)
 
     # serialize board + move_list here
     grid_json = serialize
     # load_board(grid_json)
 
 
-    p king_escape_move.start_sq
-    p king_escape_move.end_sq
-    p king_escape_move.validated
-    p !check?(move_data[:player].color)
+    print possible_king_escape_mv.start_sq, possible_king_escape_mv.end_sq; puts
+    print 'validated ', possible_king_escape_mv.validated; puts
+    print 'NOT check? ', !check?(move_data[:player].color); puts
 
-    # revert board and move_list if move results in check
-    # return true if king escapes (move is valid and move does not result in check)
-
+    Display.draw_board(move_data[:board])
     revert_board(grid_json, self)
-    gets
+    Display.draw_board(move_data[:board])
+    # we know which escape moves are 1) valid and 2) not check
+    # let's test the next escape move
   end
 end
 
@@ -111,5 +112,5 @@ end
 
     # pass in a hash, there are too many variables to set
     # on the other side we will automate setting variables
-    # king_escape_move = move.factory(player: player, board: self,
+    # possible_king_escape_mv = move.factory(player: player, board: self,
                                     # move_list: move_list, start_sq: start_sq, end_sq: end_sq)
