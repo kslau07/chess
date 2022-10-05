@@ -18,9 +18,9 @@ class TempLayout
   end
 
   def self_check
-    seq = ["Pd2d4", "Pa7a6", "Pd4d5", "Pe7e5"] # valid en passant
+    game.instance_variable_set(:@current_player, Player.new(color: 'black')) # player = black
+    seq = ["Pd2d4", "Pa7a6", "Pd4d5", "Pe7e5"]
 
-    # game.instance_variable_set(:@current_player, Player.new(color: 'black')) # player = black
     board.grid[0][4] = PieceFactory.create('King', 'white')
     board.grid[2][4] = PieceFactory.create('Rook', 'white')
     board.grid[7][4] = PieceFactory.create('King', 'black')

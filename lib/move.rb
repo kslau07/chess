@@ -7,11 +7,7 @@ class Move
   include ChessTools
 
   attr_reader :player, :board, :move_list, :start_sq, :end_sq, :start_piece, :end_obj,
-              :path, :validated, :captured_piece, :checks
-
-  # attr_reader :player, :board, :start_sq, :end_sq, :path, :start_piece,
-  #             :end_obj, :captured_piece, :move_list, :castle, :validated,
-  #             :opposing_player, :checks
+              :path, :validated, :captured_piece, :checks, :checkmates
 
   def self.factory(**args)
     registry.find { |candidate| candidate.handles?(**args) }.new(**args)
@@ -32,12 +28,9 @@ class Move
   end
 
   def initialize(**args)
-    # puts "\n\t#{self.class}##{__method__}\n "
-
-    @player = args[:player] # || Player.new
-    # @opposing_player = args[:opposing_player] # || Player.new
-    @board = args[:board] # || Board.new
-    @move_list = args[:move_list] # || MoveList.new
+    @player = args[:player]
+    @board = args[:board]
+    @move_list = args[:move_list]
     @start_sq = args[:start_sq]
     @end_sq = args[:end_sq]
     @start_piece = @board.object(start_sq)
@@ -46,7 +39,6 @@ class Move
     post_initialize
   end
 
-
   def transfer_piece
     capture_piece
     board.update_square(end_sq, start_piece)
@@ -54,8 +46,12 @@ class Move
     start_piece.moved
   end
 
-  def checks_other_player
+  def test_check_other_player
     @checks = true if board.check?(opposing_color(player.color))
+  end
+
+  def test_checkmate_other_player
+    @checkmates = true if board.checkmate?(opposing_color(player.color))
   end
 
   private
@@ -75,7 +71,6 @@ class Move
 
   def validate_move
     @validated = true
-    # start_piece.moved
   end
 
   def move_permitted?
@@ -86,12 +81,6 @@ class Move
   def reachable?
     path.include?(end_sq) ? true : false
   end
-
-  # If no classes are using this method, we can comment out, then delete
-  # delegate, then delete
-  # def path_obstructed?(path)
-  #   board.path_obstructed?(path)
-  # end
 
   private
 end

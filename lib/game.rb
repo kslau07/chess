@@ -33,12 +33,12 @@ class Game
 
     # tl.normal(chess_pieces)
 
-    # tl.self_check
+    tl.self_check
     # tl.pawn_vs_pawn
     # tl.en_passant_white_version1
     # tl.en_passant_white_version2
     # tl.en_passant_black
-    tl.castle
+    # tl.castle
     # tl.w_pawn_attack
     # tl.b_pawn_attack
   end
@@ -70,11 +70,10 @@ class Game
   end
 
   def turn_sequence
-    
-
     new_move = legal_move
-    new_move.checks_other_player
-    move_list.add(new_move) # No longer test for check within Move
+    new_move.test_check_other_player
+    new_move.test_checkmate_other_player if new_move.checks
+    move_list.add(new_move)
 
     # gets
     # board.test_mate

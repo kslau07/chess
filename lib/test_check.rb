@@ -3,15 +3,7 @@
 # This module tests for check in Board objects
 module TestCheck
   def check?(color)
-    # p __method__
-    # p player
-
     attack_paths = paths_that_attack_king(square_of_king(color))
-
-    # p ['attack_paths', attack_paths]
-    
-    # gets
-    
     return false if attack_paths.empty?
 
     attack_paths.none? do |attack_path|
@@ -37,6 +29,44 @@ module TestCheck
   def square_of_king(color)
     squares.find do |square|
       object(square).instance_of?(King) && object(square).color == color
+    end
+  end
+
+  # checkmate methods
+
+  def checkmate?(color)
+    p __method__
+    king_escapes?(player, other_player, move)
+  end
+
+  # How do we start this?
+  # Check the king with a rook
+  # Find one single square it can legally move to
+  # checkmate is false at that point
+
+  def king_escapes?(player, other_player, move)
+
+    gets
+
+    sq_king = square_of_king(player.color)
+    king = board.object(sq_king)
+
+    king.possible_moves.each do |possible_move|
+      begin_sq = sq_king
+      finish_sq = [sq_king[0] + possible_move[0], sq_king[1] + possible_move[1]]
+      next if out_of_bound?(board, begin_sq, finish_sq) # check if square is out of bound
+
+      attributes = { player: player,
+                     opposing_player: other_player,
+                     board: board,
+                     move_list: move_list,
+                     begin_sq: sq_king,
+                     finish_sq: possible_move }
+
+      king_escape_move = move.prefactory_test_mate(attributes) # then we instantiate
+
+      p ['finish_sq', finish_sq]
+      p ['king_escape_move.validated', king_escape_move.validated]
     end
   end
 end
