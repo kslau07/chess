@@ -3,11 +3,11 @@
 # This class represents the rook in chess
 class Rook < Piece
   # include Serializable
-  attr_reader :color, :unmoved, :long_reach
+  # attr_reader :color, :unmoved, :long_reach
 
-  def post_initialize(args)
-    @class_name = self.class
-    @unmoved = true
+  def post_initialize
+    # @class_name = self.class # some variables and attrs can be moved to superclass
+    # @unmoved = true
     @long_reach = true
   end
 

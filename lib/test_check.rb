@@ -13,15 +13,15 @@ module TestCheck
     end
   end
 
-  def paths_that_attack_king(sq_of_king)
-    player_color = object(sq_of_king).color
+  def paths_that_attack_king(kings_sq)
+    player_color = object(kings_sq).color
     attack_paths = []
     squares.each do |square|
       board_obj = object(square)
       next unless board_obj.is_a?(Piece) && board_obj.color == opposing_color(player_color)
 
       start_sq = square
-      end_sq = sq_of_king
+      end_sq = kings_sq
       attack_path = board_obj.generate_attack_path(self, start_sq, end_sq)
       attack_paths << attack_path unless attack_path.empty?
     end
@@ -34,38 +34,31 @@ module TestCheck
     end
   end
 
-  # checkmate methods
-
-  # test if checkate for color indicated
-  # remove delegation if not needed
   def checkmate?(move_data)
-    p __method__
+    return false if king_escapes?(move_data) || king_is_defendable?(move_data)
 
-    p !king_escapes?(move_data)
-    p king_is_defended?(move_data)
+    true
   end
 
-  def king_is_defended?(move_data)
-    p __method__
-    # p move_data[:move]
-    # move_data is: [:player, :board, :move_list, :move, :start_sq, :end_sq]
-    # p 'player', move_data[:player]
-    # print 'start_sq', move_data[:start_sq]; puts
-    # print 'end_sq', move_data[:end_sq]; puts
-    # p move_data[:move_list].prev_sq
-    
-    # You must get
+  def king_is_defendable?(move_data)
+    color = move_data[:player].color
+    kings_sq = square_of_king(color)
+    attackers_paths = paths_that_attack_king(kings_sq)
 
-    gets
-    # Here we know there is an attacker
-    # We must find the attacker, then look at the attacker's path
-    # Starting from the beginning of the attacker's path, and ending on the
-    # second to last square, see if any of player's piece can capture or block
-    # the attacker.
-
-    # First step?
-    # Identify sq of attacker
-    # Identify path of attacker
+    attackers_paths.each do |attackers_path|
+      attackers_path.each do |path_square|
+        grid.each_with_index do |col, y|
+          col.each_with_index do |sq, x|
+            if sq.is_a?(Piece) && sq.color == color
+              move_data[:start_sq] = [y, x]
+              move_data[:end_sq] = path_square
+              return true if legal_move?(move_data)
+            end
+          end
+        end
+      end
+    end
+    false
   end
 
   def king_escapes?(move_data)
@@ -80,50 +73,42 @@ module TestCheck
 
       move_data[:start_sq] = begin_sq
       move_data[:end_sq] = finish_sq
-      test_king_move(move_data)
+      legal_move?(move_data)
     end
   end
 
-  def test_king_move(move_data)
+  # this method could be split up
+  def legal_move?(move_data)
     move = move_data[:move]
     color = move_data[:player].color
-
     grid_json = serialize
-    possible_king_escape_mv = move.factory(move_data)
-    possible_king_escape_mv.transfer_piece if possible_king_escape_mv.validated
+    possible_move = move.factory(move_data)
+    possible_move.transfer_piece if possible_move.validated
 
-    # check out results
-    # print possible_king_escape_mv.start_sq, possible_king_escape_mv.end_sq; puts
-    # print 'validated ', possible_king_escape_mv.validated; puts
-    # print 'NOT check? ', !check?(move_data[:player].color); puts
-
-
-    result = !check?(color) && possible_king_escape_mv.validated
+    result = !check?(color) && possible_move.validated
     revert_board(grid_json, self)
     result
   end
 end
 
-
-    # move = move_data[:move]
-    # player = move_data[:player]
-    # move_list = move_data[:move_list]
-    # start_sq = begin_sq
-    # end_sq = finish_sq
-
-
-    # pass in a hash, there are too many variables to set
-    # on the other side we will automate setting variables
-    # possible_king_escape_mv = move.factory(player: player, board: self,
-                                    # move_list: move_list, start_sq: start_sq, end_sq: end_sq)
+        # # next if path_square == kings_sq
+        # remaining_pieces(color).each do |remaining_piece|
+        #   if path_obj == 'unoccupied'
+        #     p can_reach_square?(remaining_piece, path_square)
+        #   elsif path_obj.is_a?(Piece) && path_obj.color != color
+        #     p can_capture_square?(remaining_piece, path_square)
+        #   end
+        # end
 
 
+  # def can_reach_square?(defender, target_sq)
+  #   path = defender.generate_path(self, defender.location, target_sq)
+  #   # p path unles path.empty?
+  #   true unless path.empty?
+  # end
 
-    # methods involving a new Move
-    # serialize board
-    # new_move.factory(init_hsh)
-    # new_move.transfer_piece if new_move.validated
-    # revert board if check
-    # pass if !new_move.check? && new_move.validated
-
-    # break if !board.check?(current_player.color) && new_move.validated
+  # def can_capture_square?(defender, attackers_sq)
+  #   path = defender.generate_attack_path(self, defender.location, attackers_sq)
+  #   # p path unles path.empty?
+  #   true unless path.empty?
+  # end

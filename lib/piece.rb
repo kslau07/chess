@@ -8,10 +8,14 @@ require_relative 'chess_tools'
 class Piece
   include Serializable
   include ChessTools
+  attr_reader :color, :unmoved, :long_reach
+
 
   def initialize(**args)
     @color = args[:color] || 'white'
-    post_initialize(args)
+    @class_name = self.class
+    @unmoved = true
+    post_initialize
   end
 
   def post_initialize(args)

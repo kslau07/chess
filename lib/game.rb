@@ -33,7 +33,8 @@ class Game
 
     # tl.normal(chess_pieces)
 
-    tl.self_check
+    tl.checkmate_scenarios
+    # tl.self_check
     # tl.pawn_vs_pawn
     # tl.en_passant_white_version1
     # tl.en_passant_white_version2
@@ -76,6 +77,9 @@ class Game
     Display.draw_board(board) # temp, delete
     move_list.add(new_move)
     new_move.test_checkmate_other_player(move_data) if new_move.checks
+
+    print 'checkmates? ', new_move.checkmates; puts
+    gets
 
     Display.draw_board(board)
     switch_players

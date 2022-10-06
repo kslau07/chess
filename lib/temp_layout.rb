@@ -17,14 +17,30 @@ class TempLayout
 
   end
 
+  def checkmate_scenarios
+    game.instance_variable_set(:@current_player, Player.new(color: 'black')) # player = black
+    seq = ["Pd2d4", "Pa7a6", "Pd4d5", "Pe7e5"]
+
+    board.grid[0][7] = PieceFactory.create('King', 'white')
+    # board.grid[2][0] = PieceFactory.create('Bishop', 'white')
+    # board.grid[7][3] = PieceFactory.create('Rook', 'white')
+
+    board.grid[1][5] = PieceFactory.create('King', 'black')
+    board.grid[1][0] = PieceFactory.create('Rook', 'black')
+    board.grid[6][2] = PieceFactory.create('Rook', 'black') # both rooks create checkmate
+
+    move_list.instance_variable_set(:@all_moves, seq)
+  end
+
   def self_check
     game.instance_variable_set(:@current_player, Player.new(color: 'black')) # player = black
     seq = ["Pd2d4", "Pa7a6", "Pd4d5", "Pe7e5"]
 
     board.grid[0][7] = PieceFactory.create('King', 'white')
-    board.grid[2][3] = PieceFactory.create('Rook', 'white')
-    board.grid[7][5] = PieceFactory.create('King', 'black')
-    
+    board.grid[7][1] = PieceFactory.create('Rook', 'white')
+    # board.grid[7][3] = PieceFactory.create('Rook', 'white')
+
+    board.grid[6][7] = PieceFactory.create('King', 'black')
     board.grid[1][0] = PieceFactory.create('Rook', 'black')
     board.grid[6][2] = PieceFactory.create('Rook', 'black') # both rooks create checkmate
 

@@ -3,11 +3,11 @@
 # This class represents the king in chess
 class King < Piece
   # include Serializable
-  attr_reader :color, :unmoved, :long_reach
+  # attr_reader :color, :unmoved, :long_reach
 
-  def post_initialize(args)
-    @class_name = self.class
-    @unmoved = true
+  def post_initialize
+    # @class_name = self.class
+    # @unmoved = true
     @long_reach = false
   end
 
