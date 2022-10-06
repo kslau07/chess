@@ -74,8 +74,8 @@ class Game
     new_move.test_check_other_player
 
     Display.draw_board(board) # temp, delete
-    new_move.test_checkmate_other_player(move_data) if new_move.checks
     move_list.add(new_move)
+    new_move.test_checkmate_other_player(move_data) if new_move.checks
 
     Display.draw_board(board)
     switch_players

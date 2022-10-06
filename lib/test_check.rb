@@ -41,33 +41,39 @@ module TestCheck
   def checkmate?(move_data)
     p __method__
 
-    
-    p king_escapes?(move_data)
-
-    gets
+    p !king_escapes?(move_data)
+    p king_is_defended?(move_data)
   end
 
-  # How do we start this?
-  # Check the king with a rook
-  # Find one single square it can legally move to
-  # checkmate is false at that point
-
-  # does king of given color have one escape square
-  def king_escapes?(move_data)
+  def king_is_defended?(move_data)
     p __method__
+    # p move_data[:move]
+    # move_data is: [:player, :board, :move_list, :move, :start_sq, :end_sq]
+    # p 'player', move_data[:player]
+    # print 'start_sq', move_data[:start_sq]; puts
+    # print 'end_sq', move_data[:end_sq]; puts
+    # p move_data[:move_list].prev_sq
+    
+    # You must get
 
-    # p move_data
-    # gets
+    gets
+    # Here we know there is an attacker
+    # We must find the attacker, then look at the attacker's path
+    # Starting from the beginning of the attacker's path, and ending on the
+    # second to last square, see if any of player's piece can capture or block
+    # the attacker.
 
+    # First step?
+    # Identify sq of attacker
+    # Identify path of attacker
+  end
+
+  def king_escapes?(move_data)
     color = move_data[:player].color
     sq_king = square_of_king(color)
     king = object(sq_king)
 
-    counter = 0
-    king.possible_moves.each do |possible_move| # change to any?
-      # break if counter == 2
-      # print 'counter', counter += 1; puts
-
+    king.possible_moves.any? do |possible_move|
       begin_sq = sq_king
       finish_sq = [sq_king[0] + possible_move[0], sq_king[1] + possible_move[1]]
       next if out_of_bound?(self, begin_sq, finish_sq) # check if square is out of bound
@@ -75,8 +81,6 @@ module TestCheck
       move_data[:start_sq] = begin_sq
       move_data[:end_sq] = finish_sq
       test_king_move(move_data)
-
-      # possible_king_escape_mv.validated && !check?(color)
     end
   end
 
