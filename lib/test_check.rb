@@ -8,16 +8,14 @@ module TestCheck
     attack_paths = paths_that_attack_king(square_of_king(color))
     return false if attack_paths.empty?
 
-    attack_paths.none? do |attack_path|
-      print 'kings_sq', square_of_king(color); puts #temp delete
-      print 'attack_path', attack_path; puts # temp delete
-
-      path_obstructed?(attack_path)
-    end
+    attack_paths.any? { |attack_path| !path_obstructed?(attack_path) }
   end
 
   def paths_that_attack_king(kings_sq)
     player_color = object(kings_sq).color
+
+
+
     attack_paths = []
     squares.each do |square|
       board_obj = object(square)
@@ -33,29 +31,30 @@ module TestCheck
 
   def square_of_king(color)
     squares.find do |square|
+      p [__method__, square.format_cn] if object(square).instance_of?(King) && object(square).color == color # temp delete
+
+
       object(square).instance_of?(King) && object(square).color == color
     end
   end
 
   def checkmate?(move_data)
-    p __method__
-    print 'king_escapes? ', king_escapes?(move_data); puts
-    # print 'king_is_defendable?', king_is_defendable?(move_data); puts
+    # p __method__
+    # print 'king_escapes? ', king_escapes?(move_data); puts
 
     # dummy_legal_move(move_data)
-    # gets
 
     return false if king_escapes?(move_data) || king_is_defendable?(move_data)
 
     true
   end
 
-  def dummy_legal_move(move_data)
-    move_data[:start_sq] = [0,6]
-    move_data[:end_sq] = [1,6]
-    p legal_move?(move_data)
-    # gets
-  end
+  # def dummy_legal_move(move_data)
+  #   move_data[:start_sq] = [0,6]
+  #   move_data[:end_sq] = [1,6]
+  #   p legal_move?(move_data)
+  #   # gets
+  # end
 
   def king_is_defendable?(move_data)
     color = move_data[:player].color

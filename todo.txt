@@ -5,7 +5,10 @@ problem: we have a checkmate scenario involving the queen, but checkmate is not 
 causes: go through the new methods and step through them. this won't be easy.
 possible cause: we are only looking at ONE piece that checks king instead of all pieces
 the problem is definitely in #check?
-king's square changes from 7,0 to 7,1 while calculating attack paths, very strange
+
+2 issues found:
+king's square changes from 7,0 to 7,1 while calculating attack paths when testing checkmate
+other observation, only 1 attack path is showing for queen & rook, when testing check
 
 remember to use bookmarks
 

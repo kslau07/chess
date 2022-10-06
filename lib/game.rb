@@ -76,9 +76,10 @@ class Game
 
     Display.draw_board(board) # temp, delete
     move_list.add(new_move)
-    new_move.test_checkmate_other_player(move_data) if new_move.checks
+    
+    # new_move.test_checkmate_other_player(move_data) if new_move.checks # disabled checkmate for now
 
-    print 'checkmates? ', new_move.checkmates; puts
+    # print 'checkmates? ', new_move.checkmates; puts
     # gets
 
     Display.draw_board(board)
