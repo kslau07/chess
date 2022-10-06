@@ -9,6 +9,9 @@ module TestCheck
     return false if attack_paths.empty?
 
     attack_paths.none? do |attack_path|
+      print 'kings_sq', square_of_king(color); puts #temp delete
+      print 'attack_path', attack_path; puts # temp delete
+
       path_obstructed?(attack_path)
     end
   end
@@ -37,14 +40,14 @@ module TestCheck
   def checkmate?(move_data)
     p __method__
     print 'king_escapes? ', king_escapes?(move_data); puts
-    print 'king_is_defendable?', king_is_defendable?(move_data); puts
+    # print 'king_is_defendable?', king_is_defendable?(move_data); puts
 
     # dummy_legal_move(move_data)
-    gets
+    # gets
 
-    # return false if king_escapes?(move_data) || king_is_defendable?(move_data)
+    return false if king_escapes?(move_data) || king_is_defendable?(move_data)
 
-    # true
+    true
   end
 
   def dummy_legal_move(move_data)
@@ -90,8 +93,10 @@ module TestCheck
 
 
       if legal_move?(move_data) # delete this
-        print 'begin_sq', begin_sq; puts
-        print 'finish_sq', finish_sq; puts
+        puts
+        p 'legal king escape move'
+        print 'Move: ', [begin_sq.format_cn, finish_sq.format_cn].join; puts
+        puts
       end
 
 
@@ -108,11 +113,11 @@ module TestCheck
     possible_move = move.factory(move_data)
     possible_move.transfer_piece if possible_move.validated
 
-    puts
-    print 'color', color; puts
-    print 'Move: ', [move_data[:start_sq].format_cn, move_data[:end_sq].format_cn].join; puts
-    print 'check?', check?(color); puts
-    puts
+    # puts
+    # print 'color', color; puts
+    # print 'Move: ', [move_data[:start_sq].format_cn, move_data[:end_sq].format_cn].join; puts
+    # print 'check?', check?(color); puts
+    # puts
 
     result = !check?(color) && possible_move.validated
     revert_board(grid_json, self)

@@ -53,6 +53,7 @@ class Piece
   end
 
   def generate_attack_path(board, start_sq, end_sq)
+    # print 'attack_path', generate_path(board, start_sq, end_sq); puts
     generate_path(board, start_sq, end_sq)
   end
 end

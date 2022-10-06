@@ -127,7 +127,7 @@ class Game
     loop do
       Display.turn_message(current_player.color)
       input = gets.chomp.downcase # enable this
-      input = 'b2g2' if input == '' # temp input, delete later
+      input = 'b2b7' if input == '' # temp input, delete later
 
       if input == 'menu'
         menu_sequence
