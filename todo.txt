@@ -1,15 +1,12 @@
 try to understand how Struct is used here:
 https://stackoverflow.com/questions/2680523/dry-ruby-initialization-with-hash-argument
 
-problem: King is not moving when we #draw_board after initializing a new Move
-next steps: check what we are initializing, check those variables, then draw_board again.
+problem: we have a checkmate scenario involving the queen, but checkmate is not true
+causes: go through the new methods and step through them. this won't be easy.
 
 remember to use bookmarks
 
-test_mate
-
 pawn promotion
-x puts 'Check!' when check
 
 When move_list is working again, you have to set @current_player by using even or 
 odd number of moves in list.
@@ -27,29 +24,13 @@ Testing checkmate:
 -- iterate through ALL pieces, create new Move objs for each piece
 --- Start at the beginning of the path (capture) and see if any piece can reach one of the squares in the path.
 ---- The last square is to be omitted as that will be own player's king.
-
-First test if the king can get itself out of checkmate by simply moving.
-- Create a simple layout:
--- 1 where the king can move out of check
---- return boolean for #test_mate
-
 -- 1 where the king must capture the piece (Queen)
 -- 1 where another piece must block the attacker (Bishop, Rook, or Queen)
 -- 1 where another piece must capture the attacker
 -- 1 where 2 pieces are checking the King at the same time
 
-For Pawn or Knight checks, either capture said piece or King must move.
-To test which squares King may move to, create new Move(s) for each of King's 8 moves
-If two pieces are checking the King, then the king MUST move. If not, that's checkmate.
-If piece with long_reach is checking the king
-- test for capture
-- test if any of player's pieces can block the path
-- if any are found, checkmate false
-
 Checkmate:
 What about double check?
-
-
 
 Bugs (take screenshot, save move list):
 - white king could move in black pawn's attack square, when blk pawn was on row 1 (couldn't reproduce)

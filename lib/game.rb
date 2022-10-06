@@ -79,7 +79,7 @@ class Game
     new_move.test_checkmate_other_player(move_data) if new_move.checks
 
     print 'checkmates? ', new_move.checkmates; puts
-    gets
+    # gets
 
     Display.draw_board(board)
     switch_players
@@ -126,7 +126,8 @@ class Game
   def user_input(start_sq = '', end_sq = '')
     loop do
       Display.turn_message(current_player.color)
-      input = gets.chomp.downcase
+      input = gets.chomp.downcase # enable this
+      input = 'b2g2' if input == '' # temp input, delete later
 
       if input == 'menu'
         menu_sequence

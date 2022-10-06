@@ -35,9 +35,23 @@ module TestCheck
   end
 
   def checkmate?(move_data)
-    return false if king_escapes?(move_data) || king_is_defendable?(move_data)
+    p __method__
+    print 'king_escapes? ', king_escapes?(move_data); puts
+    print 'king_is_defendable?', king_is_defendable?(move_data); puts
 
-    true
+    # dummy_legal_move(move_data)
+    gets
+
+    # return false if king_escapes?(move_data) || king_is_defendable?(move_data)
+
+    # true
+  end
+
+  def dummy_legal_move(move_data)
+    move_data[:start_sq] = [0,6]
+    move_data[:end_sq] = [1,6]
+    p legal_move?(move_data)
+    # gets
   end
 
   def king_is_defendable?(move_data)
@@ -73,7 +87,16 @@ module TestCheck
 
       move_data[:start_sq] = begin_sq
       move_data[:end_sq] = finish_sq
+
+
+      if legal_move?(move_data) # delete this
+        print 'begin_sq', begin_sq; puts
+        print 'finish_sq', finish_sq; puts
+      end
+
+
       legal_move?(move_data)
+
     end
   end
 
@@ -84,6 +107,12 @@ module TestCheck
     grid_json = serialize
     possible_move = move.factory(move_data)
     possible_move.transfer_piece if possible_move.validated
+
+    puts
+    print 'color', color; puts
+    print 'Move: ', [move_data[:start_sq].format_cn, move_data[:end_sq].format_cn].join; puts
+    print 'check?', check?(color); puts
+    puts
 
     result = !check?(color) && possible_move.validated
     revert_board(grid_json, self)
@@ -112,3 +141,13 @@ end
   #   # p path unles path.empty?
   #   true unless path.empty?
   # end
+
+  class Array
+    def format_cn
+      translate_index_to_notation(self)
+    end
+
+    def translate_index_to_notation(sq_array)
+      [(sq_array[-1] + 97).chr, sq_array[-2] + 1].join # index to c.n.
+    end
+  end
