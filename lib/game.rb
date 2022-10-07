@@ -20,6 +20,15 @@ class Game
     post_initialize(**args)
   end
 
+  def play
+    Display.greeting # change Display to display somehow
+    start_sequence
+    turn_sequence until game_over
+    play_again
+  end
+
+  private
+
   def post_initialize(**args)
     @board = args[:board] || Board.new
     @move_list = args[:move_list] || MoveList.new
@@ -44,12 +53,6 @@ class Game
     # tl.b_pawn_attack
   end
 
-  def play
-    Display.greeting # change Display to display somehow
-    start_sequence
-    turn_sequence until game_over
-    play_again
-  end
 
   def start_sequence
     start_input = gets.chomp
@@ -70,9 +73,13 @@ class Game
     new_move = legal_move
     new_move.test_check_other_player
     move_list.add(new_move)
-    new_move.test_checkmate_other_player(move_data) if new_move.checks
-    win(current_player) if new_move.checkmates
+    checkmate_seq(new_move) if new_move.checks
     switch_players
+  end
+
+  def checkmate_seq(new_move)
+    new_move.test_checkmate_other_player(move_data)
+    win(current_player) if new_move.checkmates
   end
 
   def move_data
@@ -93,6 +100,7 @@ class Game
     end
     new_move
   end
+
 
   # create factory for this?
   def create_move(start_sq, end_sq)
