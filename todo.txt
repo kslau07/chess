@@ -1,27 +1,28 @@
+** remember to use bookmarks **
+** try call-stack navigation **
+** try conditional thing in pry **
+** try "frame" in pry, what does it do? **
+next: move line by line within the same frame, once you arrive at a method you want to check out, use step to enter the method
+finish: execute everything in current iteration, moves onto next iteration, good for moving through an array/hash quickly and finding the frame with the bug
+up/down: move up and down the frame. it's like zooming in and out scopes, you can zoom out then start nexting lines to move quickly through code.
+conditional breakpoints: if you use the repl to set, you must put binding.pry in a higher scope, enter the method, add the conditional, then use up to zoom out.
+
 try to understand how Struct is used here:
 https://stackoverflow.com/questions/2680523/dry-ruby-initialization-with-hash-argument
 
 pawn promotion
-
-When we load a game that starts with check, do we puts 'Check!' immediately?
 implement draws
+move_list to show 0-0 kingside castle or 0-0-0 queen side castle
 
-remember to use bookmarks
 
 Use move_list to set @current_player to white or black depending on whether
 move_list.size is even (white) or odd (black).
-
-When move_list is working again, you have to set @current_player by using even or 
-odd number of moves in list.
 
 Testing checkmate:
 -- 1 where the king must capture the piece (Queen)
 -- 1 where another piece must block the attacker (Bishop, Rook, or Queen)
 -- 1 where another piece must capture the attacker
 -- 1 where 2 pieces are checking the King at the same time
-
-Tie (stuck)
-- Iterate through pdf moves, if one legal move is found, this tie type is false.
 
 draws:
 stalemate because king has no legal moves, other pieces cannot move either
@@ -30,14 +31,14 @@ stalemate from insufficient material:
   King and bishop vs. king
   King and knight vs. king
   King and bishop vs. king and bishop of the same color as the opponent's bishop
-3 repetitions, ask about this rule, not necessarily a draw (maybe ask in console after 3)
+auto draw if 6 repeated moves
 Player has no legal moves. (King is stuck but not in check)
+- Iterate through pdf moves, if one legal move is found, this tie type is false.
 
 At the end:
 Figure out private vs public methods
 We need to test what, not how.
 You must write edge cases for all of your tests.
-Perhaps rename grid to... | live_squares | live_board | squares | ...
 invalid move results in TWO msgs about help. One is from the invalid move, one is always sent.
 Try to reduce number of "require_relative" lines
 Implement rudimentary AI player that makes random legal moves.
@@ -58,9 +59,7 @@ expect_any_instance_of
 receive_message_chain(:method1, :method2, :method3).and_return('some_characters')
 instance_variable_get
 instance_variable_set
-use mocks/stubs sparringly
-
-
+use mocks/stubs sparingly
 
 Assignment
 Build a command line Chess game where two players can play against each other.

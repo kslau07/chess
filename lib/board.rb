@@ -45,12 +45,6 @@ class Board
     grid[coord[0]][coord[1]] = new_value
   end
 
-  # def transfer_piece(move)
-  #   move.capture_piece
-  #   update_square(move.end_sq, move.start_piece)
-  #   update_square(move.start_sq, 'unoccupied')
-  # end
-
   # rewrite path_obstructed
   def path_obstructed?(path)
     # puts "\n\t#{self.class}##{__method__}\n "

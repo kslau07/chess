@@ -1,3 +1,38 @@
+require 'pry-byebug'; 
+
+def first_method
+  5 + 5
+end
+
+def second_method
+  2 + 2
+end
+
+arr = (0..30).to_a
+
+# conditional at 19 is...?
+
+xvar = 0
+
+binding.pry # debugging, delete me
+# 1st each
+arr.each do |n|
+
+  xvar += 1
+
+  second_method
+
+  # binding.pry if xvar == 2
+  first_method
+end
+
+# 2nd each
+arr.each do |n|
+  second_method
+end
+
+
+
 # input = 'g6z5'
 # p input.match(/^[a-h][0-8][a-h][0-8]$/)
 

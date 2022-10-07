@@ -35,16 +35,4 @@ module ChessTools
   def opposing_color(color)
     color == 'white' ? 'black' : 'white'
   end
-
-  # def remaining_pieces(target_color)
-  #   grid.map.with_index do |row, x|
-  #     row.select.with_index do |sq, y|
-  #       # p [x, y]
-  #       if sq.is_a?(Piece) && sq.color == target_color
-  #         sq.location = [x, y]
-  #         sq
-  #       end
-  #     end
-  #   end.flatten
-  # end
 end

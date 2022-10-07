@@ -23,7 +23,8 @@ class Game
   def play
     Display.greeting # change Display to display somehow
     start_sequence
-    turn_sequence until game_over
+    turn_sequence # testing, delete me
+    # turn_sequence until game_over
     play_again
   end
 
@@ -69,10 +70,13 @@ class Game
   end
 
   def turn_sequence
+    # require 'pry-byebug'; binding.pry # debugging, delete
     Display.draw_board(board)
     new_move = legal_move
     new_move.test_check_other_player
     move_list.add(new_move)
+
+
     checkmate_seq(new_move) if new_move.checks
     switch_players
   end
@@ -119,10 +123,11 @@ class Game
   # the follow 4 methods could be moved, or extracted
   def user_input(start_sq = '', end_sq = '')
     loop do
+      require 'pry-byebug'; binding.pry # debugging, delete
       Display.turn_message(current_player.color)
       puts 'Check!'.bg_red if board.check?(current_player.color)
-      input = gets.chomp.downcase # normal input
-      # input = 'b2b7' if input == '' # auto inputted move, delete me
+      # input = gets.chomp.downcase # normal input
+      input = 'd6f6' if (input == '' || input.nil?) # auto inputted move, delete me
 
       if input == 'menu'
         menu_sequence

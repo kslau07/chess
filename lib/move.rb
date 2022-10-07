@@ -82,6 +82,4 @@ class Move
   def reachable?
     path.include?(end_sq) ? true : false
   end
-
-  private
 end
