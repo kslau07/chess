@@ -8,19 +8,20 @@ class Game
   include Menuable
   include SaveAndLoad
   include ChessTools
-  attr_reader :board, :player1, :player2, :current_player, :move, :move_list
+  attr_reader :board, :player1, :player2, :current_player, :move, :move_list, :game_over
 
   def initialize(**args)
-    @board = args[:board] || Board.new
+    # @board = args[:board] || Board.new
     @player1 = args[:player1] || Player.new(color: 'white')
     @player2 = args[:player2] || Player.new(color: 'black')
     @current_player = @player1
     # @opposing_player = @player2
     @move = Move
-    post_initialize(args)
+    post_initialize(**args)
   end
 
-  def post_initialize(args)
+  def post_initialize(**args)
+    @board = args[:board] || Board.new
     @move_list = args[:move_list] || MoveList.new
     white_set = PieceFactory.create_set('white')
     black_set = PieceFactory.create_set('black')
@@ -29,10 +30,9 @@ class Game
   end
 
   def setup_board(chess_pieces)
-    tl = TempLayout.new(current_player: current_player, board: board, move_list: move_list, game: self) # delete later
+    tl = BoardLayout.new(current_player: current_player, board: board, move_list: move_list, game: self) # delete later
 
     # tl.normal(chess_pieces)
-
     tl.checkmate_scenarios
     # tl.self_check
     # tl.pawn_vs_pawn
@@ -47,48 +47,34 @@ class Game
   def play
     Display.greeting # change Display to display somehow
     start_sequence
-    # Display.draw_board(board)
-
-    # turn_sequence # run once, testing
-    50.times { turn_sequence }
-    # turn_sequence until game_over?
+    turn_sequence until game_over
+    play_again
   end
 
   def start_sequence
-
-    # start_input = gets.chomp # auto new game, revert later
-    start_input = '1'
+    start_input = gets.chomp
+    # start_input = '1' # auto new game
 
     case start_input
     when '1'
       Display.draw_board(board)
       puts "\nA new game has started!".magenta
     when '2'
-      # puts 'Loading game!'
       load_game_file
       press_any_key
     end
   end
 
   def turn_sequence
+    Display.draw_board(board)
     new_move = legal_move
     new_move.test_check_other_player
-
-    Display.draw_board(board) # temp, delete
     move_list.add(new_move)
-    
-    # new_move.test_checkmate_other_player(move_data) if new_move.checks # disabled checkmate for now
-
-    # print 'checkmates? ', new_move.checkmates; puts
-    # gets
-
-    Display.draw_board(board)
+    new_move.test_checkmate_other_player(move_data) if new_move.checks
+    win(current_player) if new_move.checkmates
     switch_players
-    puts 'Check!'.bg_red if new_move.checks
   end
 
-  # what do we need to instantiate Move?
-  # player, board, move_list, start_sq, end_sq
   def move_data
     { player: other_player, board: board, move_list: move_list, move: move}
   end
@@ -108,7 +94,6 @@ class Game
     new_move
   end
 
-
   # create factory for this?
   def create_move(start_sq, end_sq)
     init_hsh = { player: current_player, board: board, move_list: move_list, start_sq: start_sq, end_sq: end_sq }
@@ -127,8 +112,9 @@ class Game
   def user_input(start_sq = '', end_sq = '')
     loop do
       Display.turn_message(current_player.color)
-      input = gets.chomp.downcase # enable this
-      input = 'b2b7' if input == '' # temp input, delete later
+      puts 'Check!'.bg_red if board.check?(current_player.color)
+      input = gets.chomp.downcase # normal input
+      # input = 'b2b7' if input == '' # auto inputted move, delete me
 
       if input == 'menu'
         menu_sequence
@@ -159,7 +145,6 @@ class Game
   end
 
   def pass_prelim_check?(start_sq, end_sq)
-    # return false if board.object(start_sq) == 'unoccupied'
     return false if out_of_bound?(board, start_sq, end_sq)
     return false if board.object(end_sq).is_a?(Piece) && board.object(end_sq).color == current_player.color
     return true if board.object(start_sq).is_a?(Piece) && board.object(start_sq).color == current_player.color
@@ -181,9 +166,28 @@ class Game
     Display.draw_board(board)
   end
 
-  def game_over?
-    # check_mate
-    # draw
-    false
+  def win(player)
+    Display.draw_board(board)
+    Display.win(player)
+    @game_over = true
+  end
+
+  def tie
+    @game_over = true
+  end
+
+  def play_again
+    Display.play_again_question
+    input = gets.chomp
+    case input
+    when 'y'
+      post_initialize
+      @game_over = false
+      @current_player = player1
+      play
+    when 'n'
+      puts 'Oh okay. See you next time!'
+      exit
+    end
   end
 end

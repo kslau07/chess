@@ -27,7 +27,7 @@ require_relative 'pieces/king'
 require_relative 'pieces/bishop'
 require_relative 'pieces/knight'
 
-require_relative 'temp_layout' # delete temp class
+require_relative 'board_layout' # delete temp class
 
 def play(game)
   # NOTE: move scripting methods here once game is finished

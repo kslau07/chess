@@ -1,5 +1,7 @@
-# delete later
-class TempLayout
+# frozen_string_literal: true
+
+# This class holds different board setups for chess
+class BoardLayout
   attr_reader :board, :current_player, :move_list, :game
 
   def normal(chess_pieces)
@@ -17,18 +19,18 @@ class TempLayout
   end
 
   def checkmate_scenarios
-    game.instance_variable_set(:@current_player, Player.new(color: 'black')) # player = black
-    seq = ["Pd2d4", "Pa7a6", "Pd4d5", "Pe7e5"]
+    # game.instance_variable_set(:@current_player, Player.new(color: 'black')) # player = black
 
-    board.grid[6][0] = PieceFactory.create('King', 'white')
-    # board.grid[2][0] = PieceFactory.create('Bishop', 'white')
-    # board.grid[7][3] = PieceFactory.create('Rook', 'white')
+    board.grid[5][0] = PieceFactory.create('King', 'white')
+    board.grid[6][2] = PieceFactory.create('Rook', 'white')
+    board.grid[5][3] = PieceFactory.create('Rook', 'white')
 
     board.grid[7][5] = PieceFactory.create('King', 'black')
-    board.grid[1][1] = PieceFactory.create('Queen', 'black')
-    board.grid[0][1] = PieceFactory.create('Rook', 'black') # both rooks create checkmate
+    # board.grid[5][2] = PieceFactory.create('Knight', 'black')
+    # board.grid[0][1] = PieceFactory.create('Rook', 'black')
 
-    move_list.instance_variable_set(:@all_moves, seq)
+    # seq = ["Pd2d4", "Pa7a6", "Pd4d5", "Pe7e5"]
+    # move_list.instance_variable_set(:@all_moves, seq)
   end
 
   def self_check

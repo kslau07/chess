@@ -13,9 +13,6 @@ module TestCheck
 
   def paths_that_attack_king(kings_sq)
     player_color = object(kings_sq).color
-
-
-
     attack_paths = []
     squares.each do |square|
       board_obj = object(square)
@@ -31,30 +28,16 @@ module TestCheck
 
   def square_of_king(color)
     squares.find do |square|
-      p [__method__, square.format_cn] if object(square).instance_of?(King) && object(square).color == color # temp delete
-
-
+      # p [__method__, square.format_cn] if object(square).instance_of?(King) && object(square).color == color # temp delete
       object(square).instance_of?(King) && object(square).color == color
     end
   end
 
   def checkmate?(move_data)
-    # p __method__
-    # print 'king_escapes? ', king_escapes?(move_data); puts
-
-    # dummy_legal_move(move_data)
-
     return false if king_escapes?(move_data) || king_is_defendable?(move_data)
 
     true
   end
-
-  # def dummy_legal_move(move_data)
-  #   move_data[:start_sq] = [0,6]
-  #   move_data[:end_sq] = [1,6]
-  #   p legal_move?(move_data)
-  #   # gets
-  # end
 
   def king_is_defendable?(move_data)
     color = move_data[:player].color
@@ -90,17 +73,14 @@ module TestCheck
       move_data[:start_sq] = begin_sq
       move_data[:end_sq] = finish_sq
 
-
-      if legal_move?(move_data) # delete this
-        puts
-        p 'legal king escape move'
-        print 'Move: ', [begin_sq.format_cn, finish_sq.format_cn].join; puts
-        puts
-      end
-
+      # if legal_move?(move_data) # delete this
+      #   puts
+      #   p 'legal king escape move'
+      #   print 'Move: ', [begin_sq.format_cn, finish_sq.format_cn].join; puts
+      #   puts
+      # end
 
       legal_move?(move_data)
-
     end
   end
 
@@ -123,28 +103,6 @@ module TestCheck
     result
   end
 end
-
-        # # next if path_square == kings_sq
-        # remaining_pieces(color).each do |remaining_piece|
-        #   if path_obj == 'unoccupied'
-        #     p can_reach_square?(remaining_piece, path_square)
-        #   elsif path_obj.is_a?(Piece) && path_obj.color != color
-        #     p can_capture_square?(remaining_piece, path_square)
-        #   end
-        # end
-
-
-  # def can_reach_square?(defender, target_sq)
-  #   path = defender.generate_path(self, defender.location, target_sq)
-  #   # p path unles path.empty?
-  #   true unless path.empty?
-  # end
-
-  # def can_capture_square?(defender, attackers_sq)
-  #   path = defender.generate_attack_path(self, defender.location, attackers_sq)
-  #   # p path unles path.empty?
-  #   true unless path.empty?
-  # end
 
   class Array
     def format_cn

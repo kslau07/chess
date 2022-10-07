@@ -17,7 +17,7 @@ module SaveAndLoad
 
     json_obj_ary = read_file(fname)
     load_move_list(json_obj_ary[0])
-    load_board(json_obj_ary[1])
+    load_board(json_obj_ary[1], board)
     puts 'Game file has been loaded!'
   end
 

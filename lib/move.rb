@@ -13,8 +13,6 @@ class Move
   # player, board, move_list, start_sq, end_sq
 
   def self.factory(args)
-    # p args
-    # gets
     registry.find { |candidate| candidate.handles?(args) }.new(args)
   end
 

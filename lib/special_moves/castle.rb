@@ -76,30 +76,3 @@ class Castle < Move
     rook.moved
   end
 end
-
-
-
-# def validate_move
-#   p __method__
-#   # base_move = base_move(start_sq, end_sq, board.object(end_sq).color)
-#   # temp = start_piece.invert(base_move) if player.color == 'black'
-#   # base_move = temp if player.color == 'black'
-
-
-#   # Display.draw_board(board)
-#   # gets
-
-#   @validated = true
-  
-# end
-
-
-    # p __method__
-
-    # if base_move_castle == [0, 2]
-    #   rook = board.object([start_sq[0], start_sq[1] + 1])
-    #   # rook = board.object(corner)
-    # elsif base_move_castle == [0, -2]
-    #   rook = board.object([start_sq[0], start_sq[1] - 1])
-    # end
-

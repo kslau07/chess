@@ -1,74 +1,52 @@
 try to understand how Struct is used here:
 https://stackoverflow.com/questions/2680523/dry-ruby-initialization-with-hash-argument
 
-problem: we have a checkmate scenario involving the queen, but checkmate is not true
-causes: go through the new methods and step through them. this won't be easy.
-possible cause: we are only looking at ONE piece that checks king instead of all pieces
-the problem is definitely in #check?
+pawn promotion
 
-2 issues found:
-king's square changes from 7,0 to 7,1 while calculating attack paths when testing checkmate
-other observation, only 1 attack path is showing for queen & rook, when testing check
+When we load a game that starts with check, do we puts 'Check!' immediately?
+implement draws
 
 remember to use bookmarks
 
-pawn promotion
+Use move_list to set @current_player to white or black depending on whether
+move_list.size is even (white) or odd (black).
 
 When move_list is working again, you have to set @current_player by using even or 
 odd number of moves in list.
 
-Creating a copy of Board
-- We will serialize and unserialize instances of Board so that
-we can test for check, checkmate and to be able to save and load games.
-- How do we serialize something? We will use JSON.
-
-Add validation for all 'gets'
-
 Testing checkmate:
-- iterate through King's predefined moves, create new Move objs, look for @validated == true
-- look at list of attacking paths
--- iterate through ALL pieces, create new Move objs for each piece
---- Start at the beginning of the path (capture) and see if any piece can reach one of the squares in the path.
----- The last square is to be omitted as that will be own player's king.
 -- 1 where the king must capture the piece (Queen)
 -- 1 where another piece must block the attacker (Bishop, Rook, or Queen)
 -- 1 where another piece must capture the attacker
 -- 1 where 2 pieces are checking the King at the same time
 
-Checkmate:
-What about double check?
-
-Bugs (take screenshot, save move list):
-- white king could move in black pawn's attack square, when blk pawn was on row 1 (couldn't reproduce)
-
-When pawn reaches other side, player may convert it to another piece.
-
-Tie (6 repeated moves)
-- Check move_list
 Tie (stuck)
 - Iterate through pdf moves, if one legal move is found, this tie type is false.
 
-Rework special moves and Move, do not spend too much time refactoring.
-Look at methods with lots of args, maybe use a hash
-Is there an abstraction for castle? Much of the code seems repetitive.
-Display captured pieces to the right? Need up to 15 spaces.
-
-Test these again:
-  castle, working
-  pawn attack / capture, working
-  Pawn single step, working
-  Pawn double step, working
-  en passant, working
-#
+draws:
+stalemate because king has no legal moves, other pieces cannot move either
+stalemate from insufficient material:
+  King vs. king
+  King and bishop vs. king
+  King and knight vs. king
+  King and bishop vs. king and bishop of the same color as the opponent's bishop
+3 repetitions, ask about this rule, not necessarily a draw (maybe ask in console after 3)
+Player has no legal moves. (King is stuck but not in check)
 
 At the end:
 Figure out private vs public methods
-See how to add main and tests to replit
 We need to test what, not how.
 You must write edge cases for all of your tests.
 Perhaps rename grid to... | live_squares | live_board | squares | ...
 invalid move results in TWO msgs about help. One is from the invalid move, one is always sent.
 Try to reduce number of "require_relative" lines
+Implement rudimentary AI player that makes random legal moves.
+Rework special moves and Move, do not spend too much time refactoring.
+Look at methods with lots of args, maybe use a hash
+Is there an abstraction for castle? Much of the code seems repetitive.
+Display captured pieces to the right? Need up to 15 spaces.
+Add validation for all 'gets'
+
 
 Other testing tools to use:
 p/puts anywhere in test
@@ -83,19 +61,8 @@ instance_variable_set
 use mocks/stubs sparringly
 
 
-pawn promotion
 
-draws:
-stalemate because king has no legal moves, other pieces cannot move either
-stalemate from insufficient material:
-  King vs. king
-  King and bishop vs. king
-  King and knight vs. king
-  King and bishop vs. king and bishop of the same color as the opponent's bishop
-3 repititions, ask about this rule, not necessarily a draw (maybe ask in console after 3)
-"
-
-"Assignment
+Assignment
 Build a command line Chess game where two players can play against each other.
 The game should be properly constrained – it should prevent players from making 
 illegal moves and declare check or check mate in the correct situations.
@@ -112,24 +79,3 @@ your bearings.
 Have fun! Check out the unicode characters for a little spice for your gameboard.
 (Optional extension) Build a very simple AI computer player (perhaps who does a
 random legal move)
-
-old:
-
-
-move king into pawn's attack square
-Problem: When we move white king into black pawn's attack path, nothing happens.
-Possible causes: During the test for check, when generate_attack_path is sent,
-generate_path is sent directly after, but no response is given. No attack_path is returned.
-For reasons unknown, #generate_path will not return a path even when we give it
-Pawn's attack moves and an end_sq (which is the king).
-
-Problem: Pawn double step is allowed even when pawn's path is obstructed.
-Solution: look in #path_obstructed? and see what's going on.
-Solved: When we fixed generate_path_double_step below.
-
-Problem: white pawn moving from 13 to 33 raises error in #base_move
-Solution: note sure
-Notes: begin_sq in #base_move is the sq in front of pawn, why? #generate_path is
-likely doing something weird, or there's an override.
-Stack trace provides clues.
-Solved: #generate_path_double_step had
