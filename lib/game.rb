@@ -70,7 +70,7 @@ class Game
   def turn_sequence
     Display.draw_board(board)
     new_move = legal_move
-    board.test_pawn_promotion(new_move) # write this method
+    board.promote_pawn if board.promotion? # write this method
     new_move.test_check_other_player
     move_list.add(new_move)
     checkmate_seq(new_move) if new_move.checks

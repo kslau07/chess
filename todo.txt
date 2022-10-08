@@ -3,17 +3,12 @@
 ** try conditional breakpoints with pry **
 ** try navigating frames with frame numbers with pry **
 
-Use composition to create chess pieces. Look over POODR notes.
-For example, a queen would be composed of: forward + back, left + right, both diagonals
-@multi_stepper: true
-It can be as simple as possible, it's just about practice at this point
-
-try to understand how Struct is used here:
-https://stackoverflow.com/questions/2680523/dry-ruby-initialization-with-hash-argument
-
 pawn promotion
 implement draws
-move_list to show 0-0 kingside castle or 0-0-0 queen side castle
+move_list to show: 
+- 0-0 kingside castle or 0-0-0 queen side castle
+- pawn promotion
+- checkmate
 
 Use move_list to set @current_player to white or black depending on whether
 move_list.size is even (white) or odd (black).
@@ -47,6 +42,7 @@ Look at methods with lots of args, maybe use a hash
 Is there an abstraction for castle? Much of the code seems repetitive.
 Display captured pieces to the right? Need up to 15 spaces.
 Add validation for all 'gets'
+Create game pieces using composition. Parts would be things like moves, variables.
 
 
 Other testing tools to use:
