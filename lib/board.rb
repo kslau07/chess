@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 # require_relative 'main'
+require 'json'
 require_relative 'piece'
 require_relative 'test_check'
 # require_relative 'pieces/pawn'
 
-require 'json'
 
 # This is the chess board
 class Board

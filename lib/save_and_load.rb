@@ -70,9 +70,6 @@ module SaveAndLoad
   # end
 
   def load_board(json_str, board)
-    # p ['self', self.class]
-    # board = self if instance_of?(Board)
-
     grid_obj = JSON.parse(json_str)
 
     parsed_grid_obj = grid_obj.map do |row|

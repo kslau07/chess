@@ -1,6 +1,7 @@
 # https://www.theodinproject.com/lessons/ruby-ruby-final-project
 # frozen_string_literal: true
 
+require 'pry-byebug'
 require 'awesome_print'
 
 require_relative 'game'
@@ -29,6 +30,7 @@ require_relative 'pieces/knight'
 
 require_relative 'board_layout' # delete temp class
 
+# binding.pry # debugging, delete me
 def play(game)
   # NOTE: move scripting methods here once game is finished
   game.play

@@ -11,11 +11,9 @@ class Game
   attr_reader :board, :player1, :player2, :current_player, :move, :move_list, :game_over
 
   def initialize(**args)
-    # @board = args[:board] || Board.new
     @player1 = args[:player1] || Player.new(color: 'white')
     @player2 = args[:player2] || Player.new(color: 'black')
     @current_player = @player1
-    # @opposing_player = @player2
     @move = Move
     post_initialize(**args)
   end
@@ -23,8 +21,7 @@ class Game
   def play
     Display.greeting # change Display to display somehow
     start_sequence
-    turn_sequence # testing, delete me
-    # turn_sequence until game_over
+    turn_sequence until game_over
     play_again
   end
 
@@ -43,7 +40,8 @@ class Game
     tl = BoardLayout.new(current_player: current_player, board: board, move_list: move_list, game: self) # delete later
 
     # tl.normal(chess_pieces)
-    tl.checkmate_scenarios
+    tl.pawn_promotion
+    # tl.checkmate_scenarios
     # tl.self_check
     # tl.pawn_vs_pawn
     # tl.en_passant_white_version1
@@ -70,13 +68,11 @@ class Game
   end
 
   def turn_sequence
-    # require 'pry-byebug'; binding.pry # debugging, delete
     Display.draw_board(board)
     new_move = legal_move
+    board.test_pawn_promotion(new_move) # write this method
     new_move.test_check_other_player
     move_list.add(new_move)
-
-
     checkmate_seq(new_move) if new_move.checks
     switch_players
   end
@@ -123,11 +119,10 @@ class Game
   # the follow 4 methods could be moved, or extracted
   def user_input(start_sq = '', end_sq = '')
     loop do
-      require 'pry-byebug'; binding.pry # debugging, delete
       Display.turn_message(current_player.color)
       puts 'Check!'.bg_red if board.check?(current_player.color)
-      # input = gets.chomp.downcase # normal input
-      input = 'd6f6' if (input == '' || input.nil?) # auto inputted move, delete me
+      input = gets.chomp.downcase # normal input
+      # input = 'd6f6' if (input == '' || input.nil?) # auto inputted move, delete me
 
       if input == 'menu'
         menu_sequence

@@ -4,12 +4,11 @@ require 'json'
 require_relative 'serializable'
 require_relative 'chess_tools'
 
-# This is the super class for all chess pieces
+# This is the superclass for all chess pieces
 class Piece
   include Serializable
   include ChessTools
   attr_reader :color, :unmoved, :long_reach
-
 
   def initialize(**args)
     @color = args[:color] || 'white'

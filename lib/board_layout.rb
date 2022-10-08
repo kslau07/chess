@@ -18,6 +18,16 @@ class BoardLayout
     @game = args[:game]
   end
 
+  def pawn_promotion
+
+    board.grid[6][2] = PieceFactory.create('Pawn', 'white')
+    board.grid[5][7] = PieceFactory.create('King', 'white')
+
+    board.grid[1][1] = PieceFactory.create('Pawn', 'black')
+    board.grid[5][0] = PieceFactory.create('King', 'black')
+
+  end
+
   def checkmate_scenarios
     # game.instance_variable_set(:@current_player, Player.new(color: 'black')) # player = black
 

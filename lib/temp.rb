@@ -1,4 +1,3 @@
-require 'pry-byebug'; 
 
 def first_method
   5 + 5
@@ -14,7 +13,6 @@ arr = (0..30).to_a
 
 xvar = 0
 
-binding.pry # debugging, delete me
 # 1st each
 arr.each do |n|
 

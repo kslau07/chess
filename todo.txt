@@ -1,11 +1,12 @@
 ** remember to use bookmarks **
 ** try call-stack navigation **
-** try conditional thing in pry **
-** try "frame" in pry, what does it do? **
-next: move line by line within the same frame, once you arrive at a method you want to check out, use step to enter the method
-finish: execute everything in current iteration, moves onto next iteration, good for moving through an array/hash quickly and finding the frame with the bug
-up/down: move up and down the frame. it's like zooming in and out scopes, you can zoom out then start nexting lines to move quickly through code.
-conditional breakpoints: if you use the repl to set, you must put binding.pry in a higher scope, enter the method, add the conditional, then use up to zoom out.
+** try conditional breakpoints with pry **
+** try navigating frames with frame numbers with pry **
+
+Use composition to create chess pieces. Look over POODR notes.
+For example, a queen would be composed of: forward + back, left + right, both diagonals
+@multi_stepper: true
+It can be as simple as possible, it's just about practice at this point
 
 try to understand how Struct is used here:
 https://stackoverflow.com/questions/2680523/dry-ruby-initialization-with-hash-argument
@@ -13,7 +14,6 @@ https://stackoverflow.com/questions/2680523/dry-ruby-initialization-with-hash-ar
 pawn promotion
 implement draws
 move_list to show 0-0 kingside castle or 0-0-0 queen side castle
-
 
 Use move_list to set @current_player to white or black depending on whether
 move_list.size is even (white) or odd (black).
