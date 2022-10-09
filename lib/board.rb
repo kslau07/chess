@@ -78,21 +78,26 @@ class Board
     @grid = grid_obj
   end
 
-  def promote_pawn(new_move, input = '')
-    puts "#{new_move.player.color.capitalize}, your pawn has been promoted!"
-    puts 'Pick the promotion:'
-    puts "   1. Queen\n   2. Rook\n   3. Bishop\n   4. Knight"
-    loop do
-      input = gets.chomp
-      break if input.match(/[1-4]{1}/)
-    end
-
-    puts "input matched"
-    gets
-
-  end
-
   def promotion?(new_move)
     new_move.end_sq[0] == 7 && new_move.start_piece.instance_of?(Pawn)
+  end
+  
+  def promote_pawn(new_move, input = '')
+    puts "#{new_move.player.color.capitalize}, your pawn has been promoted!"
+    puts "Pick the promotion:\n   1. Queen\n   2. Rook\n   3. Bishop\n   4. Knight"
+    loop do
+      input = gets.chomp
+      break if input.match(/^[1-4]{1}$/)
+
+      puts 'Not valid input!'
+    end
+
+    change_pawn(new_move, input)
+  end
+
+  def change_pawn(new_move, input)
+    promotion = { 'Queen': '1', 'Rook': '2', 'Bishop': '3', 'Knight': '4' }.key(input)
+    new_piece = PieceFactory.create(promotion, new_move.player.color)
+    update_square(new_move.end_sq, new_piece)
   end
 end
