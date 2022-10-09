@@ -6,7 +6,6 @@ require_relative 'piece'
 require_relative 'test_check'
 # require_relative 'pieces/pawn'
 
-
 # This is the chess board
 class Board
   include Serializable
@@ -76,7 +75,24 @@ class Board
   end
 
   def load_grid(grid_obj)
-    # board.instance_variable_set(:@grid, loaded_grid) # perhaps create method in Board (i.e. Board#load_grid)
     @grid = grid_obj
+  end
+
+  def promote_pawn(new_move, input = '')
+    puts "#{new_move.player.color.capitalize}, your pawn has been promoted!"
+    puts 'Pick the promotion:'
+    puts "   1. Queen\n   2. Rook\n   3. Bishop\n   4. Knight"
+    loop do
+      input = gets.chomp
+      break if input.match(/[1-4]{1}/)
+    end
+
+    puts "input matched"
+    gets
+
+  end
+
+  def promotion?(new_move)
+    new_move.end_sq[0] == 7 && new_move.start_piece.instance_of?(Pawn)
   end
 end
