@@ -6,6 +6,7 @@ require 'awesome_print'
 
 require_relative 'game'
 require_relative 'board'
+require_relative 'board_layout'
 require_relative 'move'
 require_relative 'special_moves/en_passant'
 require_relative 'special_moves/castle'
@@ -28,19 +29,10 @@ require_relative 'pieces/king'
 require_relative 'pieces/bishop'
 require_relative 'pieces/knight'
 
-require_relative 'board_layout' # delete temp class
-
-# binding.pry # debugging, delete me
 def play(game)
   # NOTE: move scripting methods here once game is finished
   game.play
 end
 
 game = Game.new
-
 play(game)
-
-return
-
-
-

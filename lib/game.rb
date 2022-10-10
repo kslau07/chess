@@ -3,6 +3,7 @@
 require_relative 'menuable'
 require_relative 'save_and_load'
 require_relative 'chess_tools'
+
 # This is the class for chess
 class Game
   include Menuable
