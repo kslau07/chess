@@ -3,7 +3,6 @@
 ** try conditional breakpoints with pry **
 ** try navigating frames with frame numbers with pry **
 
-pawn promotion
 implement draws
 move_list to show: 
 - 0-0 kingside castle or 0-0-0 queen side castle
