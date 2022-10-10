@@ -1,0 +1,2 @@
+it is difficult to test initialize and post initialize
+try to rearrange these methods, if you can't skip testing them.

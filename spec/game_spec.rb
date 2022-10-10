@@ -21,19 +21,21 @@ A command method sets a value
 A scripting method only calls other methods
 
 Some things to remember:
+-a stub is a canned response
+-a mock is a test that can pass or fail (an assertion)
 --format documentation
-Test what not how
-use subject
-p/puts anywhere in test
-let variables vs instance variables
-set = variables like this
-game = Game.new (and like this)
-allow_any_instance_of
-expect_any_instance_of
-receive_message_chain(:method1, :method2, :method3).and_return('some_value')
-instance_variable_get
-instance_variable_set
-use mocks or stubs sparingly
+-Test what not how
+-use subject
+-p/puts anywhere in test
+-let variables vs instance variables
+-set = variables like this
+-game = Game.new (and like this)
+-allow_any_instance_of
+-expect_any_instance_of
+-receive_message_chain(:method1, :method2, :method3).and_return('some_value')
+-instance_variable_get
+-instance_variable_set
+-use mocks or stubs sparingly
 "
 
 describe Game do
@@ -58,8 +60,9 @@ describe Game do
       Game.new
     end
 
-    xit 'creates a new board' do
-      expect_any_instance_of(Game).to receive(:post_initialize)
+    it 'creates a new board' do
+      # when we allow this, we are stubbing post_initialization
+      allow_any_instance_of(Game).to receive(:post_initialize)
 
     end
   end
