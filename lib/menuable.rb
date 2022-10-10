@@ -8,12 +8,16 @@ module Menuable
 
     case menu_input
     when '1'
+      # 'save'
       save_from_menu
-      'save'
+      save_game_file
     when '2'
-      'load'
+      # 'load'
+      load_game_file
     when '3'
       view_move_list_from_menu
+      puts move_list.all_moves.join(', ').magenta
+      puts ' '
       'move_list'
     when '4'
       help_from_menu
@@ -21,6 +25,8 @@ module Menuable
     when '5'
       exit_from_menu
     end
+    press_any_key
+    Display.draw_board(board)
   end
 
   def menu_options

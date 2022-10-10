@@ -45,7 +45,8 @@ module ChessTools
       # input = 'd6f6' if (input == '' || input.nil?) # auto inputted move, delete me
 
       if input == 'menu'
-        menu_sequence
+        # menu_sequence
+        game_menu
       else
         cleaned_input = clean(input) # cleaned input may be nil now
         start_sq, end_sq = convert_to_squares(cleaned_input)

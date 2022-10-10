@@ -63,6 +63,17 @@ describe Game do
     end
   end
 
+  describe '#post_initialize' do
+    it 'is invoked when Game is initialized' do
+      expect_any_instance_of(Game).to receive(:post_initialize)
+      described_class.new
+    end
+
+    xit 'creates a new board' do
+    end
+  end
+
+  # script method, no need to test
   describe '#play' do
     before do
       allow(game).to receive(:gets).and_return('a')
@@ -80,38 +91,5 @@ describe Game do
 
   # Script method
   describe '#turn_loop' do
-  end
-
-  describe '#post_initialize' do
-    it 'is invoked when Game is initialized' do
-      expect_any_instance_of(Game).to receive(:post_initialize)
-      Game.new
-    end
-
-    xit 'creates a new board' do
-    end
-  end
-
-  describe '#play' do
-    # this is a script method, test invoked called within
-    
-    # let(:game_play) { described_class.new }
-    
-    # before do
-    #   allow(game_play).to receive(:puts)
-    #   allow(game_play).to receive(:start_sequence)
-    #   allow(game_play).to receive(:turn_sequence)
-
-    #   allow(Display).to receive(:puts)
-      
-    #   #  until game_over
-      
-    # end
-
-    # it 'calls Display.greeting' do
-    #   # expect(game_play).to receive(Display.greeting)
-    #   expect(game_play).to receive(:play_again)
-    #   game_play.play
-    # end
   end
 end
