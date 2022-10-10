@@ -5,6 +5,7 @@ require_relative '../lib/player'
 require_relative '../lib/move'
 require_relative '../lib/board'
 require_relative '../lib/move_list'
+require_relative '../lib/display'
 require_relative '../lib/piece_factory'
 require_relative '../lib/pieces/pawn'
 require_relative '../lib/pieces/bishop'
@@ -38,16 +39,43 @@ Some things to remember:
 -use mocks or stubs sparingly
 "
 
+"
+Notes from writing tests:
+For some reason, subject.current_player did not work for a long time 
+until it suddenly did, from trying to test #initialize.
+
+"
+
 describe Game do
-  subject(:game) { Game.new }
+  subject(:game) { described_class.new }
 
   describe '#initialize' do
-    # Not tested
+    it 'sets @player1 to a kind of Player' do
+      expect(subject.player1).to be_a(Player)
+    end
+
+    it 'sets @player2 to a kind of Player' do
+      expect(subject.player2).to be_a(Player)
+    end
+
+    it 'sets @current_player to a kind of Player' do
+      expect(subject.current_player).to be_a(Player)
+    end
   end
 
   describe '#play' do
-    # Script method, not tested
-    # Only query and command methods are tested
+    before do
+      allow(game).to receive(:gets).and_return('a')
+    end
+
+    it 'calls Display.greeting' do
+      allow(game).to receive(:start_sequence)
+      allow(game).to receive(:turn_sequence)
+      allow(game).to receive(:play_again)
+      allow(game).to receive(:game_over).and_return(true)
+      expect(Display).to receive(:greeting) # nil
+      game.play
+    end
   end
 
   # Script method
@@ -55,15 +83,35 @@ describe Game do
   end
 
   describe '#post_initialize' do
-    it 'returns something' do
+    it 'is invoked when Game is initialized' do
       expect_any_instance_of(Game).to receive(:post_initialize)
       Game.new
     end
 
-    it 'creates a new board' do
-      # when we allow this, we are stubbing post_initialization
-      allow_any_instance_of(Game).to receive(:post_initialize)
-
+    xit 'creates a new board' do
     end
+  end
+
+  describe '#play' do
+    # this is a script method, test invoked called within
+    
+    # let(:game_play) { described_class.new }
+    
+    # before do
+    #   allow(game_play).to receive(:puts)
+    #   allow(game_play).to receive(:start_sequence)
+    #   allow(game_play).to receive(:turn_sequence)
+
+    #   allow(Display).to receive(:puts)
+      
+    #   #  until game_over
+      
+    # end
+
+    # it 'calls Display.greeting' do
+    #   # expect(game_play).to receive(Display.greeting)
+    #   expect(game_play).to receive(:play_again)
+    #   game_play.play
+    # end
   end
 end

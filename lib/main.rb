@@ -35,4 +35,5 @@ def play(game)
 end
 
 game = Game.new
+# p game.current_player
 play(game)

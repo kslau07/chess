@@ -20,7 +20,7 @@ class Game
   end
 
   def play
-    Display.greeting # change Display to display somehow
+    Display.greeting # remove concretion?
     start_sequence
     turn_sequence until game_over
     play_again
@@ -102,7 +102,6 @@ class Game
     new_move
   end
 
-
   # create factory for this?
   def create_move(start_sq, end_sq)
     init_hsh = { player: current_player, board: board, move_list: move_list, start_sq: start_sq, end_sq: end_sq }
@@ -117,47 +116,47 @@ class Game
     current_player == player1 ? player2 : player1
   end
 
-  # the follow 4 methods could be moved, or extracted
-  def user_input(start_sq = '', end_sq = '')
-    loop do
-      Display.turn_message(current_player.color)
-      puts 'Check!'.bg_red if board.check?(current_player.color)
-      input = gets.chomp.downcase # normal input
-      # input = 'd6f6' if (input == '' || input.nil?) # auto inputted move, delete me
+  # # the follow 4 methods could be moved, or extracted
+  # def user_input(start_sq = '', end_sq = '')
+  #   loop do
+  #     Display.turn_message(current_player.color)
+  #     puts 'Check!'.bg_red if board.check?(current_player.color)
+  #     input = gets.chomp.downcase # normal input
+  #     # input = 'd6f6' if (input == '' || input.nil?) # auto inputted move, delete me
 
-      if input == 'menu'
-        menu_sequence
-      else
-        cleaned_input = clean(input) # cleaned input may be nil now
-        start_sq, end_sq = convert_to_squares(cleaned_input)
-        break if pass_prelim_check?(start_sq, end_sq)
-      end
+  #     if input == 'menu'
+  #       menu_sequence
+  #     else
+  #       cleaned_input = clean(input) # cleaned input may be nil now
+  #       start_sq, end_sq = convert_to_squares(cleaned_input)
+  #       break if pass_prelim_check?(start_sq, end_sq)
+  #     end
 
-      Display.invalid_input_message unless input == 'menu'
-    end
-    [start_sq, end_sq]
-  end
+  #     Display.invalid_input_message unless input == 'menu'
+  #   end
+  #   [start_sq, end_sq]
+  # end
 
-  def clean(input)
-    input = input.gsub(/[^0-8a-h]/, '')
-    input if input.match(/^[a-h][0-8][a-h][0-8]$/) # same as checking if in-bounds
-  end
+  # def clean(input)
+  #   input = input.gsub(/[^0-8a-h]/, '')
+  #   input if input.match(/^[a-h][0-8][a-h][0-8]$/) # same as checking if in-bounds
+  # end
 
-  def convert_to_squares(input)
-    return if input.nil?
+  # def convert_to_squares(input)
+  #   return if input.nil?
 
-    inputted_beg_sq = input[0..1]
-    inputted_fin_sq = input[2..3]
-    start_sq = translate_notation_to_square_index(inputted_beg_sq)
-    end_sq = translate_notation_to_square_index(inputted_fin_sq)
-    [start_sq, end_sq]
-  end
+  #   inputted_beg_sq = input[0..1]
+  #   inputted_fin_sq = input[2..3]
+  #   start_sq = translate_notation_to_square_index(inputted_beg_sq)
+  #   end_sq = translate_notation_to_square_index(inputted_fin_sq)
+  #   [start_sq, end_sq]
+  # end
 
-  def pass_prelim_check?(start_sq, end_sq)
-    return false if out_of_bound?(board, start_sq, end_sq)
-    return false if board.object(end_sq).is_a?(Piece) && board.object(end_sq).color == current_player.color
-    return true if board.object(start_sq).is_a?(Piece) && board.object(start_sq).color == current_player.color
-  end
+  # def pass_prelim_check?(start_sq, end_sq)
+  #   return false if out_of_bound?(board, start_sq, end_sq)
+  #   return false if board.object(end_sq).is_a?(Piece) && board.object(end_sq).color == current_player.color
+  #   return true if board.object(start_sq).is_a?(Piece) && board.object(start_sq).color == current_player.color
+  # end
 
   def menu_sequence
     menu_choice = game_menu
