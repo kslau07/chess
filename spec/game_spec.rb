@@ -6,6 +6,7 @@ require_relative '../lib/move'
 require_relative '../lib/board'
 require_relative '../lib/move_list'
 require_relative '../lib/display'
+require_relative '../lib/board_layout'
 require_relative '../lib/piece_factory'
 require_relative '../lib/pieces/pawn'
 require_relative '../lib/pieces/bishop'
@@ -13,38 +14,6 @@ require_relative '../lib/pieces/knight'
 require_relative '../lib/pieces/rook'
 require_relative '../lib/pieces/queen'
 require_relative '../lib/pieces/king'
-require_relative '../lib/board_layout'
-
-
-"
-A query method returns a value
-A command method sets a value
-A scripting method only calls other methods
-
-Some things to remember:
--a stub is a canned response
--a mock is a test that can pass or fail (an assertion)
---format documentation
--Test what not how
--use subject
--p/puts anywhere in test
--let variables vs instance variables
--set = variables like this
--game = Game.new (and like this)
--allow_any_instance_of
--expect_any_instance_of
--receive_message_chain(:method1, :method2, :method3).and_return('some_value')
--instance_variable_get
--instance_variable_set
--use mocks or stubs sparingly
-"
-
-"
-Notes from writing tests:
-For some reason, subject.current_player did not work for a long time 
-until it suddenly did, from trying to test #initialize.
-
-"
 
 describe Game do
   subject(:game) { described_class.new }
@@ -63,17 +32,6 @@ describe Game do
     end
   end
 
-  describe '#post_initialize' do
-    it 'is invoked when Game is initialized' do
-      expect_any_instance_of(Game).to receive(:post_initialize)
-      described_class.new
-    end
-
-    xit 'creates a new board' do
-    end
-  end
-
-  # script method, no need to test
   describe '#play' do
     before do
       allow(game).to receive(:gets).and_return('a')
@@ -89,7 +47,68 @@ describe Game do
     end
   end
 
-  # Script method
-  describe '#turn_loop' do
+  describe '#post_initialize' do
+    it 'is invoked when Game is initialized' do
+      expect_any_instance_of(Game).to receive(:post_initialize)
+      described_class.new
+    end
+
+    it 'sets @board to Board' do
+      expect(subject.board).to be_a(Board)
+    end
+
+    it 'sets @move_list to MoveList' do
+      expect(subject.move_list).to be_a(MoveList)
+    end
   end
+
+  describe '#setup_board' do
+    it 'is invoked when Game is initialized' do
+      expect_any_instance_of(Game).to receive(:setup_board)
+      described_class.new
+    end
+  end
+
+  describe '#create_move' do
+    it 'sends message to move.factory' do
+      start_sq = [0, 0]
+      end_sq = [1, 1]
+      expect(Move).to receive(:factory)
+      subject.create_move(start_sq, end_sq)
+    end
+  end
+
+  # private methods
+  # describe '#setup_board' do
+  # end
+
+  # describe '#turn_sequence' do
+  # end
+
+  # describe '#start_sequence' do
+  # end
+
+  # describe '#checkmate_seq' do
+  # end
+
+  # describe '#move_data' do
+  # end
+
+  # describe '#legal_move' do
+  # end
+
+  # describe '#switch_players' do
+  # end
+
+  # describe '#other_player' do
+  # end
+
+  # describe '#win' do
+  # end
+
+  # describe '#tie' do
+  # end
+
+  # describe '#play_again' do
+  # end
 end

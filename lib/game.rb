@@ -26,6 +26,12 @@ class Game
     play_again
   end
 
+  # create factory for the factory? for this?
+  def create_move(start_sq, end_sq)
+    init_hsh = { player: current_player, board: board, move_list: move_list, start_sq: start_sq, end_sq: end_sq }
+    move.factory(**init_hsh)
+  end
+
   private
 
   def post_initialize(**args)
@@ -37,20 +43,21 @@ class Game
     setup_board(pieces)
   end
 
-  def setup_board(chess_pieces)
-    tl = BoardLayout.new(current_player: current_player, board: board, move_list: move_list, game: self) # delete later
+  # can we remove instantiation of BoardLayout?
+  def setup_board(chess_pieces, bl = nil)
+    bl ||= BoardLayout.new(current_player: current_player, board: board, move_list: move_list, game: self) # delete later
 
-    # tl.normal(chess_pieces)
-    tl.pawn_promotion
-    # tl.checkmate_scenarios
-    # tl.self_check
-    # tl.pawn_vs_pawn
-    # tl.en_passant_white_version1
-    # tl.en_passant_white_version2
-    # tl.en_passant_black
-    # tl.castle
-    # tl.w_pawn_attack
-    # tl.b_pawn_attack
+    # bl.normal(chess_pieces)
+    bl.pawn_promotion
+    # bl.checkmate_scenarios
+    # bl.self_check
+    # bl.pawn_vs_pawn
+    # bl.en_passant_white_version1
+    # bl.en_passant_white_version2
+    # bl.en_passant_black
+    # bl.castle
+    # bl.w_pawn_attack
+    # bl.b_pawn_attack
   end
 
 
@@ -92,7 +99,6 @@ class Game
       grid_json = board.serialize
       start_sq, end_sq = user_input
       new_move = create_move(start_sq, end_sq)
-
       new_move.transfer_piece if new_move.validated
       break if !board.check?(current_player.color) && new_move.validated
 
@@ -102,12 +108,6 @@ class Game
     new_move
   end
 
-  # create factory for the factory? for this?
-  def create_move(start_sq, end_sq)
-    init_hsh = { player: current_player, board: board, move_list: move_list, start_sq: start_sq, end_sq: end_sq }
-    move.factory(**init_hsh)
-  end
-
   def switch_players
     @current_player = other_player
   end
@@ -115,7 +115,6 @@ class Game
   def other_player
     current_player == player1 ? player2 : player1
   end
-
 
   def win(player)
     Display.draw_board(board)
