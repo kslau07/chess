@@ -15,7 +15,6 @@ require_relative '../lib/move'
 # require_relative '../lib/pieces/queen'
 # require_relative '../lib/pieces/king'
 
-
 "
 A query method returns a value
 A command method sets a value
@@ -24,6 +23,16 @@ A scripting method only calls other methods
 Some things to remember:
 -test integration, read this:
 https://www.codewithjason.com/rails-integration-tests-rspec-capybara/#:~:text=Like%20I%20said%20earlier%2C%20an,referring%20to%20RSpec%20feature%20specs.
+
+instance_variable_get is discouraged because it breaks encapsulation.
+Tests should respect because we're interested in the observable state of the
+system, not the internal implementation details.
+Dependency injection is a good way to avoid instance_variable_get, while
+also not defining a public setter for that instance variable.
+Name your numbers! Magic numbers code smell - when numbers magically do things
+because the reader is not informed of what they actually mean.
+HEIGHT = 6
+WIDTH = 7
 
 -how do we use as_null_object?
   -it's an object that ignores all messages except for our assertion(???)
