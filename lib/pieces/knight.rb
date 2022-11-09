@@ -21,7 +21,7 @@ class Knight < Piece
 
   private
 
-  def predefined_moves
+  def move_set
     [[2, 1], [1, 2], [-1, 2], [-2, 1], [-2, -1], [-1, -2], [1, -2], [2, -1]]
   end
 end

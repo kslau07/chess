@@ -20,12 +20,12 @@ class King < Piece
   end
 
   def possible_moves
-    predefined_moves
+    move_set
   end
 
   private
 
-  def predefined_moves
+  def move_set
     [[1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1], [1, -1]]
   end
 end

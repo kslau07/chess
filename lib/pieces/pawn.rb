@@ -44,7 +44,7 @@ class Pawn < Piece
 
   private
 
-  def predefined_moves
+  def move_set
     [[1, 0]]
   end
 

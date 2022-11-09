@@ -21,7 +21,7 @@ class Bishop < Piece
 
   private
 
-  def predefined_moves
+  def move_set
     [[1, -1], [1, 1], [-1, -1], [-1, 1]]
   end
 end

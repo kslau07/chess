@@ -21,7 +21,7 @@ class Rook < Piece
 
   private
 
-  def predefined_moves
+  def move_set
     [[1, 0], [0, 1], [-1, 0], [0, -1]]
   end
 end

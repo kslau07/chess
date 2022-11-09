@@ -29,7 +29,7 @@ class Piece
   # Unwieldy method, not sure if it can be split
   def generate_path(board, start_sq, end_sq, pdf_moves = nil)
     # puts "\n\t#{self.class}##{__method__}\n "
-    pdf_moves ||= predefined_moves # we may not use this
+    pdf_moves ||= move_set # we may not use this
     start_obj = board.object(start_sq)
     path = [start_sq]
     pdf_moves.each do |pdf_move|
