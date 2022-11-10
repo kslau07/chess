@@ -6,12 +6,10 @@ require_relative './lib/library'
 # require 'pry-byebug'
 # require 'awesome_print'
 
-def play(game)
+# def play(game)
   # NOTE: move scripting methods here once game is finished
-  game.play
-end
+  # game.play
+# end
 
-game = Game.new
+game = Game.new(board_config: 'pawn_promotion')
 game.play
-# p game.current_player
-# play(game)

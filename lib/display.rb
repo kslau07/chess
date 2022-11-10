@@ -2,33 +2,31 @@
 
 # Display is a namespace for puts messages
 module Display
-  def self.greeting
-    puts "\n\t\tWelcome to chess!\n ".red
-    puts "\t\tSelect an option:".green
-    puts "\t\t1. New Game"
-    puts "\t\t2. Load game"
-  end
+  # def self.greeting
+  #   puts "\n\t\tWelcome to chess!\n ".red
+  #   puts "\t\tSelect an option:".green
+  #   puts "\t\t1. New Game"
+  #   puts "\t\t2. Load game"
+  # end
 
   def self.draw_board(board)
     puts "\t    0   1   2   3   4   5   6   7  second"
     puts "\t  .-------------------------------."
     7.downto(0) do |x|
-      print "\t#{x+1}n|" # notation num
-      # print "\t#{x} |" # index num
+      print "\t#{x+1}n|"
       0.upto(7) do |y|
         print board.grid[x][y] == 'unoccupied' ? "   |" : " #{board.grid[x][y]} |"
       end
-      print "#{x}i" # notation num
-      # print "#{x+1}n" # notation num
+      print "#{x}i"
       puts
       puts "\t  |---+---+---+---+---+---+---+---|" unless x == 0
     end
     puts "\t  '-------------------------------'"
-    # puts "\t    0   1   2   3   4   5   6   7"
-    puts "\t    A   B   C   D   E   F   G   H"
+    puts "\t    a   b   c   d   e   f   i   h"
   end
 
-  def self.turn_message(color)
+  def self.turn_message(color, board)
+    puts "#{color.capitalize}'s king is in check!".bg_red if board.check?(color)
     puts "\nType 'menu' to see options\n ".green
     puts "#{color.capitalize}, it's your turn!"
     puts 'Enter a move:'
@@ -58,9 +56,16 @@ module Display
   def self.play_again_question
     puts "\nDo you want to play again? [y, n]"
   end
+
+  def self.pawn_promotion(player)
+    <<~HEREDOC
+      #{player.color.capitalize}, your pawn has been promoted!
+      Pick the promotion:\n   1. Queen\n   2. Rook\n   3. Bishop\n   4. Knight
+    HEREDOC
+  end
 end
 
-
+# These additional methods to String colorize text in the terminal
 class String
   def black;          "\e[30m#{self}\e[0m" end
   def red;            "\e[31m#{self}\e[0m" end
