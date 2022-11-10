@@ -63,6 +63,11 @@ module Display
       Pick the promotion:\n   1. Queen\n   2. Rook\n   3. Bishop\n   4. Knight
     HEREDOC
   end
+
+  def self.goodbye
+    puts 'Oh okay. See you next time!'
+  end
+
 end
 
 # These additional methods to String colorize text in the terminal

@@ -5,6 +5,7 @@ module Menuable
   private
 
   def start_menu
+    puts greeting
     start_input = gets.chomp
     # start_input = '1' # auto new game
 
@@ -24,12 +25,12 @@ module Menuable
 
     case menu_input
     when '1'
-      save_from_menu
+      puts 'Game has been saved!'
       save_game_file
     when '2'
       load_game_file
     when '3'
-      view_move_list_from_menu
+      puts "\nHere is the move list:".blue
       puts move_list.all_moves.join(', ').magenta
       puts ' '
       'move_list'
@@ -44,9 +45,9 @@ module Menuable
   end
 
   def menu_options
-    <<~HEREDOC
+    puts <<~HEREDOC
       \n\tMenu Options
-      \t#{"1. Save Game"}.red
+      \t#{'1. Save Game'.red}
       \t2. Load Game
       \t3. View Move List
       \t4. Help
@@ -55,22 +56,12 @@ module Menuable
   end
 
   def greeting
-    puts "\n\t\tWelcome to chess!\n ".red
-    puts "\t\tSelect an option:".green
-    puts "\t\t1. New Game"
-    puts "\t\t2. Load game"
-    # puts "\n\t\tWelcome to chess!\n ".red
-    # puts "\t\tSelect an option:".green
-    # puts "\t\t1. New Game"
-    # puts "\t\t2. Load game"
-  end
-
-  def save_from_menu
-    puts 'Game has been saved!'
-  end
-
-  def view_move_list_from_menu
-    puts "\nHere is the move list:".blue
+    <<~HEREDOC
+      \n\t\t#{'Welcome to chess!'.red}\n
+      \t\t#{'Select an option:'.green}
+      \t\t1. New Game
+      \t\t2. Load game
+    HEREDOC
   end
 
   def help_from_menu
