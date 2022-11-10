@@ -9,20 +9,31 @@ class Game
   include Menuable
   include SaveAndLoad
   include ChessTools
-  attr_reader :board, :player1, :player2, :current_player, :move, :move_list, :game_over
+  attr_reader :board, :player1, :player2, :current_player, :move, :move_list, :game_end
 
   def initialize(**args)
     @player1 = args[:player1] || Player.new(color: 'white')
     @player2 = args[:player2] || Player.new(color: 'black')
-    @current_player = @player1
+    @board = Board.new(args[:board_config] || 'standard')
     @move = Move
+
     post_initialize(**args)
+  end
+
+  # Needed to get layout working properly:
+  # setter for @current_player
+  # setter for @move_list
+
+  def post_initialize(**args)
+    @current_player = @player1
+    # setup_board(**args)
+    @move_list = args[:move_list] || MoveList.new
   end
 
   def play
     Display.greeting # remove concretion?
     start_sequence
-    turn_sequence until game_over
+    turn_sequence until game_over?
     play_again
   end
 
@@ -31,35 +42,6 @@ class Game
     init_hsh = { player: current_player, board: board, move_list: move_list, start_sq: start_sq, end_sq: end_sq }
     move.factory(**init_hsh)
   end
-
-  private
-
-  def post_initialize(**args)
-    @board = args[:board] || Board.new
-    @move_list = args[:move_list] || MoveList.new
-    white_set = PieceFactory.create_set('white')
-    black_set = PieceFactory.create_set('black')
-    pieces = { white_pcs: white_set, black_pcs: black_set }
-    setup_board(pieces)
-  end
-
-  # can we remove instantiation of BoardLayout?
-  def setup_board(chess_pieces, bl = nil)
-    bl ||= BoardLayout.new(current_player: current_player, board: board, move_list: move_list, game: self) # delete later
-
-    # bl.normal(chess_pieces)
-    bl.pawn_promotion
-    # bl.checkmate_scenarios
-    # bl.self_check
-    # bl.pawn_vs_pawn
-    # bl.en_passant_white_version1
-    # bl.en_passant_white_version2
-    # bl.en_passant_black
-    # bl.castle
-    # bl.w_pawn_attack
-    # bl.b_pawn_attack
-  end
-
 
   def start_sequence
     start_input = gets.chomp
@@ -119,11 +101,15 @@ class Game
   def win(player)
     Display.draw_board(board)
     Display.win(player)
-    @game_over = true
+    @game_end = true
   end
 
   def tie
-    @game_over = true
+    @game_end = true
+  end
+
+  def game_over?
+    game_end
   end
 
   def play_again
@@ -132,7 +118,7 @@ class Game
     case input
     when 'y'
       post_initialize
-      @game_over = false
+      @game_end = false
       @current_player = player1
       play
     when 'n'

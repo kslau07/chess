@@ -14,8 +14,9 @@ class Board
 
   attr_reader :grid
 
-  def initialize
-    generate_board
+  def initialize(layout)
+    generate_grid
+    @board_config = BoardConfig.new(self, layout)
   end
 
   def object(coord)
@@ -32,7 +33,7 @@ class Board
     arr_of_squares
   end
 
-  def generate_board
+  def generate_grid
     @grid = []
 
     8.times do
@@ -81,7 +82,7 @@ class Board
   def promotion?(new_move)
     new_move.end_sq[0] == 7 && new_move.start_piece.instance_of?(Pawn)
   end
-  
+
   def promote_pawn(new_move, input = '')
     puts "#{new_move.player.color.capitalize}, your pawn has been promoted!"
     puts "Pick the promotion:\n   1. Queen\n   2. Rook\n   3. Bishop\n   4. Knight"

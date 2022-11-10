@@ -2,7 +2,7 @@
 
 require_relative './game'
 require_relative './board'
-require_relative './board_layout'
+require_relative './board_config'
 require_relative './move'
 require_relative './special_moves/en_passant'
 require_relative './special_moves/castle'
