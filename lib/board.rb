@@ -4,6 +4,7 @@
 require 'json'
 require_relative 'piece'
 require_relative 'test_check'
+require_relative 'display'
 # require_relative 'pieces/pawn'
 
 # This is the chess board
@@ -47,9 +48,6 @@ class Board
 
   # rewrite path_obstructed
   def path_obstructed?(path)
-    # puts "\n\t#{self.class}##{__method__}\n "
-    # p ['path', path]
-
     begin_sq = path.first
     finish_sq = path.last
 
@@ -84,15 +82,13 @@ class Board
   end
 
   def promote_pawn(new_move, input = '')
-    puts "#{new_move.player.color.capitalize}, your pawn has been promoted!"
-    puts "Pick the promotion:\n   1. Queen\n   2. Rook\n   3. Bishop\n   4. Knight"
+    puts Display.pawn_promotion(new_move.player)
     loop do
       input = gets.chomp
       break if input.match(/^[1-4]{1}$/)
 
       puts 'Not valid input!'
     end
-
     change_pawn(new_move, input)
   end
 

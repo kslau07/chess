@@ -43,7 +43,6 @@ class MoveList
   end
 
   def prev_move_check?
-    # puts "\n\t#{self.class}##{__method__}\n "
     prev_move[-1] == '+' unless all_moves.empty?
   end
 

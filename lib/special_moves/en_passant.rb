@@ -30,7 +30,6 @@ class EnPassant < Move
   private
 
   def post_initialize
-    puts "\n\t#{self.class}##{__method__}\n "
     @path = [start_sq, end_sq]
     move_sequence
   end

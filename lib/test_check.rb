@@ -28,7 +28,6 @@ module TestCheck
 
   def square_of_king(color)
     squares.find do |square|
-      # p [__method__, square.format_cn] if object(square).instance_of?(King) && object(square).color == color # temp delete
       object(square).instance_of?(King) && object(square).color == color
     end
   end
@@ -72,14 +71,6 @@ module TestCheck
 
       move_data[:start_sq] = begin_sq
       move_data[:end_sq] = finish_sq
-
-      # if legal_move?(move_data) # delete this
-      #   puts
-      #   p 'legal king escape move'
-      #   print 'Move: ', [begin_sq.format_cn, finish_sq.format_cn].join; puts
-      #   puts
-      # end
-
       legal_move?(move_data)
     end
   end
@@ -91,25 +82,18 @@ module TestCheck
     grid_json = serialize
     possible_move = move.factory(move_data)
     possible_move.transfer_piece if possible_move.validated
-
-    # puts
-    # print 'color', color; puts
-    # print 'Move: ', [move_data[:start_sq].format_cn, move_data[:end_sq].format_cn].join; puts
-    # print 'check?', check?(color); puts
-    # puts
-
     result = !check?(color) && possible_move.validated
     revert_board(grid_json, self)
     result
   end
 end
 
-  class Array
-    def format_cn
-      translate_index_to_notation(self)
-    end
-
-    def translate_index_to_notation(sq_array)
-      [(sq_array[-1] + 97).chr, sq_array[-2] + 1].join # index to c.n.
-    end
+class Array
+  def format_cn
+    translate_index_to_notation(self)
   end
+
+  def translate_index_to_notation(sq_array)
+    [(sq_array[-1] + 97).chr, sq_array[-2] + 1].join # index to c.n.
+  end
+end

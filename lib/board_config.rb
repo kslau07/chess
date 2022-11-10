@@ -5,6 +5,7 @@ class BoardConfig
   attr_reader :board, :current_player, :move_list, :game
 
   def initialize(board, layout)
+    # puts "\n\t#{self.class}##{__method__}\n "
     @board = board
     @piece_factory = PieceFactory
     send(layout)
@@ -89,7 +90,6 @@ class BoardConfig
   end
 
   def en_passant_white_version1
-    puts "\n\t#{self.class}##{__method__}\n "
 
     @current_player = @player1
 
@@ -114,8 +114,6 @@ class BoardConfig
   end
 
   def en_passant_white_version2
-    puts "\n\t#{self.class}##{__method__}\n "
-
     @current_player = @player1
 
     # white, black passes on right

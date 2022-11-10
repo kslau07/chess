@@ -3,14 +3,13 @@
 # Module class provides saving and loading games for chess
 module SaveAndLoad
   def save_game_file
-    # puts "\n\t#{self.class}##{__method__}\n "
     json_obj_ary = serialize_game_objects
     save_to_file(json_obj_ary)
   end
 
+  # show list of most recent 5 saves
+  # user inputs num 1-5 to load a game file
   def load_game_file
-    # show list of most recent 5 saves
-    # user inputs num 1-5 to load a game file
     file_list = show_saved_games
     fname = choose_file(file_list)
     return if fname.nil?
@@ -40,7 +39,7 @@ module SaveAndLoad
   end
 
   def serialize_game_objects
-    move_list_json = move_list.serialize # not 100% sure we have jsonified correctly
+    move_list_json = move_list.serialize
     board_json = board.serialize
     [move_list_json, board_json]
   end

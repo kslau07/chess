@@ -22,13 +22,11 @@ class Piece
   end
 
   def invert(move)
-    # return
     return move.map { |num| num * -1 } if move.is_a?(Array)
   end
 
   # Unwieldy method, not sure if it can be split
   def generate_path(board, start_sq, end_sq, pdf_moves = nil)
-    # puts "\n\t#{self.class}##{__method__}\n "
     pdf_moves ||= move_set # we may not use this
     start_obj = board.object(start_sq)
     path = [start_sq]
@@ -38,7 +36,6 @@ class Piece
       # i = 0
       loop do
         # i += 1
-        # puts ">>> counter: #{i}"
         next_sq = [next_sq[0] + pdf_move[0], next_sq[1] + pdf_move[1]]
         break unless board.squares.include?(next_sq)
 
@@ -52,7 +49,6 @@ class Piece
   end
 
   def generate_attack_path(board, start_sq, end_sq)
-    # print 'attack_path', generate_path(board, start_sq, end_sq); puts
     generate_path(board, start_sq, end_sq)
   end
 end

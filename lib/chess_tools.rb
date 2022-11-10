@@ -36,17 +36,15 @@ module ChessTools
     color == 'white' ? 'black' : 'white'
   end
 
-  # the follow 4 methods could be moved, or extracted
+  # refactor this method, maybe into 2 methods
   def user_input(start_sq = '', end_sq = '')
     loop do
-      Display.turn_message(current_player.color)
-      puts 'Check!'.bg_red if board.check?(current_player.color)
+      Display.turn_message(current_player.color, board)
       input = gets.chomp.downcase # normal input
       # input = 'd6f6' if (input == '' || input.nil?) # auto inputted move, delete me
 
       if input == 'menu'
-        # menu_sequence
-        game_menu
+        midgame_menu
       else
         cleaned_input = clean(input) # cleaned input may be nil now
         start_sq, end_sq = convert_to_squares(cleaned_input)
