@@ -78,7 +78,9 @@ class Board
   end
 
   def promotion?(new_move)
-    new_move.end_sq[0] == 7 && new_move.start_piece.instance_of?(Pawn)
+    cond1 = new_move.end_sq[0] == 7 && new_move.start_piece.instance_of?(Pawn) # wht pawn
+    cond2 = new_move.end_sq[0] == 0 && new_move.start_piece.instance_of?(Pawn) # blk pawn
+    cond1 || cond2
   end
 
   def promote_pawn(new_move, input = '')
