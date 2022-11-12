@@ -1,10 +1,15 @@
 # chess
+
 This project spec is at
 https://www.theodinproject.com/lessons/ruby-ruby-final-project
 
 ### Description
 
-The final project in Odin's Ruby curriculum is to create a CLI-based chess game. 
+The final project in Odin's Ruby curriculum is to create a CLI-based chess game.
+
+###  Play This App Online
+You may play this on replit.com without having to install Ruby on your computer.
+https://replit.com/@kslau/chess#README.md
 
 ### My Notes
 

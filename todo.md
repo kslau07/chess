@@ -1,5 +1,5 @@
 ** remember to use bookmarks **
-** try call-stack navigation **
+** try call-stack navigation while debugging **
 ** try conditional breakpoints with pry **
 ** try navigating frames with frame numbers with pry **
 
@@ -30,6 +30,7 @@ Player has no legal moves. (King is stuck but not in check)
 - Iterate through pdf moves, if one legal move is found, this tie type is false.
 
 At the end:
+Get app to run on replit.com
 Figure out private vs public methods
 We need to test what, not how.
 You must write edge cases for all of your tests.
