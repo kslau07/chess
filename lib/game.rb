@@ -16,10 +16,6 @@ class Game
     @player2 = args[:player2] || Player.new(color: 'black')
     @board = Board.new(args[:board_config] || 'standard')
     @move = Move
-    post_initialize(**args)
-  end
-
-  def post_initialize(**args)
     @current_player = @player1
     @move_list = args[:move_list] || MoveList.new
     @display = Display
@@ -60,6 +56,7 @@ class Game
     { player: other_player, board: board, move_list: move_list, move: move}
   end
 
+  # break up into smaller methods
   def legal_move(new_move = nil)
     loop do
       grid_json = board.serialize
@@ -117,3 +114,5 @@ class InputError < StandardError
     'Invalid input!'
   end
 end
+
+# What other errors can we subclass?
