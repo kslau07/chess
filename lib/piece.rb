@@ -25,7 +25,7 @@ class Piece
     return move.map { |num| num * -1 } if move.is_a?(Array)
   end
 
-  # Unwieldy method, not sure if it can be split
+  # break up into smaller methods
   def generate_path(board, start_sq, end_sq, pdf_moves = nil)
     pdf_moves ||= move_set # we may not use this
     start_obj = board.object(start_sq)

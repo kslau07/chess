@@ -11,6 +11,7 @@ module TestCheck
     attack_paths.any? { |attack_path| !path_obstructed?(attack_path) }
   end
 
+  # break up into smaller methods
   def paths_that_attack_king(kings_sq)
     player_color = object(kings_sq).color
     attack_paths = []
@@ -38,6 +39,7 @@ module TestCheck
     true
   end
 
+  # break up into smaller methods
   def king_is_defendable?(move_data)
     color = move_data[:player].color
     kings_sq = square_of_king(color)
@@ -59,6 +61,7 @@ module TestCheck
     false
   end
 
+  # break up into smaller methods
   def king_escapes?(move_data)
     color = move_data[:player].color
     sq_king = square_of_king(color)
@@ -75,7 +78,7 @@ module TestCheck
     end
   end
 
-  # this method could be split up
+  # break up into smaller methods
   def legal_move?(move_data)
     move = move_data[:move]
     color = move_data[:player].color

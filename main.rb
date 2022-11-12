@@ -11,5 +11,7 @@ require_relative './lib/library'
   # game.play
 # end
 
+# main.rb can/should be the entry point for dependencies
+
 game = Game.new(board_config: 'pawn_promotion')
 game.play

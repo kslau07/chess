@@ -22,7 +22,7 @@ module Display
       puts "\t  |---+---+---+---+---+---+---+---|" unless x == 0
     end
     puts "\t  '-------------------------------'"
-    puts "\t    a   b   c   d   e   f   i   h"
+    puts "\t    a   b   c   d   e   f   g   h"
   end
 
   def self.turn_message(color, board)

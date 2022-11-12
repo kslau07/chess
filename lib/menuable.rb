@@ -45,7 +45,7 @@ module Menuable
   end
 
   def menu_options
-    puts <<~HEREDOC
+    <<~HEREDOC
       \n\tMenu Options
       \t#{'1. Save Game'.red}
       \t2. Load Game

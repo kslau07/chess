@@ -47,6 +47,7 @@ class EnPassant < Move
     end
   end
 
+  # break up into smaller methods
   def opp_prev_move_allows_en_passant?
     case base_move(start_sq, end_sq, player.color)
     when [1, 1]

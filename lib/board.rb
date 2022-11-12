@@ -46,7 +46,7 @@ class Board
     grid[coord[0]][coord[1]] = new_value
   end
 
-  # rewrite path_obstructed
+  # break up into smaller methods
   def path_obstructed?(path)
     begin_sq = path.first
     finish_sq = path.last
