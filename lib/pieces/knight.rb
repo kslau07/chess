@@ -12,7 +12,7 @@ class Knight < Piece
   end
 
   def to_s
-    color == 'white' ? '♘' : '♞'
+    color == 'white' ? "\u2658" : "\u265E"
   end
 
   def moved
@@ -22,6 +22,6 @@ class Knight < Piece
   private
 
   def move_set
-    [[2, 1], [1, 2], [-1, 2], [-2, 1], [-2, -1], [-1, -2], [1, -2], [2, -1]]
+    [[2, 1], [1, 2], [-1, 2], [-2, 1], [-2, -1], [-1, -2], [1, -2], [2, -1]].freeze
   end
 end

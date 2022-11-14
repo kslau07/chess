@@ -12,7 +12,7 @@ class Bishop < Piece
   end
 
   def to_s
-    color == 'white' ? '♗' : '♝'
+    color == 'white' ? "\u2657" : "\u265D"
   end
 
   def moved
@@ -22,6 +22,6 @@ class Bishop < Piece
   private
 
   def move_set
-    [[1, -1], [1, 1], [-1, -1], [-1, 1]]
+    [[1, -1], [1, 1], [-1, -1], [-1, 1]].freeze
   end
 end

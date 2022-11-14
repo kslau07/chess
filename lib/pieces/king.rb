@@ -12,7 +12,7 @@ class King < Piece
   end
 
   def to_s
-    color == 'white' ? '♔' : '♚'
+    color == 'white' ? "\u2654" : "\u265A"
   end
 
   def moved
@@ -26,6 +26,6 @@ class King < Piece
   private
 
   def move_set
-    [[1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1], [1, -1]]
+    [[1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1], [1, -1]].freeze
   end
 end

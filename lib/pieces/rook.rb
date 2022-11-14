@@ -12,7 +12,7 @@ class Rook < Piece
   end
 
   def to_s
-    color == 'white' ? '♖' : '♜'
+    color == 'white' ? "\u2656" : "\u265C"
   end
 
   def moved
@@ -22,6 +22,6 @@ class Rook < Piece
   private
 
   def move_set
-    [[1, 0], [0, 1], [-1, 0], [0, -1]]
+    [[1, 0], [0, 1], [-1, 0], [0, -1]].freeze
   end
 end
