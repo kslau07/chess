@@ -12,7 +12,7 @@ class Pawn < Piece
   end
 
   def to_s
-    color == 'white' ? '♙' : '♟'
+    color == 'white' ? "\u2659" : "\u265F"
   end
 
   def moved
@@ -43,10 +43,10 @@ class Pawn < Piece
   private
 
   def move_set
-    [[1, 0]]
+    [[1, 0]].freeze
   end
 
   def pawn_attack_moves
-    [[1, -1], [1, 1]]
+    [[1, -1], [1, 1]].freeze
   end
 end

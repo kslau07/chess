@@ -12,7 +12,7 @@ class Queen < Piece
   end
 
   def to_s
-    color == 'white' ? '♕' : '♛'
+    color == 'white' ? "\u2655" : "\u265B"
   end
 
   def moved
@@ -22,6 +22,6 @@ class Queen < Piece
   private
 
   def move_set
-    [[1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1], [1, -1]]
+    [[1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1], [1, -1]].freeze
   end
 end
