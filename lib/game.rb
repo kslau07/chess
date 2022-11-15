@@ -38,6 +38,7 @@ class Game
   end
 
   def turn_sequence
+    system 'clear' # add feat to invalid inputs too
     display.draw_board(board)
     new_move = legal_move
     board.promote_pawn(new_move) if board.promotion?(new_move)

@@ -11,7 +11,7 @@ module Menuable
 
     case start_input
     when '1'
-      display.draw_board(board)
+      # display.draw_board(board)
       puts "\nA new game has started!".magenta ###
     when '2'
       load_game_file
