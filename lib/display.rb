@@ -2,12 +2,10 @@
 
 # Display is a namespace for puts messages
 module Display
-  # def self.greeting
-  #   puts "\n\t\tWelcome to chess!\n ".red
-  #   puts "\t\tSelect an option:".green
-  #   puts "\t\t1. New Game"
-  #   puts "\t\t2. Load game"
-  # end
+  def self.clear_console
+    puts "\e[H\e[2J"
+    # system 'clear' # add feat to invalid inputs too
+  end
 
   def self.draw_board(board)
     puts "\t    0   1   2   3   4   5   6   7  second"
@@ -69,4 +67,12 @@ module Display
   end
 
 end
+
+# old code
+# def self.greeting
+#   puts "\n\t\tWelcome to chess!\n ".red
+#   puts "\t\tSelect an option:".green
+#   puts "\t\t1. New Game"
+#   puts "\t\t2. Load game"
+# end
 
