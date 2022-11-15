@@ -16,3 +16,4 @@ require_relative './lib/library'
 
 game = Game.new(board_config: 'pawn_promotion')
 game.play
+###
