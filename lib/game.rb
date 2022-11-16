@@ -1,34 +1,27 @@
 # frozen_string_literal: true
 
 require_relative 'menuable'
-require_relative 'save_and_load'
+require_relative 'save_load'
 require_relative 'chess_tools'
 
 # This is the class for chess
 class Game
   include Menuable
-  include SaveAndLoad
+  include SaveLoad
   include ChessTools
   attr_reader :board, :player1, :player2, :current_player, :move, :move_list, :game_end, :display
 
   def initialize(**args)
     @player1 = args[:player1] || Player.new(color: 'white')
     @player2 = args[:player2] || Player.new(color: 'black')
+
+    # @board = args[:board] || Board.new
     @board = Board.new(args[:board_config] || 'standard')
+
     @move = Move
     @current_player = @player1
     @move_list = args[:move_list] || MoveList.new
     @display = Display
-  end
-
-  # Needed to get layout working properly:
-  # setter for @current_player
-  # setter for @move_list
-
-  def play
-    start_menu
-    turn_sequence until game_over?
-    play_again
   end
 
   # create factory for the factory? for this?
@@ -61,7 +54,7 @@ class Game
   def legal_move(new_move = nil)
     loop do
       grid_json = board.serialize
-      start_sq, end_sq = user_input
+      start_sq, end_sq = validate_turn_input
       new_move = create_move(start_sq, end_sq)
       new_move.transfer_piece if new_move.validated
       break if !board.check?(current_player.color) && new_move.validated

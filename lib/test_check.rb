@@ -2,7 +2,7 @@
 
 # This module tests for check in Board objects
 module TestCheck
-  include SaveAndLoad
+  include SaveLoad
 
   def check?(color)
     attack_paths = paths_that_attack_king(square_of_king(color))

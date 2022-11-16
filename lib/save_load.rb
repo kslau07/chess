@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Module class provides saving and loading games for chess
-module SaveAndLoad
+module SaveLoad
   def save_game_file
     json_obj_ary = serialize_game_objects
     save_to_file(json_obj_ary)
@@ -15,12 +15,10 @@ module SaveAndLoad
     return if fname.nil?
 
     json_obj_ary = read_file(fname)
-    load_move_list(json_obj_ary[0])
-    load_board(json_obj_ary[1], board)
+    load_move_list(json_obj_ary[0]) # move list object
+    load_board(json_obj_ary[1], board) # perhaps we could load board after Game is instantiated
     puts 'Game file has been loaded!'
   end
-
-  private
 
   def show_saved_games
     puts 'Choose a saved game to load:'.magenta

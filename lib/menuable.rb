@@ -4,21 +4,6 @@
 module Menuable
   private
 
-  def start_menu
-    puts greeting
-    start_input = gets.chomp
-    # start_input = '1' # auto new game
-
-    case start_input
-    when '1'
-      # display.draw_board(board)
-      puts "\nA new game has started!".magenta ###
-    when '2'
-      load_game_file
-      press_any_key
-    end
-  end
-
   def midgame_menu
     puts menu_options
     menu_input = gets.chomp.downcase # add validation
@@ -55,14 +40,7 @@ module Menuable
     HEREDOC
   end
 
-  def greeting
-    <<~HEREDOC
-      \n\t\t#{'Welcome to chess!'.red}\n
-      \t\t#{'Select an option:'.green}
-      \t\t1. New Game
-      \t\t2. Load game
-    HEREDOC
-  end
+
 
   def help_from_menu
     puts "\nHelp:"
