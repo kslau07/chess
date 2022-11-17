@@ -15,8 +15,8 @@ class Game
     @player1 = args[:player1] || Player.new(color: 'white')
     @player2 = args[:player2] || Player.new(color: 'black')
 
-    # @board = args[:board] || Board.new
-    @board = Board.new(args[:board_config] || 'standard')
+    @board = args[:board] || Board.new
+    # @board = Board.new(args[:board_config] || 'standard')
 
     @move = Move
     @current_player = @player1

@@ -9,15 +9,16 @@ module SaveLoad
 
   # show list of most recent 5 saves
   # user inputs num 1-5 to load a game file
-  def load_game_file
+  def load_game_file(board, move_list)
     file_list = show_saved_games
     fname = choose_file(file_list)
     return if fname.nil?
 
     json_obj_ary = read_file(fname)
-    load_move_list(json_obj_ary[0]) # move list object
+    load_move_list(json_obj_ary[0], move_list) # move list object
     load_board(json_obj_ary[1], board) # perhaps we could load board after Game is instantiated
-    puts 'Game file has been loaded!'
+    puts 'The save file has been loaded!'
+    [board, move_list]
   end
 
   def show_saved_games
@@ -56,10 +57,10 @@ module SaveLoad
     # end
   end
 
-  def load_move_list(json_str)
+  def load_move_list(json_str, move_list)
     obj = JSON.parse(json_str)
-    a_move_list = JSON.parse(obj) # strangely we have to parse twice
-    move_list.instance_variable_set(:@all_moves, a_move_list) # perhaps create a method within MoveList
+    parsed_move_list = JSON.parse(obj) # strangely we have to parse twice
+    move_list.set_move_list(parsed_move_list) # perhaps create a method within MoveList
   end
 
   # def revert_board(grid_json)

@@ -10,8 +10,6 @@ module ChessTools
 
   # i.e. 2 steps forward would be [2, 0] for either color
   def base_move(begin_sq = nil, finish_sq = nil, color =  nil)
-    # puts "\n\t#{self.class}##{__method__}\n "
-
     begin_sq ||= start_sq
     finish_sq ||= end_sq
     color ||= object(begin_sq).color
@@ -37,11 +35,14 @@ module ChessTools
   end
 
   # refactor this method, maybe into 2 methods
-  def user_input(start_sq = '', end_sq = '')
+  def validate_turn_input#(start_sq = '', end_sq = '')
+    start_sq = ''
+    end_sq = ''
+
     loop do
-      Display.turn_message(current_player.color, board)
+      Display.turn_message(current_player.color, board) # move this out of here
       input = gets.chomp.downcase # normal input
-      # input = 'd6f6' if (input == '' || input.nil?) # auto inputted move, delete me
+      # input = 'd6f6' if (input == '' || input.nil?) # delete me, auto input
 
       if input == 'menu'
         midgame_menu
@@ -77,3 +78,21 @@ module ChessTools
     return true if board.object(start_sq).is_a?(Piece) && board.object(start_sq).color == current_player.color
   end
 end
+
+# Can we use this code snippet?
+# This code from an old exercise uses double verification
+# verify_input is invoked only if user_input matches regex first
+# then, verified_number is returned only if result of verified_input is not nil
+# def player_input(min, max)
+#   loop do
+#     user_input = gets.chomp
+#     verified_number = verify_input(min, max, user_input.to_i) if user_input.match?(/^\d+$/)
+#     return verified_number if verified_number
+
+#     puts "Input error! Please enter a number between #{min} or #{max}."
+#   end
+# end
+
+# def verify_input(min, max, input)
+#   return input if input.between?(min, max)
+# end

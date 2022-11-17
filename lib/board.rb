@@ -15,7 +15,7 @@ class Board
 
   attr_reader :grid
 
-  def initialize(layout)
+  def initialize(layout = 'standard')
     generate_grid
     @board_config = BoardConfig.new(self, layout)
   end
