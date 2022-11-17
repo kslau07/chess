@@ -14,14 +14,18 @@ class Game
   def initialize(**args)
     @player1 = args[:player1] || Player.new(color: 'white')
     @player2 = args[:player2] || Player.new(color: 'black')
-
-    @board = args[:board] || Board.new
-    # @board = Board.new(args[:board_config] || 'standard')
-
-    @move = Move
-    @current_player = @player1
     @move_list = args[:move_list] || MoveList.new
+    @board = args[:board] || Board.new
+    @move = Move
+    @current_player = set_current_player
+    # @current_player = @player1
     @display = Display
+  end
+
+  # For testing
+  def configure_board(layout_type)
+    BoardConfig.new(@board, layout_type, @move_list)
+    set_current_player
   end
 
   # create factory for the factory? for this?
@@ -65,6 +69,12 @@ class Game
     new_move
   end
 
+  # Use length of move_list to determine who goes next
+  def set_current_player
+    player = move_list.all_moves.length.even? ? player1 : player2
+    @current_player = player
+  end
+
   def switch_players
     @current_player = other_player
   end
@@ -87,20 +97,7 @@ class Game
     game_end
   end
 
-  def play_again
-    display.play_again_question
-    input = gets.chomp
-    case input
-    when 'y'
-      post_initialize
-      @game_end = false
-      @current_player = player1
-      play
-    when 'n'
-      display.goodbye
-      exit
-    end
-  end
+
 end
 
 class InputError < StandardError

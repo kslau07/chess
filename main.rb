@@ -44,14 +44,35 @@ class Main
   end
 
   def self.play(game)
-    puts 'Press enter to continue.'
-    gets
+    puts 'Press ENTER to continue.'
+    # gets
     # Use a loop here, break loop if not play_again
     game.turn_sequence until game.game_over?
     game.play_again # this method should be in main, call self.play again
   end
 
-  board, move_list = start_sequence(Board.new, MoveList.new)
-  game = Game.new(board: board, move_list: move_list)
+  # board, move_list = start_sequence(Board.new, MoveList.new)
+  # game = Game.new(board: board, move_list: move_list)
+  # play(game)
+
+  # testing
+  game = Game.new
+  game.configure_board('en_passant_black')
   play(game)
 end
+
+  # Move to Main
+  # def play_again
+  #   display.play_again_question
+  #   input = gets.chomp
+  #   case input
+  #   when 'y'
+  #     post_initialize
+  #     @game_end = false
+  #     @current_player = player1
+  #     play
+  #   when 'n'
+  #     display.goodbye
+  #     exit
+  #   end
+  # end

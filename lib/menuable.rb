@@ -4,6 +4,17 @@
 module Menuable
   private
 
+  def menu_options
+    <<~HEREDOC
+      \n\tMenu Options
+      \t#{'1. Save Game'.red}
+      \t2. Load Game
+      \t3. View Move List
+      \t4. Help
+      \t5. Exit
+    HEREDOC
+  end
+
   def midgame_menu
     puts menu_options
     menu_input = gets.chomp.downcase # add validation
@@ -29,17 +40,6 @@ module Menuable
     Display.draw_board(board)
   end
 
-  def menu_options
-    <<~HEREDOC
-      \n\tMenu Options
-      \t#{'1. Save Game'.red}
-      \t2. Load Game
-      \t3. View Move List
-      \t4. Help
-      \t5. Exit
-    HEREDOC
-  end
-
   def help_from_menu
     puts "\nHelp:"
     puts 'To input a move you may use any of the following notation:'.blue
@@ -52,7 +52,7 @@ module Menuable
   end
 
   def press_any_key
-    puts 'Press any key to continue'.green
+    puts 'Press ENTER to continue.'.green
     gets
     nil
   end

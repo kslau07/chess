@@ -10,6 +10,8 @@ module SaveLoad
   # show list of most recent 5 saves
   # user inputs num 1-5 to load a game file
   def load_game_file(board, move_list)
+    # require 'pry-byebug'
+    # binding.pry
     file_list = show_saved_games
     fname = choose_file(file_list)
     return if fname.nil?
@@ -71,7 +73,7 @@ module SaveLoad
   def load_move_list(json_str, move_list)
     obj = JSON.parse(json_str)
     parsed_move_list = JSON.parse(obj) # strangely we have to parse twice
-    move_list.set_move_list(parsed_move_list) # perhaps create a method within MoveList
+    move_list.set(parsed_move_list) # perhaps create a method within MoveList
   end
 
   # def revert_board(grid_json)

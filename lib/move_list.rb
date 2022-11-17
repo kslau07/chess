@@ -13,7 +13,7 @@ class MoveList
     @all_moves = []
   end
 
-  def set_move_list(mv_list)
+  def set(mv_list)
     @all_moves = mv_list
   end
 

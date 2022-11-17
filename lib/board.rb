@@ -15,9 +15,9 @@ class Board
 
   attr_reader :grid
 
-  def initialize(layout = 'standard')
-    generate_grid
-    @board_config = BoardConfig.new(self, layout)
+  def initialize(layout = 'standard', move_list = nil)
+    create_new_grid
+    @board_config = BoardConfig.new(self, layout, move_list)
   end
 
   def object(coord)
@@ -34,7 +34,7 @@ class Board
     arr_of_squares
   end
 
-  def generate_grid
+  def create_new_grid
     @grid = []
 
     8.times do
