@@ -33,8 +33,19 @@ module SaveLoad
 
   def choose_file(f_list)
     puts 'No saved games found.' if f_list.empty?
-    input = gets unless f_list.empty?
+    input = validate_choose_file_input(f_list) unless f_list.empty?
     f_list[input.to_i - 1]
+  end
+
+  def validate_choose_file_input(f_list)
+    list_len = f_list.length
+    valid_input_ary = (1..list_len).to_a.map(&:to_s)
+    loop do
+      input = gets.chomp
+      return input if valid_input_ary.include?(input)
+
+      puts 'Invalid input! Choose a file to load.'
+    end
   end
 
   def serialize_game_objects

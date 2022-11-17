@@ -13,7 +13,7 @@ module Menuable
       puts 'Game has been saved!'
       save_game_file
     when '2'
-      load_game_file
+      load_game_file(board, move_list)
     when '3'
       puts "\nHere is the move list:".blue
       puts move_list.all_moves.join(', ').magenta
@@ -39,8 +39,6 @@ module Menuable
       \t5. Exit
     HEREDOC
   end
-
-
 
   def help_from_menu
     puts "\nHelp:"
