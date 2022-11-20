@@ -4,7 +4,7 @@
 # self-register and self-select when player castles
 class Castle < Move
   attr_reader :base_move_castle
-
+  
   Move.register(self)
 
   def self.handles?(args)

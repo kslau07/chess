@@ -6,8 +6,7 @@ class Rook < Piece
   # attr_reader :color, :unmoved, :long_reach
 
   def post_initialize
-    # @class_name = self.class # some variables and attrs can be moved to superclass
-    # @unmoved = true
+    @unmoved = true
     @long_reach = true
   end
 

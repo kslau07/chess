@@ -55,18 +55,18 @@ class Main
   end
 
   def self.play(game)
-    puts 'Press ENTER to continue.'
-    gets
+    # puts 'Press ENTER to continue.' # re-enable later
+    # gets
     game.turn_sequence until game.game_over?
     play_again(game)
   end
 
-  board, move_list = start_sequence(Board.new, MoveList.new)
-  game = Game.new(board: board, move_list: move_list)
-  play(game)
+  # board, move_list = start_sequence(Board.new, MoveList.new)
+  # game = Game.new(board: board, move_list: move_list)
+  # play(game)
 
   # testing
-  # game = Game.new
-  # game.configure_board('en_passant_wht_scenario1')
-  # play(game)
+  game = Game.new
+  game.configure_board('pawn_move')
+  play(game)
 end

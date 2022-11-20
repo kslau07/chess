@@ -6,8 +6,7 @@ class Bishop < Piece
   # attr_reader :color, :unmoved, :long_reach
 
   def post_initialize
-    # @class_name = self.class
-    # @unmoved = true
+    @unmoved = true
     @long_reach = true
   end
 

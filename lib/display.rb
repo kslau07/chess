@@ -4,7 +4,6 @@
 module Display
   def self.clear_console
     puts "\e[H\e[2J"
-    # system 'clear' # add feat to invalid inputs too
   end
 
   def self.draw_board(board)

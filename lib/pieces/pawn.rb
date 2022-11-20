@@ -6,8 +6,7 @@ class Pawn < Piece
   # attr_reader :color, :unmoved, :long_reach
 
   def post_initialize
-    # @class_name = self.class
-    # @unmoved = true
+    @unmoved = true
     @long_reach = false
   end
 
@@ -17,8 +16,38 @@ class Pawn < Piece
 
   def moved
     @unmoved = false
-    @long_reach = false
   end
+
+  def make_path(board, start_sq, end_sq)
+    [] # single/double step move handled in separate methods
+  end
+
+  def make_single_step_path(start_sq, end_sq)
+    [start_sq, end_sq]
+  end
+
+  def make_double_step_path(start_sq, end_sq)
+    middle_sq = [(start_sq[0] + end_sq[0]) / 2, end_sq[1]]
+    [start_sq, middle_sq, end_sq]
+  end
+
+  def make_attack_path(board, start_sq, end_sq)
+    # attack_path = make_path(board, start_sq, end_sq, attack_move_set)
+    # make_path(board, start_sq, end_sq, attack_move_set)
+    []
+    # returns an array of squares traveled
+  end
+
+  private
+
+  def move_set
+    [[1, 0]].freeze
+  end
+
+  def attack_move_set
+    [[1, -1], [1, 1]].freeze
+  end
+end
 
   # break up in smaller methods (?)
   # def make_double_step_path(board, start_sq, end_sq)
@@ -32,23 +61,3 @@ class Pawn < Piece
   #   end
   #   path
   # end
-
-  def make_path
-
-  end
-
-  def make_attack_path(board, start_sq, end_sq)
-    # attack_path = make_path(board, start_sq, end_sq, attack_move_set)
-    make_path(board, start_sq, end_sq, attack_move_set)
-  end
-
-  private
-
-  def move_set
-    [[1, 0]].freeze
-  end
-
-  def attack_move_set
-    [[1, -1], [1, 1]].freeze
-  end
-end

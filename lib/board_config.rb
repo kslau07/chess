@@ -33,7 +33,7 @@ class BoardConfig
 
 
   def standard
-    # puts "\n\t#{self.class}##{__method__}\n "
+    # puts "\n\t#{self.class}##{__method__}\n " # show class#method
     white_set = PieceFactory.create_set('white')
     black_set = PieceFactory.create_set('black')
     pieces = { white_pcs: white_set, black_pcs: black_set }
@@ -44,6 +44,26 @@ class BoardConfig
       board.grid[0][sq] = pieces[:white_pcs][sq + 8]
       board.grid[7][sq] = pieces[:black_pcs][sq + 8]
     end
+  end
+
+  def pawn_move
+    board.grid[1][3] = wht_pawn
+    board.grid[6][3] = blk_pawn
+    # board.grid[4][3] = wht_pawn # wht pawn blocks blk pawn
+    # board.grid[2][3] = blk_pawn # blk pawn blocks wht pawn
+    board.grid[0][4] = wht_king
+    board.grid[7][5] = blk_king
+    mv_list = %w[Kg8f8]
+    move_list.set(mv_list)
+  end
+
+  def path_obstruction_wht
+    board.grid[1][3] = wht_rook
+    board.grid[3][3] = blk_rook
+    board.grid[0][4] = wht_king
+    board.grid[7][5] = blk_king
+    # mv_list = %w[Kg8f8 Rc7c6 Kf8g8 Rd5d6 Kg8f8 Rc6c7]
+    # move_list.set(mv_list)
   end
 
   def checkmate_wht_1

@@ -21,8 +21,7 @@ class Piece
     raise NotImplementedError, 'method should be implemented in concrete class'
   end
 
-  # This method is used by Pawn only, as such, it should reside in Pawn and
-  # not in the abstract class
+  # This method is used by Pawn and Castle
   def invert(move)
     return move.map { |num| num * -1 } if move.is_a?(Array)
   end
@@ -37,11 +36,11 @@ class Piece
   #   mv_set ||= move_set # pawn only
   #   start_obj = board.object(start_sq) # pawn only
   #   path = [start_sq]
-  #   mv_set.each do |pdf_move|
-  #     pdf_move = invert(pdf_move) if color == 'black' && start_obj.instance_of?(Pawn) # pawn only
+  #   mv_set.each do |single_move|
+  #     single_move = invert(single_move) if color == 'black' && start_obj.instance_of?(Pawn) # pawn only
   #     next_sq = start_sq
   #     loop do
-  #       next_sq = [next_sq[0] + pdf_move[0], next_sq[1] + pdf_move[1]]
+  #       next_sq = [next_sq[0] + single_move[0], next_sq[1] + single_move[1]]
   #       break unless board.squares.include?(next_sq)
 
   #       path << next_sq
@@ -56,10 +55,10 @@ class Piece
   # We have completely taken Pawn related code out of make_path
   def make_path(board, start_sq, end_sq)
     path = [start_sq]
-    mv_set.each do |pdf_move|
+    move_set.each do |single_move|
       next_sq = start_sq
       loop do
-        next_sq = [next_sq[0] + pdf_move[0], next_sq[1] + pdf_move[1]]
+        next_sq = [next_sq[0] + single_move[0], next_sq[1] + single_move[1]]
         break unless board.squares.include?(next_sq)
 
         path << next_sq

@@ -9,8 +9,6 @@ class Move
   attr_reader :player, :board, :move_list, :start_sq, :end_sq, :start_piece, :end_obj,
               :path, :validated, :captured_piece, :checks, :checkmates
 
-  # what do we need to instantiate Move?
-  # player, board, move_list, start_sq, end_sq
 
   def self.factory(args)
     registry.find { |candidate| candidate.handles?(args) }.new(args)

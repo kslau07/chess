@@ -8,6 +8,7 @@ require_relative './color'
 require_relative './special_moves/en_passant'
 require_relative './special_moves/castle'
 require_relative './special_moves/pawn_attack'
+require_relative './special_moves/pawn_single_step'
 require_relative './special_moves/pawn_double_step'
 require_relative './move_list'
 require_relative './player'
@@ -25,3 +26,5 @@ require_relative './pieces/queen'
 require_relative './pieces/king'
 require_relative './pieces/bishop'
 require_relative './pieces/knight'
+
+# puts "\t\e[31m#{self.class}##{__method__}\e[0m\n" # show class#method

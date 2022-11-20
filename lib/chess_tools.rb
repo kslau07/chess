@@ -35,7 +35,7 @@ module ChessTools
   end
 
   # refactor this method, maybe into 2 methods
-  def validate_turn_input#(start_sq = '', end_sq = '')
+  def validate_turn_input #(start_sq = '', end_sq = '') # delete params
     start_sq = ''
     end_sq = ''
 
