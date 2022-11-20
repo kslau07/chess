@@ -20,7 +20,7 @@ class PawnAttack < Move
     cond1 && cond2 && cond3 && cond4
   end
 
-  def post_initialize(args)
+  def post_initialize
     @path = start_piece.generate_attack_path(board, start_sq, end_sq)
     move_sequence
   end

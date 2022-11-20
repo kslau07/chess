@@ -17,7 +17,7 @@ class Piece
     post_initialize
   end
 
-  def post_initialize(args)
+  def post_initialize
     raise NotImplementedError, 'method should be implemented in concrete class'
   end
 
@@ -25,7 +25,16 @@ class Piece
     return move.map { |num| num * -1 } if move.is_a?(Array)
   end
 
+  def pre_gen_path(board, start_sq, end_sq, pdf_moves = nil)
+
+  end
+
   # break up into smaller methods
+  # Ok, ideas on how we can break up this monstrosity.
+  # One way would be to take start_obj and invert out, go through invert
+  # first then send the inverted/non-inverted move_set to #generate_path, 
+  # that would take out one unrelated responsibility.
+  # pdf_moves is used ONLY for Pawn
   def generate_path(board, start_sq, end_sq, pdf_moves = nil)
     pdf_moves ||= move_set # we may not use this
     start_obj = board.object(start_sq)
@@ -33,9 +42,7 @@ class Piece
     pdf_moves.each do |pdf_move|
       pdf_move = invert(pdf_move) if color == 'black' && start_obj.instance_of?(Pawn)
       next_sq = start_sq
-      # i = 0
       loop do
-        # i += 1
         next_sq = [next_sq[0] + pdf_move[0], next_sq[1] + pdf_move[1]]
         break unless board.squares.include?(next_sq)
 

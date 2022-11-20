@@ -47,6 +47,12 @@ class Board
   end
 
   # break up into smaller methods
+  # Each smaller method needs to adhere to SRP
+  # What is the first step to breaking this thing apart?
+  # What is this method actually doing?
+  # It takes a start square and an end square then checks to see if there
+  # are any pieces between the start and the end square.
+  # 
   def path_obstructed?(path)
     begin_sq = path.first
     finish_sq = path.last

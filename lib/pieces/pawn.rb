@@ -20,24 +20,22 @@ class Pawn < Piece
     @long_reach = false
   end
 
+  # break up in smaller methods (?)
   def generate_double_step_path(board, start_sq, end_sq)
-    # base_move = base_move(start_sq, end_sq, board.object(start_sq).color)
-
-    predefined_move = [1, 0]
-    predefined_move = invert(predefined_move) if color == 'black'
+    move_set = [1, 0]
+    move_set = invert(move_set) if color == 'black'
     next_sq = start_sq
     path = [start_sq]
     2.times do
-      next_sq = [next_sq[0] + predefined_move[0], next_sq[1] + predefined_move[1]]
+      next_sq = [next_sq[0] + move_set[0], next_sq[1] + move_set[1]]
       path << next_sq
     end
-    # p ">>> path: #{path}"
     path
   end
 
   def generate_attack_path(board, start_sq, end_sq)
-    attack_path = generate_path(board, start_sq, end_sq, pawn_attack_moves)
-    generate_path(board, start_sq, end_sq, pawn_attack_moves)
+    # attack_path = generate_path(board, start_sq, end_sq, attack_move_set)
+    generate_path(board, start_sq, end_sq, attack_move_set)
   end
 
   private
@@ -46,7 +44,7 @@ class Pawn < Piece
     [[1, 0]].freeze
   end
 
-  def pawn_attack_moves
+  def attack_move_set
     [[1, -1], [1, 1]].freeze
   end
 end
