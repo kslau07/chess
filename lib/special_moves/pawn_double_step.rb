@@ -17,7 +17,7 @@ class PawnDoubleStep < Move
   end
 
   def post_initialize
-    @path = start_piece.generate_double_step_path(board, start_sq, end_sq)
+    @path = start_piece.make_double_step_path(board, start_sq, end_sq)
     move_sequence
   end
 end

@@ -21,7 +21,7 @@ class PawnAttack < Move
   end
 
   def post_initialize
-    @path = start_piece.generate_attack_path(board, start_sq, end_sq)
+    @path = start_piece.make_attack_path(board, start_sq, end_sq)
     move_sequence
   end
 

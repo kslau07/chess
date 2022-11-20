@@ -21,7 +21,7 @@ module TestCheck
 
       start_sq = square
       end_sq = kings_sq
-      attack_path = board_obj.generate_attack_path(self, start_sq, end_sq)
+      attack_path = board_obj.make_attack_path(self, start_sq, end_sq)
       attack_paths << attack_path unless attack_path.empty?
     end
     attack_paths

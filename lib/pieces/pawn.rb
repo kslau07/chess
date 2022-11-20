@@ -21,21 +21,25 @@ class Pawn < Piece
   end
 
   # break up in smaller methods (?)
-  def generate_double_step_path(board, start_sq, end_sq)
-    move_set = [1, 0]
-    move_set = invert(move_set) if color == 'black'
-    next_sq = start_sq
-    path = [start_sq]
-    2.times do
-      next_sq = [next_sq[0] + move_set[0], next_sq[1] + move_set[1]]
-      path << next_sq
-    end
-    path
+  # def make_double_step_path(board, start_sq, end_sq)
+  #   move_set = [1, 0]
+  #   move_set = invert(move_set) if color == 'black'
+  #   next_sq = start_sq
+  #   path = [start_sq]
+  #   2.times do
+  #     next_sq = [next_sq[0] + move_set[0], next_sq[1] + move_set[1]]
+  #     path << next_sq
+  #   end
+  #   path
+  # end
+
+  def make_path
+
   end
 
-  def generate_attack_path(board, start_sq, end_sq)
-    # attack_path = generate_path(board, start_sq, end_sq, attack_move_set)
-    generate_path(board, start_sq, end_sq, attack_move_set)
+  def make_attack_path(board, start_sq, end_sq)
+    # attack_path = make_path(board, start_sq, end_sq, attack_move_set)
+    make_path(board, start_sq, end_sq, attack_move_set)
   end
 
   private

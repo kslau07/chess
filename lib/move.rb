@@ -55,14 +55,12 @@ class Move
     @checkmates = true if board.checkmate?(move_data)
   end
 
-  private
-
   def capture_piece
     @captured_piece = end_obj if end_obj.is_a?(Piece)
   end
 
   def post_initialize
-    @path = start_piece.generate_path(board, start_sq, end_sq)
+    @path = start_piece.make_path(board, start_sq, end_sq)
     move_sequence
   end
 
