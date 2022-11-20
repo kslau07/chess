@@ -51,9 +51,9 @@ module Display
     puts "Checkmate! #{player.color.capitalize} wins the game!".bg_green
   end
 
-  def self.play_again_question
-    puts "\nDo you want to play again? [y, n]"
-  end
+  # def self.play_again_question
+  #   puts "\nDo you want to play again? [y, n]"
+  # end
 
   def self.pawn_promotion(player)
     <<~HEREDOC
@@ -62,10 +62,9 @@ module Display
     HEREDOC
   end
 
-  def self.goodbye
-    puts 'Oh okay. See you next time!'
-  end
-
+  # def self.goodbye
+    # puts 'Oh okay. See you next time!'
+  # end
 end
 
 # old code

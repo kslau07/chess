@@ -22,6 +22,13 @@ class Game
     @display = Display
   end
 
+  def play_again_init(board)
+    @game_end = false
+    @board = board
+    move_list.set([])
+    set_current_player
+  end
+
   # For testing
   def configure_board(layout_type)
     BoardConfig.new(@board, layout_type, @move_list)

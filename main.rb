@@ -4,10 +4,10 @@
 require_relative './lib/library'
 # perhaps only require game & display here
 # then require library within game.rb
-
 # require 'pry-byebug'
 # require 'awesome_print'
 
+# This class is a looping script for chess games
 class Main
   extend SaveLoad
 
@@ -34,8 +34,6 @@ class Main
     start_mode = start_prompt_select
     case start_mode
     when '1'
-      # new game
-      # press_enter
       puts 'A new game has been loaded!'
       [board, move_list]
     when '2'
@@ -43,36 +41,32 @@ class Main
     end
   end
 
-  def self.play(game)
-    puts 'Press ENTER to continue.'
-    # gets
-    # Use a loop here, break loop if not play_again
-    game.turn_sequence until game.game_over?
-    game.play_again # this method should be in main, call self.play again
+  def self.play_again(game)
+    puts "\nDo you want to play again? [y, n]"
+    input = gets.chomp until %w[y n].include?(input)
+    case input
+    when 'y'
+      game.play_again_init(Board.new)
+      play(game)
+    when 'n'
+      puts 'Oh okay. See you next time!'
+      # system exit
+    end
   end
 
-  # board, move_list = start_sequence(Board.new, MoveList.new)
-  # game = Game.new(board: board, move_list: move_list)
-  # play(game)
+  def self.play(game)
+    puts 'Press ENTER to continue.'
+    gets
+    game.turn_sequence until game.game_over?
+    play_again(game)
+  end
+
+  board, move_list = start_sequence(Board.new, MoveList.new)
+  game = Game.new(board: board, move_list: move_list)
+  play(game)
 
   # testing
-  game = Game.new
-  game.configure_board('en_passant_black')
-  play(game)
+  # game = Game.new
+  # game.configure_board('en_passant_wht_scenario1')
+  # play(game)
 end
-
-  # Move to Main
-  # def play_again
-  #   display.play_again_question
-  #   input = gets.chomp
-  #   case input
-  #   when 'y'
-  #     post_initialize
-  #     @game_end = false
-  #     @current_player = player1
-  #     play
-  #   when 'n'
-  #     display.goodbye
-  #     exit
-  #   end
-  # end
