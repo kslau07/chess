@@ -26,6 +26,30 @@ class Piece
     return move.map { |num| num * -1 } if move.is_a?(Array)
   end
 
+
+  # We have completely taken Pawn related code out of make_path
+  def make_path(board, start_sq, end_sq)
+    path = [start_sq]
+    move_set.each do |single_move|
+      next_sq = start_sq
+      loop do
+        next_sq = [next_sq[0] + single_move[0], next_sq[1] + single_move[1]]
+        break unless board.squares.include?(next_sq)
+
+        path << next_sq
+        return path if next_sq == end_sq
+        break unless long_reach
+      end
+      path = [start_sq]
+    end
+    []
+  end
+
+  def make_attack_path(board, start_sq, end_sq)
+    make_path(board, start_sq, end_sq)
+  end
+end
+
   # break up into smaller methods
   # Ok, ideas on how we can break up this monstrosity.
   # One way would be to take start_obj and invert out, go through invert
@@ -51,25 +75,3 @@ class Piece
   #   end
   #   []
   # end
-
-  # We have completely taken Pawn related code out of make_path
-  def make_path(board, start_sq, end_sq)
-    path = [start_sq]
-    move_set.each do |single_move|
-      next_sq = start_sq
-      loop do
-        next_sq = [next_sq[0] + single_move[0], next_sq[1] + single_move[1]]
-        break unless board.squares.include?(next_sq)
-
-        path << next_sq
-        return path if next_sq == end_sq
-      end
-      path = [start_sq]
-    end
-    []
-  end
-
-  def make_attack_path(board, start_sq, end_sq)
-    make_path(board, start_sq, end_sq)
-  end
-end

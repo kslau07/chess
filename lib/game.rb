@@ -42,7 +42,6 @@ class Game
   end
 
   def turn_sequence
-    
     # display.clear_console # disabled for debugging, re-enable
     display.draw_board(board)
     new_move = legal_move

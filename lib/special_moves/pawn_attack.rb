@@ -2,7 +2,6 @@
 
 # This class is used help the factory method in Move to
 # self-register and self-select when Pawn captures another piece
-
 class PawnAttack < Move
   Move.register(self)
 
@@ -22,7 +21,7 @@ class PawnAttack < Move
 
   def post_initialize
     @path = start_piece.make_attack_path(board, start_sq, end_sq)
-    move_sequence
+    assess_move
   end
 
   def move_permitted?

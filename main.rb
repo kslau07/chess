@@ -67,6 +67,6 @@ class Main
 
   # testing
   game = Game.new
-  game.configure_board('pawn_move')
+  game.configure_board('pawn_capture_blk')
   play(game)
 end

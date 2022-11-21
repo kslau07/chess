@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # This module tests for check in Board objects
-module TestCheck
+module Check
   include SaveLoad
 
   def check?(color)
@@ -39,12 +39,11 @@ module TestCheck
     true
   end
 
-  # break up into smaller methods
+  # Returns true if a game piece can remove check on king
   def king_is_defendable?(move_data)
     color = move_data[:player].color
     kings_sq = square_of_king(color)
     attackers_paths = paths_that_attack_king(kings_sq)
-
     attackers_paths.each do |attackers_path|
       attackers_path.each do |path_square|
         grid.each_with_index do |col, y|
@@ -61,7 +60,7 @@ module TestCheck
     false
   end
 
-  # break up into smaller methods
+  # Returns true if king can remove check himself
   def king_escapes?(move_data)
     color = move_data[:player].color
     sq_king = square_of_king(color)

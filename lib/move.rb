@@ -9,7 +9,6 @@ class Move
   attr_reader :player, :board, :move_list, :start_sq, :end_sq, :start_piece, :end_obj,
               :path, :validated, :captured_piece, :checks, :checkmates
 
-
   def self.factory(args)
     registry.find { |candidate| candidate.handles?(args) }.new(args)
   end
@@ -59,10 +58,10 @@ class Move
 
   def post_initialize
     @path = start_piece.make_path(board, start_sq, end_sq)
-    move_sequence
+    assess_move
   end
 
-  def move_sequence
+  def assess_move
     validate_move if move_permitted?
   end
 

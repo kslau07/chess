@@ -3,7 +3,7 @@
 # require_relative 'main'
 require 'json'
 require_relative 'piece'
-require_relative 'test_check'
+require_relative 'check'
 require_relative 'display'
 # require_relative 'pieces/pawn'
 
@@ -11,7 +11,7 @@ require_relative 'display'
 class Board
   include Serializable
   include ChessTools
-  include TestCheck
+  include Check
 
   attr_reader :grid
 

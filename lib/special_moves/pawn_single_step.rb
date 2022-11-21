@@ -21,6 +21,6 @@ class PawnSingleStep < Move
     @path = start_piece.make_single_step_path(start_sq, end_sq)
     # @path = start_piece.make_path(start_sq, end_sq)
     # @path = [start_sq, end_sq]
-    move_sequence
+    assess_move
   end
 end

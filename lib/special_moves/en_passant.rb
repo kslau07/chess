@@ -31,7 +31,7 @@ class EnPassant < Move
 
   def post_initialize
     @path = [start_sq, end_sq]
-    move_sequence
+    assess_move
   end
 
   def move_permitted?

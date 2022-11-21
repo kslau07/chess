@@ -66,6 +66,22 @@ class BoardConfig
     # move_list.set(mv_list)
   end
 
+  def pawn_capture_wht
+    board.grid[5][1] = wht_pawn
+    board.grid[6][2] = blk_queen
+    board.grid[0][4] = wht_king
+    board.grid[7][4] = blk_king
+  end
+
+  def pawn_capture_blk
+    board.grid[6][1] = blk_pawn
+    board.grid[2][2] = wht_queen
+    board.grid[0][4] = wht_king
+    board.grid[7][4] = blk_king
+    mv_list = %w[Qh2c2]
+    move_list.set(mv_list)
+  end
+  
   def checkmate_wht_1
     board.grid[5][0] = wht_king
     board.grid[6][2] = wht_rook
@@ -73,7 +89,7 @@ class BoardConfig
     board.grid[7][5] = blk_king
     mv_list = %w[Kg8f8 Rc7c6 Kf8g8 Rd5d6 Kg8f8 Rc6c7]
     move_list.set(mv_list)
-  end                       
+  end
   
   def checkmate_blk_1
     board.grid[2][2] = blk_rook
@@ -110,21 +126,7 @@ class BoardConfig
     move_list.set(mv_list)
   end
 
-  def pawn_capture_wht
-    board.grid[5][1] = wht_pawn
-    board.grid[6][2] = blk_queen
-    board.grid[0][4] = wht_king
-    board.grid[7][4] = blk_king
-  end
 
-  def pawn_capture_blk
-    board.grid[3][1] = blk_pawn
-    board.grid[2][2] = wht_queen
-    board.grid[0][4] = wht_king
-    board.grid[7][4] = blk_king
-    mv_list = %w[Qh2c2]
-    move_list.set(mv_list)
-  end
 
   def castle_valid_wht
     # To invalidate castle because of rook movement, use receive/return in rspec

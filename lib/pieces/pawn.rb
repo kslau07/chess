@@ -32,21 +32,18 @@ class Pawn < Piece
   end
 
   def make_attack_path(board, start_sq, end_sq)
-    # attack_path = make_path(board, start_sq, end_sq, attack_move_set)
-    # make_path(board, start_sq, end_sq, attack_move_set)
-    []
-    # returns an array of squares traveled
+    [start_sq, end_sq]
   end
 
-  private
+  # private
 
-  def move_set
-    [[1, 0]].freeze
-  end
+  # def move_set
+  #   [[1, 0]].freeze
+  # end
 
-  def attack_move_set
-    [[1, -1], [1, 1]].freeze
-  end
+  # def attack_move_set
+  #   [[1, -1], [1, 1]].freeze
+  # end
 end
 
   # break up in smaller methods (?)

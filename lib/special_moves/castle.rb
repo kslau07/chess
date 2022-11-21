@@ -19,7 +19,7 @@ class Castle < Move
   def post_initialize
     @base_move_castle = base_move(start_sq, end_sq, player.color)
     @base_move_castle = start_piece.invert(base_move_castle) if player.color == 'black'
-    move_sequence
+    assess_move
   end
 
   def move_permitted?
