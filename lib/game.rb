@@ -16,17 +16,9 @@ class Game
     @player2 = args[:player2] || Player.new(color: 'black')
     @move_list = args[:move_list] || MoveList.new
     @board = args[:board] || Board.new
-    @move = Move
-    @current_player = set_current_player
-    # @current_player = @player1
-    @display = Display
-  end
-
-  def play_again_init(board)
-    @game_end = false
-    @board = board
-    move_list.set([])
-    set_current_player
+    @move = args[:move] || Move
+    @display = args[:display] || Display
+    @current_player = set_current_player # This method is causing issues in testing
   end
 
   # For testing
@@ -103,12 +95,18 @@ class Game
   def game_over?
     game_end
   end
+
+  def play_again_init(board)
+    @game_end = false
+    @board = board
+    move_list.set([])
+    set_current_player
+  end
 end
 
+# What other errors can we subclass?
 class InputError < StandardError
   def message
     'Invalid input!'
   end
 end
-
-# What other errors can we subclass?
