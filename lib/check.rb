@@ -1,30 +1,39 @@
 # frozen_string_literal: true
 
+require 'pry-byebug'
+
 # This module tests for check in Board objects
 module Check
   include SaveLoad
 
   def check?(color)
-    attack_paths = paths_that_attack_king(square_of_king(color))
-    return false if attack_paths.empty?
+    capture_paths = paths_that_attack_king(square_of_king(color))
 
-    attack_paths.any? { |attack_path| !path_obstructed?(attack_path) }
+    # require 'pry-byebug'; binding.pry # debugger, delete me
+    
+    return false if capture_paths.empty?
+
+    capture_paths.any? { |capture_path| !path_obstructed?(capture_path) }
   end
 
   # break up into smaller methods
   def paths_that_attack_king(kings_sq)
     player_color = object(kings_sq).color
-    attack_paths = []
+    capture_paths = []
     squares.each do |square|
       board_obj = object(square)
       next unless board_obj.is_a?(Piece) && board_obj.color == opposing_color(player_color)
 
       start_sq = square
       end_sq = kings_sq
-      attack_path = board_obj.make_attack_path(self, start_sq, end_sq)
-      attack_paths << attack_path unless attack_path.empty?
+      capture_path = board_obj.make_capture_path(self, start_sq, end_sq)
+
+      # binding.pry unless capture_path.empty?
+
+      capture_paths << capture_path unless capture_path.empty?
     end
-    attack_paths
+
+    capture_paths
   end
 
   def square_of_king(color)

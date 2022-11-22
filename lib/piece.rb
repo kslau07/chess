@@ -29,6 +29,12 @@ class Piece
 
   # We have completely taken Pawn related code out of make_path
   def make_path(board, start_sq, end_sq)
+    # debugging, delete me
+    require 'pry-byebug'
+    boj = board.object(start_sq)
+    binding.pry if boj.is_a?(Pawn) # debugger, delete me
+    
+    
     path = [start_sq]
     move_set.each do |single_move|
       next_sq = start_sq
@@ -45,7 +51,7 @@ class Piece
     []
   end
 
-  def make_attack_path(board, start_sq, end_sq)
+  def make_capture_path(board, start_sq, end_sq)
     make_path(board, start_sq, end_sq)
   end
 end

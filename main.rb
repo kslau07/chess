@@ -67,6 +67,6 @@ class Main
 
   # testing
   game = Game.new
-  game.configure_board('pawn_capture_blk')
+  game.configure_board('pawn_checks_king')
   play(game)
 end

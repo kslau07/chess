@@ -20,7 +20,8 @@ class PawnAttack < Move
   end
 
   def post_initialize
-    @path = start_piece.make_attack_path(board, start_sq, end_sq)
+    puts "\n\t\e[31m#{self.class}##{__method__}\e[0m\n " # show class#method
+    @path = start_piece.make_capture_path(board, start_sq, end_sq)
     assess_move
   end
 

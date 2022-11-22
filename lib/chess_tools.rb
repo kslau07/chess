@@ -42,7 +42,7 @@ module ChessTools
     loop do
       Display.turn_message(current_player.color, board) # move this out of here
       input = gets.chomp.downcase # normal input
-      # input = 'b4c3' if (input == '' || input.nil?) # delete me, auto input
+      # input = 'b7b6' if (input == '' || input.nil?) # delete me, auto input
 
       if input == 'menu'
         midgame_menu

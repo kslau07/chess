@@ -46,6 +46,23 @@ class BoardConfig
     end
   end
 
+  def pawn_checks_king
+    board.grid[6][2] = blk_pawn
+    board.grid[2][3] = blk_pawn
+    board.grid[5][3] = wht_queen
+    board.grid[0][4] = wht_king
+    board.grid[7][4] = blk_king
+    mv_list = %w[Qh2c2]
+    move_list.set(mv_list)
+  end
+
+  def fix_check_checkmate
+    board.grid[1][3] = wht_rook
+    board.grid[3][3] = blk_rook
+    board.grid[0][4] = wht_king
+    board.grid[7][5] = blk_king
+  end
+
   def pawn_move
     board.grid[1][3] = wht_pawn
     board.grid[6][3] = blk_pawn
@@ -66,6 +83,30 @@ class BoardConfig
     # move_list.set(mv_list)
   end
 
+  def obstruct_path_pawn_wht
+    board.grid[1][1] = wht_pawn
+    board.grid[1][3] = wht_pawn
+    board.grid[2][1] = blk_pawn
+    board.grid[3][3] = blk_pawn
+    board.grid[0][4] = wht_king
+    board.grid[7][5] = blk_king
+    # mv_list = %w[Kg8f8 Rc7c6 Kf8g8 Rd5d6 Kg8f8 Rc6c7]
+    # move_list.set(mv_list)
+  end
+
+  def obstruct_path_pawn_blk
+    board.grid[4][1] = wht_pawn
+    board.grid[5][3] = wht_pawn
+    board.grid[5][4] = wht_pawn
+    board.grid[6][1] = blk_pawn
+    board.grid[6][3] = blk_pawn
+    board.grid[6][7] = blk_pawn
+    board.grid[0][4] = wht_king
+    board.grid[7][5] = blk_king
+    mv_list = %w[Kg8f8]
+    move_list.set(mv_list)
+  end
+
   def pawn_capture_wht
     board.grid[5][1] = wht_pawn
     board.grid[6][2] = blk_queen
@@ -74,8 +115,9 @@ class BoardConfig
   end
 
   def pawn_capture_blk
-    board.grid[6][1] = blk_pawn
-    board.grid[2][2] = wht_queen
+    board.grid[6][2] = blk_pawn
+    board.grid[2][3] = blk_pawn
+    board.grid[5][3] = wht_queen
     board.grid[0][4] = wht_king
     board.grid[7][4] = blk_king
     mv_list = %w[Qh2c2]

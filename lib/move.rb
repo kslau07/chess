@@ -28,6 +28,8 @@ class Move
   end
 
   def initialize(args)
+    puts "\n\t\e[31m#{self.class}##{__method__}\e[0m\n " # show class#method
+
     args.each do |k, v|
       instance_variable_set("@#{k}", v) unless v.nil?
     end
@@ -44,7 +46,7 @@ class Move
     start_piece.moved
   end
 
-  def test_check_other_player
+  def opponent_check
     @checks = true if board.check?(opposing_color(player.color))
   end
 
