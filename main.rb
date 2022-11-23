@@ -67,6 +67,6 @@ class Main
 
   # testing
   game = Game.new
-  game.configure_board('pawn_checks_king')
+  game.configure_board('path_obstruction_wht')
   play(game)
 end

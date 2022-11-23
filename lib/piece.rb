@@ -21,20 +21,13 @@ class Piece
     raise NotImplementedError, 'method should be implemented in concrete class'
   end
 
-  # This method is used by Pawn and Castle
+  # This method is used by Castle only
   def invert(move)
     return move.map { |num| num * -1 } if move.is_a?(Array)
   end
 
-
   # We have completely taken Pawn related code out of make_path
   def make_path(board, start_sq, end_sq)
-    # debugging, delete me
-    require 'pry-byebug'
-    boj = board.object(start_sq)
-    binding.pry if boj.is_a?(Pawn) # debugger, delete me
-    
-    
     path = [start_sq]
     move_set.each do |single_move|
       next_sq = start_sq

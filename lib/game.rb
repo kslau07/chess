@@ -34,13 +34,13 @@ class Game
   end
 
   def turn_sequence
-    # display.clear_console # disabled for debugging, re-enable
+    # display.clear_console # debug, re-enable
     display.draw_board(board)
     new_move = legal_move
-    # board.promote_pawn(new_move) if board.promotion?(new_move)
+    board.promote_pawn(new_move) if board.promotion?(new_move)
     new_move.opponent_check
     move_list.add(new_move)
-    
+
     checkmate_seq(new_move) if new_move.checks
     switch_players
   end
