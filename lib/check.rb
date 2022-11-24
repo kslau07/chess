@@ -8,9 +8,6 @@ module Check
 
   def check?(color)
     capture_paths = paths_that_attack_king(square_of_king(color))
-
-    # require 'pry-byebug'; binding.pry # debugger, delete me
-    
     return false if capture_paths.empty?
 
     capture_paths.any? { |capture_path| !path_obstructed?(capture_path) }
@@ -48,6 +45,7 @@ module Check
     true
   end
 
+  # break up
   # Returns true if a game piece can remove check on king
   def king_is_defendable?(move_data)
     color = move_data[:player].color
@@ -69,6 +67,7 @@ module Check
     false
   end
 
+  # break up
   # Returns true if king can remove check himself
   def king_escapes?(move_data)
     color = move_data[:player].color

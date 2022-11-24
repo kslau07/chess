@@ -10,8 +10,6 @@ module SaveLoad
   # show list of most recent 5 saves
   # user inputs num 1-5 to load a game file
   def load_game_file(board, move_list)
-    # require 'pry-byebug'
-    # binding.pry
     file_list = show_saved_games
     fname = choose_file(file_list)
     return if fname.nil?

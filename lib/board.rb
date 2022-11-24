@@ -46,15 +46,13 @@ class Board
     grid[coord[0]][coord[1]] = new_value
   end
 
-  # path from 1..-1 cannot contain same colored piece
-  # path from 1..-2 cannot contain opposing piece
   def path_obstructed?(path)
     return pawn_path_obstructed?(path) if object(path.first).is_a?(Pawn)
     return true if friendly?(object(path.first).color, path.last)
 
     search_path = path[1..-2] # squares inbetween start/end
-    search_path.each do |sq|
-      return true if object(sq).is_a?(Piece)
+    search_path.any? do |sq|
+      object(sq).is_a?(Piece)
     end
   end
 
@@ -98,27 +96,3 @@ class Board
   end
 end
 
-
-# def path_obstructed?(path) # path contains start_sq and end_sq
-#   return pawn_path_obstructed?(path) if object(path.first).is_a?(Pawn)
-
-#   start_sq = path.first
-#   end_sq = path.last
-#   start_obj = object(start_sq)
-#   finish_obj = object(end_sq)
-
-#   first_occupied_sq = path.find.with_index do |curr_sq, idx|
-#     next if idx.zero? # do not check start_sq
-
-#     object(curr_sq).is_a?(Piece)
-#   end
-
-#   # piece_at_occupied_sq = object(first_occupied_sq)
-#   return false if first_occupied_sq.nil? # no piece found in path using .find
-#   return true if end_sq != first_occupied_sq
-
-#   if first_occupied_sq == end_sq
-#     return true if start_obj.color == finish_obj.color # same color obstruction
-#   end
-#   false
-# end
