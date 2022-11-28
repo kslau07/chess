@@ -1,36 +1,24 @@
 # frozen_string_literal: true
 
-require 'pry-byebug'
-
 # This module tests for check in Board objects
 module Check
   include SaveLoad
 
   def check?(color)
-    capture_paths = paths_that_attack_king(square_of_king(color))
-    return false if capture_paths.empty?
-
-    capture_paths.any? { |capture_path| !path_obstructed?(capture_path) }
+    kings_sq = square_of_king(color)
+    check_paths = find_check_paths(color, kings_sq)
+    check_paths.any? { |capture_path| !path_obstructed?(capture_path) }
   end
 
-  # break up into smaller methods
-  def paths_that_attack_king(kings_sq)
-    player_color = object(kings_sq).color
-    capture_paths = []
+  def find_check_paths(player_color, kings_sq, check_paths = [])
     squares.each do |square|
-      board_obj = object(square)
-      next unless board_obj.is_a?(Piece) && board_obj.color == opposing_color(player_color)
+      next unless enemy_piece?(player_color, object(square))
 
-      start_sq = square
-      end_sq = kings_sq
-      capture_path = board_obj.make_capture_path(self, start_sq, end_sq)
-
-      # binding.pry unless capture_path.empty?
-
-      capture_paths << capture_path unless capture_path.empty?
+      enemy_piece = object(square)
+      path_to_king = enemy_piece.make_capture_path(self, square, kings_sq)
+      check_paths << path_to_king unless path_to_king.empty?
     end
-
-    capture_paths
+    check_paths
   end
 
   def square_of_king(color)
@@ -40,43 +28,17 @@ module Check
   end
 
   def checkmate?(move_data)
-    return false if king_escapes?(move_data) || king_is_defendable?(move_data)
-
-    true
-  end
-
-  # break up
-  # Returns true if a game piece can remove check on king
-  def king_is_defendable?(move_data)
     color = move_data[:player].color
     kings_sq = square_of_king(color)
-    attackers_paths = paths_that_attack_king(kings_sq)
-    attackers_paths.each do |attackers_path|
-      attackers_path.each do |path_square|
-        grid.each_with_index do |col, y|
-          col.each_with_index do |sq, x|
-            if sq.is_a?(Piece) && sq.color == color
-              move_data[:start_sq] = [y, x]
-              move_data[:end_sq] = path_square
-              return true if legal_move?(move_data)
-            end
-          end
-        end
-      end
-    end
-    false
+    king = object(kings_sq)
+    king_immobile?(king, kings_sq, move_data) && king_indefensible?(color, kings_sq, move_data)
   end
 
-  # break up
-  # Returns true if king can remove check himself
-  def king_escapes?(move_data)
-    color = move_data[:player].color
-    sq_king = square_of_king(color)
-    king = object(sq_king)
-
-    king.possible_moves.any? do |possible_move|
-      begin_sq = sq_king
-      finish_sq = [sq_king[0] + possible_move[0], sq_king[1] + possible_move[1]]
+  # Returns false if king has a legal move
+  def king_immobile?(king, kings_sq, move_data)
+    king.possible_moves.none? do |possible_move|
+      begin_sq = kings_sq
+      finish_sq = [kings_sq[0] + possible_move[0], kings_sq[1] + possible_move[1]]
       next if out_of_bound?(self, begin_sq, finish_sq) # check if square is out of bound
 
       move_data[:start_sq] = begin_sq
@@ -85,7 +47,26 @@ module Check
     end
   end
 
-  # break up into smaller methods
+  # Returns false if another piece can remove check
+  def king_indefensible?(color, kings_sq, move_data)
+    # Although this method is long, it feels like all parts are necessary
+    attackers_paths = find_check_paths(kings_sq)
+    attackers_paths.each do |attackers_path|
+      attackers_path.each do |path_square|
+        grid.each_with_index do |col, y|
+          col.each_with_index do |sq, x|
+            next unless sq.is_a?(Piece) && sq.color == color
+
+            move_data[:start_sq] = [y, x]
+            move_data[:end_sq] = path_square
+            return false if legal_move?(move_data)
+          end
+        end
+      end
+    end
+    true
+  end
+
   def legal_move?(move_data)
     move = move_data[:move]
     color = move_data[:player].color

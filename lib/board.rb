@@ -94,5 +94,10 @@ class Board
     new_piece = PieceFactory.create(promotion, new_move.player.color)
     update_square(new_move.end_sq, new_piece)
   end
-end
 
+  def enemy_piece?(player_color, board_obj)
+    return false if board_obj.is_a?(String)
+
+    player_color != board_obj.color
+  end
+end

@@ -51,7 +51,7 @@ class Game
   end
 
   def move_data
-    { player: other_player, board: board, move_list: move_list, move: move}
+    { player: other_player, board: board, move_list: move_list, move: move }
   end
 
   # break up into smaller methods
