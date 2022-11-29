@@ -8,6 +8,7 @@ module ChessTools
   # ALSO: have methods you can include AND extend, so that
   # the prefactory has access to them.
 
+  # refactor
   # i.e. 2 steps forward would be [2, 0] for either color
   def base_move(begin_sq = nil, finish_sq = nil, color =  nil)
     begin_sq ||= start_sq
@@ -34,7 +35,7 @@ module ChessTools
     color == 'white' ? 'black' : 'white'
   end
 
-  # refactor this method, maybe into 2 methods
+  # refactor
   def validate_turn_input #(start_sq = '', end_sq = '') # delete params
     start_sq = ''
     end_sq = ''

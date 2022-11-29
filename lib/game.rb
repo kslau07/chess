@@ -54,7 +54,7 @@ class Game
     { player: other_player, board: board, move_list: move_list, move: move }
   end
 
-  # break up into smaller methods
+  # refactor
   def legal_move(new_move = nil)
     loop do
       grid_json = board.serialize

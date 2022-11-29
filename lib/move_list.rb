@@ -17,7 +17,7 @@ class MoveList
     @all_moves = mv_list
   end
 
-  # break up into smaller methods
+  # refactor
   # count length, then join on evens, if we want to do a readable list
   def add(move)
     translated_move = []

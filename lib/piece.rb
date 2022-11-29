@@ -49,7 +49,7 @@ class Piece
   end
 end
 
-  # break up into smaller methods
+  # refactor
   # Ok, ideas on how we can break up this monstrosity.
   # One way would be to take start_obj and invert out, go through invert
   # first then send the inverted/non-inverted move_set to #make_path, 
