@@ -55,6 +55,7 @@ class Castle < Move
     execute_castle
   end
 
+  # refactor
   def execute_castle(rook = '', corner = [])
     board.update_square(end_sq, start_piece) # king
     board.update_square(start_sq, 'unoccupied')

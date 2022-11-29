@@ -20,15 +20,6 @@ class EnPassant < Move
     cond1 && cond2 && cond3 && cond4
   end
 
-  def transfer_piece
-    capture_piece
-    board.update_square(end_sq, start_piece)
-    board.update_square(move_list.prev_sq, 'unoccupied')
-    board.update_square(start_sq, 'unoccupied')
-  end
-
-  private
-
   def post_initialize
     @path = [start_sq, end_sq]
     assess_move
@@ -62,5 +53,12 @@ class EnPassant < Move
 
   def capture_piece
     @captured_piece = board.object(move_list.prev_sq)
+  end
+
+  def transfer_piece
+    capture_piece
+    board.update_square(end_sq, start_piece)
+    board.update_square(move_list.prev_sq, 'unoccupied')
+    board.update_square(start_sq, 'unoccupied')
   end
 end

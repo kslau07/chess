@@ -35,32 +35,23 @@ module ChessTools
     color == 'white' ? 'black' : 'white'
   end
 
-  # refactor
-  def validate_turn_input #(start_sq = '', end_sq = '') # delete params
-    start_sq = ''
-    end_sq = ''
-
+  def validate_turn_input
     loop do
-      Display.turn_message(current_player.color, board) # move this out of here
-      # input = gets.chomp.downcase # normal input, re-enable
-      input = 'b2b4' if (input == '' || input.nil?) # debug, delete me when app finished
-
-      if input == 'menu'
-        midgame_menu
-      else
-        cleaned_input = clean(input) # cleaned input may be nil now
-        start_sq, end_sq = convert_to_squares(cleaned_input)
-        break if pass_prelim_check?(start_sq, end_sq)
-      end
-
-      Display.invalid_input_message unless input == 'menu'
+      Display.turn_message(current_player.color, board)
+      user_input = gets.chomp.downcase # normal user_input, re-enable
+      # user_input = 'b2b4' if (user_input == '' || user_input.nil?) # debug, delete me when app finished
+      verified_input = verify_input(user_input)
+      return verified_input if verified_input.is_a?(Array)
     end
-    [start_sq, end_sq]
   end
 
-  def clean(input)
-    input = input.gsub(/[^0-8a-h]/, '')
-    input if input.match(/^[a-h][0-8][a-h][0-8]$/) # same as checking if in-bounds
+  def verify_input(input)
+    return midgame_menu if input == 'menu'
+
+    input.gsub(/[^0-8a-h]/, '')
+    return convert_to_squares(input) if input.match(/^[a-h][0-8][a-h][0-8]$/)
+
+    Display.invalid_input_message
   end
 
   def convert_to_squares(input)

@@ -11,7 +11,8 @@ module Menuable
       \t2. Load Game
       \t3. View Move List
       \t4. Help
-      \t5. Exit
+      \t5. Exit Chess
+      \t6. Back to Game
     HEREDOC
   end
 
@@ -35,6 +36,8 @@ module Menuable
       'help'
     when '5'
       exit_from_menu
+    when '6'
+      nil
     end
     press_any_key
     Display.draw_board(board)

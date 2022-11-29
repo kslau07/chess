@@ -24,14 +24,13 @@ module Display
 
   def self.turn_message(color, board)
     puts "#{color.capitalize}'s king is in check!".bg_red if board.check?(color)
-    puts "\nType 'menu' to see options\n ".green
+    puts "\nType 'menu' for help and options.\n ".green
     puts "#{color.capitalize}, it's your turn!"
     puts 'Enter a move:'
   end
 
   def self.invalid_input_message
     puts 'That move is not permitted!'.bg_red
-    puts 'Type "menu" for help'.red
   end
 
   def self.input_start_msg
