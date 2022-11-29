@@ -29,7 +29,7 @@ class Pawn < Piece
   end
 
   def make_double_step_path(start_sq)
-    val = color == 'white' ? 1 : -2
+    val = color == 'white' ? 2 : -2
     end_sq = [start_sq[0] + val, start_sq[1]]
     middle_sq = [(start_sq[0] + end_sq[0]) / 2, end_sq[1]]
     [start_sq, middle_sq, end_sq]

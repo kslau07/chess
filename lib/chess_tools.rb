@@ -42,8 +42,8 @@ module ChessTools
 
     loop do
       Display.turn_message(current_player.color, board) # move this out of here
-      input = gets.chomp.downcase # normal input
-      # input = 'b7b6' if (input == '' || input.nil?) # delete me, auto input
+      # input = gets.chomp.downcase # normal input, re-enable
+      input = 'b2b4' if (input == '' || input.nil?) # debug, delete me when app finished
 
       if input == 'menu'
         midgame_menu
