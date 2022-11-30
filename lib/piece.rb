@@ -26,7 +26,7 @@ class Piece
     return move.map { |num| num * -1 } if move.is_a?(Array)
   end
 
-  # We have completely taken Pawn related code out of make_path
+  # Can we break this down further?
   def make_path(board, start_sq, end_sq)
     path = [start_sq]
     move_set.each do |single_move|

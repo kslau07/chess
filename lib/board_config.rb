@@ -208,6 +208,16 @@ class BoardConfig
     move_list.set(mv_list)
   end
 
+  def castle_invalid_blk2
+    board.grid[7][6] = wht_knight
+    board.grid[0][4] = wht_king
+    board.grid[7][0] = blk_rook
+    board.grid[7][4] = blk_king
+    board.grid[7][7] = blk_rook
+    mv_list = %w[Qh2c2]
+    move_list.set(mv_list)
+  end
+
   # black pawn passes to the right
   def en_passant_wht_scenario1
     mv_list = ['Pd2d4+', 'Pa7a6+', 'Pd4d5+', 'Pe7e5+'] # valid en passant
