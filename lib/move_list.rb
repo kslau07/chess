@@ -17,26 +17,25 @@ class MoveList
     @all_moves = mv_list
   end
 
-  # refactor
-  # count length, then join on evens, if we want to do a readable list
   def add(move)
     translated_move = []
-    # fix below line, too long
-    piece_abbr = move.start_piece.class.name[0]
-    piece_abbr = 'N' if move.start_piece.instance_of?(Knight)
-    translated_move << piece_abbr
-    translated_move << (move.start_sq[1] + 97).chr # to notation
-    translated_move << move.start_sq[0] + 1 # to notation
+    translated_move << piece_code(move)
+    translated_move << (move.start_sq[1] + 97).chr
+    translated_move << move.start_sq[0] + 1
     translated_move << 'x' if move.captured_piece
-    translated_move << (move.end_sq[1] + 97).chr # to notation
-    translated_move << move.end_sq[0] + 1 # to notation
+    translated_move << (move.end_sq[1] + 97).chr
+    translated_move << move.end_sq[0] + 1
     translated_move << '+' if move.checks
     all_moves << translated_move.join
   end
 
-  # ^ carat in regex will invert matches, here, anything that is NOT in [] is matched and gsubbed with a blank space ('')
+  def piece_code(move)
+    move.start_piece.instance_of?(Knight) ? 'N' : move.start_piece.class.name[0]
+  end
+
   def last_move_cleaned
-    all_moves[-1].gsub(/[^0-9A-Za-h]/, '') unless all_moves.empty?# alphanumeric, lowercase a-h, x not included
+    # carat(^) will invert match
+    all_moves[-1].gsub(/[^0-9A-Za-h]/, '') unless all_moves.empty?
   end
 
   def prev_sq
