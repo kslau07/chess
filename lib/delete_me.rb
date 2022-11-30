@@ -1,5 +1,22 @@
 # frozen_string_literal: true
 
+def base_move(begin_sq, finish_sq, color)
+  # factor = color == 'white' ? 1 : -1
+  # p [finish_sq[0] - begin_sq[0] * factor, finish_sq[1] - begin_sq[1] * factor]
+  p [begin_sq[0] - finish_sq[0], begin_sq[1] - finish_sq[1]]
+
+end
+
+start_sq = [3, 3]
+end_sq = [2, 4]
+color = 'black'
+
+base_move(start_sq, end_sq, color)
+# should be [1, -1]
+# now [5, 7]
+
+return
+
 def capturable_sqs(start_sq)
   color = 'white'
   if color == 'white'

@@ -47,9 +47,8 @@ class Game
     { player: other_player, board: board, move_list: move_list, move: move }
   end
 
-  def produce_legal_move(new_move = nil)
+  def produce_legal_move(grid_json = board.serialize)
     loop do
-      grid_json = board.serialize # necessary?
       start_sq, end_sq = validate_turn_input
       new_move = create_move(start_sq, end_sq)
       new_move.transfer_piece if new_move.validated
@@ -60,13 +59,11 @@ class Game
     end
   end
 
-  # create factory for the factory? for this?
   def create_move(start_sq, end_sq)
     init_hsh = { player: current_player, board: board, move_list: move_list, start_sq: start_sq, end_sq: end_sq }
     move.factory(**init_hsh)
   end
 
-  # Use length of move_list to determine who goes next
   def set_current_player
     player = move_list.all_moves.length.even? ? player1 : player2
     @current_player = player

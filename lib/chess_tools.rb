@@ -8,19 +8,9 @@ module ChessTools
   # ALSO: have methods you can include AND extend, so that
   # the prefactory has access to them.
 
-  # refactor
-  # i.e. 2 steps forward would be [2, 0] for either color
-  def base_move(begin_sq = nil, finish_sq = nil, color =  nil)
-    begin_sq ||= start_sq
-    finish_sq ||= end_sq
-    color ||= object(begin_sq).color
-
-    case color
-    when 'black'
-      [begin_sq[0] - finish_sq[0], begin_sq[1] - finish_sq[1]]
-    when 'white'
-      [finish_sq[0] - begin_sq[0], finish_sq[1] - begin_sq[1]]
-    end
+  def base_move(begin_sq, finish_sq, color)
+    factor = color == 'white' ? 1 : -1
+    [(finish_sq[0] - begin_sq[0]) * factor, (finish_sq[1] - begin_sq[1]) * factor]
   end
 
   def out_of_bound?(board, start_sq, end_sq)
@@ -70,21 +60,3 @@ module ChessTools
     return true if board.object(start_sq).is_a?(Piece) && board.object(start_sq).color == current_player.color
   end
 end
-
-# Can we use this code snippet?
-# This code from an old exercise uses double verification
-# verify_input is invoked only if user_input matches regex first
-# then, verified_number is returned only if result of verified_input is not nil
-# def player_input(min, max)
-#   loop do
-#     user_input = gets.chomp
-#     verified_number = verify_input(min, max, user_input.to_i) if user_input.match?(/^\d+$/)
-#     return verified_number if verified_number
-
-#     puts "Input error! Please enter a number between #{min} or #{max}."
-#   end
-# end
-
-# def verify_input(min, max, input)
-#   return input if input.between?(min, max)
-# end

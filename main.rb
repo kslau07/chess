@@ -67,6 +67,6 @@ class Main
 
   # testing
   game = Game.new
-  game.configure_board('checkmate_blk_1')
+  game.configure_board('castle_valid_blk')
   play(game)
 end

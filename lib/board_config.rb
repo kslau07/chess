@@ -210,10 +210,11 @@ class BoardConfig
 
   # black pawn passes to the right
   def en_passant_wht_scenario1
-    # mv_list = ['Pd2d4+', 'Pa7a6+', 'Pd4d5+', 'Pe7e5+'] # valid en passant
-    mv_list = ['Pd2d4+', 'Pe7e6+', 'Pd4d5+', 'Pe6e5+'] # invalid, blk pawn moved twice in list
+    mv_list = ['Pd2d4+', 'Pa7a6+', 'Pd4d5+', 'Pe7e5+'] # valid en passant
+    # mv_list = ['Pd2d4+', 'Pe7e6+', 'Pd4d5+', 'Pe6e5+'] # invalid, blk pawn moved twice in list
     board.grid[4][3] = wht_pawn
     board.grid[4][4] = blk_pawn
+    board.grid[4][2] = blk_pawn # this pawn shouldn't be able to be captured
 
     # white, black pass on left
     # mv_list = ['Pd2d4+', 'Ph7h6+', 'Pd4d5+', 'Pc7c5+'] # valid en passant

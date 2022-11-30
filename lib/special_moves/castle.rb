@@ -4,7 +4,7 @@
 # self-register and self-select when player castles
 class Castle < Move
   attr_reader :base_move_castle
-  
+
   Move.register(self)
 
   def self.handles?(args)
@@ -15,7 +15,7 @@ class Castle < Move
     cond2 = (end_sq[1] - start_sq[1]).abs == 2 # base move is > 1
     cond1 && cond2
   end
-  
+
   def post_initialize
     @base_move_castle = base_move(start_sq, end_sq, player.color)
     @base_move_castle = start_piece.invert(base_move_castle) if player.color == 'black'
@@ -51,7 +51,6 @@ class Castle < Move
   end
 
   def transfer_piece
-
     execute_castle
   end
 
@@ -69,7 +68,7 @@ class Castle < Move
       rook_new_sq = [start_sq[0], start_sq[1] - 1]
       rook = board.object(corner)
     end
-  
+
     board.update_square(rook_new_sq, rook)
     board.update_square(corner, 'unoccupied')
 
