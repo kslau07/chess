@@ -81,4 +81,37 @@ describe Game do
       @game.configure_board('standard')
     end
   end
+
+  describe '#turn_sequence' do
+    # subject(:game) { described_class.new }
+    before(:each) do
+      allow(display).to receive(:draw_board)
+      allow_message_expectations_on_nil
+      allow(@game).to receive(:produce_legal_move)
+      allow(board).to receive(:promote_pawn).with(@game.new_move)
+      allow(board).to receive(:promotion?).with(@game.new_move).and_return(true)
+      allow(@game.new_move).to receive(:opponent_check).and_return(true)
+      allow(move_list).to receive(:add)
+      allow(@game.new_move).to receive(:checks).and_return(false)
+    end
+
+    it 'sends Display#draw_board' do
+      expect(display).to receive(:draw_board).with(board)
+      @game.turn_sequence
+    end
+
+    it 'sends Board#promote_pawn' do
+      expect(board).to receive(:promote_pawn)
+      @game.turn_sequence
+    end
+
+    it 'sends MoveList#add' do
+      expect(move_list).to receive(:add).with(@game.new_move)
+      @game.turn_sequence
+    end
+  end
+
+  describe 'checkmate_seq' do
+    expect(new_move)
+  end
 end
