@@ -9,10 +9,6 @@ class Move
   attr_reader :player, :board, :move_list, :start_sq, :end_sq, :start_piece, :end_obj,
               :path, :validated, :captured_piece, :checks, :checkmates
 
-  def self.factory(args)
-    registry.find { |candidate| candidate.handles?(args) }.new(args)
-  end
-
   def self.registry
     @registry ||= []
   end
@@ -27,16 +23,42 @@ class Move
     true
   end
 
-  def initialize(args)
-    puts "\n\t\e[31m#{self.class}##{__method__}\e[0m\n " # show class#method
+  def self.factory(args, cand_list = registry)
+    cand_list.find { |candidate| candidate.handles?(args) }.new(args)
+  end
 
+  def initialize(**args)
     args.each do |k, v|
       instance_variable_set("@#{k}", v) unless v.nil?
     end
     @start_piece = @board.object(start_sq)
     @end_obj = @board.object(end_sq)
+    post_initialize unless start_piece.nil?
+  end
 
-    post_initialize
+  def post_initialize(**args)
+    @path = start_piece.make_path(board, start_sq, end_sq)
+    assess_move
+  end
+
+  def assess_move
+    validate_move if move_permitted?
+  end
+
+  def validate_move
+    @validated = true
+  end
+
+  def move_permitted?
+    return true unless unreachable? && board.path_obstructed?(path)
+
+    # return false unless reachable?
+    # return true unless board.path_obstructed?(path)
+    false
+  end
+
+  def unreachable?
+    path.include?(end_sq) ? false : true
   end
 
   def transfer_piece
@@ -56,27 +78,5 @@ class Move
 
   def capture_piece
     @captured_piece = end_obj if end_obj.is_a?(Piece)
-  end
-
-  def post_initialize
-    @path = start_piece.make_path(board, start_sq, end_sq)
-    assess_move
-  end
-
-  def assess_move
-    validate_move if move_permitted?
-  end
-
-  def validate_move
-    @validated = true
-  end
-
-  def move_permitted?
-    return false unless reachable?
-    return true unless board.path_obstructed?(path)
-  end
-
-  def reachable?
-    path.include?(end_sq) ? true : false
   end
 end
