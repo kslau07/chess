@@ -48,20 +48,23 @@ Quick recap on what we're actually testing:
   * expect(outside_class) to receive(some_method)
   * This time it makes sense, one class is changing another class
 * Looping Scripts
-  * We should conditions for breaking loop
+  * We should test condition for breaking loop
     * Especially edge cases
 `
 
 describe Game do
-  let(:player) { double('player')}
+  subject(:game) { described_class.new(player1: player1, player2: player2, move_list: move_list, board: board, move: move, display: display) }
+  let(:player1) { double('player1')}
+  let(:player2) { double('player2')}
   let(:move_list) { double('move_list') }
   let(:board) { double('board') }
   let(:move) { double('move') }
   let(:display) { double('display') }
 
   before(:each) do
+    allow_message_expectations_on_nil
     allow(move_list).to receive_message_chain(:all_moves, :length, :even?).and_return(true)
-    @game = Game.new(player1: player, player2: player, move_list: move_list, board: board, move: move, display: display)
+    # game = Game.new(player1: player1, player2: player2, move_list: move_list, board: board, move: move, display: display)
   end
 
   describe '#initialize' do
@@ -75,43 +78,162 @@ describe Game do
   describe '#configure_board' do
     let(:board_config) { class_double('BoardConfig').as_stubbed_const }
 
-    # Outgoing message, must test
     it 'instantiates BoardConfig' do
       expect(board_config).to receive(:new)
-      @game.configure_board('standard')
+      game.configure_board('standard')
     end
   end
 
   describe '#turn_sequence' do
-    # subject(:game) { described_class.new }
     before(:each) do
       allow(display).to receive(:draw_board)
-      allow_message_expectations_on_nil
-      allow(@game).to receive(:produce_legal_move)
-      allow(board).to receive(:promote_pawn).with(@game.new_move)
-      allow(board).to receive(:promotion?).with(@game.new_move).and_return(true)
-      allow(@game.new_move).to receive(:opponent_check).and_return(true)
+      allow(game).to receive(:produce_legal_move)
+      allow(board).to receive(:promote_pawn).with(game.new_move)
+      allow(game.new_move).to receive(:opponent_check).and_return(true)
       allow(move_list).to receive(:add)
-      allow(@game.new_move).to receive(:checks).and_return(false)
+      allow(game.new_move).to receive(:checks).and_return(false)
     end
 
-    it 'sends Display#draw_board' do
+    it 'sends #draw_board to Display' do
+      allow(board).to receive(:promotion?).with(game.new_move)
       expect(display).to receive(:draw_board).with(board)
-      @game.turn_sequence
+      game.turn_sequence
     end
 
-    it 'sends Board#promote_pawn' do
-      expect(board).to receive(:promote_pawn)
-      @game.turn_sequence
+    context 'when pawn promotion condition is true' do
+      it 'sends Board#promote_pawn' do
+        allow(board).to receive(:promotion?).with(game.new_move).and_return(true)
+        expect(board).to receive(:promote_pawn)
+        game.turn_sequence
+      end
     end
 
-    it 'sends MoveList#add' do
-      expect(move_list).to receive(:add).with(@game.new_move)
-      @game.turn_sequence
+    context 'when pawn promotion condition is false' do
+      it 'does not send Board#promote_pawn' do
+        allow(board).to receive(:promotion?).with(game.new_move).and_return(false)
+        expect(board).not_to receive(:promote_pawn)
+        game.turn_sequence
+      end
+    end
+
+    it 'sends #add to MoveList' do
+      allow(board).to receive(:promotion?).with(game.new_move)
+      expect(move_list).to receive(:add).with(game.new_move)
+      game.turn_sequence
     end
   end
 
   describe 'checkmate_seq' do
-    expect(new_move)
+    it 'sends #test_checkmate_other_player to Move' do
+      allow_message_expectations_on_nil
+      allow(game.new_move).to receive(:checkmates).and_return(false)
+      expect(game.new_move).to receive(:test_checkmate_other_player)
+      game.checkmate_seq
+    end
+  end
+
+  describe '#produce_legal_move' do
+    before do
+      allow(game).to receive(:validate_turn_input)
+      allow(game).to receive(:create_move)
+      allow(game.current_player).to receive(:color)
+      allow(game).to receive(:revert_board)
+      allow(game).to receive(:revert_board)
+    end
+
+    context 'when new_move is valid' do
+      it 'sends #transfer_piece to Move' do
+        serialized_board = 'json_string'
+        allow(game.new_move).to receive(:validated).and_return(true)
+        allow(game.board).to receive(:check?).and_return(false)
+        expect(game.new_move).to receive(:transfer_piece)
+        game.produce_legal_move(serialized_board)
+      end
+    end
+
+    context 'when new_move is invalid then valid' do
+      it 'receives #invalid_input_message once' do
+        serialized_board = 'json_string'
+        allow(game.new_move).to receive(:validated).and_return(false, true)
+        allow(game.board).to receive(:check?).and_return(true, false)
+        allow(game.new_move).to receive(:transfer_piece)
+        expect(game.display).to receive(:invalid_input_message).exactly(1).time
+        game.produce_legal_move(serialized_board)
+      end
+    end
+  end
+
+  describe '#set_current_player' do
+    it 'sets current_player to player1 when move_list is even' do
+      allow(game.move_list).to receive_message_chain(:all_moves, :length, :even?).and_return(true)
+      game.set_current_player
+      expect(game.current_player).to be(game.player1)
+    end
+
+    it 'does NOT set current_player to player1 when move_list is odd' do
+      allow(game.move_list).to receive_message_chain(:all_moves, :length, :even?).and_return(false)
+      game.set_current_player
+      expect(game.current_player).not_to be(game.player1)
+    end
+  end
+
+  describe '#switch_players' do
+    it 'changes current_player' do
+      curr_plyr = game.instance_variable_get(:@current_player)
+      game.switch_players
+      expect(game.current_player).not_to be(curr_plyr)
+    end
+  end
+
+  describe '#other_player' do
+    it 'returns player who is not current_player' do
+      curr_play = game.instance_variable_get(:@current_player)
+      expect(game.other_player).not_to be(curr_play)
+    end
+  end
+
+  describe '#win' do
+    before do
+      allow(display).to receive(:draw_board).with(board)
+      allow(display).to receive(:win).with(player1)
+    end
+
+    it 'returns true for @game_end' do
+      game.win(player1)
+      expect(game.game_end).to be true
+    end
+  end
+
+  describe '#tie' do
+    it 'returns true for @game_end' do
+      game.tie
+      expect(game.game_end).to be true
+    end
+  end
+
+  describe '#game_over?' do
+    # calls method within class, ignore
+  end
+
+  describe '#play_again_init' do
+    it 'sets @game_end to false' do
+      allow(game.move_list).to receive(:set)
+      allow(game).to receive(:set_current_player)
+      game.play_again_init(board)
+      expect(game.game_end).to be false
+    end
+
+    it 'sets @board to board' do
+      allow(game.move_list).to receive(:set)
+      allow(game).to receive(:set_current_player)
+      game.play_again_init(board)
+      expect(game.board).to be(board)
+    end
+
+    it 'sets move_list to an empty array' do
+      allow(game).to receive(:set_current_player)
+      expect(move_list).to receive(:set).with(kind_of(Array))
+      game.play_again_init(board)
+    end
   end
 end

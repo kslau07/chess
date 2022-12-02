@@ -19,7 +19,7 @@ class Game
     @board = args[:board] || Board.new
     @move = args[:move] || Move
     @display = args[:display] || Display
-    @current_player = set_current_player # This method is causing issues in testing
+    @current_player = set_current_player
   end
 
   # For testing
@@ -66,8 +66,8 @@ class Game
   end
 
   def set_current_player
-    player = move_list.all_moves.length.even? ? player1 : player2
-    @current_player = player
+    next_turn = move_list.all_moves.length.even? ? player1 : player2
+    @current_player = next_turn
   end
 
   def switch_players
@@ -100,9 +100,3 @@ class Game
   end
 end
 
-# What other errors can we subclass?
-class InputError < StandardError
-  def message
-    'Invalid input!'
-  end
-end
