@@ -10,6 +10,7 @@ module Check
     check_paths.any? { |capture_path| !path_obstructed?(capture_path) }
   end
 
+  # Finds any paths that currently attack king
   def find_check_paths(player_color, kings_sq, check_paths = [])
     squares.each do |square|
       next unless enemy_piece?(player_color, object(square))

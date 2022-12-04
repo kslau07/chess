@@ -159,7 +159,7 @@ describe Move do
   describe '#test_checkmate_other_player' do
     context 'when Board#checkmate? is true' do
       it 'sets @checkmates to true' do
-        move_data = {} # should we pass real data instead? check solutions
+        move_data = {} # pass real data vs empty data
         allow(board).to receive(:checkmate?).and_return(true)
         move.test_checkmate_other_player(move_data)
         expect(move.checkmates).to be(true)
@@ -176,11 +176,10 @@ describe Move do
     end
   end
 
-  # problem: we do not set @end_obj to anything, it is nil in these tests
-  # solution: we need to set them when we instantiate Move
   describe '#capture_piece' do
     context 'when end_obj is a game piece' do
       it 'sets @captured_piece to end_obj' do
+        # problem: we do not have control of @end_obj, it is nil here
         allow(move.end_obj).to receive(:is_a?).and_return(true)
         move.capture_piece
         expect(move.captured_piece).to be(move.end_obj)
@@ -191,7 +190,7 @@ describe Move do
       it '@captured_piece is nil' do
         allow(move.end_obj).to receive(:is_a?).and_return(true)
         move.capture_piece
-        expect(move.captured_piece).to be(true)
+        expect(move.captured_piece).to be_nil
       end
     end
   end

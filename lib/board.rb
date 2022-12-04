@@ -1,11 +1,7 @@
 # frozen_string_literal: true
 
-# require_relative 'main'
 require 'json'
-require_relative 'piece'
-require_relative 'check'
-require_relative 'display'
-# require_relative 'pieces/pawn'
+require_relative './library' # delete me?
 
 # This is the chess board
 class Board
@@ -13,11 +9,48 @@ class Board
   include ChessTools
   include Check
 
-  attr_reader :grid
+  attr_reader :grid, :pc_factory, :wht_pawn, :wht_bishop, :wht_rook, :wht_knight,
+              :wht_queen, :wht_king, :blk_pawn, :blk_bishop, :blk_rook, :blk_knight,
+              :blk_queen, :blk_king
 
-  def initialize(layout = 'standard', move_list = nil)
+  # attr_reader :grid
+
+  # When we initialize Board, we will start with a standard layout
+  # If a new layout is required, the new layout method will
+  # 1) clear the board, 2) set up the board, 3) apply a new move_list
+  def initialize(pc_factory = PieceFactory)
     create_new_grid
-    @board_config = BoardConfig.new(self, layout, move_list)
+    @pc_factory = pc_factory
+    setup_normal_layout
+  end
+
+  # delete me? we may move this to spec file for testing special moves
+  # def create_pieces(pc_factory)
+  #   @wht_pawn = pc_factory.create('Pawn', 'white')
+  #   @wht_bishop = pc_factory.create('Bishop', 'white')
+  #   @wht_rook = pc_factory.create('Rook', 'white')
+  #   @wht_knight = pc_factory.create('Knight', 'white')
+  #   @wht_queen = pc_factory.create('Queen', 'white')
+  #   @wht_king = pc_factory.create('King', 'white')
+  #   @blk_pawn = pc_factory.create('Pawn', 'black')
+  #   @blk_bishop = pc_factory.create('Bishop', 'black')
+  #   @blk_rook = pc_factory.create('Rook', 'black')
+  #   @blk_knight = pc_factory.create('Knight', 'black')
+  #   @blk_queen = pc_factory.create('Queen', 'black')
+  #   @blk_king = pc_factory.create('King', 'black')
+  # end
+
+  def setup_normal_layout
+    white_set = pc_factory.create_set('white')
+    black_set = pc_factory.create_set('black')
+    pieces = { white_pcs: white_set, black_pcs: black_set }
+
+    (0..7).each do |sq|
+      grid[1][sq] = pieces[:white_pcs][sq]
+      grid[6][sq] = pieces[:black_pcs][sq]
+      grid[0][sq] = pieces[:white_pcs][sq + 8]
+      grid[7][sq] = pieces[:black_pcs][sq + 8]
+    end
   end
 
   def object(coord)
@@ -102,3 +135,25 @@ class Board
     player_color != board_obj.color
   end
 end
+
+
+# require_relative 'save_load' # delete me?
+# require_relative './piece'
+# require_relative './pieces/pawn'
+# require_relative './pieces/rook'
+# require_relative './pieces/queen'
+# require_relative './pieces/king'
+# require_relative './pieces/bishop'
+# require_relative './pieces/knight'
+# require_relative 'piece_factory'
+# require_relative 'check'
+# require_relative 'display'
+# require_relative 'pieces/pawn'
+
+
+
+  # refactored, delete me
+  # def initialize(layout = 'standard', move_list = nil)
+  #   create_new_grid
+  #   @board_config = BoardConfig.new(self, layout, move_list)
+  # end

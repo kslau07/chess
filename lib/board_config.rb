@@ -16,19 +16,19 @@ class BoardConfig
     send(layout)
   end
 
-  def create_pieces(piece_factory)
-    @wht_pawn = piece_factory.create('Pawn', 'white')
-    @wht_bishop = piece_factory.create('Bishop', 'white')
-    @wht_rook = piece_factory.create('Rook', 'white')
-    @wht_knight = piece_factory.create('Knight', 'white')
-    @wht_queen = piece_factory.create('Queen', 'white')
-    @wht_king = piece_factory.create('King', 'white')
-    @blk_pawn = piece_factory.create('Pawn', 'black')
-    @blk_bishop = piece_factory.create('Bishop', 'black')
-    @blk_rook = piece_factory.create('Rook', 'black')
-    @blk_knight = piece_factory.create('Knight', 'black')
-    @blk_queen = piece_factory.create('Queen', 'black')
-    @blk_king = piece_factory.create('King', 'black')
+  def create_pieces(pc_factory)
+    @wht_pawn = pc_factory.create('Pawn', 'white')
+    @wht_bishop = pc_factory.create('Bishop', 'white')
+    @wht_rook = pc_factory.create('Rook', 'white')
+    @wht_knight = pc_factory.create('Knight', 'white')
+    @wht_queen = pc_factory.create('Queen', 'white')
+    @wht_king = pc_factory.create('King', 'white')
+    @blk_pawn = pc_factory.create('Pawn', 'black')
+    @blk_bishop = pc_factory.create('Bishop', 'black')
+    @blk_rook = pc_factory.create('Rook', 'black')
+    @blk_knight = pc_factory.create('Knight', 'black')
+    @blk_queen = pc_factory.create('Queen', 'black')
+    @blk_king = pc_factory.create('King', 'black')
   end
 
 
