@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
+# This class is not currently in use
+
 # This class configures different layouts for the Board class
-# It is mainly used for setting up tests quickily and easily
 class BoardConfig
   attr_reader :board, :current_player, :move_list, :game,
               :wht_pawn, :wht_bishop, :wht_rook, :wht_knight,
@@ -220,8 +221,9 @@ class BoardConfig
 
   # black pawn passes to the right
   def en_passant_wht_scenario1
-    mv_list = ['Pd2d4+', 'Pa7a6+', 'Pd4d5+', 'Pe7e5+'] # valid en passant
-    # mv_list = ['Pd2d4+', 'Pe7e6+', 'Pd4d5+', 'Pe6e5+'] # invalid, blk pawn moved twice in list
+    # capture is d5e6
+    # mv_list = ['Pd2d4', 'Pa7a6+', 'Pd4d5', 'Pe7e5'] # valid en passant
+    mv_list = ['Pd2d4+', 'Pe7e6+', 'Pd4d5+', 'Pe6e5+'] # invalid, blk pawn moved twice in list
     board.grid[4][3] = wht_pawn
     board.grid[4][4] = blk_pawn
     board.grid[4][2] = blk_pawn # this pawn shouldn't be able to be captured

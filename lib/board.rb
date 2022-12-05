@@ -13,8 +13,6 @@ class Board
               :wht_queen, :wht_king, :blk_pawn, :blk_bishop, :blk_rook, :blk_knight,
               :blk_queen, :blk_king
 
-  # attr_reader :grid
-
   # When we initialize Board, we will start with a standard layout
   # If a new layout is required, the new layout method will
   # 1) clear the board, 2) set up the board, 3) apply a new move_list
@@ -138,25 +136,3 @@ class Board
     player_color != board_obj.color
   end
 end
-
-
-# require_relative 'save_load' # delete me?
-# require_relative './piece'
-# require_relative './pieces/pawn'
-# require_relative './pieces/rook'
-# require_relative './pieces/queen'
-# require_relative './pieces/king'
-# require_relative './pieces/bishop'
-# require_relative './pieces/knight'
-# require_relative 'piece_factory'
-# require_relative 'check'
-# require_relative 'display'
-# require_relative 'pieces/pawn'
-
-
-
-  # refactored, delete me
-  # def initialize(layout = 'standard', move_list = nil)
-  #   create_new_grid
-  #   @board_config = BoardConfig.new(self, layout, move_list)
-  # end

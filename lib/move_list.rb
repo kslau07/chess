@@ -9,8 +9,9 @@ class MoveList
   # perhaps add option to display move list in chess notation, or human readable format
   attr_reader :all_moves # :last_move_cleaned
 
-  def initialize
+  def initialize(mv_list = nil)
     @all_moves = []
+    set(mv_list) unless mv_list.nil?
   end
 
   def set(mv_list)

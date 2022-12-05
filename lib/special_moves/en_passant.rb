@@ -36,6 +36,7 @@ class EnPassant < Move
     when 'black'
       return true if start_sq[0] == 3
     end
+    false
   end
 
   def opp_prev_move_allows_en_passant?

@@ -34,7 +34,8 @@ class Move
     end
     @start_piece = @board.object(start_sq)
     @end_obj = @board.object(end_sq)
-    post_initialize unless start_piece.nil?
+    # post_initialize
+    # post_initialize# unless args[:test] == true
   end
 
   def post_initialize(**args)
