@@ -19,26 +19,28 @@ class Board
   # If a new layout is required, the new layout method will
   # 1) clear the board, 2) set up the board, 3) apply a new move_list
   def initialize(pc_factory = PieceFactory)
-    create_new_grid
     @pc_factory = pc_factory
+    create_new_grid
+    create_pieces(pc_factory)
     setup_normal_layout
   end
 
   # delete me? we may move this to spec file for testing special moves
-  # def create_pieces(pc_factory)
-  #   @wht_pawn = pc_factory.create('Pawn', 'white')
-  #   @wht_bishop = pc_factory.create('Bishop', 'white')
-  #   @wht_rook = pc_factory.create('Rook', 'white')
-  #   @wht_knight = pc_factory.create('Knight', 'white')
-  #   @wht_queen = pc_factory.create('Queen', 'white')
-  #   @wht_king = pc_factory.create('King', 'white')
-  #   @blk_pawn = pc_factory.create('Pawn', 'black')
-  #   @blk_bishop = pc_factory.create('Bishop', 'black')
-  #   @blk_rook = pc_factory.create('Rook', 'black')
-  #   @blk_knight = pc_factory.create('Knight', 'black')
-  #   @blk_queen = pc_factory.create('Queen', 'black')
-  #   @blk_king = pc_factory.create('King', 'black')
-  # end
+  # Game pieces used in tests
+  def create_pieces(pc_factory)
+    @wht_pawn = pc_factory.create('Pawn', 'white')
+    @wht_bishop = pc_factory.create('Bishop', 'white')
+    @wht_rook = pc_factory.create('Rook', 'white')
+    @wht_knight = pc_factory.create('Knight', 'white')
+    @wht_queen = pc_factory.create('Queen', 'white')
+    @wht_king = pc_factory.create('King', 'white')
+    @blk_pawn = pc_factory.create('Pawn', 'black')
+    @blk_bishop = pc_factory.create('Bishop', 'black')
+    @blk_rook = pc_factory.create('Rook', 'black')
+    @blk_knight = pc_factory.create('Knight', 'black')
+    @blk_queen = pc_factory.create('Queen', 'black')
+    @blk_king = pc_factory.create('King', 'black')
+  end
 
   def setup_normal_layout
     white_set = pc_factory.create_set('white')
@@ -90,7 +92,9 @@ class Board
   end
 
   def friendly?(player_color, end_sq)
-    true if object(end_sq).is_a?(Piece) && object(end_sq).color == player_color
+    return true if object(end_sq).is_a?(Piece) && object(end_sq).color == player_color
+
+    false
   end
 
   def pawn_path_obstructed?(path)
@@ -112,20 +116,19 @@ class Board
     cond1 || cond2
   end
 
-  def promote_pawn(new_move, input = '')
+  def promote_pawn(new_move)
     puts Display.pawn_promotion(new_move.player)
     loop do
       input = gets.chomp
-      break if input.match(/^[1-4]{1}$/)
+      return change_pawn(new_move, input) if input.match(/^[1-4]{1}$/)
 
       puts 'Not valid input!'
     end
-    change_pawn(new_move, input)
   end
 
-  def change_pawn(new_move, input)
+  def change_pawn(new_move, input, pc_fact = PieceFactory)
     promotion = { 'Queen': '1', 'Rook': '2', 'Bishop': '3', 'Knight': '4' }.key(input)
-    new_piece = PieceFactory.create(promotion, new_move.player.color)
+    new_piece = pc_fact.create(promotion, new_move.player.color)
     update_square(new_move.end_sq, new_piece)
   end
 
