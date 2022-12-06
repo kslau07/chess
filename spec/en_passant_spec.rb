@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../lib/board'
+require_relative '../lib/library'
 
 describe EnPassant do
   describe 'class EnPassant' do
@@ -17,7 +17,7 @@ describe EnPassant do
       it 'is instantiated when white pawn attempts en passant capture' do
         st_sq = [4, 3]
         en_sq = [5, 4]
-        args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player1 }
+        args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player1, test: true }
         new_move = Move.factory(args, candidate_list)
         expect(new_move).to be_instance_of(EnPassant)
       end
@@ -44,7 +44,7 @@ describe EnPassant do
       it 'is instantiated when black pawn attempts en passant capture' do
         st_sq = [3, 3]
         en_sq = [2, 2]
-        args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player2 }
+        args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player2, test: true }
         new_move = Move.factory(args, candidate_list)
         expect(new_move).to be_instance_of(EnPassant)
       end
@@ -73,7 +73,7 @@ describe EnPassant do
       board.grid[7][4] = board.blk_king
       st_sq = [4, 3]
       en_sq = [5, 4]
-      args = { board: board, player: Player.new, start_sq: st_sq, end_sq: en_sq }
+      args = { board: board, player: Player.new, start_sq: st_sq, end_sq: en_sq, test: true }
       subject(:en_passant) { described_class.new(args) }
 
       it 'returns true' do
@@ -105,7 +105,7 @@ describe EnPassant do
       board.grid[7][4] = board.blk_king
       st_sq = [3, 3]
       en_sq = [2, 4]
-      args = { board: board, player: Player.new(color: 'black'), start_sq: st_sq, end_sq: en_sq }
+      args = { board: board, player: Player.new(color: 'black'), start_sq: st_sq, end_sq: en_sq, test: true }
       subject(:en_passant) { described_class.new(args) }
 
       it 'returns true' do
