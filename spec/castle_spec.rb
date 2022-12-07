@@ -2,10 +2,13 @@
 
 require_relative '../lib/library'
 
-# fix post_initialize
+# Let's test #handles? separately, it returns true/false
+# #handles will also instantiate Castle
+# it does BOTH
+# Do NOT invoke Move.factory as that is not related to the class under test
 
 describe Castle do
-  describe 'class Castle' do
+  describe 'Castle#handles?' do
     context 'when white player takes turn' do
       board = Board.new
       board.create_new_grid
@@ -19,7 +22,7 @@ describe Castle do
           st_sq = [0, 4]
           en_sq = [0, 6]
           args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player1, test: true }
-          new_move = Move.factory(args, candidate_list)
+          new_move = Move.factory(args, candidate_list) # do not invoke
           expect(new_move).to be_instance_of(Castle)
         end
       end
@@ -29,7 +32,7 @@ describe Castle do
           st_sq = [0, 4]
           en_sq = [0, 2]
           args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player1, test: true }
-          new_move = Move.factory(args, candidate_list)
+          new_move = Move.factory(args, candidate_list) # do not invoke
           expect(new_move).to be_instance_of(Castle)
         end
       end
@@ -39,7 +42,7 @@ describe Castle do
           st_sq = [0, 4]
           en_sq = [0, 3]
           args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player1, test: true }
-          new_move = Move.factory(args, candidate_list)
+          new_move = Move.factory(args, candidate_list) # do not invoke
           expect(new_move).not_to be_instance_of(Castle)
         end
       end
@@ -58,7 +61,7 @@ describe Castle do
           st_sq = [7, 4]
           en_sq = [7, 6]
           args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player1, test: true }
-          new_move = Move.factory(args, candidate_list)
+          new_move = Move.factory(args, candidate_list) # do not invoke
           expect(new_move).to be_instance_of(Castle)
         end
       end
@@ -68,7 +71,7 @@ describe Castle do
           st_sq = [7, 4]
           en_sq = [7, 2]
           args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player1, test: true }
-          new_move = Move.factory(args, candidate_list)
+          new_move = Move.factory(args, candidate_list) # do not invoke
           expect(new_move).to be_instance_of(Castle)
         end
       end
@@ -78,7 +81,7 @@ describe Castle do
           st_sq = [7, 4]
           en_sq = [7, 3]
           args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player1, test: true }
-          new_move = Move.factory(args, candidate_list)
+          new_move = Move.factory(args, candidate_list) # do not invoke
           expect(new_move).not_to be_instance_of(Castle)
         end
       end

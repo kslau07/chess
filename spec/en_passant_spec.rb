@@ -3,7 +3,7 @@
 require_relative '../lib/library'
 
 describe EnPassant do
-  describe 'class EnPassant' do
+  describe 'EnPassant#handles?' do
     context 'when black pawn can pass by white pawn' do
       board = Board.new
       board.create_new_grid
@@ -14,7 +14,7 @@ describe EnPassant do
       candidate_list = [PawnDoubleStep, PawnSingleStep, EnPassant, PawnAttack, Castle, Move]    
       player1 = Player.new(color: 'white')
 
-      it 'is instantiated when white pawn attempts en passant capture' do
+      it 'instantiates EnPassant when white pawn attempts en passant capture' do
         st_sq = [4, 3]
         en_sq = [5, 4]
         args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player1, test: true }
@@ -22,7 +22,7 @@ describe EnPassant do
         expect(new_move).to be_instance_of(EnPassant)
       end
 
-      it 'is NOT instantiated when white pawn steps forward' do
+      it 'does NOT instantiate EnPassant when white pawn moves forward 1 step' do
         st_sq = [4, 3]
         en_sq = [5, 3]
         args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player1 }
@@ -41,7 +41,7 @@ describe EnPassant do
       candidate_list = [PawnDoubleStep, PawnSingleStep, EnPassant, PawnAttack, Castle, Move]    
       player2 = Player.new(color: 'black')
 
-      it 'is instantiated when black pawn attempts en passant capture' do
+      it 'instantiates EnPassant when black pawn attempts en passant capture' do
         st_sq = [3, 3]
         en_sq = [2, 2]
         args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player2, test: true }
@@ -49,7 +49,7 @@ describe EnPassant do
         expect(new_move).to be_instance_of(EnPassant)
       end
 
-      it 'is NOT instantiated when black pawn steps forward' do
+      it 'does NOT instantiate EnPassant when black pawn moves forward 1 step' do
         st_sq = [3, 3]
         en_sq = [2, 3]
         args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player2 }

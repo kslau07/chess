@@ -4,6 +4,10 @@ require_relative '../lib/move'
 require_relative '../lib/save_load'
 require_relative '../lib/board'
 
+# Add tests for each special move being instantiated
+# I thought individual special moves would be responsible for these tests
+# but Move is responsibility for the creation of those objects.
+
 describe Move do
   describe 'Move.registry' do
     it 'sets @registry to an Array' do
@@ -195,3 +199,41 @@ describe Move do
     end
   end
 end
+
+# describe 'PawnAttack#handles?' do
+#   context 'when it\'s white\'s turn' do
+#     board = Board.new
+#     let(:player) { instance_double('Player', color: 'white') }
+#     st_sq = [1, 3]
+#     capture_sq = [2, 2]
+#     # subject(:pawn_attack) { described_class.new(board: board, move_list: move_list, start_sq: st_sq, end_sq: en_sq, test: true) }
+#     # let(:move_list) { instance_double('MoveList') }
+
+#     before(:each) do
+#       board.create_new_grid
+#       board.create_pieces(PieceFactory)
+#       board.grid[1][3] = board.wht_pawn
+#       board.grid[0][4] = board.wht_king
+#       board.grid[7][4] = board.blk_king
+#     end
+
+#     context 'when all 4 conditions are met' do
+#       it 'returns true' do
+#         # st_sq = [1, 3]
+#         # capture_sq = [2, 2]
+#         board.grid[2][2] = board.blk_knight
+#         args = { player: player, start_sq: st_sq, end_sq: capture_sq, board: board }
+#         result = PawnAttack.handles?(args)
+#         expect(result).to be(true)
+#       end
+
+#       it 'instantiates PawnAttack' do
+#         allow(PawnAttack).to receive(:handles?).and_return(true)
+#         board.grid[2][2] = board.blk_knight
+#         candidate_list = [PawnDoubleStep, PawnSingleStep, EnPassant, PawnAttack, Castle, Move]
+#         args = { start_sq: st_sq, end_sq: capture_sq, board: board, player: player, test: true }
+#         result = Move.factory(args, candidate_list)
+#         expect(result).to be_instance_of(PawnAttack)
+#         # result = Move.factory(args)
+#       end
+#     end
