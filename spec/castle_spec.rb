@@ -353,7 +353,7 @@ describe Castle do
           end
 
           context 'when king has moved before' do
-            xit 'returns false' do
+            it 'returns false' do
               board.blk_king.moved
               corner_piece = board.blk_rook
               result = castle.queen_side_castle?(corner_piece)
@@ -393,28 +393,90 @@ describe Castle do
     # hsh = { key: 'value', test: true }
     subject(:castle) { described_class.new(args) }
 
-    it 'sends #moved to start_piece' do
+    it 'sends #update_square to Board 4 times' do
+      allow_message_expectations_on_nil
       allow(castle).to receive(:find_rook)
       allow(castle.start_piece).to receive(:moved)
+      allow(castle.rook).to receive(:moved)
       expect(board).to receive(:update_square).exactly(4).times
       castle.transfer_piece
     end
 
-    xit 'sends #moved to rook' do
+    it 'sends #moved to start_piece' do
+      allow_message_expectations_on_nil
+      allow(castle).to receive(:find_rook)
+      allow(castle.rook).to receive(:moved)
+      allow(board).to receive(:update_square).exactly(4).times
+      expect(castle.start_piece).to receive(:moved)
+      castle.transfer_piece
+    end
 
+    it 'sends #moved to rook' do
+      allow_message_expectations_on_nil
+      allow(castle).to receive(:find_rook)
+      allow(castle.start_piece).to receive(:moved)
+      allow(board).to receive(:update_square).exactly(4).times
+      expect(castle.rook).to receive(:moved)
+      castle.transfer_piece
     end
   end
 
   describe '#find_rook' do
-
+    # Only sends messages to self
   end
 
   describe '#set_kingside_rook' do
+    st_sq = [0, 4]
+    en_sq = [0, 6]
+    board = Board.new
+    board.create_new_grid
+    board.grid[0][7] = board.wht_rook
+    board.grid[7][4] = board.blk_king
+    board.grid[0][4] = board.wht_king
+    args = { start_sq: st_sq, end_sq: en_sq, board: board, test: true }
+    subject(:castle) { described_class.new(args) }
 
+    it 'sets @corner to [0, 7]' do
+      castle.set_kingside_rook
+      expect(castle.corner).to eq([0, 7])
+    end
+
+    it 'sets @rook_new_sq to [0, 5]' do
+      castle.set_kingside_rook
+      expect(castle.rook_new_sq).to eq([0, 5])
+    end
+
+    it 'sets @rook to a Rook instance' do
+      castle.set_kingside_rook
+      expect(castle.rook).to be_instance_of(Rook)
+    end
   end
 
   describe '#set_queenside_rook' do
+    st_sq = [0, 4]
+    en_sq = [0, 2]
+    board = Board.new
+    board.create_new_grid
+    board.grid[0][0] = board.wht_rook
+    board.grid[7][4] = board.blk_king
+    board.grid[0][4] = board.wht_king
+    args = { start_sq: st_sq, end_sq: en_sq, board: board, test: true }
+    subject(:castle) { described_class.new(args) }
 
+    it 'sets @corner to [0, 0]' do
+      castle.set_queenside_rook
+      expect(castle.corner).to eq([0, 0])
+    end
+
+    it 'sets @rook_new_sq to [0, 3]' do
+      castle.set_queenside_rook
+      expect(castle.rook_new_sq).to eq([0, 3])
+    end
+
+    it 'sets @rook to a Rook instance' do
+      castle.set_queenside_rook
+      expect(castle.rook).to be_instance_of(Rook)
+    end
   end
 end
 
