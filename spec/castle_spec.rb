@@ -2,87 +2,106 @@
 
 require_relative '../lib/library'
 
-# Let's test #handles? separately, it returns true/false
-# #handles will also instantiate Castle
-# it does BOTH
-# Do NOT invoke Move.factory as that is not related to the class under test
-
 describe Castle do
+  board = Board.new
+
   describe 'Castle#handles?' do
-    context 'when white player takes turn' do
-      board = Board.new
-      board.create_new_grid
-      board.grid[0][4] = board.wht_king
-      board.grid[7][4] = board.blk_king
-      candidate_list = [PawnDoubleStep, PawnSingleStep, EnPassant, PawnAttack, Castle, Move]    
+    context 'when it\'s white\'s turn' do
       player1 = Player.new(color: 'white')
 
-      context 'when king moves 2 spaces to the right of home space' do
-        it 'instantiates Castle' do
-          st_sq = [0, 4]
-          en_sq = [0, 6]
-          args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player1, test: true }
-          new_move = Move.factory(args, candidate_list) # do not invoke
-          expect(new_move).to be_instance_of(Castle)
+      before(:each) do
+        board.create_new_grid
+        board.create_pieces(PieceFactory)
+      end
+
+      after(:all) do
+        board.create_new_grid
+      end
+
+      context 'when piece is a King' do
+        before(:each) do
+          board.grid[0][4] = board.wht_king
+        end
+
+        context 'when King moves 2 spaces' do
+          it 'returns true' do
+            king_sq = [0, 4]
+            move_2_spaces_sq = [0, 6]
+            args = { start_sq: king_sq, end_sq: move_2_spaces_sq, board: board, player: player1 }
+            result = Castle.handles?(args)
+            expect(result).to be(true)
+          end
+        end
+
+        context 'when King moves 1 space' do
+          it 'returns false' do
+            king_sq = [0, 4]
+            move_1_space_sq = [0, 5]
+            args = { start_sq: king_sq, end_sq: move_1_space_sq, board: board, player: player1 }
+            result = Castle.handles?(args)
+            expect(result).to be(false)
+          end
         end
       end
 
-      context 'when white player moves king 2 spaces to the left of home space' do
-        it 'instantiates Castle' do
-          st_sq = [0, 4]
-          en_sq = [0, 2]
-          args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player1, test: true }
-          new_move = Move.factory(args, candidate_list) # do not invoke
-          expect(new_move).to be_instance_of(Castle)
-        end
-      end
-
-      context 'when white player moves king 1 space' do
-        it 'does NOT instantiate Castle' do
-          st_sq = [0, 4]
-          en_sq = [0, 3]
-          args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player1, test: true }
-          new_move = Move.factory(args, candidate_list) # do not invoke
-          expect(new_move).not_to be_instance_of(Castle)
+      context 'when piece is not a King' do
+        it 'returns false' do
+          board.grid[0][4] = board.wht_queen
+          not_king_sq = [0, 4]
+          move_2_spaces_sq = [0, 6]
+          args = { start_sq: not_king_sq, end_sq: move_2_spaces_sq, board: board, player: player1 }
+          result = Castle.handles?(args)
+          expect(result).to be(false)
         end
       end
     end
 
-    context 'when black player takes turn' do
-      board = Board.new
-      board.create_new_grid
-      board.grid[0][4] = board.wht_king
-      board.grid[7][4] = board.blk_king
-      candidate_list = [PawnDoubleStep, PawnSingleStep, EnPassant, PawnAttack, Castle, Move]    
-      player1 = Player.new(color: 'black')
+    context 'when it\'s black\'s turn' do
+      player2 = Player.new(color: 'black')
 
-      context 'when black player moves king 2 spaces to the right of home space' do
-        it 'instantiates Castle' do
-          st_sq = [7, 4]
-          en_sq = [7, 6]
-          args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player1, test: true }
-          new_move = Move.factory(args, candidate_list) # do not invoke
-          expect(new_move).to be_instance_of(Castle)
+      before(:each) do
+        board.create_new_grid
+        board.create_pieces(PieceFactory)
+      end
+
+      after(:all) do
+        board.create_new_grid
+      end
+
+      context 'when piece is a King' do
+        before(:each) do
+          board.grid[7][4] = board.blk_king
+        end
+
+        context 'when King moves 2 spaces' do
+          it 'returns true' do
+            king_sq = [7, 4]
+            move_2_spaces_sq = [7, 6]
+            args = { start_sq: king_sq, end_sq: move_2_spaces_sq, board: board, player: player2 }
+            result = Castle.handles?(args)
+            expect(result).to be(true)
+          end
+        end
+
+        context 'when King moves 1 space' do
+          it 'returns false' do
+            king_sq = [7, 4]
+            move_1_space_sq = [7, 5]
+            args = { start_sq: king_sq, end_sq: move_1_space_sq, board: board, player: player2 }
+            result = Castle.handles?(args)
+            expect(result).to be(false)
+          end
         end
       end
 
-      context 'when black player moves king 2 spaces to the left of home space' do
-        it 'instantiates Castle' do
-          st_sq = [7, 4]
-          en_sq = [7, 2]
-          args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player1, test: true }
-          new_move = Move.factory(args, candidate_list) # do not invoke
-          expect(new_move).to be_instance_of(Castle)
-        end
-      end
-
-      context 'when black player moves king 1 space' do
-        it 'does NOT instantiate Castle' do
-          st_sq = [7, 4]
-          en_sq = [7, 3]
-          args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player1, test: true }
-          new_move = Move.factory(args, candidate_list) # do not invoke
-          expect(new_move).not_to be_instance_of(Castle)
+      context 'when piece is not a King' do
+        it 'returns false' do
+          board.grid[7][4] = board.blk_queen
+          not_king_sq = [7, 4]
+          move_2_spaces_sq = [7, 6]
+          args = { start_sq: not_king_sq, end_sq: move_2_spaces_sq, board: board, player: player2 }
+          result = Castle.handles?(args)
+          expect(result).to be(false)
         end
       end
     end
@@ -133,7 +152,7 @@ describe Castle do
 
   describe '#king_side_castle' do
     context 'when white attempts to king-side castle' do
-      board = Board.new
+      # board = Board.new
       st_sq = [0, 4]
       en_sq = [0, 6]
       subject(:castle) { described_class.new(board: board, move_list: move_list, start_sq: st_sq, end_sq: en_sq, test: true) }
@@ -199,7 +218,7 @@ describe Castle do
     end
 
     context 'when black attempts to king-side castle' do
-      board = Board.new
+      # board = Board.new
       st_sq = [7, 4]
       en_sq = [7, 2]
       subject(:castle) { described_class.new(board: board, move_list: move_list, start_sq: st_sq, end_sq: en_sq, test: true) }
@@ -261,7 +280,7 @@ describe Castle do
 
   describe '#queen_side_castle' do
     context 'when white attempts to queen-side castle' do
-      board = Board.new
+      # board = Board.new
       st_sq = [0, 4]
       en_sq = [0, 2]
       subject(:castle) { described_class.new(board: board, move_list: move_list, start_sq: st_sq, end_sq: en_sq, test: true) }
@@ -327,7 +346,7 @@ describe Castle do
     end
 
     context 'when black attempts to queen-side castle' do
-      board = Board.new
+      # board = Board.new
       st_sq = [7, 4]
       en_sq = [7, 2]
       subject(:castle) { described_class.new(board: board, move_list: move_list, start_sq: st_sq, end_sq: en_sq, test: true) }
@@ -388,38 +407,40 @@ describe Castle do
   end
 
   describe '#transfer_piece' do
-    st_sq = [0, 4]
-    en_sq = [0, 6]
-    board = Board.new
-    # let(:player1) { instance_double('Player', color: 'white') }
-    args = { start_sq: st_sq, end_sq: en_sq, board: board, test: true }
-    # hsh = { key: 'value', test: true }
-    subject(:castle) { described_class.new(args) }
+    kings_sq = [0, 4]
+    castle_sq = [0, 6]
+    player1 = Player.new(color: 'white')
+    let(:king) { instance_double('King') }
+    let(:trns_board) { instance_double('Board') }
+    subject(:castle) { described_class.new(player: player1, start_sq: kings_sq, end_sq: castle_sq, board: trns_board, test: true) }
+
+    before(:each) do
+      allow(trns_board).to receive(:object).and_return('Piece obj')
+      allow(castle).to receive(:find_rook)
+      allow(castle).to receive(:rook_new_sq).and_return([0, 5])
+      allow(castle).to receive(:rook).and_return(board.wht_rook)
+      allow(castle).to receive(:corner).and_return([0, 7])
+    end
 
     it 'sends #update_square to Board 4 times' do
-      allow_message_expectations_on_nil
-      allow(castle).to receive(:find_rook)
-      allow(castle.start_piece).to receive(:moved)
-      allow(castle.rook).to receive(:moved)
-      expect(board).to receive(:update_square).exactly(4).times
+      allow(castle).to receive_message_chain(:start_piece, :moved)
+      allow(castle).to receive_message_chain(:rook, :moved)
+      expect(trns_board).to receive(:update_square).exactly(4).times
       castle.transfer_piece
     end
 
     it 'sends #moved to start_piece' do
-      allow_message_expectations_on_nil
-      allow(castle).to receive(:find_rook)
-      allow(castle.rook).to receive(:moved)
-      allow(board).to receive(:update_square).exactly(4).times
-      expect(castle.start_piece).to receive(:moved)
+      allow(trns_board).to receive(:update_square)
+      allow(castle).to receive_message_chain(:rook, :moved)
+      allow(castle).to receive(:start_piece).and_return(king)
+      expect(castle).to receive_message_chain(:start_piece, :moved)
       castle.transfer_piece
     end
 
     it 'sends #moved to rook' do
-      allow_message_expectations_on_nil
-      allow(castle).to receive(:find_rook)
-      allow(castle.start_piece).to receive(:moved)
-      allow(board).to receive(:update_square).exactly(4).times
-      expect(castle.rook).to receive(:moved)
+      allow(trns_board).to receive(:update_square)
+      allow(castle).to receive_message_chain(:start_piece, :moved)
+      expect(castle).to receive_message_chain(:rook, :moved)
       castle.transfer_piece
     end
   end
@@ -431,11 +452,6 @@ describe Castle do
   describe '#set_kingside_rook' do
     st_sq = [0, 4]
     en_sq = [0, 6]
-    board = Board.new
-    board.create_new_grid
-    board.grid[0][7] = board.wht_rook
-    board.grid[7][4] = board.blk_king
-    board.grid[0][4] = board.wht_king
     args = { start_sq: st_sq, end_sq: en_sq, board: board, test: true }
     subject(:castle) { described_class.new(args) }
 
@@ -450,6 +466,8 @@ describe Castle do
     end
 
     it 'sets @rook to a Rook instance' do
+      board.create_new_grid
+      board.grid[0][7] = board.wht_rook
       castle.set_kingside_rook
       expect(castle.rook).to be_instance_of(Rook)
     end
@@ -458,11 +476,6 @@ describe Castle do
   describe '#set_queenside_rook' do
     st_sq = [0, 4]
     en_sq = [0, 2]
-    board = Board.new
-    board.create_new_grid
-    board.grid[0][0] = board.wht_rook
-    board.grid[7][4] = board.blk_king
-    board.grid[0][4] = board.wht_king
     args = { start_sq: st_sq, end_sq: en_sq, board: board, test: true }
     subject(:castle) { described_class.new(args) }
 
@@ -477,6 +490,8 @@ describe Castle do
     end
 
     it 'sets @rook to a Rook instance' do
+      board.create_new_grid
+      board.grid[0][0] = board.wht_rook  
       castle.set_queenside_rook
       expect(castle.rook).to be_instance_of(Rook)
     end

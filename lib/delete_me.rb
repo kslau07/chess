@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+
+
 def base_move(begin_sq, finish_sq, color)
   # factor = color == 'white' ? 1 : -1
   # p [finish_sq[0] - begin_sq[0] * factor, finish_sq[1] - begin_sq[1] * factor]

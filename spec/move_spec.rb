@@ -200,6 +200,88 @@ describe Move do
   end
 end
 
+context 'when white player takes turn' do
+  board = Board.new
+  board.create_new_grid
+  board.grid[0][4] = board.wht_king
+  board.grid[7][4] = board.blk_king
+  candidate_list = [PawnDoubleStep, PawnSingleStep, EnPassant, PawnAttack, Castle, Move]    
+  player1 = Player.new(color: 'white')
+
+  context 'when king moves 2 spaces to the right of home space' do
+    it 'instantiates Castle' do
+      st_sq = [0, 4]
+      en_sq = [0, 6]
+      args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player1, test: true }
+      new_move = Move.factory(args, candidate_list) # do not invoke
+      expect(new_move).to be_instance_of(Castle)
+    end
+  end
+
+  context 'when white player moves king 2 spaces to the left of home space' do
+    it 'instantiates Castle' do
+      st_sq = [0, 4]
+      en_sq = [0, 2]
+      args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player1, test: true }
+      new_move = Move.factory(args, candidate_list) # do not invoke
+      expect(new_move).to be_instance_of(Castle)
+    end
+  end
+
+  context 'when white player moves king 1 space' do
+    it 'does NOT instantiate Castle' do
+      st_sq = [0, 4]
+      en_sq = [0, 3]
+      args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player1, test: true }
+      new_move = Move.factory(args, candidate_list) # do not invoke
+      expect(new_move).not_to be_instance_of(Castle)
+    end
+  end
+end
+
+# Incorporate below into this file. Also, create examples for each
+# special move.
+
+# context 'when black player takes turn' do
+#   board = Board.new
+#   board.create_new_grid
+#   board.grid[0][4] = board.wht_king
+#   board.grid[7][4] = board.blk_king
+#   candidate_list = [PawnDoubleStep, PawnSingleStep, EnPassant, PawnAttack, Castle, Move]    
+#   player1 = Player.new(color: 'black')
+
+#   context 'when black player moves king 2 spaces to the right of home space' do
+#     it 'instantiates Castle' do
+#       st_sq = [7, 4]
+#       en_sq = [7, 6]
+#       args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player1, test: true }
+#       new_move = Move.factory(args, candidate_list) # do not invoke
+#       expect(new_move).to be_instance_of(Castle)
+#     end
+#   end
+
+#   context 'when black player moves king 2 spaces to the left of home space' do
+#     it 'instantiates Castle' do
+#       st_sq = [7, 4]
+#       en_sq = [7, 2]
+#       args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player1, test: true }
+#       new_move = Move.factory(args, candidate_list) # do not invoke
+#       expect(new_move).to be_instance_of(Castle)
+#     end
+#   end
+
+#   context 'when black player moves king 1 space' do
+#     it 'does NOT instantiate Castle' do
+#       st_sq = [7, 4]
+#       en_sq = [7, 3]
+#       args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player1, test: true }
+#       new_move = Move.factory(args, candidate_list) # do not invoke
+#       expect(new_move).not_to be_instance_of(Castle)
+#     end
+#   end
+# end
+
+# ----------------------------------------------------------------------
 # describe 'PawnAttack#handles?' do
 #   context 'when it\'s white\'s turn' do
 #     board = Board.new

@@ -128,6 +128,7 @@ describe PawnAttack do
       context 'when end square is a black piece' do
         it 'returns true' do
           board.grid[2][4] = board.blk_pawn
+          allow(pawn_attack).to receive(:assess_move)
           result = pawn_attack.move_permitted?
           expect(result).to be(true)
         end
@@ -136,6 +137,7 @@ describe PawnAttack do
       context 'when end square is a friendly piece' do
         it 'returns false' do
           board.grid[2][4] = board.wht_pawn
+          allow(pawn_attack).to receive(:assess_move)
           result = pawn_attack.move_permitted?
           expect(result).to be(false)
         end
@@ -144,6 +146,7 @@ describe PawnAttack do
       context 'when end square is unoccupied' do
         it 'returns false' do
           board.grid[2][4] = 'unoccupied'
+          allow(pawn_attack).to receive(:assess_move)
           result = pawn_attack.move_permitted?
           expect(result).to be(false)
         end
@@ -167,6 +170,7 @@ describe PawnAttack do
       context 'when end square is a white piece' do
         it 'returns true' do
           board.grid[5][5] = board.wht_pawn
+          allow(pawn_attack).to receive(:assess_move)
           result = pawn_attack.move_permitted?
           expect(result).to be(true)
         end
@@ -175,6 +179,7 @@ describe PawnAttack do
       context 'when end square is a friendly piece' do
         it 'returns false' do
           board.grid[5][5] = board.blk_pawn
+          allow(pawn_attack).to receive(:assess_move)
           result = pawn_attack.move_permitted?
           expect(result).to be(false)
         end
@@ -183,6 +188,7 @@ describe PawnAttack do
       context 'when end square is unoccupied' do
         it 'returns false' do
           board.grid[5][5] = 'unoccupied'
+          allow(pawn_attack).to receive(:assess_move)
           result = pawn_attack.move_permitted?
           expect(result).to be(false)
         end
