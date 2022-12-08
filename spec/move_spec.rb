@@ -281,6 +281,63 @@ end
 #   end
 # end
 
+# -------------------------------------------------------------------
+# EnPassant instantiation code
+
+# context 'when black pawn can pass by white pawn' do
+#   board = Board.new
+#   board.create_new_grid
+#   board.grid[4][3] = board.wht_pawn
+#   board.grid[4][4] = board.blk_pawn
+#   board.grid[0][3] = board.wht_king
+#   board.grid[7][4] = board.blk_king
+#   candidate_list = [PawnDoubleStep, PawnSingleStep, EnPassant, PawnAttack, Castle, Move]    
+#   player1 = Player.new(color: 'white')
+
+#   it 'instantiates EnPassant when white pawn attempts en passant capture' do
+#     st_sq = [4, 3]
+#     en_sq = [5, 4]
+#     args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player1, test: true }
+#     new_move = Move.factory(args, candidate_list)
+#     expect(new_move).to be_instance_of(EnPassant)
+#   end
+
+#   it 'does NOT instantiate EnPassant when white pawn moves forward 1 step' do
+#     st_sq = [4, 3]
+#     en_sq = [5, 3]
+#     args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player1 }
+#     new_move = Move.factory(args, candidate_list)
+#     expect(new_move).not_to be_instance_of(EnPassant)
+#   end
+# end
+
+# context 'when white pawn can pass by black pawn' do
+#   board = Board.new
+#   board.create_new_grid
+#   board.grid[3][2] = board.wht_pawn
+#   board.grid[3][3] = board.blk_pawn
+#   board.grid[0][3] = board.wht_king
+#   board.grid[7][4] = board.blk_king
+#   candidate_list = [PawnDoubleStep, PawnSingleStep, EnPassant, PawnAttack, Castle, Move]    
+#   player2 = Player.new(color: 'black')
+
+#   it 'instantiates EnPassant when black pawn attempts en passant capture' do
+#     st_sq = [3, 3]
+#     en_sq = [2, 2]
+#     args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player2, test: true }
+#     new_move = Move.factory(args, candidate_list)
+#     expect(new_move).to be_instance_of(EnPassant)
+#   end
+
+#   it 'does NOT instantiate EnPassant when black pawn moves forward 1 step' do
+#     st_sq = [3, 3]
+#     en_sq = [2, 3]
+#     args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player2 }
+#     new_move = Move.factory(args, candidate_list)
+#     expect(new_move).not_to be_instance_of(EnPassant)
+#   end
+# end
+
 # ----------------------------------------------------------------------
 # describe 'PawnAttack#handles?' do
 #   context 'when it\'s white\'s turn' do

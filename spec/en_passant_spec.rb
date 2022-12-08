@@ -3,58 +3,124 @@
 require_relative '../lib/library'
 
 describe EnPassant do
+  board = Board.new
+
   describe 'EnPassant#handles?' do
-    context 'when black pawn can pass by white pawn' do
-      board = Board.new
-      board.create_new_grid
-      board.grid[4][3] = board.wht_pawn
-      board.grid[4][4] = board.blk_pawn
-      board.grid[0][3] = board.wht_king
-      board.grid[7][4] = board.blk_king
-      candidate_list = [PawnDoubleStep, PawnSingleStep, EnPassant, PawnAttack, Castle, Move]    
+    context 'when it\'s white\'s turn' do
       player1 = Player.new(color: 'white')
 
-      it 'instantiates EnPassant when white pawn attempts en passant capture' do
-        st_sq = [4, 3]
-        en_sq = [5, 4]
-        args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player1, test: true }
-        new_move = Move.factory(args, candidate_list)
-        expect(new_move).to be_instance_of(EnPassant)
+      before(:each) do
+        board.create_new_grid
+        board.create_pieces(PieceFactory)
       end
 
-      it 'does NOT instantiate EnPassant when white pawn moves forward 1 step' do
-        st_sq = [4, 3]
-        en_sq = [5, 3]
-        args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player1 }
-        new_move = Move.factory(args, candidate_list)
-        expect(new_move).not_to be_instance_of(EnPassant)
+      after(:all) do
+        board.create_new_grid
+      end
+
+      context 'when piece is a Pawn' do
+        before(:each) do
+          board.grid[4][4] = board.wht_pawn
+        end
+
+        context 'when it moves 1 space diagonally' do
+          it 'returns true if end_sq is unoccupied' do
+            pawn_sq = [4, 4]
+            move_1_diag_sq = [5, 5]
+            args = { start_sq: pawn_sq, end_sq: move_1_diag_sq, board: board, player: player1 }
+            result = EnPassant.handles?(args)
+            expect(result).to be(true)
+          end
+
+          it 'returns false if end_sq is a Piece' do
+            board.grid[5][5] = board.blk_queen
+            pawn_sq = [4, 4]
+            move_1_diag_sq = [5, 5]
+            args = { start_sq: pawn_sq, end_sq: move_1_diag_sq, board: board, player: player1 }
+            result = EnPassant.handles?(args)
+            expect(result).to be(false)
+          end
+        end
+
+        context 'when it moves 1 step forward' do
+          it 'returns false' do
+            pawn_sq = [4, 4]
+            move_1_step_forward = [5, 4]
+            args = { start_sq: pawn_sq, end_sq: move_1_step_forward, board: board, player: player1 }
+            result = EnPassant.handles?(args)
+            expect(result).to be(false)
+          end
+        end
+      end
+
+      context 'when piece is not a Pawn' do
+        it 'returns false' do
+          board.grid[4][4] = board.wht_bishop
+          bishop_sq = [4, 4]
+          move_1_diag_sq = [5, 5]
+          args = { start_sq: bishop_sq, end_sq: move_1_diag_sq, board: board, player: player1 }
+          result = EnPassant.handles?(args)
+          expect(result).to be(false)
+        end
       end
     end
 
-    context 'when white pawn can pass by black pawn' do
-      board = Board.new
-      board.create_new_grid
-      board.grid[3][2] = board.wht_pawn
-      board.grid[3][3] = board.blk_pawn
-      board.grid[0][3] = board.wht_king
-      board.grid[7][4] = board.blk_king
-      candidate_list = [PawnDoubleStep, PawnSingleStep, EnPassant, PawnAttack, Castle, Move]    
+    context 'when it\'s black\'s turn' do
       player2 = Player.new(color: 'black')
 
-      it 'instantiates EnPassant when black pawn attempts en passant capture' do
-        st_sq = [3, 3]
-        en_sq = [2, 2]
-        args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player2, test: true }
-        new_move = Move.factory(args, candidate_list)
-        expect(new_move).to be_instance_of(EnPassant)
+      before(:each) do
+        board.create_new_grid
+        board.create_pieces(PieceFactory)
       end
 
-      it 'does NOT instantiate EnPassant when black pawn moves forward 1 step' do
-        st_sq = [3, 3]
-        en_sq = [2, 3]
-        args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player2 }
-        new_move = Move.factory(args, candidate_list)
-        expect(new_move).not_to be_instance_of(EnPassant)
+      after(:all) do
+        board.create_new_grid
+      end
+
+      context 'when piece is a Pawn' do
+        before(:each) do
+          board.grid[3][4] = board.blk_pawn
+        end
+
+        context 'when it moves 1 space diagonally' do
+          it 'returns true if end_sq is unoccupied' do
+            pawn_sq = [3, 4]
+            move_1_diag_sq = [2, 5]
+            args = { start_sq: pawn_sq, end_sq: move_1_diag_sq, board: board, player: player2 }
+            result = EnPassant.handles?(args)
+            expect(result).to be(true)
+          end
+
+          it 'returns false if end_sq is a Piece' do
+            board.grid[2][5] = board.wht_rook
+            pawn_sq = [3, 4]
+            move_1_diag_sq = [2, 5]
+            args = { start_sq: pawn_sq, end_sq: move_1_diag_sq, board: board, player: player2 }
+            result = EnPassant.handles?(args)
+            expect(result).to be(false)
+          end
+        end
+
+        context 'when it moves 1 step forward' do
+          it 'returns false' do
+            pawn_sq = [3, 4]
+            move_1_step_forward = [2, 4]
+            args = { start_sq: pawn_sq, end_sq: move_1_step_forward, board: board, player: player2 }
+            result = EnPassant.handles?(args)
+            expect(result).to be(false)
+          end
+        end
+      end
+
+      context 'when piece is not a Pawn' do
+        it 'returns false' do
+          board.grid[4][4] = board.blk_bishop
+          bishop_sq = [3, 4]
+          move_1_diag_sq = [2, 5]
+          args = { start_sq: bishop_sq, end_sq: move_1_diag_sq, board: board, player: player2 }
+          result = EnPassant.handles?(args)
+          expect(result).to be(false)
+        end
       end
     end
   end
@@ -64,7 +130,7 @@ describe EnPassant do
   end
 
   describe '#pawn_on_correct_row?' do
-    board = Board.new
+    # board = Board.new
 
     context 'when white player\'s pawn is on the correct row' do
       board.create_new_grid

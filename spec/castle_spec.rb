@@ -491,7 +491,7 @@ describe Castle do
 
     it 'sets @rook to a Rook instance' do
       board.create_new_grid
-      board.grid[0][0] = board.wht_rook  
+      board.grid[0][0] = board.wht_rook
       castle.set_queenside_rook
       expect(castle.rook).to be_instance_of(Rook)
     end
