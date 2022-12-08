@@ -498,36 +498,3 @@ describe Castle do
   end
 end
 
-`
-context 'when white initiates castle on king\'s side' do
-
-it 'does NOT instantiate Castle when corresponding squares contain a piece' do
-
-  it 'instantiates Castle when corresponding squares are unoccupied'
-
-  # board = Board.new
-  # board.create_new_grid
-  # board.grid[4][3] = board.wht_pawn
-  # board.grid[4][4] = board.blk_pawn
-  # board.grid[0][3] = board.wht_king
-  # board.grid[7][4] = board.blk_king
-  # candidate_list = [PawnDoubleStep, PawnSingleStep, EnPassant, PawnAttack, Castle, Move]    
-  # player1 = Player.new(color: 'white')
-
-  xit 'does NOT instantiate Castle when corresponding squares contain a piece' do
-    # st_sq = [4, 3]
-    # en_sq = [5, 4]
-    # args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player1 }
-    # new_move = Move.factory(args, candidate_list)
-    # expect(new_move).to be_instance_of(EnPassant)
-  end
-
-  xit '' do
-    # st_sq = [4, 3]
-    # en_sq = [5, 3]
-    # args = { start_sq: st_sq, end_sq: en_sq, board: board, player: player1 }
-    # new_move = Move.factory(args, candidate_list)
-    # expect(new_move).not_to be_instance_of(EnPassant)
-  end
-
-`

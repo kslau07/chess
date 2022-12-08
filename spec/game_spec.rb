@@ -54,8 +54,8 @@ Quick recap on what we're actually testing:
 
 describe Game do
   subject(:game) { described_class.new(player1: player1, player2: player2, move_list: move_list, board: board, move: move, display: display) }
-  let(:player1) { double('player1')}
-  let(:player2) { double('player2')}
+  let(:player1) { double('player1') }
+  let(:player2) { double('player2') }
   let(:move_list) { double('move_list') }
   let(:board) { double('board') }
   let(:move) { double('move') }

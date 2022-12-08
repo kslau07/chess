@@ -2,6 +2,7 @@
 
 require_relative 'chess_tools'
 require_relative 'serializable'
+
 # This class creates all_movess
 class MoveList
   include ChessTools
