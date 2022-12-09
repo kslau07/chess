@@ -98,5 +98,16 @@ class Game
     move_list.set([])
     set_current_player
   end
+
+  def legal_move?(move_data)
+    move = move_data[:move]
+    color = move_data[:player].color
+    grid_json = serialize
+    possible_move = move.factory(move_data)
+    possible_move.transfer_piece if possible_move.validated
+    result = !check?(color) && possible_move.validated
+    revert_board(grid_json, self)
+    result
+  end
 end
 

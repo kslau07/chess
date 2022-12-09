@@ -2,7 +2,7 @@
 
 # This module tests for check in Board objects
 module Check
-  include SaveLoad
+  # include SaveLoad
 
   def check?(color)
     kings_sq = square_of_king(color)
@@ -68,16 +68,16 @@ module Check
     true
   end
 
-  def legal_move?(move_data)
-    move = move_data[:move]
-    color = move_data[:player].color
-    grid_json = serialize
-    possible_move = move.factory(move_data)
-    possible_move.transfer_piece if possible_move.validated
-    result = !check?(color) && possible_move.validated
-    revert_board(grid_json, self)
-    result
-  end
+  # def legal_move?(move_data)
+  #   move = move_data[:move]
+  #   color = move_data[:player].color
+  #   grid_json = serialize
+  #   possible_move = move.factory(move_data)
+  #   possible_move.transfer_piece if possible_move.validated
+  #   result = !check?(color) && possible_move.validated
+  #   revert_board(grid_json, self)
+  #   result
+  # end
 end
 
 class Array
