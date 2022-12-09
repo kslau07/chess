@@ -19,20 +19,22 @@ class MoveList
     @all_moves = mv_list
   end
 
-  def add(move)
+  def add(new_move)
     translated_move = []
-    translated_move << piece_code(move)
-    translated_move << (move.start_sq[1] + 97).chr
-    translated_move << move.start_sq[0] + 1
-    translated_move << 'x' if move.captured_piece
-    translated_move << (move.end_sq[1] + 97).chr
-    translated_move << move.end_sq[0] + 1
-    translated_move << '+' if move.checks
+    translated_move << piece_code(new_move)
+    translated_move << (new_move.start_sq[1] + 97).chr
+    translated_move << new_move.start_sq[0] + 1
+    translated_move << 'x' if new_move.captured_piece
+    translated_move << (new_move.end_sq[1] + 97).chr
+    translated_move << new_move.end_sq[0] + 1
+    translated_move << '+' if new_move.checks
     all_moves << translated_move.join
   end
 
-  def piece_code(move)
-    move.start_piece.instance_of?(Knight) ? 'N' : move.start_piece.class.name[0]
+  def piece_code(new_move)
+    # p new_move.class.name[0]
+    new_move.start_piece.instance_of?(Knight) ? 'N' : new_move.start_piece.class.name[0]
+    # new_move.start_piece
   end
 
   def last_move_cleaned
