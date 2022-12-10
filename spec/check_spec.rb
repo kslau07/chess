@@ -2,6 +2,7 @@
 
 require_relative '../lib/check'
 require_relative '../lib/piece'
+require_relative '../lib/board'
 require_relative '../lib/pieces/king'
 
 
@@ -326,7 +327,7 @@ describe Check do
 
     context 'when King has at least 1 legal move' do
       it 'returns false' do
-        allow(class_instance).to receive(:out_of_bound?)
+        allow(class_instance).to receive(:out_of_bound?).and_return(false)
         allow(class_instance).to receive(:legal_move?).and_return(true)
 
         result = class_instance.king_cannot_move?(king, kings_sq, move_data)
@@ -336,7 +337,7 @@ describe Check do
 
     context 'when King has no legal moves' do
       it 'returns true' do
-        allow(class_instance).to receive(:out_of_bound?)
+        allow(class_instance).to receive(:out_of_bound?).and_return(false)
         allow(class_instance).to receive(:legal_move?).and_return(false)
 
         result = class_instance.king_cannot_move?(king, kings_sq, move_data)
@@ -346,19 +347,40 @@ describe Check do
   end
 
   describe '#king_not_defendable?' do
-    # What does this method do?
-    # This method is called when player's king is in check.
-    # It will look at each "check path", each square, and test
-    # if any of player's game pieces can reach one of the squares
-    # of the "check path". If a game piece can reach one of the squares
-    # AND it removes check, then that player has not been checkmated.
+    board = Board.new
+    board.create_new_grid
+    board.grid[7][4] = board.blk_king
+    board.grid[6][6] = board.blk_pawn
+    board.grid[4][7] = board.wht_bishop
 
-    # when find_check_paths is called, return a canned check_path from above
-    # It is a nested array. The iterator that has 'path_square' as a pipe var
-    # is where the squares are tested.
+    context 'when black King is checked by white Bishop' do
+      color = 'black'
+      kings_sq = [7, 4]
+      move_data = {}
+      single_check_path = [[4, 7], [5, 6], [6, 5], [7, 4]]
 
-    # For this method, we should test these scenarios:
-    # one check_path is provided, legal_move? is called, and true and false are both returned
-    # no check_path's are provided, not sure if that would raise error
+      before do
+        allow(class_instance).to receive(:find_check_paths).with(kings_sq).and_return(single_check_path)
+        allow(class_instance).to receive(:grid).and_return(board.grid)
+      end
+
+      context 'when black Pawn can remove check by white Bishop' do
+        it 'returns false' do
+          allow(class_instance).to receive(:legal_move?).and_return(true)
+
+          result = class_instance.king_not_defendable?(color, kings_sq, move_data)
+          expect(result).to be(false)
+        end
+      end
+
+      context 'when black Pawn cannot remove check by white Bishop' do
+        it 'returns true' do
+          allow(class_instance).to receive(:legal_move?).and_return(false)
+
+          result = class_instance.king_not_defendable?(color, kings_sq, move_data)
+          expect(result).to be(true)
+        end
+      end
+    end
   end
 end

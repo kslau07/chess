@@ -17,8 +17,8 @@ describe MoveList do
 
   describe '#add' do
     context 'when black Bishop captures a white pawn and also checks white King' do
-      let(:blk_pawn) { instance_double('Pawn', color: 'white') }
-      let(:new_move) { instance_double('Move', start_sq: [3, 1], end_sq: [2, 2], captured_piece: blk_pawn) }    
+      let(:blk_pawn) { instance_double('Pawn', color: 'black') }
+      let(:new_move) { instance_double('Move', start_sq: [3, 1], end_sq: [2, 2], captured_piece: blk_pawn) }
 
       it 'adds a string that will contain a plus (+) symbol to signify check' do
         allow(new_move).to receive(:checks).and_return(true)
