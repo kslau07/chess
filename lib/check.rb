@@ -32,15 +32,15 @@ module Check
     color = move_data[:player].color
     kings_sq = square_of_king(color)
     king = object(kings_sq)
-    king_immobile?(king, kings_sq, move_data) && king_indefensible?(color, kings_sq, move_data)
+    king_cannot_move?(king, kings_sq, move_data) && king_not_defendable?(color, kings_sq, move_data)
   end
 
-  # Returns false if king has a legal move
-  def king_immobile?(king, kings_sq, move_data)
+  # Returns false if king has at least 1 legal move
+  def king_cannot_move?(king, kings_sq, move_data)
     king.possible_moves.none? do |possible_move|
       begin_sq = kings_sq
       finish_sq = [kings_sq[0] + possible_move[0], kings_sq[1] + possible_move[1]]
-      next if out_of_bound?(self, begin_sq, finish_sq) # check if square is out of bound
+      next if out_of_bound?(self, begin_sq, finish_sq)
 
       move_data[:start_sq] = begin_sq
       move_data[:end_sq] = finish_sq
@@ -49,7 +49,7 @@ module Check
   end
 
   # Returns false if another piece can remove check
-  def king_indefensible?(color, kings_sq, move_data)
+  def king_not_defendable?(color, kings_sq, move_data)
     # Although this method is long, it feels like all parts are necessary
     attackers_paths = find_check_paths(kings_sq)
     attackers_paths.each do |attackers_path|
