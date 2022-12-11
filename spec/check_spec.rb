@@ -5,11 +5,7 @@ require_relative '../lib/piece'
 require_relative '../lib/board'
 require_relative '../lib/pieces/king'
 
-
-# require_relative '../lib/save_load'
-
 describe Check do
-  # let(:testing_class) { Class.new { include MyMath } }
   subject(:class_instance) { Class.new.include(described_class).new }
   let(:player) { instance_double('Player') }
 
@@ -231,12 +227,7 @@ describe Check do
       allow(class_instance).to receive(:squares).and_return(next_square)
     end
 
-    # This method looks through all squares
-    # It wants to match King & color
-    # It returns the square!
-
     context 'when next square is a King' do
-      # let(:wht_king) { instance_double('King', color: 'white') }
       wht_king = King.new(color: 'white') # use real object because method uses instance_of?
 
       it 'returns location of king [0, 4] if color matches player color' do

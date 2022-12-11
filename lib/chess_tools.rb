@@ -17,19 +17,20 @@ module ChessTools
     board.squares.include?(start_sq) && board.squares.include?(end_sq) ? false : true
   end
 
-  def translate_notation_to_square_index(str_move)
-    [str_move[-1].to_i - 1, str_move[-2].ord - 97]
+  def translate_notation_to_square_index(move_str)
+    [move_str[-1].to_i - 1, move_str[-2].ord - 97]
   end
 
   def opposing_color(color)
     color == 'white' ? 'black' : 'white'
   end
 
+  # re-enable loop if disabled
   def validate_turn_input
     loop do
       Display.turn_message(current_player.color, board)
       user_input = gets.chomp.downcase # normal user_input, re-enable
-      # user_input = 'b2b4' if (user_input == '' || user_input.nil?) # debug, delete me when app finished
+      # # user_input = 'b2b4' if (user_input == '' || user_input.nil?) # debug, delete me when app finished
       verified_input = verify_input(user_input)
       return verified_input if verified_input.is_a?(Array)
     end
