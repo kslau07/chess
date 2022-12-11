@@ -22,7 +22,7 @@ module SaveLoad
   end
 
   def show_saved_games
-    puts 'Choose a saved game to load:'.magenta
+    puts 'Choose a saved game to load:'.magenta # re-enable
     Dir.glob('saved_games/**').map.with_index do |fname, index|
       break if index >= 5
 
@@ -39,10 +39,10 @@ module SaveLoad
 
   def validate_choose_file_input(f_list)
     list_len = f_list.length
-    valid_input_ary = (1..list_len).to_a.map(&:to_s)
+    valid_inputs = (1..list_len).to_a.map(&:to_s)
     loop do
       input = gets.chomp
-      return input if valid_input_ary.include?(input)
+      return input if valid_inputs.include?(input)
 
       puts 'Invalid input! Choose a file to load.'
     end
@@ -57,6 +57,7 @@ module SaveLoad
   def save_to_file(json_obj_ary)
     time = Time.new
     time_str = time.strftime('%Y%b%d_%I%M%p').downcase
+
     dirname = 'saved_games'
     Dir.mkdir(dirname) unless File.exist?(dirname)
     File.open("#{dirname}/#{time_str}.json", 'w') do |f|
@@ -68,8 +69,8 @@ module SaveLoad
     # end
   end
 
-  def load_move_list(json_str, move_list)
-    obj = JSON.parse(json_str)
+  def load_move_list(mv_list_json_str, move_list)
+    obj = JSON.parse(mv_list_json_str)
     parsed_move_list = JSON.parse(obj) # strangely we have to parse twice
     move_list.set(parsed_move_list) # perhaps create a method within MoveList
   end
