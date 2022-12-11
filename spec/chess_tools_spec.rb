@@ -2,6 +2,10 @@
 
 require_relative '../lib/chess_tools'
 require_relative '../lib/display'
+require_relative '../lib/piece'
+require_relative '../lib/pieces/rook'
+require_relative '../lib/pieces/pawn'
+
 
 describe ChessTools do
   subject(:class_instance) { Class.new.include(described_class).new }
@@ -74,7 +78,6 @@ describe ChessTools do
 
   describe '#out_of_bound?' do
     let(:board) { instance_double('Board') }
-
 
     def board_squares
       arr_of_squares = []
@@ -271,23 +274,67 @@ describe ChessTools do
       user_input = 'f3f8'
       returned_start_sq = [2, 5]
       returned_end_sq = [7, 5]
+
       before(:each) do
         allow(class_instance).to receive(:translate_notation_to_square_index).and_return(returned_start_sq, returned_end_sq)
       end
 
-      it '' do
+      it 'returns an Array' do
         result = class_instance.convert_to_squares(user_input)
-        expect(result).to eq([[2, 5], [7, 5]])
+        expect(result).to be_instance_of(Array)
       end
 
-      it 'change me' do
+      it 'returns [[2, 5], [7, 5]]' do
         result = class_instance.convert_to_squares(user_input)
         expect(result).to eq([[2, 5], [7, 5]])
       end
     end
   end
 
-  describe '#pass_prelim_check' do
+  describe '#pass_prelim_check?' do
+    let(:board) { instance_double('Board') }
+    # let(:blk_rook) { instance_double('Rook', color: 'black') }
+    current_player_color = 'black'
 
+    before(:each) do
+      allow(class_instance).to receive(:board).and_return(board)
+      allow(class_instance).to receive_message_chain(:current_player, :color).and_return(current_player_color)
+    end
+
+    it 'returns false if out of bounds' do
+      start_sq = [0, 0]
+      end_sq = [-1, 2]
+      allow(class_instance).to receive(:out_of_bound?).with(board, start_sq, end_sq).and_return(true)
+
+      result = class_instance.pass_prelim_check?(start_sq, end_sq)
+      expect(result).to be(false)
+    end
+
+    context 'when start square\'s piece\'s color is same as end square\'s piece\'s color' do
+      it 'returns false' do
+        start_sq = [7, 7]
+        end_sq = [4, 7]
+        allow(class_instance).to receive(:out_of_bound?).with(board, start_sq, end_sq).and_return(false)
+        blk_rook = Rook.new(color: 'black') # real obj required in test
+        allow(board).to receive(:object).and_return(blk_rook)
+
+        result = class_instance.pass_prelim_check?(start_sq, end_sq)
+        expect(result).to be(false)
+      end
+    end
+
+    context 'when start square contains a piece and it\'s the same as player\'s color' do
+      it 'returns true' do
+        start_sq = [6, 1]
+        end_sq = [5, 1]
+        allow(class_instance).to receive(:out_of_bound?).with(board, start_sq, end_sq).and_return(false)
+        allow(board).to receive(:object).with(end_sq).and_return('unoccupied')
+        blk_pawn = Pawn.new(color: 'black')
+        allow(board).to receive(:object).with(start_sq).and_return(blk_pawn)
+
+        result = class_instance.pass_prelim_check?(start_sq, end_sq)
+        expect(result).to be(true)
+      end
+    end
   end
 end
