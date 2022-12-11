@@ -293,7 +293,6 @@ describe ChessTools do
 
   describe '#pass_prelim_check?' do
     let(:board) { instance_double('Board') }
-    # let(:blk_rook) { instance_double('Rook', color: 'black') }
     current_player_color = 'black'
 
     before(:each) do
