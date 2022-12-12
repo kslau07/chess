@@ -23,21 +23,21 @@ describe PawnSingleStep do
           single_step_sq = [2, 3]
           args = { player: player, start_sq: st_sq, end_sq: single_step_sq, board: board }
           result = PawnSingleStep.handles?(args)
-          expect(result).to be(true)
+          expect(result).to be true
         end
 
         it 'returns false if white Pawn moves 2 spaces forward' do
           single_step_sq = [3, 3]
           args = { player: player, start_sq: st_sq, end_sq: single_step_sq, board: board }
           result = PawnSingleStep.handles?(args)
-          expect(result).to be(false)
+          expect(result).to be false
         end
 
         it 'returns false if white Pawn moves diagonally' do
           move_forward_square = [2, 2]
           args = { player: player, start_sq: st_sq, end_sq: move_forward_square, board: board }
           result = PawnSingleStep.handles?(args)
-          expect(result).to be(false)
+          expect(result).to be false
         end
       end
 
@@ -49,7 +49,7 @@ describe PawnSingleStep do
           single_step = [4, 6]
           args = { player: player, start_sq: not_home_row_sq, end_sq: single_step, board: board }
           result = PawnSingleStep.handles?(args)
-          expect(result).to be(true)
+          expect(result).to be true
         end
       end
     end
@@ -75,21 +75,21 @@ describe PawnSingleStep do
           single_step_sq = [5, 4]
           args = { player: player, start_sq: st_sq, end_sq: single_step_sq, board: board }
           result = PawnSingleStep.handles?(args)
-          expect(result).to be(true)
+          expect(result).to be true
         end
 
         it 'returns false if black Pawn moves 2 spaces forward' do
           single_step_sq = [4, 4]
           args = { player: player, start_sq: st_sq, end_sq: single_step_sq, board: board }
           result = PawnSingleStep.handles?(args)
-          expect(result).to be(false)
+          expect(result).to be false
         end
 
         it 'returns false if black Pawn moves diagonally' do
           move_forward_square = [5, 3]
           args = { player: player, start_sq: st_sq, end_sq: move_forward_square, board: board }
           result = PawnSingleStep.handles?(args)
-          expect(result).to be(false)
+          expect(result).to be false
         end
       end
 
@@ -101,7 +101,7 @@ describe PawnSingleStep do
           single_step = [3, 2]
           args = { player: player, start_sq: not_home_row_sq, end_sq: single_step, board: board }
           result = PawnSingleStep.handles?(args)
-          expect(result).to be(true)
+          expect(result).to be true
         end
       end
     end

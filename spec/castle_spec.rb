@@ -29,7 +29,7 @@ describe Castle do
             move_2_spaces_sq = [0, 6]
             args = { start_sq: king_sq, end_sq: move_2_spaces_sq, board: board, player: player1 }
             result = Castle.handles?(args)
-            expect(result).to be(true)
+            expect(result).to be true
           end
         end
 
@@ -39,7 +39,7 @@ describe Castle do
             move_1_space_sq = [0, 5]
             args = { start_sq: king_sq, end_sq: move_1_space_sq, board: board, player: player1 }
             result = Castle.handles?(args)
-            expect(result).to be(false)
+            expect(result).to be false
           end
         end
       end
@@ -51,7 +51,7 @@ describe Castle do
           move_2_spaces_sq = [0, 6]
           args = { start_sq: not_king_sq, end_sq: move_2_spaces_sq, board: board, player: player1 }
           result = Castle.handles?(args)
-          expect(result).to be(false)
+          expect(result).to be false
         end
       end
     end
@@ -79,7 +79,7 @@ describe Castle do
             move_2_spaces_sq = [7, 6]
             args = { start_sq: king_sq, end_sq: move_2_spaces_sq, board: board, player: player2 }
             result = Castle.handles?(args)
-            expect(result).to be(true)
+            expect(result).to be true
           end
         end
 
@@ -89,7 +89,7 @@ describe Castle do
             move_1_space_sq = [7, 5]
             args = { start_sq: king_sq, end_sq: move_1_space_sq, board: board, player: player2 }
             result = Castle.handles?(args)
-            expect(result).to be(false)
+            expect(result).to be false
           end
         end
       end
@@ -101,7 +101,7 @@ describe Castle do
           move_2_spaces_sq = [7, 6]
           args = { start_sq: not_king_sq, end_sq: move_2_spaces_sq, board: board, player: player2 }
           result = Castle.handles?(args)
-          expect(result).to be(false)
+          expect(result).to be false
         end
       end
     end
@@ -127,7 +127,7 @@ describe Castle do
         allow(board).to receive(:object)
         allow(move_list).to receive(:prev_move_check?).and_return(true)
         result = castle.move_permitted?
-        expect(result).to be(false)
+        expect(result).to be false
       end
     end
 
@@ -177,7 +177,7 @@ describe Castle do
               # allow(castle.start_piece).to receive(:unmoved).and_return(true)
               # allow(corner_piece).to receive(:unmoved).and_return(true)
               result = castle.king_side_castle?(corner_piece)
-              expect(result).to be(true)
+              expect(result).to be true
             end
           end
 
@@ -189,7 +189,7 @@ describe Castle do
               # allow(castle.start_piece).to receive(:unmoved).and_return(true)
               # allow(corner_piece).to receive(:unmoved).and_return(true)
               result = castle.king_side_castle?(corner_piece)
-              expect(result).to be(false)
+              expect(result).to be false
             end
           end
 
@@ -201,7 +201,7 @@ describe Castle do
               # allow(castle.start_piece).to receive(:unmoved).and_return(true)
               # allow(corner_piece).to receive(:unmoved).and_return(true)
               result = castle.king_side_castle?(corner_piece)
-              expect(result).to be(false)
+              expect(result).to be false
             end
           end
 
@@ -210,7 +210,7 @@ describe Castle do
               board.grid[0][5] = board.wht_bishop
               corner_piece = board.wht_rook
               result = castle.king_side_castle?(corner_piece)
-              expect(result).to be(false)
+              expect(result).to be false
             end
           end
         end
@@ -242,7 +242,7 @@ describe Castle do
             it 'returns true' do
               corner_piece = board.blk_rook
               result = castle.king_side_castle?(corner_piece)
-              expect(result).to be(true)
+              expect(result).to be true
             end
           end
 
@@ -251,7 +251,7 @@ describe Castle do
               board.blk_king.moved
               corner_piece = board.blk_rook
               result = castle.king_side_castle?(corner_piece)
-              expect(result).to be(false)
+              expect(result).to be false
             end
           end
 
@@ -260,7 +260,7 @@ describe Castle do
               board.blk_rook.moved
               corner_piece = board.blk_rook
               result = castle.king_side_castle?(corner_piece)
-              expect(result).to be(false)
+              expect(result).to be false
             end
           end
 
@@ -270,7 +270,7 @@ describe Castle do
               # board.blk_rook.moved
               corner_piece = board.blk_rook
               result = castle.king_side_castle?(corner_piece)
-              expect(result).to be(false)
+              expect(result).to be false
             end
           end
         end
@@ -305,7 +305,7 @@ describe Castle do
               # allow(castle.start_piece).to receive(:unmoved).and_return(true)
               # allow(corner_piece).to receive(:unmoved).and_return(true)
               result = castle.queen_side_castle?(corner_piece)
-              expect(result).to be(true)
+              expect(result).to be true
             end
           end
 
@@ -317,7 +317,7 @@ describe Castle do
               # allow(castle.start_piece).to receive(:unmoved).and_return(true)
               # allow(corner_piece).to receive(:unmoved).and_return(true)
               result = castle.queen_side_castle?(corner_piece)
-              expect(result).to be(false)
+              expect(result).to be false
             end
           end
 
@@ -329,7 +329,7 @@ describe Castle do
               # allow(castle.start_piece).to receive(:unmoved).and_return(true)
               # allow(corner_piece).to receive(:unmoved).and_return(true)
               result = castle.queen_side_castle?(corner_piece)
-              expect(result).to be(false)
+              expect(result).to be false
             end
           end
 
@@ -338,7 +338,7 @@ describe Castle do
               board.grid[0][1] = board.wht_bishop
               corner_piece = board.wht_rook
               result = castle.queen_side_castle?(corner_piece)
-              expect(result).to be(false)
+              expect(result).to be false
             end
           end
         end
@@ -370,7 +370,7 @@ describe Castle do
             it 'returns true' do
               corner_piece = board.blk_rook
               result = castle.queen_side_castle?(corner_piece)
-              expect(result).to be(true)
+              expect(result).to be true
             end
           end
 
@@ -379,7 +379,7 @@ describe Castle do
               board.blk_king.moved
               corner_piece = board.blk_rook
               result = castle.queen_side_castle?(corner_piece)
-              expect(result).to be(false)
+              expect(result).to be false
             end
           end
 
@@ -388,7 +388,7 @@ describe Castle do
               board.blk_rook.moved
               corner_piece = board.blk_rook
               result = castle.queen_side_castle?(corner_piece)
-              expect(result).to be(false)
+              expect(result).to be false
             end
           end
 
@@ -398,7 +398,7 @@ describe Castle do
               # board.blk_rook.moved
               corner_piece = board.blk_rook
               result = castle.queen_side_castle?(corner_piece)
-              expect(result).to be(false)
+              expect(result).to be false
             end
           end
         end
@@ -457,12 +457,12 @@ describe Castle do
 
     it 'sets @corner to [0, 7]' do
       castle.set_kingside_rook
-      expect(castle.corner).to eq([0, 7])
+      expect(castle.corner).to eq [0, 7]
     end
 
     it 'sets @rook_new_sq to [0, 5]' do
       castle.set_kingside_rook
-      expect(castle.rook_new_sq).to eq([0, 5])
+      expect(castle.rook_new_sq).to eq [0, 5]
     end
 
     it 'sets @rook to a Rook instance' do
@@ -481,12 +481,12 @@ describe Castle do
 
     it 'sets @corner to [0, 0]' do
       castle.set_queenside_rook
-      expect(castle.corner).to eq([0, 0])
+      expect(castle.corner).to eq [0, 0]
     end
 
     it 'sets @rook_new_sq to [0, 3]' do
       castle.set_queenside_rook
-      expect(castle.rook_new_sq).to eq([0, 3])
+      expect(castle.rook_new_sq).to eq [0, 3]
     end
 
     it 'sets @rook to a Rook instance' do

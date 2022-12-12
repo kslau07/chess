@@ -28,7 +28,7 @@ describe Check do
         allow(class_instance).to receive(:path_obstructed?).and_return(false, false)
 
         result = class_instance.check?(player.color)
-        expect(result).to be(true)
+        expect(result).to be true
       end
     end
 
@@ -45,7 +45,7 @@ describe Check do
         # allow(class_instance).to receive(:path_obstructed?).and_return()
 
         result = class_instance.check?(player.color)
-        expect(result).to be(false)
+        expect(result).to be false
       end
     end
   end
@@ -95,7 +95,7 @@ describe Check do
           allow(wht_bishop).to receive(:make_capture_path).and_return(bishops_check_path)
 
           result = class_instance.find_check_paths(player_color, kings_sq)
-          expect(result.size).to eq(1)
+          expect(result.size).to eq 1
         end
       end
 
@@ -234,7 +234,7 @@ describe Check do
         player_color = 'white'
         allow(class_instance).to receive(:object).and_return(wht_king)
         result = class_instance.square_of_king(player_color)
-        expect(result).to eq([0, 4])
+        expect(result).to eq [0, 4]
       end
 
       it 'returns nil if not player\'s color' do
@@ -272,7 +272,7 @@ describe Check do
         move_data = { player: player }
 
         result = class_instance.checkmate?(move_data)
-        expect(result).to be(true)
+        expect(result).to be true
       end
 
       it 'returns false if check can be removed by another piece' do
@@ -282,7 +282,7 @@ describe Check do
         move_data = { player: player }
 
         result = class_instance.checkmate?(move_data)
-        expect(result).to be(false)
+        expect(result).to be false
       end
     end
 
@@ -298,7 +298,7 @@ describe Check do
         move_data = { player: player }
 
         result = class_instance.checkmate?(move_data)
-        expect(result).to be(false)
+        expect(result).to be false
       end
     end
   end
@@ -322,7 +322,7 @@ describe Check do
         allow(class_instance).to receive(:legal_move?).and_return(true)
 
         result = class_instance.king_cannot_move?(king, kings_sq, move_data)
-        expect(result).to be(false)
+        expect(result).to be false
       end
     end
 
@@ -332,7 +332,7 @@ describe Check do
         allow(class_instance).to receive(:legal_move?).and_return(false)
 
         result = class_instance.king_cannot_move?(king, kings_sq, move_data)
-        expect(result).to be(true)
+        expect(result).to be true
       end
     end
   end
@@ -360,7 +360,7 @@ describe Check do
           allow(class_instance).to receive(:legal_move?).and_return(true)
 
           result = class_instance.king_not_defendable?(color, kings_sq, move_data)
-          expect(result).to be(false)
+          expect(result).to be false
         end
       end
 
@@ -369,7 +369,7 @@ describe Check do
           allow(class_instance).to receive(:legal_move?).and_return(false)
 
           result = class_instance.king_not_defendable?(color, kings_sq, move_data)
-          expect(result).to be(true)
+          expect(result).to be true
         end
       end
     end

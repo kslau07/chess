@@ -14,7 +14,7 @@ class Piece
     @color = args[:color] || 'white'
     @class_name = self.class
     @unmoved = true
-    post_initialize
+    post_initialize unless args[:test] == 'true'
   end
 
   def post_initialize

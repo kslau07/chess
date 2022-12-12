@@ -29,7 +29,7 @@ describe EnPassant do
             move_1_diag_sq = [5, 5]
             args = { start_sq: pawn_sq, end_sq: move_1_diag_sq, board: board, player: player1 }
             result = EnPassant.handles?(args)
-            expect(result).to be(true)
+            expect(result).to be true
           end
 
           it 'returns false if end_sq is a Piece' do
@@ -38,7 +38,7 @@ describe EnPassant do
             move_1_diag_sq = [5, 5]
             args = { start_sq: pawn_sq, end_sq: move_1_diag_sq, board: board, player: player1 }
             result = EnPassant.handles?(args)
-            expect(result).to be(false)
+            expect(result).to be false
           end
         end
 
@@ -48,7 +48,7 @@ describe EnPassant do
             move_1_step_forward = [5, 4]
             args = { start_sq: pawn_sq, end_sq: move_1_step_forward, board: board, player: player1 }
             result = EnPassant.handles?(args)
-            expect(result).to be(false)
+            expect(result).to be false
           end
         end
       end
@@ -60,7 +60,7 @@ describe EnPassant do
           move_1_diag_sq = [5, 5]
           args = { start_sq: bishop_sq, end_sq: move_1_diag_sq, board: board, player: player1 }
           result = EnPassant.handles?(args)
-          expect(result).to be(false)
+          expect(result).to be false
         end
       end
     end
@@ -88,7 +88,7 @@ describe EnPassant do
             move_1_diag_sq = [2, 5]
             args = { start_sq: pawn_sq, end_sq: move_1_diag_sq, board: board, player: player2 }
             result = EnPassant.handles?(args)
-            expect(result).to be(true)
+            expect(result).to be true
           end
 
           it 'returns false if end_sq is a Piece' do
@@ -97,7 +97,7 @@ describe EnPassant do
             move_1_diag_sq = [2, 5]
             args = { start_sq: pawn_sq, end_sq: move_1_diag_sq, board: board, player: player2 }
             result = EnPassant.handles?(args)
-            expect(result).to be(false)
+            expect(result).to be false
           end
         end
 
@@ -107,7 +107,7 @@ describe EnPassant do
             move_1_step_forward = [2, 4]
             args = { start_sq: pawn_sq, end_sq: move_1_step_forward, board: board, player: player2 }
             result = EnPassant.handles?(args)
-            expect(result).to be(false)
+            expect(result).to be false
           end
         end
       end
@@ -119,7 +119,7 @@ describe EnPassant do
           move_1_diag_sq = [2, 5]
           args = { start_sq: bishop_sq, end_sq: move_1_diag_sq, board: board, player: player2 }
           result = EnPassant.handles?(args)
-          expect(result).to be(false)
+          expect(result).to be false
         end
       end
     end
@@ -144,7 +144,7 @@ describe EnPassant do
 
       it 'returns true' do
         result = en_passant.pawn_on_correct_row?
-        expect(result).to be(true)
+        expect(result).to be true
       end
     end
 
@@ -160,7 +160,7 @@ describe EnPassant do
 
       it 'returns false' do
         result = en_passant.pawn_on_correct_row?
-        expect(result).to be(false)
+        expect(result).to be false
       end
     end
 
@@ -176,7 +176,7 @@ describe EnPassant do
 
       it 'returns true' do
         result = en_passant.pawn_on_correct_row?
-        expect(result).to be(true)
+        expect(result).to be true
       end
     end
 
@@ -192,7 +192,7 @@ describe EnPassant do
 
       it 'returns true' do
         result = en_passant.pawn_on_correct_row?
-        expect(result).to be(false)
+        expect(result).to be false
       end
     end
   end
@@ -218,7 +218,7 @@ describe EnPassant do
         it 'returns true' do
           allow(en_passant).to receive(:base_move).and_return([1, 1])
           result = en_passant.opp_prev_move_allows_en_passant?
-          expect(result).to be(true)
+          expect(result).to be true
         end
       end
 
@@ -233,7 +233,7 @@ describe EnPassant do
         it 'does NOT return true (nil)' do
           allow(en_passant).to receive(:base_move).and_return([1, 1])
           result = en_passant.opp_prev_move_allows_en_passant?
-          expect(result).not_to be(true)
+          expect(result).not_to be true
         end
       end
     end
@@ -256,7 +256,7 @@ describe EnPassant do
         it 'returns true' do
           allow(en_passant).to receive(:base_move).and_return([1, -1])
           result = en_passant.opp_prev_move_allows_en_passant?
-          expect(result).to be(true)
+          expect(result).to be true
         end
       end
 
@@ -271,7 +271,7 @@ describe EnPassant do
         it 'does NOT return true (nil)' do
           allow(en_passant).to receive(:base_move).and_return([1, -1])
           result = en_passant.opp_prev_move_allows_en_passant?
-          expect(result).not_to be(true)
+          expect(result).not_to be true
         end
       end
     end

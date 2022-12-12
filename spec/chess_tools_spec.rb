@@ -20,7 +20,7 @@ describe ChessTools do
           color = 'white'
 
           result = class_instance.base_move(begin_sq, finish_sq, color)
-          expect(result).to eq([1, 0])
+          expect(result).to eq [1, 0]
         end
 
         it 'returns [0, 7] if end square is [0, 7]' do
@@ -28,7 +28,7 @@ describe ChessTools do
           color = 'white'
 
           result = class_instance.base_move(begin_sq, finish_sq, color)
-          expect(result).to eq([0, 7])
+          expect(result).to eq [0, 7]
         end
       end
 
@@ -40,7 +40,7 @@ describe ChessTools do
           color = 'white'
 
           result = class_instance.base_move(begin_sq, finish_sq, color)
-          expect(result).to eq([3, -3])
+          expect(result).to eq [3, -3]
         end
 
         it 'returns [-2, 0] if end square is [5, 1]' do
@@ -48,7 +48,7 @@ describe ChessTools do
           color = 'white'
 
           result = class_instance.base_move(begin_sq, finish_sq, color)
-          expect(result).to eq([-2, 0])
+          expect(result).to eq [-2, 0]
         end
       end
     end
@@ -62,7 +62,7 @@ describe ChessTools do
           color = 'black'
 
           result = class_instance.base_move(begin_sq, finish_sq, color)
-          expect(result).to eq([1, 1])
+          expect(result).to eq [1, 1]
         end
 
         it 'returns [5, 0] if end square is [2, 4]' do
@@ -70,7 +70,7 @@ describe ChessTools do
           color = 'black'
 
           result = class_instance.base_move(begin_sq, finish_sq, color)
-          expect(result).to eq([5, 0])
+          expect(result).to eq [5, 0]
         end
       end
     end
@@ -97,7 +97,7 @@ describe ChessTools do
         allow(board).to receive(:squares).and_return(board_squares)
 
         result = class_instance.out_of_bound?(board, start_sq, end_sq)
-        expect(result).to be(false)
+        expect(result).to be false
       end
 
       it 'returns true when end square is out of bounds, [8, 8]' do
@@ -105,7 +105,7 @@ describe ChessTools do
         allow(board).to receive(:squares).and_return(board_squares)
 
         result = class_instance.out_of_bound?(board, start_sq, end_sq)
-        expect(result).to be(true)
+        expect(result).to be true
       end
 
       it 'returns true when end square is out of bounds, [-100, -100]' do
@@ -113,7 +113,7 @@ describe ChessTools do
         allow(board).to receive(:squares).and_return(board_squares)
 
         result = class_instance.out_of_bound?(board, start_sq, end_sq)
-        expect(result).to be(true)
+        expect(result).to be true
       end
 
       it 'returns true when end square is out of bounds, [150, 0]' do
@@ -121,7 +121,7 @@ describe ChessTools do
         allow(board).to receive(:squares).and_return(board_squares)
 
         result = class_instance.out_of_bound?(board, start_sq, end_sq)
-        expect(result).to be(true)
+        expect(result).to be true
       end
     end
   end
@@ -130,13 +130,13 @@ describe ChessTools do
     it 'returns [2, 2] when cleaned move string is \'Bb4c3\'' do
       cleaned_move_str = 'Bb4c3'
       result = class_instance.translate_notation_to_square_index(cleaned_move_str)
-      expect(result).to eq([2, 2])
+      expect(result).to eq [2, 2]
     end
 
     it 'returns [3, 7] when cleaned move string is \'Ph2h4\'' do
       cleaned_move_str = 'Ph2h4'
       result = class_instance.translate_notation_to_square_index(cleaned_move_str)
-      expect(result).to eq([3, 7])
+      expect(result).to eq [3, 7]
     end
   end
 
@@ -144,13 +144,13 @@ describe ChessTools do
     it 'returns \'white\' when color is \'black\'' do
       color = 'black'
       result = class_instance.opposing_color(color)
-      expect(result).to eq('white')
+      expect(result).to eq 'white'
     end
 
     it 'returns \'black\' when color is \'white\'' do
       color = 'white'
       result = class_instance.opposing_color(color)
-      expect(result).to eq('black')
+      expect(result).to eq 'black'
     end
   end
 
@@ -181,7 +181,7 @@ describe ChessTools do
         allow(class_instance).to receive(:verify_input).with(good_input).and_return([[4, 4], [2, 2]])
 
         result = class_instance.validate_turn_input
-        expect(result).to eq([[4, 4], [2, 2]])
+        expect(result).to eq [[4, 4], [2, 2]]
       end
     end
 
@@ -286,7 +286,7 @@ describe ChessTools do
 
       it 'returns [[2, 5], [7, 5]]' do
         result = class_instance.convert_to_squares(user_input)
-        expect(result).to eq([[2, 5], [7, 5]])
+        expect(result).to eq [[2, 5], [7, 5]]
       end
     end
   end
@@ -306,7 +306,7 @@ describe ChessTools do
       allow(class_instance).to receive(:out_of_bound?).with(board, start_sq, end_sq).and_return(true)
 
       result = class_instance.pass_prelim_check?(start_sq, end_sq)
-      expect(result).to be(false)
+      expect(result).to be false
     end
 
     context 'when start square\'s piece\'s color is same as end square\'s piece\'s color' do
@@ -318,7 +318,7 @@ describe ChessTools do
         allow(board).to receive(:object).and_return(blk_rook)
 
         result = class_instance.pass_prelim_check?(start_sq, end_sq)
-        expect(result).to be(false)
+        expect(result).to be false
       end
     end
 
@@ -332,7 +332,7 @@ describe ChessTools do
         allow(board).to receive(:object).with(start_sq).and_return(blk_pawn)
 
         result = class_instance.pass_prelim_check?(start_sq, end_sq)
-        expect(result).to be(true)
+        expect(result).to be true
       end
     end
   end

@@ -11,7 +11,7 @@ describe MoveList do
     it 'sets @all_moves to mv_list' do
       mv_list = %w[move1 move2 move3]
       move_list.set(mv_list)
-      expect(move_list.all_moves).to eq(mv_list)
+      expect(move_list.all_moves).to eq mv_list
     end
   end
 
@@ -40,7 +40,7 @@ describe MoveList do
         allow(new_move).to receive(:checks).and_return(true)
         allow(move_list).to receive(:piece_code).and_return('B')
         move_list.add(new_move)
-        expect(move_list.all_moves).to eq(['Bb4xc3+'])
+        expect(move_list.all_moves).to eq ['Bb4xc3+']
       end
     end
 
@@ -67,7 +67,7 @@ describe MoveList do
         allow(new_move).to receive(:checks).and_return(false)
         allow(move_list).to receive(:piece_code).and_return('P')
         move_list.add(new_move)
-        expect(move_list.all_moves).to eq(['Ph2h4'])
+        expect(move_list.all_moves).to eq ['Ph2h4']
       end
     end
   end
@@ -80,7 +80,7 @@ describe MoveList do
       it 'returns letter N' do
         allow(new_move2).to receive_message_chain(:start_piece, :instance_of?).and_return(true)
         result = move_list.piece_code(new_move2)
-        expect(result).to eq('N')
+        expect(result).to eq 'N'
       end
     end
 
@@ -91,7 +91,7 @@ describe MoveList do
       it 'returns letter N' do
         allow(new_move3).to receive_message_chain(:start_piece, :instance_of?).and_return(false)
         result = move_list.piece_code(new_move3)
-        expect(result).to eq('R') # should be K if I used real object, but RSpec double starts with R
+        expect(result).to eq 'R' # should be K if I used real object, but RSpec double starts with R
       end
     end
   end
@@ -101,7 +101,7 @@ describe MoveList do
       it 'removes + and x from last move' do
         move_list.set(['Ph2h4', 'Bb4xc3+']) # changes @all_moves
         result = move_list.last_move_cleaned
-        expect(result).to eq('Bb4c3')
+        expect(result).to eq 'Bb4c3'
       end
     end
 
@@ -122,7 +122,7 @@ describe MoveList do
       it 'returns the last move' do
         move_list.set(%w[Ph2h4 Pc7c5])
         result = move_list.prev_move
-        expect(result).to eq('Pc7c5')
+        expect(result).to eq 'Pc7c5'
       end
     end
 
@@ -140,14 +140,14 @@ describe MoveList do
         move_list.set(['Ph2h4', 'Bb4xc3+'])
         allow(move_list).to receive(:prev_move).and_return('Bb4xc3+')
         result = move_list.prev_move_check?
-        expect(result).to be(true)
+        expect(result).to be true
       end
 
       it 'returns false if previous move did not check' do
         move_list.set(%w[Ph2h4 Pc7c5])
         allow(move_list).to receive(:prev_move).and_return('Pc7c5')
         result = move_list.prev_move_check?
-        expect(result).to be(false)
+        expect(result).to be false
       end
     end
 

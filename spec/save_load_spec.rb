@@ -38,7 +38,7 @@ describe SaveLoad do
         allow(class_instance).to receive(:puts)
 
         result = class_instance.load_game_file(board, move_list)
-        expect(result).to eq([board, move_list])
+        expect(result).to eq [board, move_list]
       end
     end
   end
@@ -74,7 +74,7 @@ describe SaveLoad do
                     "2022oct03_1203pm", "2022oct10_0329pm"]
 
           result = class_instance.choose_file(f_list)
-          expect(result).to eq('2022oct03_0730pm')
+          expect(result).to eq '2022oct03_0730pm'
         end
       end
     end
@@ -126,7 +126,7 @@ describe SaveLoad do
       allow(board).to receive(:serialize).and_return(board_json)
 
       result = class_instance.serialize_game_objects
-      expect(result).to eq([move_list_json, board_json])
+      expect(result).to eq [move_list_json, board_json]
     end
   end
 
@@ -178,7 +178,7 @@ describe SaveLoad do
     #     board_json = 'json str'
     #     json_obj_ary = [move_list_json, board_json]
 
-    #     expect(class_instance.time_str).to be('2022dec11_0249pm')
+    #     expect(class_instance.time_str).to be '2022dec11_0249pm'
     #     class_instance.save_to_file(json_obj_ary)
     #   end
     # end
@@ -241,7 +241,7 @@ describe SaveLoad do
       allow(Object).to receive_message_chain(:const_get, :new).and_return(dummy_piece)
 
       result = class_instance.instantiate_board_piece(piece_hash)
-      expect(result).to be(dummy_piece)
+      expect(result).to be dummy_piece
     end
   end
 

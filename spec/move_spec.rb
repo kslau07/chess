@@ -18,7 +18,7 @@ describe Move do
   describe 'Move.handles?' do
     it 'returns true' do
       args = {}
-      expect(Move.handles?(args)).to be(true)
+      expect(Move.handles?(args)).to be true
     end
   end
 
@@ -118,7 +118,7 @@ describe Move do
   describe '#validate_move' do
     it 'sets @validated to true' do
       move.validate_move
-      expect(move.validated).to be(true)
+      expect(move.validated).to be true
     end
   end
 
@@ -127,7 +127,7 @@ describe Move do
       it 'returns false' do
         allow(move).to receive(:unreachable?).and_return(true)
         allow(board).to receive(:path_obstructed?).and_return(true)
-        expect(move.move_permitted?).to be(false)
+        expect(move.move_permitted?).to be false
       end
     end
 
@@ -135,7 +135,7 @@ describe Move do
       it 'returns true' do
         allow(move).to receive(:unreachable?).and_return(false)
         allow(board).to receive(:path_obstructed?).and_return(false)
-        expect(move.move_permitted?).to be(true)
+        expect(move.move_permitted?).to be true
       end
     end
   end
@@ -151,7 +151,7 @@ describe Move do
       it 'returns false' do
         allow(move.path).to receive(:include?).and_return(true)
         result = move.unreachable?
-        expect(result).to be(false)
+        expect(result).to be false
       end
     end
 
@@ -159,7 +159,7 @@ describe Move do
       it 'returns true' do
         allow(move.path).to receive(:include?).and_return(false)
         result = move.unreachable?
-        expect(result).to be(true)
+        expect(result).to be true
       end
     end
   end
@@ -197,7 +197,7 @@ describe Move do
         allow(move.player).to receive(:color)
         allow(move.board).to receive(:check?).and_return(true)
         move.opponent_check
-        expect(move.checks).to be(true)
+        expect(move.checks).to be true
       end
     end
 
@@ -206,7 +206,7 @@ describe Move do
         allow(move.player).to receive(:color)
         allow(move.board).to receive(:check?).and_return(false)
         move.opponent_check
-        expect(move.checks).not_to be(true)
+        expect(move.checks).not_to be true
       end
     end
   end
@@ -217,7 +217,7 @@ describe Move do
         move_data = {}
         allow(board).to receive(:checkmate?).and_return(true)
         move.test_checkmate_other_player(move_data)
-        expect(move.checkmates).to be(true)
+        expect(move.checkmates).to be true
       end
     end
 
@@ -226,7 +226,7 @@ describe Move do
         move_data = {}
         allow(board).to receive(:checkmate?).and_return(false)
         move.test_checkmate_other_player(move_data)
-        expect(move.checkmates).not_to be(true)
+        expect(move.checkmates).not_to be true
       end
     end
   end
@@ -239,7 +239,7 @@ describe Move do
         allow(move).to receive(:end_obj).and_return(wht_bishop)
         allow(move.end_obj).to receive(:is_a?).and_return(true)
         move.capture_piece
-        expect(move.captured_piece).to be(move.end_obj)
+        expect(move.captured_piece).to be move.end_obj
       end
     end
 

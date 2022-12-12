@@ -167,13 +167,13 @@ describe Game do
     it 'sets current_player to player1 when move_list is even' do
       allow(game.move_list).to receive_message_chain(:all_moves, :length, :even?).and_return(true)
       game.set_current_player
-      expect(game.current_player).to be(game.player1)
+      expect(game.current_player).to be game.player1
     end
 
     it 'does NOT set current_player to player1 when move_list is odd' do
       allow(game.move_list).to receive_message_chain(:all_moves, :length, :even?).and_return(false)
       game.set_current_player
-      expect(game.current_player).not_to be(game.player1)
+      expect(game.current_player).not_to be game.player1
     end
   end
 
@@ -181,14 +181,14 @@ describe Game do
     it 'changes current_player' do
       curr_plyr = game.instance_variable_get(:@current_player)
       game.switch_players
-      expect(game.current_player).not_to be(curr_plyr)
+      expect(game.current_player).not_to be curr_plyr
     end
   end
 
   describe '#other_player' do
     it 'returns player who is not current_player' do
       curr_play = game.instance_variable_get(:@current_player)
-      expect(game.other_player).not_to be(curr_play)
+      expect(game.other_player).not_to be curr_play
     end
   end
 
@@ -227,7 +227,7 @@ describe Game do
       allow(game.move_list).to receive(:set)
       allow(game).to receive(:set_current_player)
       game.play_again_init(board)
-      expect(game.board).to be(board)
+      expect(game.board).to be board
     end
 
     it 'sets move_list to an empty array' do

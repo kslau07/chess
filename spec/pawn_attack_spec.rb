@@ -31,21 +31,21 @@ describe PawnAttack do
           board.grid[2][2] = board.blk_knight
           args = { player: player, start_sq: st_sq, end_sq: capture_sq, board: board }
           result = PawnAttack.handles?(args)
-          expect(result).to be(true)
+          expect(result).to be true
         end
 
         it 'returns false if no enemy pieces are within reach' do
           board.grid[2][2] = 'unoccupied'
           args = { player: player, start_sq: st_sq, end_sq: capture_sq, board: board }
           result = PawnAttack.handles?(args)
-          expect(result).to be(false)
+          expect(result).to be false
         end
 
         it 'returns false if it moves forward 1 step instead of diagonally' do
           move_forward_square = [2, 3]
           args = { player: player, start_sq: st_sq, end_sq: move_forward_square, board: board }
           result = PawnAttack.handles?(args)
-          expect(result).to be(false)
+          expect(result).to be false
         end
       end
     end
@@ -69,21 +69,21 @@ describe PawnAttack do
           board.grid[5][5] = board.wht_knight
           args = { player: player, start_sq: st_sq, end_sq: capture_sq, board: board }
           result = PawnAttack.handles?(args)
-          expect(result).to be(true)
+          expect(result).to be true
         end
 
         it 'returns false if no enemy pieces are within reach' do
           board.grid[2][2] = 'unoccupied'
           args = { player: player, start_sq: st_sq, end_sq: capture_sq, board: board }
           result = PawnAttack.handles?(args)
-          expect(result).to be(false)
+          expect(result).to be false
         end
 
         it 'returns false if it moves forward 1 step instead of diagonally' do
           move_forward_square = [5, 4]
           args = { player: player, start_sq: st_sq, end_sq: move_forward_square, board: board }
           result = PawnAttack.handles?(args)
-          expect(result).to be(false)
+          expect(result).to be false
         end
       end
     end
@@ -130,7 +130,7 @@ describe PawnAttack do
           board.grid[2][4] = board.blk_pawn
           allow(pawn_attack).to receive(:assess_move)
           result = pawn_attack.move_permitted?
-          expect(result).to be(true)
+          expect(result).to be true
         end
       end
 
@@ -139,7 +139,7 @@ describe PawnAttack do
           board.grid[2][4] = board.wht_pawn
           allow(pawn_attack).to receive(:assess_move)
           result = pawn_attack.move_permitted?
-          expect(result).to be(false)
+          expect(result).to be false
         end
       end
 
@@ -148,7 +148,7 @@ describe PawnAttack do
           board.grid[2][4] = 'unoccupied'
           allow(pawn_attack).to receive(:assess_move)
           result = pawn_attack.move_permitted?
-          expect(result).to be(false)
+          expect(result).to be false
         end
       end
     end
@@ -172,7 +172,7 @@ describe PawnAttack do
           board.grid[5][5] = board.wht_pawn
           allow(pawn_attack).to receive(:assess_move)
           result = pawn_attack.move_permitted?
-          expect(result).to be(true)
+          expect(result).to be true
         end
       end
 
@@ -181,7 +181,7 @@ describe PawnAttack do
           board.grid[5][5] = board.blk_pawn
           allow(pawn_attack).to receive(:assess_move)
           result = pawn_attack.move_permitted?
-          expect(result).to be(false)
+          expect(result).to be false
         end
       end
 
@@ -190,7 +190,7 @@ describe PawnAttack do
           board.grid[5][5] = 'unoccupied'
           allow(pawn_attack).to receive(:assess_move)
           result = pawn_attack.move_permitted?
-          expect(result).to be(false)
+          expect(result).to be false
         end
       end
     end
