@@ -30,21 +30,6 @@ module Serializable
     JSON.dump(obj)
   end
 
-  # old method
-  # def jsonify_board
-  #   obj = @grid.map do |row|
-  #     row.map do |square|
-  #       if square.is_a?(String)
-  #         square
-  #       else
-  #         square.serialize
-  #       end
-  #     end
-  #   end
-
-  #   JSON.dump(obj)
-  # end
-
   def jsonify_piece
     obj = {}
     instance_variables.map do |var|

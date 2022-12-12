@@ -54,6 +54,9 @@ describe Serializable do
   end
 
   describe '#jsonify_piece' do
-  
+    it 'sends #dump to JSON' do
+      expect(JSON).to receive(:dump)
+      class_instance.jsonify_piece
+    end
   end
 end
