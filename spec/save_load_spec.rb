@@ -207,14 +207,63 @@ describe SaveLoad do
   end
 
   describe '#load_board' do
-    
+    let(:board_obj) { instance_double('Board') }
+
+    # before do
+    # end
+
+    it 'sends #parse to JSON' do
+      json_str = 'json'
+      board = board_obj
+      allow(board_obj).to receive(:load_grid)
+
+      expect(JSON).to receive(:parse).and_return([])
+      class_instance.load_board(json_str, board)
+    end
+
+    it 'sends #load_grid to board' do
+      json_str = 'json'
+      board = board_obj
+      allow(JSON).to receive(:parse).and_return([])
+
+      expect(board_obj).to receive(:load_grid)
+      class_instance.load_board(json_str, board)
+    end
   end
 
   describe '#instantiate_board_piece' do
+    let(:dummy_piece) { double('Queen') }
 
+    it 'returns a game piece' do
+      piece_hash = { "@color"=>"white", "@class_name"=>"Rook", "@unmoved"=>true,
+                    "@long_reach"=>true }
+
+      allow(Object).to receive_message_chain(:const_get, :new).and_return(dummy_piece)
+
+      result = class_instance.instantiate_board_piece(piece_hash)
+      expect(result).to be(dummy_piece)
+    end
   end
 
   describe '#read_file' do
+    let(:dummy_json_obj) { double('JSON file') }
 
+    context 'change me' do
+      it 'sends #open to File' do
+        fname = '2022oct03_1203pm'
+        allow(dummy_json_obj).to receive(:eof?).and_return(true)
+        expect(File).to receive(:open).with('saved_games/2022oct03_1203pm.json', 'r').and_return(dummy_json_obj)
+        class_instance.read_file(fname)
+      end
+
+      it 'returns an Array' do
+        fname = '2022oct03_1203pm'
+        allow(dummy_json_obj).to receive(:eof?).and_return(true)
+        allow(File).to receive(:open).with('saved_games/2022oct03_1203pm.json', 'r').and_return(dummy_json_obj)
+
+        result = class_instance.read_file(fname)
+        expect(result).to be_instance_of(Array)
+      end
+    end
   end
 end

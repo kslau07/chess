@@ -75,10 +75,6 @@ module SaveLoad
     move_list.set(parsed_move_list) # perhaps create a method within MoveList
   end
 
-  # def revert_board(grid_json)
-  #   load_board(grid_json)
-  # end
-
   def load_board(json_str, board)
     grid_obj = JSON.parse(json_str)
 
