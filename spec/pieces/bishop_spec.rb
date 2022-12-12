@@ -92,5 +92,45 @@ describe Bishop do
         end
       end
     end
+
+    context 'for black Bishop' do
+      context 'when start_sq is [5, 4]' do
+        start_sq = [5, 4]
+
+        context 'when Bishop moves diagonally' do
+          it 'returns a path (Array) that is not empty' do
+            end_sq = [2, 1]
+
+            result = blk_bishop.make_path(board, start_sq, end_sq)
+            expect(result).to eq [[5, 4], [4, 3], [3, 2], [2, 1]]
+          end
+
+          it 'returns a path (Array) that is not empty' do
+            end_sq = [2, 7]
+
+            result = blk_bishop.make_path(board, start_sq, end_sq)
+            expect(result).to eq [[5, 4], [4, 5], [3, 6], [2, 7]]
+          end
+        end
+
+        context 'when Bishop tries to move sideways' do
+          it 'returns an empty Array' do
+            end_sq = [6, 0]
+
+            result = blk_bishop.make_path(board, start_sq, end_sq)
+            expect(result).to be_empty
+          end
+        end
+
+        context 'when Bishop tries to move vertically' do
+          it 'returns an empty Array' do
+            end_sq = [7, 4]
+
+            result = blk_bishop.make_path(board, start_sq, end_sq)
+            expect(result).to be_empty
+          end
+        end
+      end
+    end
   end
 end
