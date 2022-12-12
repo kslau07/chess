@@ -58,7 +58,7 @@ describe Rook do
         start_sq = [2, 5]
 
         context 'when Rook moves 1 square to the right' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [2, 6]
 
             result = wht_rook.make_path(board, start_sq, end_sq)
@@ -67,7 +67,7 @@ describe Rook do
         end
 
         context 'when Rook moves 2 squares to the right' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [2, 7]
 
             result = wht_rook.make_path(board, start_sq, end_sq)
@@ -76,7 +76,7 @@ describe Rook do
         end
 
         context 'when Rook moves 5 squares to the left' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [2, 0]
 
             result = wht_rook.make_path(board, start_sq, end_sq)
@@ -85,7 +85,7 @@ describe Rook do
         end
 
         context 'when Rook moves 1 square up' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [3, 5]
 
             result = wht_rook.make_path(board, start_sq, end_sq)
@@ -94,7 +94,7 @@ describe Rook do
         end
 
         context 'when Rook moves 1 square down' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [1, 5]
 
             result = wht_rook.make_path(board, start_sq, end_sq)
@@ -103,7 +103,7 @@ describe Rook do
         end
 
         context 'when Rook moves 4 squares up' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [6, 5]
 
             result = wht_rook.make_path(board, start_sq, end_sq)
@@ -136,7 +136,7 @@ describe Rook do
         start_sq = [4, 2]
 
         context 'when Rook moves 1 square to the right' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [4, 3]
 
             result = blk_rook.make_path(board, start_sq, end_sq)
@@ -145,7 +145,7 @@ describe Rook do
         end
 
         context 'when Rook moves 2 squares to the right' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [4, 0]
 
             result = blk_rook.make_path(board, start_sq, end_sq)
@@ -154,7 +154,7 @@ describe Rook do
         end
 
         context 'when Rook moves 5 squares to the right' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [4, 7]
 
             result = blk_rook.make_path(board, start_sq, end_sq)
@@ -163,7 +163,7 @@ describe Rook do
         end
 
         context 'when Rook moves 1 square up' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [5, 2]
 
             result = blk_rook.make_path(board, start_sq, end_sq)
@@ -172,7 +172,7 @@ describe Rook do
         end
 
         context 'when Rook moves 1 square down' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [3, 2]
 
             result = blk_rook.make_path(board, start_sq, end_sq)
@@ -181,7 +181,7 @@ describe Rook do
         end
 
         context 'when Rook moves 4 squares down' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [0, 2]
 
             result = blk_rook.make_path(board, start_sq, end_sq)

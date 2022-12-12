@@ -46,7 +46,7 @@ class BoardConfig
       board.grid[7][sq] = pieces[:black_pcs][sq + 8]
     end
   end
-
+   
   def pawn_checks_king
     board.grid[6][2] = blk_pawn
     board.grid[2][3] = blk_pawn
@@ -276,5 +276,13 @@ class BoardConfig
     # board.grid[3][2] = wht_pawn
     # board.grid[3][3] = blk_pawn
     move_list.set(mv_list)
+  end
+
+  def three_fold_repetition
+    board.grid[2][2] = wht_rook
+    board.grid[0][4] = wht_king
+
+    board.grid[5][5] = blk_rook
+    board.grid[7][4] = blk_king
   end
 end

@@ -59,7 +59,7 @@ describe Knight do
         start_sq = [3, 4]
 
         context 'when Knight moves up 2 and 1 right' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [5, 5]
 
             result = wht_knight.make_path(board, start_sq, end_sq)
@@ -68,7 +68,7 @@ describe Knight do
         end
 
         context 'when Knight moves down 1 and 2 left' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [2, 2]
 
             result = wht_knight.make_path(board, start_sq, end_sq)
@@ -101,7 +101,7 @@ describe Knight do
         start_sq = [5, 4]
 
         context 'when Knight moves up 2 and 1 right' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [7, 5]
 
             result = blk_knight.make_path(board, start_sq, end_sq)
@@ -110,7 +110,7 @@ describe Knight do
         end
 
         context 'when Knight moves down 1 and 2 left' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [4, 2]
 
             result = blk_knight.make_path(board, start_sq, end_sq)

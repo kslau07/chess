@@ -8,7 +8,6 @@ module SaveLoad
   end
 
   # show list of most recent 5 saves
-  # user inputs num 1-5 to load a game file
   def load_game_file(board, move_list)
     file_list = show_saved_games
     fname = choose_file(file_list)
@@ -24,7 +23,7 @@ module SaveLoad
   def show_saved_games
     puts 'Choose a saved game to load:'.magenta # re-enable
     Dir.glob('saved_games/**').map.with_index do |fname, index|
-      break if index >= 5
+      next if index >= 5
 
       puts "#{index + 1}. #{fname.split('/').last.split('.').first}"
       fname.split('/').last.split('.').first

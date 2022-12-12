@@ -58,14 +58,14 @@ describe Bishop do
         start_sq = [2, 3]
 
         context 'when Bishop moves diagonally' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [6, 7]
 
             result = wht_bishop.make_path(board, start_sq, end_sq)
             expect(result).to eq [[2, 3], [3, 4], [4, 5], [5, 6], [6, 7]]
           end
 
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [0, 1]
 
             result = wht_bishop.make_path(board, start_sq, end_sq)
@@ -98,14 +98,14 @@ describe Bishop do
         start_sq = [5, 4]
 
         context 'when Bishop moves diagonally' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [2, 1]
 
             result = blk_bishop.make_path(board, start_sq, end_sq)
             expect(result).to eq [[5, 4], [4, 3], [3, 2], [2, 1]]
           end
 
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [2, 7]
 
             result = blk_bishop.make_path(board, start_sq, end_sq)

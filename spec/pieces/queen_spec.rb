@@ -59,7 +59,7 @@ describe Queen do
         start_sq = [1, 3]
 
         context 'when Queen moves diagonally 1 space' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [2, 4]
 
             result = wht_queen.make_path(board, start_sq, end_sq)
@@ -68,7 +68,7 @@ describe Queen do
         end
 
         context 'when Queen moves diagonally 5 spaces' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [5, 7]
 
             result = wht_queen.make_path(board, start_sq, end_sq)
@@ -77,7 +77,7 @@ describe Queen do
         end
 
         context 'when Queen moves sideways 1 space' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [1, 2]
 
             result = wht_queen.make_path(board, start_sq, end_sq)
@@ -86,7 +86,7 @@ describe Queen do
         end
 
         context 'when Queen moves sideways 4 spaces' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [1, 6]
 
             result = wht_queen.make_path(board, start_sq, end_sq)
@@ -95,7 +95,7 @@ describe Queen do
         end
 
         context 'when Queen moves down 1 space' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [0, 3]
 
             result = wht_queen.make_path(board, start_sq, end_sq)
@@ -104,7 +104,7 @@ describe Queen do
         end
 
         context 'when Queen moves up 5 spaces' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [6, 3]
 
             result = wht_queen.make_path(board, start_sq, end_sq)
@@ -128,7 +128,7 @@ describe Queen do
         start_sq = [5, 2]
 
         context 'when Queen moves diagonally 1 space' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [4, 3]
 
             result = blk_queen.make_path(board, start_sq, end_sq)
@@ -137,7 +137,7 @@ describe Queen do
         end
 
         context 'when Queen moves diagonally 5 spaces' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [0, 7]
 
             result = blk_queen.make_path(board, start_sq, end_sq)
@@ -146,7 +146,7 @@ describe Queen do
         end
 
         context 'when Queen moves sideways 1 space' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [5, 3]
 
             result = blk_queen.make_path(board, start_sq, end_sq)
@@ -155,7 +155,7 @@ describe Queen do
         end
 
         context 'when Queen moves sideways 4 spaces' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [5, 6]
 
             result = blk_queen.make_path(board, start_sq, end_sq)
@@ -164,7 +164,7 @@ describe Queen do
         end
 
         context 'when Queen moves down 1 space' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [4, 2]
 
             result = blk_queen.make_path(board, start_sq, end_sq)
@@ -173,7 +173,7 @@ describe Queen do
         end
 
         context 'when Queen moves down 6 spaces' do
-          it 'returns a path (Array) that is not empty' do
+          it 'returns an Array that is not empty' do
             end_sq = [0, 2]
 
             result = blk_queen.make_path(board, start_sq, end_sq)
