@@ -18,6 +18,10 @@ class Knight < Piece
     @unmoved = false
   end
 
+  def possible_moves
+    move_set
+  end
+
   private
 
   def move_set

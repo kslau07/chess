@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative '../lib/piece'
-require_relative '../lib/pieces/pawn'
+require_relative '../../lib/piece'
+require_relative '../../lib/pieces/pawn'
 
 describe Pawn do
   let(:wht_pawn) { described_class.new(color: 'white') }

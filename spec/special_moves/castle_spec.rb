@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-require_relative '../lib/library'
+# require_relative '../lib/library'
+require_relative '../../lib/special_moves/castle'
+
 
 describe Castle do
   board = Board.new

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-require_relative '../lib/library'
+# require_relative '../lib/library'
+require_relative '../../lib/special_moves/en_passant'
 
 describe EnPassant do
   board = Board.new

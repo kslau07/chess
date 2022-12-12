@@ -2,6 +2,7 @@
 
 require_relative '../lib/piece'
 
+# This is an abstract class
 describe Piece do
   subject(:piece) { described_class.new(test: true) }
 
@@ -20,22 +21,11 @@ describe Piece do
     end
   end
 
-  # We should consider using real objects for this next method
-  # We can show all that pieces can create paths when start/end are good
-  # and when start/end are bad, path should be empty.
-
   describe '#make_path' do
-    let(:board) { instance_double('Board') }
-
-  context 'when start square is [1, 4]' do
-    xit '' do
-      result = class_instance.method_call
-      expect(result).to be 'abcd'
-    end
+    # Tested in individual game pieces
   end
-  end
-
+  
   describe '#make_capture_path' do
-    # Only calls self, no testing required
+    # Tested in individual game pieces
   end
 end

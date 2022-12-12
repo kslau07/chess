@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-require_relative '../lib/library'
+# require_relative '../lib/library'
+require_relative '../../lib/special_moves/pawn_attack'
+
 
 # Should we use instance doubles or should we use real instances?
 # Rule for using real objects vs mocks: how complicated is it to use the real
