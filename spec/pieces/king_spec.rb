@@ -75,7 +75,7 @@ describe King do
         end
 
         context 'when King moves sideways 1 space' do
-          it 'returns an empty Array' do
+          it 'returns a path (Array) that is not empty' do
             end_sq = [2, 1]
 
             result = wht_king.make_path(board, start_sq, end_sq)
@@ -84,7 +84,7 @@ describe King do
         end
 
         context 'when King moves up 1 space' do
-          it 'returns an empty Array' do
+          it 'returns a path (Array) that is not empty' do
             end_sq = [3, 2]
 
             result = wht_king.make_path(board, start_sq, end_sq)
@@ -133,7 +133,7 @@ describe King do
         end
 
         context 'when King moves sideways 1 space' do
-          it 'returns an empty Array' do
+          it 'returns a path (Array) that is not empty' do
             end_sq = [5, 2]
 
             result = blk_king.make_path(board, start_sq, end_sq)
@@ -142,7 +142,7 @@ describe King do
         end
 
         context 'when King moves up 1 space' do
-          it 'returns an empty Array' do
+          it 'returns a path (Array) that is not empty' do
             end_sq = [6, 3]
 
             result = blk_king.make_path(board, start_sq, end_sq)
