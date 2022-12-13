@@ -117,7 +117,10 @@ class Game
   end
 
   def fifty_move_rule?
-
+    # If players make 50 total moves without a capture or pawn move, then game draw
+    # Look at last 50 moves in move_list.all_moves, if 'x' or 'P' is found, then
+    # false, if no 'x' or 'P' found, then true
+    
   end
 
   def all_pieces_stuck?
@@ -156,16 +159,4 @@ class Game
     move_list.set([])
     set_current_player
   end
-
-  # def legal_move?(move_data)
-  #   move = move_data[:move]
-  #   color = move_data[:player].color
-  #   grid_json = serialize
-  #   possible_move = move.factory(move_data)
-  #   possible_move.transfer_piece if possible_move.validated
-  #   result = !check?(color) && possible_move.validated
-  #   revert_board(grid_json, self)
-  #   result
-  # pcs_remaining # delete me
-  # end
 end
