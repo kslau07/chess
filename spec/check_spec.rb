@@ -374,4 +374,13 @@ describe Check do
       end
     end
   end
+
+  describe '#legal_move?' do
+    context 'change me' do
+      xit 'change me' do
+        result = class_instance.method_call
+        expect(result).to eq 'abcd'
+      end
+    end
+  end
 end
