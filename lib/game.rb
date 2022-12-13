@@ -22,7 +22,7 @@ class Game
     @current_player = set_current_player
   end
 
-  # For testing
+  # Sets up different layouts
   def configure_board(layout_type)
     BoardConfig.new(@board, layout_type, @move_list)
     set_current_player
@@ -35,43 +35,10 @@ class Game
     board.promote_pawn(new_move) if board.promotion?(new_move)
     new_move.opponent_check
     move_list.add(new_move)
-    check_game_over(new_move)
-    # checkmate_seq if new_move.checks
+    check_game_over(new_move) # checkmate/draw
     switch_players
   end
 
-  def check_game_over(new_move)
-    checkmate_seq if new_move.checks
-    check_draw(new_move)
-  end
-
-  def check_draw(new_move)
-    three_fold_repetition?(move_list_or_new_move)
-    insufficient_material?(move_list_or_new_move)
-    fifty_move_rule?(move_list_or_new_move)
-    all_pieces_stuck?
-  end
-
-  def three_fold_repetition
-    
-  end
-
-  def insufficient_material?
-
-  end
-
-  def fifty_move_rule?
-
-  end
-
-  def all_pieces_stuck?
-
-  end
-
-  def checkmate_seq
-    new_move.test_checkmate_other_player(move_data)
-    win(current_player) if new_move.checkmates
-  end
 
   def move_data
     { player: other_player, board: board, move_list: move_list, move: move }
@@ -105,6 +72,51 @@ class Game
 
   def other_player
     current_player == player1 ? player2 : player1
+  end
+
+  def check_game_over(new_move)
+    checkmate_seq if new_move.checks
+    check_draw(new_move)
+  end
+
+  def check_draw(new_move)
+    return if move_list.all_moves.empty?
+
+    three_fold_repetition? #||
+    # insufficient_material?(move_list_or_new_move) ||
+    # fifty_move_rule?(move_list_or_new_move) ||
+    # all_pieces_stuck? ||
+  end
+
+  # move_list = %w[Rc3d3 Rf6g6 Rd3c3 Rg6f6 Rc3d3 Rf6g6 Rd3c3 Rg6f6 Rc3d3 Rf6g6 Rd3c3 Rg6f6]
+  def three_fold_repetition?
+    return false if move_list.all_moves.size < 12
+
+    all_mvs = move_list.all_moves
+    subary1 = all_mvs[-12..-9]
+    subary2 = all_mvs[-8..-5]
+    subary3 = all_mvs[-4..]
+    cond1 = subary1 == subary2
+    cond2 = subary1 == subary3
+
+    cond1 && cond2
+  end
+
+  def insufficient_material?
+
+  end
+
+  def fifty_move_rule?
+
+  end
+
+  def all_pieces_stuck?
+
+  end
+
+  def checkmate_seq
+    new_move.test_checkmate_other_player(move_data)
+    win(current_player) if new_move.checkmates
   end
 
   def win(player)

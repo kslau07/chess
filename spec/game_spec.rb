@@ -92,10 +92,12 @@ describe Game do
       allow(game.new_move).to receive(:opponent_check).and_return(true)
       allow(move_list).to receive(:add)
       allow(game.new_move).to receive(:checks).and_return(false)
+      allow(game).to receive(:check_game_over)
     end
 
     it 'sends #draw_board to Display' do
       allow(board).to receive(:promotion?).with(game.new_move)
+
       expect(display).to receive(:draw_board).with(board)
       game.turn_sequence
     end
@@ -103,6 +105,7 @@ describe Game do
     context 'when pawn promotion condition is true' do
       it 'sends Board#promote_pawn' do
         allow(board).to receive(:promotion?).with(game.new_move).and_return(true)
+
         expect(board).to receive(:promote_pawn)
         game.turn_sequence
       end
@@ -111,6 +114,7 @@ describe Game do
     context 'when pawn promotion condition is false' do
       it 'does not send Board#promote_pawn' do
         allow(board).to receive(:promotion?).with(game.new_move).and_return(false)
+
         expect(board).not_to receive(:promote_pawn)
         game.turn_sequence
       end
@@ -120,15 +124,6 @@ describe Game do
       allow(board).to receive(:promotion?).with(game.new_move)
       expect(move_list).to receive(:add).with(game.new_move)
       game.turn_sequence
-    end
-  end
-
-  describe 'checkmate_seq' do
-    it 'sends #test_checkmate_other_player to Move' do
-      allow_message_expectations_on_nil
-      allow(game.new_move).to receive(:checkmates).and_return(false)
-      expect(game.new_move).to receive(:test_checkmate_other_player)
-      game.checkmate_seq
     end
   end
 
@@ -189,6 +184,62 @@ describe Game do
     it 'returns player who is not current_player' do
       curr_play = game.instance_variable_get(:@current_player)
       expect(game.other_player).not_to be curr_play
+    end
+  end
+
+  describe '#check_draw' do
+    # Calls self, no testing required
+  end
+
+  describe '#three_fold_repetition?' do
+    context 'when move_list contains fewer than 12 moves' do
+      it 'returns false' do
+        short_mv_list = %w[Rc3d3 Rf6g6 Rd3c3]
+        allow(move_list).to receive(:all_moves).and_return(short_mv_list)
+
+        expect(game.three_fold_repetition?).to be false
+      end
+    end
+
+    context 'when move_list contains 12 or more moves' do
+      context 'when the last 12 moves show a 3-fold repetition' do
+        it 'returns true' do
+          mv_list_with_repetition = %w[Rc3d3 Rf6g6 Rd3c3 Rg6f6 Rc3d3 Rf6g6 Rd3c3 Rg6f6 Rc3d3 Rf6g6 Rd3c3 Rg6f6]
+
+          allow(move_list).to receive(:all_moves).and_return(mv_list_with_repetition)
+          expect(game.three_fold_repetition?).to be true
+        end
+      end
+
+      context 'when the last 12 moves do not show a 3-fold repetition' do
+        xit 'returns false' do
+          mv_list_with_repetition = %w[Rc3d3 Rf6g5 Rd3c3 Rg6f6 Rc3d3 Rf6g6 Rd3c3 Rg6f6 Rc3d3 Rf6g6 Rd3c3 Rg6f6]
+
+          allow(move_list).to receive(:all_moves).and_return(mv_list_with_repetition)
+          expect(game.three_fold_repetition?).to be false
+        end
+      end
+    end
+  end
+
+  describe '#insufficient_material?' do
+  
+  end
+
+  describe '#fifty_move_rule?' do
+  
+  end
+
+  describe '#all_pieces_stuck?' do
+  
+  end
+
+  describe 'checkmate_seq' do
+    it 'sends #test_checkmate_other_player to Move' do
+      allow_message_expectations_on_nil
+      allow(game.new_move).to receive(:checkmates).and_return(false)
+      expect(game.new_move).to receive(:test_checkmate_other_player)
+      game.checkmate_seq
     end
   end
 

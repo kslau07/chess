@@ -67,8 +67,7 @@ class Main
 
   # testing
   game = Game.new
-  game.configure_board('three_fold_repetition')
-  # c3d3, d3c3 // f6g6, g6f6
+  game.configure_board('fix_king_cannot_move')
   play(game)
 end
 
