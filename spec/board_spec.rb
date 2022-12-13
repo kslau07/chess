@@ -270,6 +270,18 @@ describe Board do
     end
   end
 
+  describe '#pieces_remaining' do
+    it 'returns an array with names of pieces remaining on board' do
+      remaining_pcs = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook,
+                       Pawn, Pawn, Pawn, Pawn, Pawn, Pawn, Pawn, Pawn, Pawn,
+                       Pawn, Pawn, Pawn, Pawn, Pawn, Pawn, Pawn, Rook, Knight,
+                       Bishop, Queen, King, Bishop, Knight, Rook]
+
+      result = board.pieces_remaining
+      expect(result).to eq remaining_pcs
+    end
+  end
+
   describe '#object' do
     context 'when board layout is normal (for white pieces)' do
       it 'returns true for location of 1st white pawn' do

@@ -82,7 +82,7 @@ class Game
   def check_for_draw(new_move)
     return if move_list.all_moves.empty?
 
-    three_fold_repetition? ||
+    game_is_draw if three_fold_repetition? ||
     insufficient_material?# ||
     # fifty_move_rule?(move_list_or_new_move) ||
     # all_pieces_stuck? ||
@@ -99,21 +99,21 @@ class Game
     cond1 = subary1 == subary2
     cond2 = subary1 == subary3
 
-    game_is_draw if cond1 && cond2
+    cond1 && cond2
   end
 
   def insufficient_material?
     pcs_remaining = board.pieces_remaining
 
     scenario1 = [King, King]
-    scenario2 = [King, Bishop, King]
-    scenario3 = [King, Knight, King]
+    scenario2 = [King, King, Bishop]
+    scenario3 = [King, King, Knight]
 
     cond1 = (pcs_remaining - scenario1).empty?
     cond2 = (pcs_remaining - scenario2).empty?
     cond3 = (pcs_remaining - scenario3).empty?
 
-    game_is_draw if cond1 || cond2 || cond3
+    cond1 || cond2 || cond3
   end
 
   def fifty_move_rule?

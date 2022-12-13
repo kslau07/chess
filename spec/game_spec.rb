@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require_relative '../lib/game'
+require_relative '../lib/piece'
+Dir['../lib/pieces/*.rb'].sort.each { |file| require file }
 
 `
 Think about the edge of the space capsule!
@@ -224,7 +226,59 @@ describe Game do
   end
 
   describe '#insufficient_material?' do
-  
+    it 'sends #pieces_remaining to Board' do
+      pieces = [King, Queen, King]
+
+      expect(board).to receive(:pieces_remaining).and_return(pieces)
+      game.insufficient_material?
+    end
+
+    it 'returns true when pieces remaining are: King, King' do
+      two_pieces = [King, King]
+
+      expect(board).to receive(:pieces_remaining).and_return(two_pieces)
+      game.insufficient_material?
+    end
+
+    it 'returns true when pieces remaining are: King, King, Bishop' do
+      three_pieces = [King, King, Bishop]
+
+      expect(board).to receive(:pieces_remaining).and_return(three_pieces)
+      game.insufficient_material?
+    end
+
+    it 'returns true when pieces remaining are: Bishop, King, King (switched order)' do
+      three_pieces = [Bishop, King, King]
+
+      expect(board).to receive(:pieces_remaining).and_return(three_pieces)
+      game.insufficient_material?
+    end
+
+    it 'returns true when pieces remaining are: King, King, Knight' do
+      three_pieces = [King, King, Knight]
+
+      expect(board).to receive(:pieces_remaining).and_return(three_pieces)
+      game.insufficient_material?
+    end
+
+
+    context 'when there are at least 4 pieces left' do
+      it 'returns false when there are 4 pieces' do
+        four_pieces = [King, Rook, King, Bishop]
+        expect(board).to receive(:pieces_remaining).and_return(four_pieces)
+
+        result = game.insufficient_material?
+        expect(result).to be false
+      end
+
+      it 'returns false when there are 5 pieces' do
+        five_pieces = [King, Pawn, King, Pawn, Pawn]
+        expect(board).to receive(:pieces_remaining).and_return(five_pieces)
+
+        result = game.insufficient_material?
+        expect(result).to be false
+      end
+    end
   end
 
   describe '#fifty_move_rule?' do
