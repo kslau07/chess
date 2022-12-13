@@ -212,10 +212,11 @@ describe Game do
       end
 
       context 'when the last 12 moves do not show a 3-fold repetition' do
-        xit 'returns false' do
-          mv_list_with_repetition = %w[Rc3d3 Rf6g5 Rd3c3 Rg6f6 Rc3d3 Rf6g6 Rd3c3 Rg6f6 Rc3d3 Rf6g6 Rd3c3 Rg6f6]
+        it 'returns false' do
+          mv_list_no_repetition = %w[Pd2d4 Pd7d5 Pe2e4 Nb8c6 Bf1b5 Bc8f5 Bb5xc6+
+                                     Pb7xc6 Pe4xd5 Qd8xd5 Qd1g4 Qd5xd4 Ng1f3 Bf5xc2]
 
-          allow(move_list).to receive(:all_moves).and_return(mv_list_with_repetition)
+          allow(move_list).to receive(:all_moves).and_return(mv_list_no_repetition)
           expect(game.three_fold_repetition?).to be false
         end
       end
