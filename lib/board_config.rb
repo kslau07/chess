@@ -279,10 +279,21 @@ class BoardConfig
   end
 
   def three_fold_repetition
+    # input: c3d3, d3c3 // f6g6, g6f6
     board.grid[2][2] = wht_rook
     board.grid[0][4] = wht_king
 
     board.grid[5][5] = blk_rook
+    board.grid[7][4] = blk_king
+  end
+
+  def fix_king_cannot_move
+    board.grid[2][2] = wht_pawn
+    board.grid[4][1] = wht_bishop
+    board.grid[0][4] = wht_king
+
+    board.grid[5][2] = blk_pawn
+    board.grid[3][1] = blk_bishop
     board.grid[7][4] = blk_king
   end
 end

@@ -1,6 +1,14 @@
 # frozen_string_literal: true
 
+move_list = %w[Rc3d3 Rf6g6 Rd3c3 Rg6f6 Rc3d3 Rf6g6 Rd3c3 Rg6f6 Rc3d3 Rf6g6 Rd3c3 Rg6f6]
 
+subary1 = move_list[-4..]
+subary2 = move_list[-8..-5]
+subary3 = move_list[-12..-9]
+diff1 = subary1 - subary2
+diff2 = subary2 - subary3
+diff1 + diff2 == []
+return
 
 def base_move(begin_sq, finish_sq, color)
   # factor = color == 'white' ? 1 : -1

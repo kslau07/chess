@@ -32,6 +32,7 @@ module ChessTools
       user_input = gets.chomp.downcase # normal user_input, re-enable
       # # user_input = 'b2b4' if (user_input == '' || user_input.nil?) # debug, delete me when app finished
       verified_input = verify_input(user_input)
+
       return verified_input if verified_input.is_a?(Array)
     end
   end
@@ -40,7 +41,9 @@ module ChessTools
     return midgame_menu if input == 'menu'
 
     input.gsub(/[^0-8a-h]/, '')
-    return convert_to_squares(input) if input.match(/^[a-h][0-8][a-h][0-8]$/)
+    # return convert_to_squares(input) if input.match(/^[a-h][0-8][a-h][0-8]$/)
+    start_sq, end_sq = convert_to_squares(input) if input.match(/^[a-h][0-8][a-h][0-8]$/)
+    return [start_sq, end_sq] if pass_prelim_check?(start_sq, end_sq)
 
     Display.invalid_input_message
   end
@@ -56,6 +59,8 @@ module ChessTools
   end
 
   def pass_prelim_check?(start_sq, end_sq)
+    return false if start_sq.nil?
+    return false if board.object(start_sq) == 'unoccupied'
     return false if out_of_bound?(board, start_sq, end_sq)
     return false if board.object(end_sq).is_a?(Piece) && board.object(end_sq).color == current_player.color
     return true if board.object(start_sq).is_a?(Piece) && board.object(start_sq).color == current_player.color
