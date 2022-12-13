@@ -83,9 +83,9 @@ class Game
     return if move_list.all_moves.empty?
 
     game_is_draw if three_fold_repetition? ||
-    insufficient_material?# ||
-    # fifty_move_rule?(move_list_or_new_move) ||
-    # all_pieces_stuck? ||
+                    insufficient_material? ||
+                    fifty_move_rule? ||
+                    all_pieces_stuck?
   end
 
   # move_list = %w[Rc3d3 Rf6g6 Rd3c3 Rg6f6 Rc3d3 Rf6g6 Rd3c3 Rg6f6 Rc3d3 Rf6g6 Rd3c3 Rg6f6]
@@ -117,10 +117,14 @@ class Game
   end
 
   def fifty_move_rule?
+    p move_list.all_moves.size
+    return false if move_list.all_moves.size < 50
+    p 'hello world again'
+
     # If players make 50 total moves without a capture or pawn move, then game draw
     # Look at last 50 moves in move_list.all_moves, if 'x' or 'P' is found, then
     # false, if no 'x' or 'P' found, then true
-    
+    # move_list.all_moves
   end
 
   def all_pieces_stuck?

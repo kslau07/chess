@@ -52,10 +52,9 @@ class Move
   end
 
   def move_permitted?
-    return true unless unreachable? && board.path_obstructed?(path)
+    return false if unreachable?
+    return true unless board.path_obstructed?(path)
 
-    # return false unless reachable?
-    # return true unless board.path_obstructed?(path)
     false
   end
 

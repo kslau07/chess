@@ -314,4 +314,12 @@ class BoardConfig
     board.grid[0][2] = blk_knight
     board.grid[7][4] = blk_king
   end
+
+  def fifty_move_rule
+    board.grid[1][1] = wht_bishop
+    board.grid[0][2] = blk_knight
+    board.grid[3][2] = blk_bishop
+    board.grid[0][4] = wht_king
+    board.grid[7][4] = blk_king
+  end
 end

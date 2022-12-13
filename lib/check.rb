@@ -51,7 +51,7 @@ module Check
   # Returns false if another piece can remove check
   def king_not_defendable?(color, kings_sq, move_data)
     # Although this method is long, it feels like all parts are necessary
-    attackers_paths = find_check_paths(kings_sq)
+    attackers_paths = find_check_paths(color, kings_sq)
     attackers_paths.each do |attackers_path|
       attackers_path.each do |path_square|
         grid.each_with_index do |col, y|

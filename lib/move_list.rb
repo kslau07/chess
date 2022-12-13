@@ -20,6 +20,10 @@ class MoveList
   end
 
   def add(new_move)
+    # add promotion
+    # add castle
+    # add checkmate
+    # add view
     translated_move = []
     translated_move << piece_code(new_move)
     translated_move << (new_move.start_sq[1] + 97).chr
