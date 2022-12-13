@@ -76,14 +76,14 @@ class Game
 
   def check_game_over(new_move)
     checkmate_seq if new_move.checks
-    check_draw(new_move)
+    check_for_draw(new_move)
   end
 
-  def check_draw(new_move)
+  def check_for_draw(new_move)
     return if move_list.all_moves.empty?
 
-    three_fold_repetition? #||
-    # insufficient_material?(move_list_or_new_move) ||
+    three_fold_repetition? ||
+    insufficient_material?# ||
     # fifty_move_rule?(move_list_or_new_move) ||
     # all_pieces_stuck? ||
   end
@@ -99,23 +99,21 @@ class Game
     cond1 = subary1 == subary2
     cond2 = subary1 == subary3
 
-    cond1 && cond2
+    game_is_draw if cond1 && cond2
   end
 
   def insufficient_material?
-    # What are the scenarios that trigger insufficient material?
-    # king, king
-    # king & bishop, king
-    # king & knight, king
+    pcs_remaining = board.pieces_remaining
 
-    # How do we check which pieces each side has left?
-    # Iterate through all 64 squares, create an array of piece objects found
+    scenario1 = [King, King]
+    scenario2 = [King, Bishop, King]
+    scenario3 = [King, Knight, King]
 
-    # Convert piece objects to their corresponding chess abbreviations
+    cond1 = (pcs_remaining - scenario1).empty?
+    cond2 = (pcs_remaining - scenario2).empty?
+    cond3 = (pcs_remaining - scenario3).empty?
 
-    # From there we will use some combination of #size, #include? and maybe
-    # array subtraction to determine if the pieces remaining match one of
-    # our "insufficient mating material" scenarios
+    game_is_draw if cond1 || cond2 || cond3
   end
 
   def fifty_move_rule?
@@ -124,6 +122,13 @@ class Game
 
   def all_pieces_stuck?
 
+  end
+
+  def game_is_draw
+    display.draw_board(board)
+    puts "\n"
+    puts 'Game ended in a draw!'.bg_red
+    @game_end = true
   end
 
   def checkmate_seq
@@ -161,5 +166,6 @@ class Game
   #   result = !check?(color) && possible_move.validated
   #   revert_board(grid_json, self)
   #   result
+  # pcs_remaining # delete me
   # end
 end

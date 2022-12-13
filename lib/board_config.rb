@@ -296,4 +296,22 @@ class BoardConfig
     board.grid[3][1] = blk_bishop
     board.grid[7][4] = blk_king
   end
+
+  def insuff_material_scenario1
+    board.grid[0][4] = wht_king
+    board.grid[7][4] = blk_king
+  end
+
+  def insuff_material_scenario2
+    board.grid[0][4] = wht_king
+    board.grid[0][2] = wht_bishop
+    board.grid[7][4] = blk_king
+  end
+
+  def insuff_material_scenario3
+    board.grid[0][4] = wht_king
+    board.grid[1][1] = wht_bishop
+    board.grid[0][2] = blk_knight
+    board.grid[7][4] = blk_king
+  end
 end

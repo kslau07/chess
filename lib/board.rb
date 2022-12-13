@@ -135,4 +135,16 @@ class Board
 
     player_color != board_obj.color
   end
+
+  def pieces_remaining
+    pcs_objects_remaining = grid.map do |row|
+      row.filter do |square|
+        square.is_a?(Piece)
+      end
+    end
+
+    pcs_objects_remaining.flatten.map do |piece_obj|
+      piece_obj.class
+    end
+  end
 end
