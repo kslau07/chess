@@ -217,6 +217,7 @@ describe ChessTools do
     context 'when user input is \'zebra\' (bad input)' do
       it 'sends #invalid_input_message to Display' do
         bad_input = 'zebra'
+        allow(class_instance).to receive(:pass_prelim_check?).and_return(false)
 
         expect(display).to receive(:invalid_input_message)
         class_instance.verify_input(bad_input)
@@ -226,6 +227,7 @@ describe ChessTools do
     context 'when user input is \'i7j2\' (bad input)' do
       it 'sends #invalid_input_message to Display' do
         bad_input = 'i7j2'
+        allow(class_instance).to receive(:pass_prelim_check?).and_return(false)
 
         expect(display).to receive(:invalid_input_message)
         class_instance.verify_input(bad_input)
@@ -235,6 +237,7 @@ describe ChessTools do
     context 'when user input is \'b8c6\' (good input)' do
       it 'calls #convert_to_squares' do
         good_input = 'b8c6'
+        allow(class_instance).to receive(:pass_prelim_check?).and_return(true)
 
         expect(class_instance).to receive(:convert_to_squares)
         class_instance.verify_input(good_input)
@@ -244,6 +247,7 @@ describe ChessTools do
     context 'when user input is \'h3a3\' (good input)' do
       it 'calls #convert_to_squares' do
         good_input = 'h3a3'
+        allow(class_instance).to receive(:pass_prelim_check?).and_return(true)
 
         expect(class_instance).to receive(:convert_to_squares)
         class_instance.verify_input(good_input)
@@ -253,6 +257,7 @@ describe ChessTools do
     context 'when user input is \'h7a1\' (good input)' do
       it 'calls #convert_to_squares' do
         good_input = 'h7a1'
+        allow(class_instance).to receive(:pass_prelim_check?).and_return(true)
 
         expect(class_instance).to receive(:convert_to_squares)
         class_instance.verify_input(good_input)
@@ -262,6 +267,7 @@ describe ChessTools do
     context 'when user input is blank (bad input)' do
       it 'sends #invalid_input_message to Display' do
         bad_input = ''
+        allow(class_instance).to receive(:pass_prelim_check?).and_return(false)
 
         expect(display).to receive(:invalid_input_message)
         class_instance.verify_input(bad_input)
@@ -294,16 +300,36 @@ describe ChessTools do
   describe '#pass_prelim_check?' do
     let(:board) { instance_double('Board') }
     current_player_color = 'black'
+    blk_rook = Rook.new(color: 'black') # real obj required in test
 
     before(:each) do
       allow(class_instance).to receive(:board).and_return(board)
       allow(class_instance).to receive_message_chain(:current_player, :color).and_return(current_player_color)
     end
 
+    it 'returns false if start_sq is nil' do
+      start_sq = nil
+      end_sq = nil
+
+      result = class_instance.pass_prelim_check?(start_sq, end_sq)
+      expect(result).to be false
+    end
+
+    it 'returns false if object at start_sq is unoccupied' do
+      start_sq = [7, 7]
+      end_sq = [4, 7]
+      allow(class_instance).to receive(:out_of_bound?).with(board, start_sq, end_sq).and_return(false)
+      allow(board).to receive(:object).and_return('unoccupied')
+
+      result = class_instance.pass_prelim_check?(start_sq, end_sq)
+      expect(result).to be false
+    end
+
     it 'returns false if out of bounds' do
       start_sq = [0, 0]
       end_sq = [-1, 2]
       allow(class_instance).to receive(:out_of_bound?).with(board, start_sq, end_sq).and_return(true)
+      allow(board).to receive(:object).and_return(blk_rook)
 
       result = class_instance.pass_prelim_check?(start_sq, end_sq)
       expect(result).to be false
@@ -314,7 +340,6 @@ describe ChessTools do
         start_sq = [7, 7]
         end_sq = [4, 7]
         allow(class_instance).to receive(:out_of_bound?).with(board, start_sq, end_sq).and_return(false)
-        blk_rook = Rook.new(color: 'black') # real obj required in test
         allow(board).to receive(:object).and_return(blk_rook)
 
         result = class_instance.pass_prelim_check?(start_sq, end_sq)
