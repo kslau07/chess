@@ -278,6 +278,9 @@ class BoardConfig
     move_list.set(mv_list)
   end
 
+  # move list for 3fr
+  # Rc3d3, Rf6g6, Rd3c3, Rg6f6, Rc3d3, Rf6g6, Rd3c3, Rg6f6, Rc3d3, Rf6g6, Rd3c3, Rg6f6
+
   def three_fold_repetition
     board.grid[2][2] = wht_rook
     board.grid[0][4] = wht_king

@@ -35,8 +35,37 @@ class Game
     board.promote_pawn(new_move) if board.promotion?(new_move)
     new_move.opponent_check
     move_list.add(new_move)
-    checkmate_seq if new_move.checks
+    check_game_over(new_move)
+    # checkmate_seq if new_move.checks
     switch_players
+  end
+
+  def check_game_over(new_move)
+    checkmate_seq if new_move.checks
+    check_draw(new_move)
+  end
+
+  def check_draw(new_move)
+    three_fold_repetition?(move_list_or_new_move)
+    insufficient_material?(move_list_or_new_move)
+    fifty_move_rule?(move_list_or_new_move)
+    all_pieces_stuck?
+  end
+
+  def three_fold_repetition
+    
+  end
+
+  def insufficient_material?
+
+  end
+
+  def fifty_move_rule?
+
+  end
+
+  def all_pieces_stuck?
+
   end
 
   def checkmate_seq
@@ -110,4 +139,3 @@ class Game
     result
   end
 end
-
