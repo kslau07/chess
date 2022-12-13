@@ -103,7 +103,19 @@ class Game
   end
 
   def insufficient_material?
+    # What are the scenarios that trigger insufficient material?
+    # king, king
+    # king & bishop, king
+    # king & knight, king
 
+    # How do we check which pieces each side has left?
+    # Iterate through all 64 squares, create an array of piece objects found
+
+    # Convert piece objects to their corresponding chess abbreviations
+
+    # From there we will use some combination of #size, #include? and maybe
+    # array subtraction to determine if the pieces remaining match one of
+    # our "insufficient mating material" scenarios
   end
 
   def fifty_move_rule?
