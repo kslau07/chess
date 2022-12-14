@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 # This class is used help the factory method in Move to
-# self-register and self-select when player castles
-class Castle < Move
-  attr_reader :base_move_castle, :rook, :rook_new_sq, :corner
+# self-register and self-select when player castlings
+class Castling < Move
+  attr_reader :base_move_castling, :rook, :rook_new_sq, :corner
 
   Move.register(self)
 
@@ -17,25 +17,25 @@ class Castle < Move
   end
 
   def post_initialize
-    @base_move_castle = base_move(start_sq, end_sq, player.color)
-    @base_move_castle = start_piece.invert(base_move_castle) if player.color == 'black'
+    @base_move_castling = base_move(start_sq, end_sq, player.color)
+    @base_move_castling = start_piece.invert(base_move_castling) if player.color == 'black'
     assess_move
   end
 
   def move_permitted?
     return false if move_list.prev_move_check?
 
-    case base_move_castle
+    case base_move_castling
     when [0, 2]
       corner_piece = board.object([start_sq[0], start_sq[1] + 3])
-      king_side_castle?(corner_piece)
+      king_side_castling?(corner_piece)
     when [0, -2]
       corner_piece = board.object([start_sq[0], start_sq[1] - 4])
-      queen_side_castle?(corner_piece)
+      queen_side_castling?(corner_piece)
     end
   end
 
-  def king_side_castle?(corner_piece)
+  def king_side_castling?(corner_piece)
     corner_piece.instance_of?(Rook) &&
       board.object([start_sq[0], start_sq[1] + 1]) == 'unoccupied' &&
       board.object([start_sq[0], start_sq[1] + 2]) == 'unoccupied' &&
@@ -43,7 +43,7 @@ class Castle < Move
       corner_piece.unmoved
   end
 
-  def queen_side_castle?(corner_piece)
+  def queen_side_castling?(corner_piece)
     corner_piece.instance_of?(Rook) &&
       board.object([start_sq[0], start_sq[1] - 1]) == 'unoccupied' &&
       board.object([start_sq[0], start_sq[1] - 2]) == 'unoccupied' &&
@@ -63,8 +63,8 @@ class Castle < Move
   end
 
   def find_rook
-    set_kingside_rook if base_move_castle == [0, 2]
-    set_queenside_rook if base_move_castle == [0, -2]
+    set_kingside_rook if base_move_castling == [0, 2]
+    set_queenside_rook if base_move_castling == [0, -2]
   end
 
   def set_kingside_rook

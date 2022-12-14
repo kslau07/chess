@@ -351,7 +351,7 @@ describe Check do
       single_check_path = [[4, 7], [5, 6], [6, 5], [7, 4]]
 
       before do
-        allow(class_instance).to receive(:find_check_paths).with(kings_sq).and_return(single_check_path)
+        allow(class_instance).to receive(:find_check_paths).with(color, kings_sq).and_return(single_check_path)
         allow(class_instance).to receive(:grid).and_return(board.grid)
       end
 

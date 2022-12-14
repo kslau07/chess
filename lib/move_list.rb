@@ -7,7 +7,6 @@ require_relative 'serializable'
 class MoveList
   include ChessTools
   include Serializable
-  # perhaps add option to display move list in chess notation, or human readable format
   attr_reader :all_moves # :last_move_cleaned
 
   def initialize(mv_list = nil)
@@ -20,19 +19,28 @@ class MoveList
   end
 
   def add(new_move)
+    return notate_castling(new_move) if new_move.instance_of?(Castling)
+
+    notate(new_move)
+  end
+
+  def notate_castling(new_move)
+    all_moves << '0-0' if new_move.end_sq[1] == 6
+    all_moves << '0-0-0' if new_move.end_sq[1] == 2
+  end
+
+  def notate(new_move)
     # add promotion
-    # add castle
     # add checkmate
-    # add view
-    translated_move = []
-    translated_move << piece_code(new_move)
-    translated_move << (new_move.start_sq[1] + 97).chr
-    translated_move << new_move.start_sq[0] + 1
-    translated_move << 'x' if new_move.captured_piece
-    translated_move << (new_move.end_sq[1] + 97).chr
-    translated_move << new_move.end_sq[0] + 1
-    translated_move << '+' if new_move.checks
-    all_moves << translated_move.join
+    notation = []
+    notation << piece_code(new_move)
+    notation << (new_move.start_sq[1] + 97).chr
+    notation << new_move.start_sq[0] + 1
+    notation << 'x' if new_move.captured_piece
+    notation << (new_move.end_sq[1] + 97).chr
+    notation << new_move.end_sq[0] + 1
+    notation << '+' if new_move.checks
+    all_moves << notation.join
   end
 
   def piece_code(new_move)

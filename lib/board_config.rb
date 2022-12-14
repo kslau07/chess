@@ -171,16 +171,15 @@ class BoardConfig
 
 
 
-  def castle_valid_wht
-    # To invalidate castle because of rook movement, use receive/return in rspec
+  def castling_valid_wht
     board.grid[0][0] = wht_rook
     board.grid[0][4] = wht_king
     board.grid[0][7] = wht_rook
     board.grid[7][4] = blk_king
   end
 
-  # Invalid castle because bishop will check king
-  def castle_invalid_wht
+  # Invalid castling because bishop will check king
+  def castling_invalid_wht
     board.grid[0][0] = wht_rook
     board.grid[0][4] = wht_king
     board.grid[0][7] = wht_rook
@@ -190,7 +189,7 @@ class BoardConfig
     board.grid[7][7] = blk_rook
   end
 
-  def castle_valid_blk
+  def castling_valid_blk
     board.grid[0][4] = wht_king
     board.grid[7][0] = blk_rook
     board.grid[7][4] = blk_king
@@ -199,7 +198,7 @@ class BoardConfig
     move_list.set(mv_list)
   end
 
-  def castle_invalid_blk
+  def castling_invalid_blk
     board.grid[5][4] = wht_bishop
     board.grid[0][4] = wht_king
     board.grid[7][0] = blk_rook
@@ -209,7 +208,7 @@ class BoardConfig
     move_list.set(mv_list)
   end
 
-  def castle_invalid_blk2
+  def castling_invalid_blk2
     board.grid[7][6] = wht_knight
     board.grid[0][4] = wht_king
     board.grid[7][0] = blk_rook

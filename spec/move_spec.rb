@@ -24,19 +24,19 @@ describe Move do
 
   describe 'Move.factory' do
     before(:each) do
-      class_double('Castle').as_stubbed_const
+      class_double('Castling').as_stubbed_const
       class_double('EnPassant').as_stubbed_const
       class_double('PawnDoubleStep').as_stubbed_const
       class_double('PawnSingleStep').as_stubbed_const
       class_double('PawnAttack').as_stubbed_const
     end
 
-    context 'when Castle.handles? returns true' do
-      it 'sends new to Castle' do
+    context 'when Castling.handles? returns true' do
+      it 'sends new to Castling' do
         args = {}
-        allow(Castle).to receive(:handles?).and_return(true)
-        cand_list = [Castle, EnPassant, PawnDoubleStep, PawnSingleStep, PawnAttack]
-        expect(Castle).to receive(:new)
+        allow(Castling).to receive(:handles?).and_return(true)
+        cand_list = [Castling, EnPassant, PawnDoubleStep, PawnSingleStep, PawnAttack]
+        expect(Castling).to receive(:new)
         Move.factory(args, cand_list)
       end
     end
@@ -44,9 +44,9 @@ describe Move do
     context 'when EnPassant.handles? returns true' do
       it 'sends new to EnPassant' do
         args = {}
-        allow(Castle).to receive(:handles?).and_return(false)
+        allow(Castling).to receive(:handles?).and_return(false)
         allow(EnPassant).to receive(:handles?).and_return(true)
-        cand_list = [Castle, EnPassant, PawnDoubleStep, PawnSingleStep, PawnAttack]
+        cand_list = [Castling, EnPassant, PawnDoubleStep, PawnSingleStep, PawnAttack]
         expect(EnPassant).to receive(:new)
         Move.factory(args, cand_list)
       end
@@ -55,10 +55,10 @@ describe Move do
     context 'when PawnDoubleStep.handles? returns true' do
       it 'sends new to PawnDoubleStep' do
         args = {}
-        allow(Castle).to receive(:handles?).and_return(false)
+        allow(Castling).to receive(:handles?).and_return(false)
         allow(EnPassant).to receive(:handles?).and_return(false)
         allow(PawnDoubleStep).to receive(:handles?).and_return(true)
-        cand_list = [Castle, EnPassant, PawnDoubleStep, PawnSingleStep, PawnAttack]
+        cand_list = [Castling, EnPassant, PawnDoubleStep, PawnSingleStep, PawnAttack]
         expect(PawnDoubleStep).to receive(:new)
         Move.factory(args, cand_list)
       end
@@ -67,11 +67,11 @@ describe Move do
     context 'when PawnSingleStep.handles? returns true' do
       it 'sends new to PawnSingleStep' do
         args = {}
-        allow(Castle).to receive(:handles?).and_return(false)
+        allow(Castling).to receive(:handles?).and_return(false)
         allow(EnPassant).to receive(:handles?).and_return(false)
         allow(PawnDoubleStep).to receive(:handles?).and_return(false)
         allow(PawnSingleStep).to receive(:handles?).and_return(true)
-        cand_list = [Castle, EnPassant, PawnDoubleStep, PawnSingleStep, PawnAttack]
+        cand_list = [Castling, EnPassant, PawnDoubleStep, PawnSingleStep, PawnAttack]
         expect(PawnSingleStep).to receive(:new)
         Move.factory(args, cand_list)
       end
@@ -80,12 +80,12 @@ describe Move do
     context 'when PawnAttack.handles? returns true' do
       it 'sends new to PawnAttack' do
         args = {}
-        allow(Castle).to receive(:handles?).and_return(false)
+        allow(Castling).to receive(:handles?).and_return(false)
         allow(EnPassant).to receive(:handles?).and_return(false)
         allow(PawnDoubleStep).to receive(:handles?).and_return(false)
         allow(PawnSingleStep).to receive(:handles?).and_return(false)
         allow(PawnAttack).to receive(:handles?).and_return(true)
-        cand_list = [Castle, EnPassant, PawnDoubleStep, PawnSingleStep, PawnAttack]
+        cand_list = [Castling, EnPassant, PawnDoubleStep, PawnSingleStep, PawnAttack]
         expect(PawnAttack).to receive(:new)
         Move.factory(args, cand_list)
       end

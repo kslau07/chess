@@ -282,7 +282,40 @@ describe Game do
   end
 
   describe '#fifty_move_rule?' do
-  
+    context 'when a Pawn moved or a capture was made in the last 50 moves' do
+      # let(:move_list_fifty) { instance_double('MoveList') }
+
+      it 'returns false' do
+        fifty_moves_not_a_draw = %w[Pd2d4 Pd7d5 Pe2e4 Pe7e5 Bc1f4 Qd8d6 Pd4xe5
+                                    Qd6b6 Pe5e6 Pd5xe4 Bf1c4 Qb6xb2 Nb1c3 Nb8c6
+                                    Pe6e7 Bf8xe7 Ng1h3 Ng8f6 0-0 Pa7a5 Ra1b1 Qb2xc3
+                                    Rf1e1 Qc3xc4 Nh3g5 Qc4xa2 Ng5xe4 Nf6xe4 Re1xe4
+                                    Bc8f5 Rb1xb7 0-0-0 Qd1e1 Nc6b4 Pg2g4 Qa2xc2
+                                    Re4xe7 Nb4d3 Qe1e3 Qc2d1+ Kg1g2 Qd1xg4+ Bf4g3
+                                    Nd3e1+ Qe3xe1 Rd8d3 Rb7xc7+ Kc8b8 Rc7c4+ Qg4g3]
+        allow(move_list).to receive(:all_moves).and_return(fifty_moves_not_a_draw)
+
+        result = game.fifty_move_rule?
+        expect(result).to eq false
+      end
+    end
+
+    context 'when neither a Pawn moved nor any capture was made in the last 50 moves' do
+      it 'returns true' do
+        fifty_moves_draw = %w[Bb2d4 Nc1b3 Bd4e5 Nb3c5 Be5a1 Nc5b3 Ba1c3 Nb3c1
+                              Bb2d4 Nc1b3 Bd4e5 Nb3c5 Be5a1 Nc5b3 Ba1c3 Nb3c1
+                              Bb2d4 Nc1b3 Bd4e5 Nb3c5 Be5a1 Nc5b3 Ba1e5 Nb3c1
+                              Bb2d4 Nc1b3 Bd4e5 Nb3c5 Be5a1 Nc5b3 Ba1c3 Nb3c1
+                              Bb2d4 Nc1b3 Bd4e5 Nb3c5 Be5a1 Nc5b3 Ba1f6 Nb3c1
+                              Bb2d4 Nc1b3 Bd4e5 Nb3c5 Be5a1 Nc5b3 Ba1c3 Nb3e5
+                              Bb2d4 Nc1b3 Bd4e5 Nb3c5 Be5a1 Nc5b3 Ba1e5 Nb3c1
+                              Bb2d4 Nc1b3 Bd4e5 Nb3c5 Be5a1 Nc5b3 Ba1a1 Nb3c1]
+        allow(move_list).to receive(:all_moves).and_return(fifty_moves_draw)
+
+        result = game.fifty_move_rule?
+        expect(result).to eq true
+      end
+    end
   end
 
   describe '#all_pieces_stuck?' do

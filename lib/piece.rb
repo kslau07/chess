@@ -21,7 +21,7 @@ class Piece
     raise NotImplementedError, 'method should be implemented in concrete class'
   end
 
-  # This method is used by Castle only
+  # This method is used by Castling only
   def invert(move)
     return move.map { |num| num * -1 } if move.is_a?(Array)
   end

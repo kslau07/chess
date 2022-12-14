@@ -76,10 +76,10 @@ class Game
 
   def check_game_over(new_move)
     checkmate_seq if new_move.checks
-    check_for_draw(new_move)
+    check_for_draw
   end
 
-  def check_for_draw(new_move)
+  def check_for_draw
     return if move_list.all_moves.empty?
 
     game_is_draw if three_fold_repetition? ||
@@ -117,18 +117,16 @@ class Game
   end
 
   def fifty_move_rule?
-    p move_list.all_moves.size
     return false if move_list.all_moves.size < 50
-    p 'hello world again'
 
-    # If players make 50 total moves without a capture or pawn move, then game draw
-    # Look at last 50 moves in move_list.all_moves, if 'x' or 'P' is found, then
-    # false, if no 'x' or 'P' found, then true
-    # move_list.all_moves
+    cond1 = move_list.all_moves[-50..].none? { |str| str.include?('P') }
+    cond2 = move_list.all_moves[-50..].none? { |str| str.include?('x') }
+    cond1 || cond2
   end
 
   def all_pieces_stuck?
-
+    # Create a layout where King has no moves, but is not in check
+    # Create another layout where King has only 1 legal move
   end
 
   def game_is_draw
