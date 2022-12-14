@@ -268,8 +268,31 @@ describe Game do
     end
   end
 
-  describe '#all_pieces_stuck?' do
-  
+  describe '#pieces_are_stuck?' do
+    current_player = 'current player object'
+    mv_hash = { player: current_player }
+
+    before do
+      allow(game).to receive(:move_data).and_return(mv_hash)
+    end
+
+    context 'when opponent has at least 1 legal move' do
+      it 'returns false' do
+        allow(board).to receive(:no_pieces_can_move?).and_return(false)
+
+        result = game.pieces_are_stuck?
+        expect(result).to eq false
+      end
+    end
+
+    context 'when opponent has no legal moves' do
+      it 'returns true' do
+        allow(board).to receive(:no_pieces_can_move?).and_return(true)
+
+        result = game.pieces_are_stuck?
+        expect(result).to eq true
+      end
+    end
   end
 
   describe 'checkmate_seq' do

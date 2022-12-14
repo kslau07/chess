@@ -1,3 +1,5 @@
+require 'pry-byebug' # debug, delete me
+
 # frozen_string_literal: true
 
 require_relative 'menuable'
@@ -38,7 +40,6 @@ class Game
     check_game_over(new_move) # checkmate/draw
     switch_players
   end
-
 
   def move_data
     { player: other_player, board: board, move_list: move_list, move: move }
@@ -85,7 +86,7 @@ class Game
     game_is_draw if three_fold_repetition? ||
                     insufficient_material? ||
                     fifty_move_rule? ||
-                    all_pieces_stuck?
+                    pieces_are_stuck?
   end
 
   # move_list = %w[Rc3d3 Rf6g6 Rd3c3 Rg6f6 Rc3d3 Rf6g6 Rd3c3 Rg6f6 Rc3d3 Rf6g6 Rd3c3 Rg6f6]
@@ -124,14 +125,14 @@ class Game
     cond1 || cond2
   end
 
-  def all_pieces_stuck?
-    # Create a layout where King has no moves, but is not in check
-    # Create another layout where King has only 1 legal move
-    # layout done
-    # How do we see if king has any legal moves left?
-    # We need to use #king_cannot_move?
-    # This method will do exactly what we need for king, but we need to use it
-    # for other pieces as well.
+  def pieces_are_stuck?
+    opp_mv_dat = move_data
+    curr_mv_dat = move_data
+    curr_mv_dat[:player] = current_player
+    cond1 = board.no_pieces_can_move?(opp_mv_dat)
+    cond2 = board.no_pieces_can_move?(curr_mv_dat)
+
+    cond1 || cond2
   end
 
   def game_is_draw

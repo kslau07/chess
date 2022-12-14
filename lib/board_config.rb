@@ -326,7 +326,7 @@ class BoardConfig
     board.grid[5][3] = wht_rook
     board.grid[6][2] = wht_rook # re-enable to test checkmate
     board.grid[5][0] = wht_king
-    board.grid[0][4] = blk_rook
+    # board.grid[0][4] = blk_rook # disable to test checkmate
     board.grid[7][5] = blk_king
     mv_list = %w[Kg8f8 Rc7c6 Kf8g8 Rd5d6 Kg8f8 Rc6c7]
     move_list.set(mv_list)
@@ -338,7 +338,7 @@ class BoardConfig
     board.grid[2][6] = blk_rook
     board.grid[7][4] = blk_king
     board.grid[4][2] = blk_pawn
-    board.grid[3][2] = wht_pawn
+    board.grid[2][2] = wht_pawn
     board.grid[0][7] = wht_king
   end
 end

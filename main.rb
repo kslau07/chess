@@ -61,13 +61,13 @@ class Main
     play_again(game)
   end
 
-  # board, move_list = start_sequence(Board.new, MoveList.new)
-  # game = Game.new(board: board, move_list: move_list)
-  # play(game)
+  board, move_list = start_sequence(Board.new, MoveList.new)
+  game = Game.new(board: board, move_list: move_list)
+  play(game)
 
   # testing
-  game = Game.new
-  game.configure_board('rework_check')
-  play(game)
+  # game = Game.new
+  # game.configure_board('all_pieces_stuck')
+  # play(game)
 end
 

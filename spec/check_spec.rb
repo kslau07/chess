@@ -256,130 +256,115 @@ describe Check do
   end
 
   describe '#checkmate?' do
-    context 'if King cannot move' do
-      let(:player) { instance_double('Player', color: 'black') }
-      let(:blk_king) { instance_double('King', color: 'black') }
-      kings_sq = [7, 4]
+    context 'when any piece has at least 1 legal move' do
+      it 'returns false' do
+        move_data = {}
+        allow(class_instance).to receive(:no_pieces_can_move?).and_return(false)
 
-      before(:each) do
-        allow(class_instance).to receive(:king_cannot_move?).and_return(true)
+        result = class_instance.checkmate?(move_data)
+        expect(result).to be false
       end
+    end
 
-      it 'returns true if another piece cannot remove the check (indefensible)' do
-        allow(class_instance).to receive(:square_of_king).and_return(kings_sq)
-        allow(class_instance).to receive(:object).and_return(blk_king)
-        allow(class_instance).to receive(:king_not_defendable?).and_return(true)
-        move_data = { player: player }
+    context 'when no piece has even 1 legal move' do
+      it 'returns true' do
+        move_data = {}
+        allow(class_instance).to receive(:no_pieces_can_move?).and_return(true)
 
         result = class_instance.checkmate?(move_data)
         expect(result).to be true
       end
-
-      it 'returns false if check can be removed by another piece' do
-        allow(class_instance).to receive(:square_of_king).and_return(kings_sq)
-        allow(class_instance).to receive(:object).and_return(blk_king)
-        allow(class_instance).to receive(:king_not_defendable?).and_return(false)
-        move_data = { player: player }
-
-        result = class_instance.checkmate?(move_data)
-        expect(result).to be false
-      end
-    end
-
-    context 'if King can remove check by itself' do
-      let(:player) { instance_double('Player', color: 'black') }
-      let(:blk_king) { instance_double('King', color: 'black') }
-      kings_sq = [7, 4]
-
-      it 'returns false' do
-        allow(class_instance).to receive(:square_of_king).and_return(kings_sq)
-        allow(class_instance).to receive(:object).and_return(blk_king)
-        allow(class_instance).to receive(:king_cannot_move?).and_return(false)
-        move_data = { player: player }
-
-        result = class_instance.checkmate?(move_data)
-        expect(result).to be false
-      end
     end
   end
 
-  # describe '#king_cannot_move?' do
-  #   let(:king) { instance_double('King', color: 'white') }
-  #   kings_sq = [7, 4]
-  #   move_data = {}
-  #   k_possible_moves = [[1, 0], [1, 1],
-  #                       [0, 1], [-1, 1],
-  #                       [-1, 0], [-1, -1],
-  #                       [0, -1], [1, -1]].freeze
+  describe '#no_pieces_can_move?' do
+    let(:player) { instance_double('Player', color: 'white') }
+    squares_of_pcs = [[3, 2], [7, 1]]
 
-  #   before do
-  #     allow(king).to receive(:possible_moves).and_return(k_possible_moves)
-  #   end
+    before do
+      allow(class_instance).to receive(:squares_of_player).and_return(squares_of_pcs)
+    end
 
-  #   context 'when King has at least 1 legal move' do
-  #     it 'returns false' do
-  #       allow(class_instance).to receive(:out_of_bound?).and_return(false)
-  #       allow(class_instance).to receive(:legal_move?).and_return(true)
+    it 'returns true if no piece has even 1 legal move' do
+      move_data = { player: player }
+      allow(class_instance).to receive(:piece_can_move?).and_return(false)
 
-  #       result = class_instance.king_cannot_move?(king, kings_sq, move_data)
-  #       expect(result).to be false
-  #     end
-  #   end
+      result = class_instance.no_pieces_can_move?(move_data)
+      expect(result).to eq true
+    end
 
-  #   context 'when King has no legal moves' do
-  #     it 'returns true' do
-  #       allow(class_instance).to receive(:out_of_bound?).and_return(false)
-  #       allow(class_instance).to receive(:legal_move?).and_return(false)
+    it 'returns false if any piece has 1 or more legal moves' do
+      move_data = { player: player }
+      allow(class_instance).to receive(:piece_can_move?).and_return(true)
 
-  #       result = class_instance.king_cannot_move?(king, kings_sq, move_data)
-  #       expect(result).to be true
-  #     end
-  #   end
-  # end
+      result = class_instance.no_pieces_can_move?(move_data)
+      expect(result).to eq false
+    end
+  end
 
-  # describe '#king_not_defendable?' do
-  #   board = Board.new
-  #   board.create_new_grid
-  #   board.grid[7][4] = board.blk_king
-  #   board.grid[6][6] = board.blk_pawn
-  #   board.grid[4][7] = board.wht_bishop
+  describe '#piece_can_move?' do
+    let(:player) { instance_double('Player', color: 'white') }
+    begin_square = [2, 4]
+    squares_of_pcs = [[3, 2], [7, 1]]
 
-  #   context 'when black King is checked by white Bishop' do
-  #     color = 'black'
-  #     kings_sq = [7, 4]
-  #     move_data = {}
-  #     single_check_path = [[4, 7], [5, 6], [6, 5], [7, 4]]
+    before do
+      allow(class_instance).to receive(:squares).and_return(squares_of_pcs)
+    end
 
-  #     before do
-  #       allow(class_instance).to receive(:find_check_paths).with(color, kings_sq).and_return(single_check_path)
-  #       allow(class_instance).to receive(:grid).and_return(board.grid)
-  #     end
+    it 'returns true when piece has a legal move' do
+      move_data = { player: player }
+      allow(class_instance).to receive(:legal_move?).and_return(true)
 
-  #     context 'when black Pawn can remove check by white Bishop' do
-  #       it 'returns false' do
-  #         allow(class_instance).to receive(:legal_move?).and_return(true)
+      result = class_instance.piece_can_move?(begin_square, move_data)
+      expect(result).to eq true
+    end
 
-  #         result = class_instance.king_not_defendable?(color, kings_sq, move_data)
-  #         expect(result).to be false
-  #       end
-  #     end
+    it 'returns false when piece has zero legal moves' do
+      move_data = { player: player }
+      allow(class_instance).to receive(:legal_move?).and_return(false)
 
-  #     context 'when black Pawn cannot remove check by white Bishop' do
-  #       it 'returns true' do
-  #         allow(class_instance).to receive(:legal_move?).and_return(false)
-
-  #         result = class_instance.king_not_defendable?(color, kings_sq, move_data)
-  #         expect(result).to be true
-  #       end
-  #     end
-  #   end
-  # end
+      result = class_instance.piece_can_move?(begin_square, move_data)
+      expect(result).to eq false
+    end
+  end
 
   describe '#legal_move?' do
-    context 'change me' do
-      xit 'change me' do
-        result = class_instance.method_call
-        expect(result).to eq 'abcd'
+    let(:player) { instance_double('Player', color: 'white') }
+    let(:move_class) { class_double('Move') }
+    let(:move_object) { instance_double('Move', validated: true) }
+
+    before do
+      allow(class_instance).to receive(:serialize).and_return('serialized object')
+      allow(move_class).to receive(:factory).and_return(move_object)
+      allow(move_object).to receive(:transfer_piece)
+      allow(class_instance).to receive(:revert_board)
+    end
+
+    it 'sends Move.factory' do
+      move_data = { player: player, move: move_class }
+      allow(class_instance).to receive(:check?).and_return(true)
+
+      expect(move_class).to receive(:factory).exactly(1).time.and_return(move_object)
+      class_instance.legal_move?(move_data)
+    end
+
+    context 'when move_data results in check' do
+      it 'returns false' do
+        move_data = { player: player, move: move_class }
+        allow(class_instance).to receive(:check?).and_return(true)
+
+        result = class_instance.legal_move?(move_data)
+        expect(result).to eq false
+      end
+    end
+
+    context 'when move_data does not result in check' do
+      it 'returns true' do
+        move_data = { player: player, move: move_class }
+        allow(class_instance).to receive(:check?).and_return(false)
+
+        result = class_instance.legal_move?(move_data)
+        expect(result).to eq true
       end
     end
   end

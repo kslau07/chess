@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'save_load'
+
 # This module tests for check in Board objects
 module Check
   include SaveLoad
@@ -29,11 +31,12 @@ module Check
   end
 
   def checkmate?(move_data)
-    target_color = move_data[:player].color
-    no_pieces_can_move?(target_color, move_data)
+    # target_color = move_data[:player].color
+    no_pieces_can_move?(move_data)
   end
 
-  def no_pieces_can_move?(target_color, move_data)
+  def no_pieces_can_move?(move_data)
+    target_color = move_data[:player].color
     plyers_sqs = squares_of_player(target_color)
 
     plyers_sqs.none? do |square|
