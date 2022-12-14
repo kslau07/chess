@@ -303,77 +303,77 @@ describe Check do
     end
   end
 
-  describe '#king_cannot_move?' do
-    let(:king) { instance_double('King', color: 'white') }
-    kings_sq = [7, 4]
-    move_data = {}
-    k_possible_moves = [[1, 0], [1, 1],
-                        [0, 1], [-1, 1],
-                        [-1, 0], [-1, -1],
-                        [0, -1], [1, -1]].freeze
+  # describe '#king_cannot_move?' do
+  #   let(:king) { instance_double('King', color: 'white') }
+  #   kings_sq = [7, 4]
+  #   move_data = {}
+  #   k_possible_moves = [[1, 0], [1, 1],
+  #                       [0, 1], [-1, 1],
+  #                       [-1, 0], [-1, -1],
+  #                       [0, -1], [1, -1]].freeze
 
-    before do
-      allow(king).to receive(:possible_moves).and_return(k_possible_moves)
-    end
+  #   before do
+  #     allow(king).to receive(:possible_moves).and_return(k_possible_moves)
+  #   end
 
-    context 'when King has at least 1 legal move' do
-      it 'returns false' do
-        allow(class_instance).to receive(:out_of_bound?).and_return(false)
-        allow(class_instance).to receive(:legal_move?).and_return(true)
+  #   context 'when King has at least 1 legal move' do
+  #     it 'returns false' do
+  #       allow(class_instance).to receive(:out_of_bound?).and_return(false)
+  #       allow(class_instance).to receive(:legal_move?).and_return(true)
 
-        result = class_instance.king_cannot_move?(king, kings_sq, move_data)
-        expect(result).to be false
-      end
-    end
+  #       result = class_instance.king_cannot_move?(king, kings_sq, move_data)
+  #       expect(result).to be false
+  #     end
+  #   end
 
-    context 'when King has no legal moves' do
-      it 'returns true' do
-        allow(class_instance).to receive(:out_of_bound?).and_return(false)
-        allow(class_instance).to receive(:legal_move?).and_return(false)
+  #   context 'when King has no legal moves' do
+  #     it 'returns true' do
+  #       allow(class_instance).to receive(:out_of_bound?).and_return(false)
+  #       allow(class_instance).to receive(:legal_move?).and_return(false)
 
-        result = class_instance.king_cannot_move?(king, kings_sq, move_data)
-        expect(result).to be true
-      end
-    end
-  end
+  #       result = class_instance.king_cannot_move?(king, kings_sq, move_data)
+  #       expect(result).to be true
+  #     end
+  #   end
+  # end
 
-  describe '#king_not_defendable?' do
-    board = Board.new
-    board.create_new_grid
-    board.grid[7][4] = board.blk_king
-    board.grid[6][6] = board.blk_pawn
-    board.grid[4][7] = board.wht_bishop
+  # describe '#king_not_defendable?' do
+  #   board = Board.new
+  #   board.create_new_grid
+  #   board.grid[7][4] = board.blk_king
+  #   board.grid[6][6] = board.blk_pawn
+  #   board.grid[4][7] = board.wht_bishop
 
-    context 'when black King is checked by white Bishop' do
-      color = 'black'
-      kings_sq = [7, 4]
-      move_data = {}
-      single_check_path = [[4, 7], [5, 6], [6, 5], [7, 4]]
+  #   context 'when black King is checked by white Bishop' do
+  #     color = 'black'
+  #     kings_sq = [7, 4]
+  #     move_data = {}
+  #     single_check_path = [[4, 7], [5, 6], [6, 5], [7, 4]]
 
-      before do
-        allow(class_instance).to receive(:find_check_paths).with(color, kings_sq).and_return(single_check_path)
-        allow(class_instance).to receive(:grid).and_return(board.grid)
-      end
+  #     before do
+  #       allow(class_instance).to receive(:find_check_paths).with(color, kings_sq).and_return(single_check_path)
+  #       allow(class_instance).to receive(:grid).and_return(board.grid)
+  #     end
 
-      context 'when black Pawn can remove check by white Bishop' do
-        it 'returns false' do
-          allow(class_instance).to receive(:legal_move?).and_return(true)
+  #     context 'when black Pawn can remove check by white Bishop' do
+  #       it 'returns false' do
+  #         allow(class_instance).to receive(:legal_move?).and_return(true)
 
-          result = class_instance.king_not_defendable?(color, kings_sq, move_data)
-          expect(result).to be false
-        end
-      end
+  #         result = class_instance.king_not_defendable?(color, kings_sq, move_data)
+  #         expect(result).to be false
+  #       end
+  #     end
 
-      context 'when black Pawn cannot remove check by white Bishop' do
-        it 'returns true' do
-          allow(class_instance).to receive(:legal_move?).and_return(false)
+  #     context 'when black Pawn cannot remove check by white Bishop' do
+  #       it 'returns true' do
+  #         allow(class_instance).to receive(:legal_move?).and_return(false)
 
-          result = class_instance.king_not_defendable?(color, kings_sq, move_data)
-          expect(result).to be true
-        end
-      end
-    end
-  end
+  #         result = class_instance.king_not_defendable?(color, kings_sq, move_data)
+  #         expect(result).to be true
+  #       end
+  #     end
+  #   end
+  # end
 
   describe '#legal_move?' do
     context 'change me' do

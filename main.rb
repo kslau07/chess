@@ -67,7 +67,7 @@ class Main
 
   # testing
   game = Game.new
-  game.configure_board('fifty_move_rule')
+  game.configure_board('rework_check')
   play(game)
 end
 

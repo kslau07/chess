@@ -270,14 +270,14 @@ describe Board do
     end
   end
 
-  describe '#pieces_remaining' do
+  describe '#names_of_pcs_remaining' do
     it 'returns an array with names of pieces remaining on board' do
       remaining_pcs = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook,
                        Pawn, Pawn, Pawn, Pawn, Pawn, Pawn, Pawn, Pawn, Pawn,
                        Pawn, Pawn, Pawn, Pawn, Pawn, Pawn, Pawn, Rook, Knight,
                        Bishop, Queen, King, Bishop, Knight, Rook]
 
-      result = board.pieces_remaining
+      result = board.names_of_pcs_remaining
       expect(result).to eq remaining_pcs
     end
   end

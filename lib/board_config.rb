@@ -286,7 +286,7 @@ class BoardConfig
     board.grid[7][4] = blk_king
   end
 
-  def fix_king_cannot_move
+  def fix_king_cannot_move?
     board.grid[2][2] = wht_pawn
     board.grid[4][1] = wht_bishop
     board.grid[0][4] = wht_king
@@ -320,5 +320,25 @@ class BoardConfig
     board.grid[3][2] = blk_bishop
     board.grid[0][4] = wht_king
     board.grid[7][4] = blk_king
+  end
+
+  def rework_check
+    board.grid[5][3] = wht_rook
+    board.grid[6][2] = wht_rook # re-enable to test checkmate
+    board.grid[5][0] = wht_king
+    board.grid[0][4] = blk_rook
+    board.grid[7][5] = blk_king
+    mv_list = %w[Kg8f8 Rc7c6 Kf8g8 Rd5d6 Kg8f8 Rc6c7]
+    move_list.set(mv_list)
+  end
+
+  def all_pieces_stuck
+    # wht_king is trapped in corner
+    board.grid[1][5] = blk_rook
+    board.grid[2][6] = blk_rook
+    board.grid[7][4] = blk_king
+    board.grid[4][2] = blk_pawn
+    board.grid[3][2] = wht_pawn
+    board.grid[0][7] = wht_king
   end
 end

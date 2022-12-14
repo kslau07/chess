@@ -4,56 +4,6 @@ require_relative '../lib/game'
 require_relative '../lib/piece'
 Dir['../lib/pieces/*.rb'].sort.each { |file| require file }
 
-`
-Think about the edge of the space capsule!
-
-Testing definitions:
-Query Message - Returns a value and contains no side effects
-Command Message - Changes state (or value), does not return anything
-Looping Script - Similar to a Script except a this one must be broken out of
-Outgoing - Sent to another class that is not self
-Incoming - Received from another class
-
-Quick recap on what we're actually testing:
-* Incoming query messages
-  * Assert result
-    * 'expect' whatever is returned
-* Incoming command messages
-  * These are messages sent from other classes
-  * Assert direct public side effects
-    * That is, 'expect' any state changes
-* Query messages sent to Self (ignore)
-  * Asking another method within the same class for a value
-  * No side effects
-  * As far as the rest of the app is concerned, nothing changes
-  * Asserting these messages would be micromanaging the HOW
-  * It would be difficult to refactor code within a class
-  * Test WHAT not HOW
-* Command messages sent to Self (ignore)
-  * Similar to above, state changes within a class are not real side effects
-  * You have restructured variables over and over again within a class
-    * Had these been part of tests, you would've been reluctant to experiment
-    * Stuff that happens inside a class is like stuff that happens in a method
-      * The guts are implementation and not part of the API
-* Outgoing Query Messages
-  * Since the incoming message is already tested, this is a redundant test
-  * What we're testing is the return value, that value would be the same
-  whether it's a collaborator that asks or a method from inside a class
-  * Since it's redundant, and we only need to test one side, it makes sense
-  to only test the incoming messages
-  * If we were to test this, it would look like this:
-    * expect(outside_class) to receive(some_method)
-      * Something is clearly wrong with the above, it doesn't involve
-      the class under test at all.
-* Outgoing Command Messages
-  * These must be sent because this is an interaction between 2 classes
-  * expect(outside_class) to receive(some_method)
-  * This time it makes sense, one class is changing another class
-* Looping Scripts
-  * We should test condition for breaking loop
-    * Especially edge cases
-`
-
 describe Game do
   subject(:game) { described_class.new(player1: player1, player2: player2, move_list: move_list, board: board, move: move, display: display) }
   let(:player1) { double('player1') }
@@ -226,38 +176,38 @@ describe Game do
   end
 
   describe '#insufficient_material?' do
-    it 'sends #pieces_remaining to Board' do
+    it 'sends #names_of_pcs_remaining to Board' do
       pieces = [King, Queen, King]
 
-      expect(board).to receive(:pieces_remaining).and_return(pieces)
+      expect(board).to receive(:names_of_pcs_remaining).and_return(pieces)
       game.insufficient_material?
     end
 
     it 'returns true when pieces remaining are: King, King' do
       two_pieces = [King, King]
 
-      expect(board).to receive(:pieces_remaining).and_return(two_pieces)
+      expect(board).to receive(:names_of_pcs_remaining).and_return(two_pieces)
       game.insufficient_material?
     end
 
     it 'returns true when pieces remaining are: King, King, Bishop' do
       three_pieces = [King, King, Bishop]
 
-      expect(board).to receive(:pieces_remaining).and_return(three_pieces)
+      expect(board).to receive(:names_of_pcs_remaining).and_return(three_pieces)
       game.insufficient_material?
     end
 
     it 'returns true when pieces remaining are: Bishop, King, King (switched order)' do
       three_pieces = [Bishop, King, King]
 
-      expect(board).to receive(:pieces_remaining).and_return(three_pieces)
+      expect(board).to receive(:names_of_pcs_remaining).and_return(three_pieces)
       game.insufficient_material?
     end
 
     it 'returns true when pieces remaining are: King, King, Knight' do
       three_pieces = [King, King, Knight]
 
-      expect(board).to receive(:pieces_remaining).and_return(three_pieces)
+      expect(board).to receive(:names_of_pcs_remaining).and_return(three_pieces)
       game.insufficient_material?
     end
 
@@ -265,7 +215,7 @@ describe Game do
     context 'when there are at least 4 pieces left' do
       it 'returns false when there are 4 pieces' do
         four_pieces = [King, Rook, King, Bishop]
-        expect(board).to receive(:pieces_remaining).and_return(four_pieces)
+        expect(board).to receive(:names_of_pcs_remaining).and_return(four_pieces)
 
         result = game.insufficient_material?
         expect(result).to be false
@@ -273,7 +223,7 @@ describe Game do
 
       it 'returns false when there are 5 pieces' do
         five_pieces = [King, Pawn, King, Pawn, Pawn]
-        expect(board).to receive(:pieces_remaining).and_return(five_pieces)
+        expect(board).to receive(:names_of_pcs_remaining).and_return(five_pieces)
 
         result = game.insufficient_material?
         expect(result).to be false

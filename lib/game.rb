@@ -103,7 +103,7 @@ class Game
   end
 
   def insufficient_material?
-    pcs_remaining = board.pieces_remaining
+    pcs_remaining = board.names_of_pcs_remaining
 
     scenario1 = [King, King]
     scenario2 = [King, King, Bishop]
@@ -127,6 +127,11 @@ class Game
   def all_pieces_stuck?
     # Create a layout where King has no moves, but is not in check
     # Create another layout where King has only 1 legal move
+    # layout done
+    # How do we see if king has any legal moves left?
+    # We need to use #king_cannot_move?
+    # This method will do exactly what we need for king, but we need to use it
+    # for other pieces as well.
   end
 
   def game_is_draw
