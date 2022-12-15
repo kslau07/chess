@@ -1,3 +1,5 @@
+# delete me, delete file
+
 def get_input
   loop do
     puts 'input a number between 1-2'

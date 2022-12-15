@@ -4,10 +4,6 @@ require 'json'
 
 # This module provides methods used in different classes for Chess
 module ChessTools
-  # NOTE: extract methods from Move to ChessTools
-  # ALSO: have methods you can include AND extend, so that
-  # the prefactory has access to them.
-
   def base_move(begin_sq, finish_sq, color)
     factor = color == 'white' ? 1 : -1
     [(finish_sq[0] - begin_sq[0]) * factor, (finish_sq[1] - begin_sq[1]) * factor]
@@ -39,7 +35,7 @@ module ChessTools
   end
 
   def computer_turn_input
-    random_computer_move # return array like [[6, 2],[4, 2]]
+    random_computer_move
   end
 
   def random_computer_move

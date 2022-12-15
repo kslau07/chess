@@ -2,10 +2,6 @@
 # frozen_string_literal: true
 
 require_relative './lib/library'
-# perhaps only require game & display here
-# then require library within game.rb
-# require 'pry-byebug'
-# require 'awesome_print'
 
 # This class is a looping script for chess games
 class Main
@@ -83,10 +79,6 @@ class Main
   board, move_list = load_game_or_new(Board.new, MoveList.new)
   player2 = human_or_computer
   game = Game.new(board: board, move_list: move_list, player2: player2)
+  # game.configure_board('all_pieces_stuck') # for testing
   play(game)
-
-  # testing
-  # game = Game.new
-  # game.configure_board('fix_pawn_cannot_check')
-  # play(game)
 end

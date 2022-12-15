@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
-require 'pry-byebug' # debug, delete me
 require 'json'
-require_relative './library' # delete me?
+require_relative './library'
 
 # This is the chess board
 class Board
@@ -14,9 +13,6 @@ class Board
               :wht_queen, :wht_king, :blk_pawn, :blk_bishop, :blk_rook, :blk_knight,
               :blk_queen, :blk_king
 
-  # When we initialize Board, we will start with a standard layout
-  # If a new layout is required, the new layout method will
-  # 1) clear the board, 2) set up the board, 3) apply a new move_list
   def initialize(pc_factory = PieceFactory)
     @pc_factory = pc_factory
     create_new_grid
@@ -24,8 +20,6 @@ class Board
     setup_normal_layout
   end
 
-  # delete me? we may move this to spec file for testing special moves
-  # Game pieces used in tests
   def create_pieces(pc_factory)
     @wht_pawn = pc_factory.create('Pawn', 'white')
     @wht_bishop = pc_factory.create('Bishop', 'white')
@@ -158,8 +152,3 @@ class Board
     end
   end
 end
-
-
-    # pcs_objects_remaining.flatten.map do |piece_obj|
-    #   piece_obj.class
-    # end

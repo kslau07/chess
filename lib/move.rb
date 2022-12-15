@@ -28,13 +28,11 @@ class Move
   end
 
   def initialize(args)
-  # def initialize(**args)
     args.each do |k, v|
       instance_variable_set("@#{k}", v) unless v.nil?
     end
     @start_piece = @board.object(start_sq)
     @end_obj = @board.object(end_sq)
-    # post_initialize
     post_initialize unless args[:test] == true
   end
 

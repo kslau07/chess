@@ -10,15 +10,12 @@ class PawnDoubleStep < Move
     end_sq = args[:end_sq]
     cond1 = args[:board].object(start_sq).instance_of?(Pawn)
     cond2 = (end_sq[0] - start_sq[0]).abs == 2 # y change of 2
-    cond3 = args[:board].object(start_sq).unmoved # disabled, uncomment
+    cond3 = args[:board].object(start_sq).unmoved # uncomment
 
     cond1 && cond2 && cond3
   end
 
   def post_initialize
-    # @path = start_piece.make_path(start_sq, end_sq)
-    # @path = [start_sq, end_sq]
-    # @path = start_piece.make_double_step_path(start_sq, end_sq)
     @path = start_piece.make_double_step_path(start_sq)
     assess_move
   end

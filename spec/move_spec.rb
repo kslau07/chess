@@ -99,8 +99,7 @@ describe Move do
 
 
   describe '#initialize' do
-    # Sets 2 variables by sending outgoing query messages
-    # Outgoing query messages are not tested
+    # Outgoing query, no need to test
   end
 
   describe '#post_initialize' do

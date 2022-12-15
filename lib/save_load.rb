@@ -62,16 +62,12 @@ module SaveLoad
     File.open("#{dirname}/#{time_str}.json", 'w') do |f|
       json_obj_ary.each { |json_obj| f.puts(json_obj) }
     end
-
-    # File.open("#{dirname}/#{time_str}.json", 'w') do |f| # 2nd way to write lines
-    #   f.puts(json_obj_ary)
-    # end
   end
 
   def load_move_list(mv_list_json_str, move_list)
     obj = JSON.parse(mv_list_json_str)
     parsed_move_list = JSON.parse(obj) # strangely we have to parse twice
-    move_list.set(parsed_move_list) # perhaps create a method within MoveList
+    move_list.set(parsed_move_list)
   end
 
   def load_board(json_str, board)
@@ -91,7 +87,7 @@ module SaveLoad
     board.load_grid(parsed_grid_obj)
   end
 
-  # alias_method :revert_board, :load_board(json_str)
+  # alias_method :revert_board, :load_board(json_str) # 2 ways for alias
   alias revert_board load_board
 
   def instantiate_board_piece(piece_hash)

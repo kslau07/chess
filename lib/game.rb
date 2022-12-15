@@ -1,5 +1,3 @@
-require 'pry-byebug' # debug, delete me
-
 # frozen_string_literal: true
 
 require_relative 'menuable'
@@ -24,7 +22,7 @@ class Game
     @current_player = set_current_player
   end
 
-  # Sets up different layouts
+  # Used for testing
   def configure_board(layout_type)
     BoardConfig.new(@board, layout_type, @move_list)
     set_current_player
@@ -90,7 +88,6 @@ class Game
                     pieces_are_stuck?
   end
 
-  # move_list = %w[Rc3d3 Rf6g6 Rd3c3 Rg6f6 Rc3d3 Rf6g6 Rd3c3 Rg6f6 Rc3d3 Rf6g6 Rd3c3 Rg6f6]
   def three_fold_repetition?
     return false if move_list.all_moves.size < 12
 

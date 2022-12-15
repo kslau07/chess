@@ -44,14 +44,11 @@ class MoveList
   end
 
   def piece_code(new_move)
-    # p new_move.class.name[0]
     new_move.start_piece.instance_of?(Knight) ? 'N' : new_move.start_piece.class.name[0]
-    # new_move.start_piece
   end
 
   def last_move_cleaned
-    # carat(^) will invert match
-    all_moves[-1].gsub(/[^0-9A-Za-h]/, '') unless all_moves.empty?
+    all_moves[-1].gsub(/[^0-9A-Za-h]/, '') unless all_moves.empty? # carat(^) will invert match
   end
 
   def prev_sq
@@ -70,14 +67,3 @@ class MoveList
     @all_moves.to_s
   end
 end
-
-# def translate_notation_to_square_index(str_move)
-#   [str_move[-1].to_i - 1, str_move[-2].ord - 97]
-# end
-
-
-# def cleaned_list
-#   all_moves.map do |move|
-#     move.gsub(/[^0-9A-Za-h]/, '')
-#   end
-# end

@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-# require_relative '../lib/library'
 require_relative '../../lib/special_moves/castling'
-
 
 describe Castling do
   board = Board.new
@@ -162,7 +160,7 @@ describe Castling do
   end
 
   describe '#king_side_castling' do
-    context 'when white attempts to king-side castling' do
+    context 'when white attempts to castle king-side' do
       st_sq = [0, 4]
       en_sq = [0, 6]
       subject(:castling) { described_class.new(board: board, move_list: move_list, start_sq: st_sq, end_sq: en_sq, test: true) }
@@ -220,7 +218,7 @@ describe Castling do
       end
     end
 
-    context 'when black attempts to king-side castling' do
+    context 'when black attempts to caste king-side' do
       st_sq = [7, 4]
       en_sq = [7, 2]
       subject(:castling) { described_class.new(board: board, move_list: move_list, start_sq: st_sq, end_sq: en_sq, test: true) }
@@ -280,7 +278,7 @@ describe Castling do
   end
 
   describe '#queen_side_castling' do
-    context 'when white attempts to queen-side castling' do
+    context 'when white attempts to castle queen-side' do
       st_sq = [0, 4]
       en_sq = [0, 2]
       subject(:castling) { described_class.new(board: board, move_list: move_list, start_sq: st_sq, end_sq: en_sq, test: true) }
@@ -338,7 +336,7 @@ describe Castling do
       end
     end
 
-    context 'when black attempts to queen-side castling' do
+    context 'when black attempts to castle queen-side' do
       st_sq = [7, 4]
       en_sq = [7, 2]
       subject(:castling) { described_class.new(board: board, move_list: move_list, start_sq: st_sq, end_sq: en_sq, test: true) }
@@ -493,4 +491,3 @@ describe Castling do
     end
   end
 end
-

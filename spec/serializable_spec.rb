@@ -2,10 +2,6 @@
 
 require 'json'
 require_relative '../lib/serializable'
-# require_relative '../lib/display'
-# require_relative '../lib/piece'
-# require_relative '../lib/pieces/rook'
-# require_relative '../lib/pieces/pawn'
 
 describe Serializable do
   subject(:class_instance) { Class.new.include(described_class).new }

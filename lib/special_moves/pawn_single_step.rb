@@ -16,10 +16,6 @@ class PawnSingleStep < Move
   end
 
   def post_initialize
-    # puts "\t\e[31m#{self.class}##{__method__}\e[0m\n" # show class#method
-    # @path = start_piece.make_path(start_sq, end_sq)
-    # @path = [start_sq, end_sq]
-    # @path = start_piece.make_single_step_path(start_sq, end_sq)
     @path = start_piece.make_single_step_path(start_sq)
     assess_move
   end

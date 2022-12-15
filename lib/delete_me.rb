@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# delete me, delete file
+
 class Apple
   attr_reader :color
   def initialize

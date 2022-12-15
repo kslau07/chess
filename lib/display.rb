@@ -59,17 +59,4 @@ module Display
       Pick the promotion:\n   1. Queen\n   2. Rook\n   3. Bishop\n   4. Knight
     HEREDOC
   end
-
-  # def self.goodbye
-    # puts 'Oh okay. See you next time!'
-  # end
 end
-
-# old code
-# def self.greeting
-#   puts "\n\t\tWelcome to chess!\n ".red
-#   puts "\t\tSelect an option:".green
-#   puts "\t\t1. New Game"
-#   puts "\t\t2. Load game"
-# end
-

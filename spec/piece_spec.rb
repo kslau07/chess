@@ -2,7 +2,7 @@
 
 require_relative '../lib/piece'
 
-# This is an abstract class
+# This is an abstract class used by chess game pieces
 describe Piece do
   subject(:piece) { described_class.new(test: true) }
 
@@ -24,7 +24,7 @@ describe Piece do
   describe '#make_path' do
     # Tested in individual game pieces
   end
-  
+
   describe '#make_capture_path' do
     # Tested in individual game pieces
   end

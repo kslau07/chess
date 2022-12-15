@@ -16,7 +16,6 @@ describe Game do
   before(:each) do
     allow_message_expectations_on_nil
     allow(move_list).to receive_message_chain(:all_moves, :length, :even?).and_return(true)
-    # game = Game.new(player1: player1, player2: player2, move_list: move_list, board: board, move: move, display: display)
   end
 
   describe '#initialize' do
@@ -238,7 +237,6 @@ describe Game do
 
   describe '#fifty_move_rule?' do
     context 'when a Pawn moved or a capture was made in the last 50 moves' do
-      # let(:move_list_fifty) { instance_double('MoveList') }
 
       it 'returns false' do
         fifty_moves_not_a_draw = %w[Pd2d4 Pd7d5 Pe2e4 Pe7e5 Bc1f4 Qd8d6 Pd4xe5

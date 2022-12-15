@@ -2,9 +2,6 @@
 
 # This class represents pawns in chess
 class Pawn < Piece
-  # include Serializable
-  # attr_reader :color, :unmoved, :long_reach
-
   def post_initialize
     @unmoved = true
     @long_reach = false
