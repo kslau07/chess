@@ -15,8 +15,8 @@ class Game
               :game_end, :display, :new_move
 
   def initialize(**args)
-    @player1 = args[:player1] || Player.new(color: 'white')
-    @player2 = args[:player2] || Player.new(color: 'black')
+    @player1 = args[:player1] || Player.new(color: 'white', type: 'human')
+    @player2 = args[:player2] || Player.new(color: 'black', type: 'human')
     @move_list = args[:move_list] || MoveList.new
     @board = args[:board] || Board.new
     @move = args[:move] || Move

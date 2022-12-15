@@ -20,6 +20,14 @@ class Main
     HEREDOC
   end
 
+  def self.start_prompt2
+    <<~HEREDOC
+      \t\t#{'Select an option:'.green}
+      \t\t1. vs. Human
+      \t\t2. vs. Computer
+    HEREDOC
+  end
+
   def self.start_prompt_select
     loop do
       input = gets.chomp
@@ -29,7 +37,7 @@ class Main
     end
   end
 
-  def self.start_sequence(board, move_list)
+  def self.load_game_or_new(board, move_list)
     puts start_prompt
     start_mode = start_prompt_select
     case start_mode
@@ -38,6 +46,17 @@ class Main
       [board, move_list]
     when '2'
       loaded_board, loaded_move_list = load_game_file(board, move_list)
+    end
+  end
+
+  def self.human_or_computer
+    puts start_prompt2
+    user_option = start_prompt_select
+    case user_option
+    when '1'
+      Player.new(type: 'human')
+    when '2'
+      Player.new(type: 'computer')
     end
   end
 
@@ -61,8 +80,9 @@ class Main
     play_again(game)
   end
 
-  board, move_list = start_sequence(Board.new, MoveList.new)
-  game = Game.new(board: board, move_list: move_list)
+  board, move_list = load_game_or_new(Board.new, MoveList.new)
+  player2 = human_or_computer
+  game = Game.new(board: board, move_list: move_list, player: player2)
   play(game)
 
   # testing
