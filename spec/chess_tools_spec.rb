@@ -161,46 +161,86 @@ describe ChessTools do
     let(:display) { class_double('Display').as_stubbed_const }
     let(:board) { instance_double('Board') }
 
-    context 'when user enters \'e5c3\' (good input) on the first try' do
-      it 'sends #turn_messsage once to Display' do
-        color = 'black'
-        good_input = 'e5c3'
-        allow(class_instance).to receive_message_chain(:current_player, :color).and_return(color)
-        allow(class_instance).to receive(:board).and_return(board)
-        allow(class_instance).to receive(:gets).and_return(good_input)
-        allow(class_instance).to receive(:verify_input).with(good_input).and_return([[4, 4], [2, 2]])
+    context 'when current_player type is \'computer\'' do
+      it 'returns #computer_turn_input' do
+        allow(class_instance).to receive_message_chain(:current_player, :type).and_return('computer')
 
-        expect(display).to receive(:turn_message).once
+        expect(class_instance).to receive(:computer_turn_input)
         class_instance.validate_turn_input
-      end
-
-      it 'returns an Array containing [[4, 4], [2, 2]]' do
-        color = 'black'
-        good_input = 'e5c3'
-        allow(display).to receive(:turn_message)
-        allow(class_instance).to receive_message_chain(:current_player, :color).and_return(color)
-        allow(class_instance).to receive(:board).and_return(board)
-        allow(class_instance).to receive(:gets).and_return(good_input)
-        allow(class_instance).to receive(:verify_input).with(good_input).and_return([[4, 4], [2, 2]])
-
-        result = class_instance.validate_turn_input
-        expect(result).to eq [[4, 4], [2, 2]]
       end
     end
 
-    context 'when user enters bad input first, then good input second' do
-      it 'sends #turn_messsage twice to Display' do
+    context 'when current_player type is \'human\'' do
+      before do
+        allow(class_instance).to receive_message_chain(:current_player, :type).and_return('human')
         color = 'black'
-        bad_input = 'zebra'
         good_input = 'e5c3'
-        allow(display).to receive(:turn_message)
+        allow(display).to receive(:turn_message_human)
         allow(class_instance).to receive_message_chain(:current_player, :color).and_return(color)
         allow(class_instance).to receive(:board).and_return(board)
-        allow(class_instance).to receive(:gets).and_return(bad_input, good_input)
-        allow(class_instance).to receive(:verify_input).and_return(nil, [[4, 4], [2, 2]])
+        allow(class_instance).to receive(:gets).and_return(good_input)
+        allow(class_instance).to receive(:verify_input).with(good_input).and_return([[4, 4], [2, 2]])
+      end
 
-        expect(display).to receive(:turn_message).twice
-        class_instance.validate_turn_input
+      context 'when user enters \'e5c3\' (good input) on the first try' do
+        it 'sends #turn_messsage once to Display' do
+          expect(display).to receive(:turn_message_human).once
+          class_instance.validate_turn_input
+        end
+
+        it 'returns an Array containing [[4, 4], [2, 2]]' do
+          result = class_instance.validate_turn_input
+          expect(result).to eq [[4, 4], [2, 2]]
+        end
+      end
+
+      context 'when user enters bad input first, then good input second' do
+        it 'sends #turn_messsage twice to Display' do
+          bad_input = 'zebra'
+          good_input = 'e5c3'
+          allow(class_instance).to receive(:gets).and_return(bad_input, good_input)
+          allow(class_instance).to receive(:verify_input).and_return(nil, [[4, 4], [2, 2]])
+
+          expect(display).to receive(:turn_message_human).twice
+          class_instance.validate_turn_input
+        end
+      end
+    end
+  end
+
+  describe '#random_computer_move' do
+    let(:curr_player) { instance_double('Player', color: 'white') }
+    mv_dat = {}
+    comp_square = [[3, 4]]
+    board_square = [[5, 4]]
+
+    before do
+      allow(class_instance).to receive(:move_data).and_return(mv_dat)
+      allow(class_instance).to receive(:current_player).and_return(curr_player)
+      allow(class_instance).to receive_message_chain(:board, :squares_of_player, :shuffle).and_return(comp_square)
+      allow(class_instance).to receive_message_chain(:board, :squares, :shuffle).and_return(board_square)
+    end
+
+    it 'sends #legal_move? to Board' do
+      expect(class_instance.board).to receive(:legal_move?).and_return(true)
+      class_instance.random_computer_move
+    end
+
+    context 'when a legal move is found' do
+      it 'returns [[3, 4], [5, 4]]' do
+        allow(class_instance.board).to receive(:legal_move?).and_return(true)
+
+        result = class_instance.random_computer_move
+        expect(result).to eq [[3, 4], [5, 4]]
+      end
+    end
+
+    context 'when no legal move is found' do
+      it 'returns nil' do
+        allow(class_instance.board).to receive(:legal_move?).and_return(false)
+
+        result = class_instance.random_computer_move
+        expect(result).to be_nil
       end
     end
   end

@@ -38,6 +38,7 @@ describe Game do
   describe '#turn_sequence' do
     before(:each) do
       allow(display).to receive(:draw_board)
+      allow(display).to receive(:clear_console)
       allow(game).to receive(:produce_legal_move)
       allow(board).to receive(:promote_pawn).with(game.new_move)
       allow(game.new_move).to receive(:opponent_check).and_return(true)
@@ -310,6 +311,7 @@ describe Game do
 
   describe '#win' do
     before do
+      allow(display).to receive(:clear_console)
       allow(display).to receive(:draw_board).with(board)
       allow(display).to receive(:win).with(player1)
     end

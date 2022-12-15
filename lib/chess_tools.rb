@@ -25,7 +25,7 @@ module ChessTools
     return computer_turn_input if current_player.type == 'computer'
 
     loop do
-      Display.turn_message(current_player.color, board)
+      Display.turn_message_human(current_player.color, board)
       user_input = gets.chomp.downcase # normal user_input, uncomment
       # user_input = 'd6d8' if (user_input == '' || user_input.nil?) # delete me
       verified_input = verify_input(user_input)
@@ -35,6 +35,9 @@ module ChessTools
   end
 
   def computer_turn_input
+    Display.turn_message_computer(current_player.color, board)
+    seconds = rand(1..2)
+    sleep(seconds)
     random_computer_move
   end
 
@@ -52,6 +55,7 @@ module ChessTools
         return [start_sq, end_sq] if board.legal_move?(mv_dat)
       end
     end
+    nil
   end
 
   def verify_input(input)

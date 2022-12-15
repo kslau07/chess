@@ -8,6 +8,7 @@ class Main
   extend SaveLoad
 
   def self.start_prompt
+    puts "\e[H\e[2J" # clear terminal
     <<~HEREDOC
       \n\t\t#{'Welcome to chess!'.red}\n
       \t\t#{'Select an option:'.green}
@@ -17,6 +18,7 @@ class Main
   end
 
   def self.start_prompt2
+    puts "\e[H\e[2J" # clear terminal
     <<~HEREDOC
       \t\t#{'Select an option:'.green}
       \t\t1. Play vs. human
@@ -57,15 +59,37 @@ class Main
   end
 
   def self.play_again(game)
-    puts "\nDo you want to play again? [y, n]"
-    input = gets.chomp until %w[y n].include?(input)
+    # Show menu
+    # 1. Play again
+    # 2. Show move list
+    # 3. Quit
+    puts <<~HEREDOC
+      \t\t#{'Game over!'.red}
+
+      \t\t#{'Select an option:'.green}
+      \t\t1. Play again
+      \t\t2. View move list
+      \t\t3. Quit
+    HEREDOC
+
+    input = gets.chomp until %w[1 2 3].include?(input)
+
     case input
-    when 'y'
+    when '1'
       game.play_again_init(Board.new)
       play(game)
-    when 'n'
+    when '2'
+      puts "\nHere is the move list:".blue
+      puts game.move_list.all_moves.join(', ').magenta
+      puts ' '
+      puts 'Press ENTER to continue.' # uncomment later
+      gets
+      game.display.clear_console
+      self.play_again(game)
+      nil
+    when '3'
       puts 'Oh okay. See you next time!'
-      # system exit
+      system exit
     end
   end
 
@@ -76,9 +100,17 @@ class Main
     play_again(game)
   end
 
+  # Normal startup
   board, move_list = load_game_or_new(Board.new, MoveList.new)
   player2 = human_or_computer
   game = Game.new(board: board, move_list: move_list, player2: player2)
-  # game.configure_board('all_pieces_stuck') # for testing
+  # game.configure_board('checkmate_wht_1') # uncomment for testing
   play(game)
+
+  # Debug load game
+  # board, move_list = load_game_or_new(Board.new, MoveList.new)
+  # player2 = human_or_computer
+  # game = Game.new(board: board, move_list: move_list)
+  # game.configure_board('fix_pawn_double_step') # for testing
+  # play(game)
 end

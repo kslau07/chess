@@ -29,7 +29,7 @@ class Game
   end
 
   def turn_sequence
-    # display.clear_console # debug, uncomment later
+    display.clear_console # debug, uncomment later
     display.draw_board(board)
     @new_move = produce_legal_move
     board.promote_pawn(new_move) if board.promotion?(new_move)
@@ -76,7 +76,7 @@ class Game
 
   def check_game_over(new_move)
     checkmate_seq if new_move.checks
-    check_for_draw
+    check_for_draw unless game_over?
   end
 
   def check_for_draw
@@ -146,6 +146,7 @@ class Game
   end
 
   def win(player)
+    display.clear_console
     display.draw_board(board)
     display.win(player)
     @game_end = true

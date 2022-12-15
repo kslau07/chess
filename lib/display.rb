@@ -7,14 +7,14 @@ module Display
   end
 
   def self.draw_board(board)
-    puts "\t    0   1   2   3   4   5   6   7  second"
+    # puts "\t    0   1   2   3   4   5   6   7  second"
     puts "\t  .-------------------------------."
     7.downto(0) do |x|
-      print "\t#{x+1}n|"
+      print "\t#{x+1} |"
       0.upto(7) do |y|
         print board.grid[x][y] == 'unoccupied' ? "   |" : " #{board.grid[x][y]} |"
       end
-      print "#{x}i"
+      # print "#{x}i"
       puts
       puts "\t  |---+---+---+---+---+---+---+---|" unless x == 0
     end
@@ -22,11 +22,16 @@ module Display
     puts "\t    a   b   c   d   e   f   g   h"
   end
 
-  def self.turn_message(color, board)
+  def self.turn_message_human(color, board)
     puts "#{color.capitalize}'s king is in check!".bg_red if board.check?(color)
     puts "\nType 'menu' for help and options.\n ".green
     puts "#{color.capitalize}, it's your turn!"
     puts 'Enter a move:'
+  end
+
+  def self.turn_message_computer(color, board)
+    puts "#{color.capitalize}'s king is in check!".bg_red if board.check?(color)
+    puts "\t\nThe computer is thinking...\n "
   end
 
   def self.invalid_input_message
@@ -46,12 +51,8 @@ module Display
   end
 
   def self.win(player)
-    puts "Checkmate! #{player.color.capitalize} wins the game!".bg_green
+    puts "\n\tCheckmate! #{player.color.capitalize} wins the game!\n".green
   end
-
-  # def self.play_again_question
-  #   puts "\nDo you want to play again? [y, n]"
-  # end
 
   def self.pawn_promotion(player)
     <<~HEREDOC
