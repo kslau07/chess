@@ -134,9 +134,10 @@ class Game
   end
 
   def game_is_draw
+    display.clear_console
     display.draw_board(board)
     puts "\n"
-    puts 'Game ended in a draw!'.bg_red
+    puts "\t\tGame ended in a draw!".bg_red
     @game_end = true
   end
 

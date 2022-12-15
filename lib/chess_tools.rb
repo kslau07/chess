@@ -61,7 +61,7 @@ module ChessTools
   def verify_input(input)
     return midgame_menu if input == 'menu'
 
-    input.gsub(/[^0-8a-h]/, '')
+    input.gsub!(/[^0-8a-h]/, '')
     # return convert_to_squares(input) if input.match(/^[a-h][0-8][a-h][0-8]$/)
     start_sq, end_sq = convert_to_squares(input) if input.match(/^[a-h][0-8][a-h][0-8]$/)
     return [start_sq, end_sq] if pass_prelim_check?(start_sq, end_sq)

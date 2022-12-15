@@ -2,6 +2,17 @@
 
 # delete me, delete file
 
+input = gets.chomp.downcase
+input.gsub!(/[^0-8a-h]/, '')
+
+p input
+
+gets
+
+
+
+return
+
 class Apple
   attr_reader :color
   def initialize
