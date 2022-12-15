@@ -40,6 +40,7 @@ module Menuable
       nil
     end
     press_any_key
+    Display.clear_console
     Display.draw_board(board)
   end
 
