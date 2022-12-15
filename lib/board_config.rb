@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-# This class is not currently in use
-
+# This class is mainly used for testing
 # This class configures different layouts for the Board class
 class BoardConfig
   attr_reader :board, :current_player, :move_list, :game,
@@ -32,9 +31,7 @@ class BoardConfig
     @blk_king = pc_factory.create('King', 'black')
   end
 
-
   def standard
-    # puts "\n\t#{self.class}##{__method__}\n " # show class#method
     white_set = PieceFactory.create_set('white')
     black_set = PieceFactory.create_set('black')
     pieces = { white_pcs: white_set, black_pcs: black_set }
@@ -218,49 +215,27 @@ class BoardConfig
     move_list.set(mv_list)
   end
 
-  # black pawn passes to the right
-  def en_passant_wht_scenario1
-    # capture is d5e6
-    # mv_list = ['Pd2d4', 'Pa7a6+', 'Pd4d5', 'Pe7e5'] # valid en passant
-    mv_list = ['Pd2d4+', 'Pe7e6+', 'Pd4d5+', 'Pe6e5+'] # invalid, blk pawn moved twice in list
+  def en_passant_wht_right
+    mv_list = ['Pd2d4', 'Pa7a6+', 'Pd4d5', 'Pe7e5'] # valid en passant
+    # mv_list = ['Pd2d4+', 'Pe7e6+', 'Pd4d5+', 'Pe6e5+'] # invalid, blk pawn moved twice in list
     board.grid[4][3] = wht_pawn
     board.grid[4][4] = blk_pawn
     board.grid[4][2] = blk_pawn # this pawn shouldn't be able to be captured
 
+    move_list.set(mv_list)
+  end
+
+  def en_passant_wht_left
     # white, black pass on left
-    # mv_list = ['Pd2d4+', 'Ph7h6+', 'Pd4d5+', 'Pc7c5+'] # valid en passant
+    mv_list = ['Pd2d4+', 'Ph7h6+', 'Pd4d5+', 'Pc7c5+'] # valid en passant
     # mv_list =  ['Pd2d4+', 'Pc7c6+', 'Pd4d5+', 'Pc6c5+'] # invalid, blk pawn moved twice in list    # board.grid[4][3] = wht_pawn
-    # board.grid[4][2] = blk_pawn
+    board.grid[4][2] = blk_pawn
     board.grid[0][3] = wht_king
     board.grid[7][4] = blk_king
     move_list.set(mv_list)
   end
 
-  def en_passant_wht_scenario2
-    @current_player = @player1
-
-    # white, black passes on right
-    # mv_list = ['Pg2g4+', 'Pc7c6+', 'Pg4g5+', 'Ph7h5+'] # valid en passant
-    # mv_list = ['Pg2g4+', 'Ph7h6+', 'Pg4g5+', 'Ph6h5+'] # invalid, blk pawn moved twice in list
-    # board.grid[4][6] = wht_pawn
-    # board.grid[4][7] = blk_pawn
-
-    # white, black passes on left
-    # mv_list = ['Pg2g4+', 'Pc7c6+', 'Pg4g5+', 'Pf7f5+'] # valid en passant
-    mv_list = ['Pg2g4+', 'Ph7h6+', 'Pg4g5+', 'Pf6f5+'] # invalid, blk pawn moved twice in list
-    board.grid[4][6] = wht_pawn
-    board.grid[4][5] = blk_pawn
-
-    # kings
-    board.grid[0][4] = wht_king
-    board.grid[7][3] = blk_king
-    move_list.set(mv_list)
-  end
-
-  def en_passant_black
-    # game.set_current_player(Player.new(color: 'black'))
-    # game.instance_variable_set(:@current_player, Player.new(color: 'black'))
-
+  def en_passant_black_right
     # black, white passes on right
     mv_list = ['Pa2a3+', 'Pd7d5+', 'Pg2g4+', 'Pd5d4+', 'Pe2e4+'] # valid
     # mv_list = ['Pa2a3+', 'Pd7d5+', 'Pg2g4+', 'Pd5d4+', 'Pe3e4+'] # invalid
@@ -269,11 +244,15 @@ class BoardConfig
     board.grid[0][4] = wht_king
     board.grid[7][3] = blk_king
 
+    move_list.set(mv_list)
+  end
+
+  def en_passant_black_left
     # black, white passes on left
-    # mv_list = ['Pa2a3+', 'Pd7d5+', 'Pg2g4+', 'Pd5d4+', 'Pc2c4+'] # valid
+    mv_list = ['Pa2a3+', 'Pd7d5+', 'Pg2g4+', 'Pd5d4+', 'Pc2c4+'] # valid
     # mv_list = ['Pa2a3+', 'Pd7d5+', 'Pg2g4+', 'Pd5d4+', 'Pe3e4+'] # invalid
-    # board.grid[3][2] = wht_pawn
-    # board.grid[3][3] = blk_pawn
+    board.grid[3][2] = wht_pawn
+    board.grid[3][3] = blk_pawn
     move_list.set(mv_list)
   end
 
