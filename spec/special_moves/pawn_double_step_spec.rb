@@ -1,13 +1,6 @@
 # frozen_string_literal: true
 
-# require_relative '../lib/library'
 require_relative '../../lib/special_moves/pawn_double_step'
-
-
-# Should we use instance doubles or should we use real instances?
-# Rule for using real objects vs mocks: how complicated is it to use the real
-# object? Does it have a ton of dependencies? If it's complicated, use a mock
-# if it's simple, use the real object. Simple as that.
 
 describe PawnDoubleStep do
   board = Board.new
@@ -29,6 +22,7 @@ describe PawnDoubleStep do
         it 'returns true if white Pawn moves 2 spaces forward' do
           double_step_sq = [3, 3]
           args = { player: player, start_sq: st_sq, end_sq: double_step_sq, board: board }
+
           result = PawnDoubleStep.handles?(args)
           expect(result).to be true
         end
@@ -36,6 +30,7 @@ describe PawnDoubleStep do
         it 'returns false if white Pawn moves 1 space forward' do
           single_step_sq = [2, 3]
           args = { player: player, start_sq: st_sq, end_sq: single_step_sq, board: board }
+
           result = PawnDoubleStep.handles?(args)
           expect(result).to be false
         end
@@ -43,6 +38,7 @@ describe PawnDoubleStep do
         it 'returns false if white Pawn moves diagonally' do
           move_forward_square = [2, 2]
           args = { player: player, start_sq: st_sq, end_sq: move_forward_square, board: board }
+
           result = PawnDoubleStep.handles?(args)
           expect(result).to be false
         end
@@ -65,6 +61,7 @@ describe PawnDoubleStep do
         it 'returns true if black Pawn moves 2 spaces forward' do
           double_step_sq = [4, 4]
           args = { player: player, start_sq: st_sq, end_sq: double_step_sq, board: board }
+
           result = PawnDoubleStep.handles?(args)
           expect(result).to be true
         end
@@ -72,6 +69,7 @@ describe PawnDoubleStep do
         it 'returns false if black Pawn moves 1 space forward' do
           single_step_sq = [5, 4]
           args = { player: player, start_sq: st_sq, end_sq: single_step_sq, board: board }
+
           result = PawnDoubleStep.handles?(args)
           expect(result).to be false
         end
@@ -79,6 +77,7 @@ describe PawnDoubleStep do
         it 'returns false if black Pawn moves diagonally' do
           move_forward_square = [5, 3]
           args = { player: player, start_sq: st_sq, end_sq: move_forward_square, board: board }
+
           result = PawnDoubleStep.handles?(args)
           expect(result).to be false
         end
@@ -92,6 +91,7 @@ describe PawnDoubleStep do
     it 'sends #make_capture_path to Piece' do
       allow_message_expectations_on_nil
       allow(pawn_double_step).to receive(:assess_move)
+
       expect(pawn_double_step.start_piece).to receive(:make_double_step_path)
       pawn_double_step.post_initialize
     end

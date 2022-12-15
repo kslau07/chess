@@ -324,7 +324,7 @@ class BoardConfig
 
   def rework_check
     board.grid[5][3] = wht_rook
-    board.grid[6][2] = wht_rook # re-enable to test checkmate
+    board.grid[6][2] = wht_rook # uncomment to test checkmate
     board.grid[5][0] = wht_king
     # board.grid[0][4] = blk_rook # disable to test checkmate
     board.grid[7][5] = blk_king
@@ -362,6 +362,14 @@ class BoardConfig
     board.grid[5][1] = blk_pawn
     board.grid[4][5] = blk_rook
     board.grid[3][0] = blk_queen
+    board.grid[7][4] = blk_king
+  end
+
+  def fix_pawn_cannot_check
+    board.grid[5][3] = wht_pawn
+    board.grid[4][5] = wht_bishop
+    board.grid[0][7] = wht_king
+    board.grid[2][3] = blk_pawn
     board.grid[7][4] = blk_king
   end
 end

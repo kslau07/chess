@@ -47,6 +47,7 @@ describe Board do
         board.grid[0][0] = board.wht_rook
         board.grid[3][0] = board.wht_knight
         rooks_path = [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0]]
+
         result = board.path_obstructed?(rooks_path)
         expect(result).to be true
       end
@@ -58,6 +59,7 @@ describe Board do
         board.grid[0][7] = board.wht_bishop
         board.grid[2][5] = board.blk_queen
         bishops_path = [[0, 7], [1, 6], [2, 5], [3, 4], [4, 3]]
+
         result = board.path_obstructed?(bishops_path)
         expect(result).to be true
       end
@@ -66,6 +68,7 @@ describe Board do
     context 'when new game and white pawn moves 1 step forward' do
       it 'returns false' do
         wht_pawns_path = [[1, 2], [2, 2]]
+
         result = board.path_obstructed?(wht_pawns_path)
         expect(result).to be false
       end
@@ -74,6 +77,7 @@ describe Board do
     context 'when new game and black pawn moves 2 steps forward' do
       it 'returns false' do
         blk_pawns_path = [[6, 2], [4, 2]]
+
         result = board.path_obstructed?(blk_pawns_path)
         expect(result).to be false
       end
@@ -82,6 +86,7 @@ describe Board do
     context 'when knight moves' do
       it 'returns false (because knight cannot be blocked)' do
         wht_knights_path = [[0, 6], [2, 5]]
+
         result = board.path_obstructed?(wht_knights_path)
         expect(result).to be false
       end
@@ -93,6 +98,7 @@ describe Board do
         board.grid[3][4] = board.wht_queen
         board.grid[0][4] = board.wht_king
         queens_path = [[3, 4], [2, 4], [1, 4], [0, 4]]
+
         result = board.path_obstructed?(queens_path)
         expect(result).to be true
       end
@@ -103,6 +109,7 @@ describe Board do
     context 'when target piece\'s color is same as player\'s' do
       it 'returns true' do
         end_sq = [7, 4]
+
         result = board.friendly?('black', end_sq)
         expect(result).to be true
       end
@@ -111,6 +118,7 @@ describe Board do
     context 'when target piece\'s color is different than player\'s' do
       it 'returns false' do
         end_sq = [7, 2]
+
         result = board.friendly?('white', end_sq)
         expect(result).to be false
       end
@@ -118,12 +126,25 @@ describe Board do
   end
 
   describe '#pawn_path_obstructed?' do
+    context 'when end of path is a King' do
+      it 'returns false' do
+        board.create_new_grid
+        board.grid[6][3] = board.wht_pawn
+        board.grid[7][4] = board.blk_king
+        pawns_path = [[6, 3], [7, 4]]
+
+        result = board.pawn_path_obstructed?(pawns_path)
+        expect(result).to be false
+      end
+    end
+
     context 'when pawn moves 1 step and a game piece is on end square' do
       it 'returns true' do
         board.create_new_grid
         board.grid[1][7] = board.wht_pawn
         board.grid[2][7] = board.blk_knight
         pawns_path = [[1, 7], [2, 7]]
+
         result = board.pawn_path_obstructed?(pawns_path)
         expect(result).to be true
       end
@@ -135,6 +156,7 @@ describe Board do
         board.grid[1][7] = board.wht_pawn
         board.grid[3][7] = board.blk_bishop
         pawns_path = [[1, 7], [2, 7], [3, 7]]
+
         result = board.pawn_path_obstructed?(pawns_path)
         expect(result).to be true
       end
@@ -146,6 +168,7 @@ describe Board do
         board.grid[1][7] = board.wht_pawn
         board.grid[2][7] = board.blk_bishop
         pawns_path = [[1, 7], [2, 7], [3, 7]]
+
         result = board.pawn_path_obstructed?(pawns_path)
         expect(result).to be true
       end
@@ -156,6 +179,7 @@ describe Board do
         board.create_new_grid
         board.grid[1][7] = board.wht_pawn
         pawns_path = [[1, 7], [2, 7], [3, 7]]
+
         result = board.pawn_path_obstructed?(pawns_path)
         expect(result).to be false
       end
@@ -166,6 +190,7 @@ describe Board do
     it 'sets a new grid object' do
       grid_obj = %w[new grid object]
       board.load_grid(grid_obj)
+
       expect(board.grid).to eq %w[new grid object]
     end
   end
@@ -235,6 +260,7 @@ describe Board do
 
       it 'sends #create to PieceFactory' do
         input = '1'
+
         expect(piece_factory).to receive(:create)
         board.change_pawn(new_move, input, piece_factory)
       end
@@ -246,6 +272,7 @@ describe Board do
       it 'returns false' do
         player_color = 'white'
         board_obj = 'unoccupied'
+
         result = board.enemy_piece?(player_color, board_obj)
         expect(result).to be false
       end
@@ -255,6 +282,7 @@ describe Board do
       it 'returns true' do
         player_color = 'black'
         board_obj = board.wht_queen
+
         result = board.enemy_piece?(player_color, board_obj)
         expect(result).to be true
       end
@@ -264,6 +292,7 @@ describe Board do
       it 'returns false' do
         player_color = 'black'
         board_obj = board.blk_rook
+
         result = board.enemy_piece?(player_color, board_obj)
         expect(result).to be false
       end

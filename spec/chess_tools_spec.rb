@@ -6,7 +6,6 @@ require_relative '../lib/piece'
 require_relative '../lib/pieces/rook'
 require_relative '../lib/pieces/pawn'
 
-
 describe ChessTools do
   subject(:class_instance) { Class.new.include(described_class).new }
 
@@ -129,12 +128,14 @@ describe ChessTools do
   describe '#translate_notation_to_square_index' do
     it 'returns [2, 2] when cleaned move string is \'Bb4c3\'' do
       cleaned_move_str = 'Bb4c3'
+
       result = class_instance.translate_notation_to_square_index(cleaned_move_str)
       expect(result).to eq [2, 2]
     end
 
     it 'returns [3, 7] when cleaned move string is \'Ph2h4\'' do
       cleaned_move_str = 'Ph2h4'
+
       result = class_instance.translate_notation_to_square_index(cleaned_move_str)
       expect(result).to eq [3, 7]
     end
@@ -143,12 +144,14 @@ describe ChessTools do
   describe '#opposing_color' do
     it 'returns \'white\' when color is \'black\'' do
       color = 'black'
+
       result = class_instance.opposing_color(color)
       expect(result).to eq 'white'
     end
 
     it 'returns \'black\' when color is \'white\'' do
       color = 'white'
+
       result = class_instance.opposing_color(color)
       expect(result).to eq 'black'
     end

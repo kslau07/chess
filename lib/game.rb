@@ -31,7 +31,7 @@ class Game
   end
 
   def turn_sequence
-    # display.clear_console # debug, re-enable
+    # display.clear_console # debug, uncomment later
     display.draw_board(board)
     @new_move = produce_legal_move
     board.promote_pawn(new_move) if board.promotion?(new_move)

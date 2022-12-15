@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'save_load'
+require 'pry-byebug' # delete me
 
 # This module tests for check in Board objects
 module Check

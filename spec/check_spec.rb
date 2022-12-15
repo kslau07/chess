@@ -9,7 +9,6 @@ describe Check do
   subject(:class_instance) { Class.new.include(described_class).new }
   let(:player) { instance_double('Player') }
 
-  # We need a bool val, test both cases
   describe '#check?' do
     context 'when there exists a path for enemy to check king' do
       it 'returns true' do
@@ -18,13 +17,6 @@ describe Check do
         allow(player).to receive(:color).and_return('white')
         allow(class_instance).to receive(:square_of_king).and_return(kings_sq)
         allow(class_instance).to receive(:find_check_paths).and_return(check_paths)
-
-        # How do we take control of iteration on pipe variables and stub a return
-        # value?
-
-        # In this case, the message send #path_obstructed? did not specify a
-        # a receiver, so the receiver was implicit (self). We can take control
-        # of this method call using allow with class under test (class_instance).
         allow(class_instance).to receive(:path_obstructed?).and_return(false, false)
 
         result = class_instance.check?(player.color)
@@ -39,10 +31,6 @@ describe Check do
         allow(player).to receive(:color).and_return('white')
         allow(class_instance).to receive(:square_of_king).and_return(kings_sq)
         allow(class_instance).to receive(:find_check_paths).and_return(check_paths)
-
-        # We were going to stub the method call inside the iterator, but the
-        # block is not run if Array is empty. (path_obstructed? is not called)
-        # allow(class_instance).to receive(:path_obstructed?).and_return()
 
         result = class_instance.check?(player.color)
         expect(result).to be false
@@ -115,7 +103,6 @@ describe Check do
 
     context 'when next square is a friendly piece' do
       let(:blk_pawn) { instance_double('Pawn', color: 'black') }
-      # bishops_check_path = [[4, 7], [5, 6], [6, 5], [7, 4]]
       next_square = [[6, 1]]
       player_color = 'black'
       kings_sq = [7, 4]
@@ -124,7 +111,6 @@ describe Check do
         allow(class_instance).to receive(:object).and_return(blk_pawn)
         allow(class_instance).to receive(:squares).and_return(next_square)
         allow(class_instance).to receive(:enemy_piece?).and_return(false)
-        # allow(wht_bishop).to receive(:make_capture_path).and_return(bishops_check_path)
 
         expect(class_instance).to receive(:object).once
         class_instance.find_check_paths(player_color, kings_sq)
@@ -134,10 +120,8 @@ describe Check do
         allow(class_instance).to receive(:object).and_return(blk_pawn)
         allow(class_instance).to receive(:squares).and_return(next_square)
         allow(class_instance).to receive(:enemy_piece?).and_return(false)
-        # allow(wht_bishop).to receive(:make_capture_path).and_return(bishops_check_path)
 
         expect(class_instance).not_to receive(:make_capture_path)
-        # expect(class_instance).to receive(:object).once
         class_instance.find_check_paths(player_color, kings_sq)
       end
     end
@@ -202,8 +186,6 @@ describe Check do
     end
 
     context 'when no paths exist that can check player\'s King' do
-      # let(:wht_bishop) { instance_double('Bishop', color: 'white') }
-      # bishops_check_path = [[4, 7], [5, 6], [6, 5], [7, 4]]
       next_square = [[4, 3]]
       player_color = 'black'
       kings_sq = [7, 4]
@@ -212,7 +194,6 @@ describe Check do
         allow(class_instance).to receive(:object).and_return('unoccupied')
         allow(class_instance).to receive(:squares).and_return(next_square)
         allow(class_instance).to receive(:enemy_piece?).and_return(false)
-        # allow(wht_bishop).to receive(:make_capture_path).and_return(bishops_check_path)
 
         result = class_instance.find_check_paths(player_color, kings_sq)
         expect(result).to be_empty
@@ -233,6 +214,7 @@ describe Check do
       it 'returns location of king [0, 4] if color matches player color' do
         player_color = 'white'
         allow(class_instance).to receive(:object).and_return(wht_king)
+
         result = class_instance.square_of_king(player_color)
         expect(result).to eq [0, 4]
       end
@@ -240,6 +222,7 @@ describe Check do
       it 'returns nil if not player\'s color' do
         player_color = 'black'
         allow(class_instance).to receive(:object).and_return(wht_king)
+
         result = class_instance.square_of_king(player_color)
         expect(result).to be_nil
       end
@@ -249,6 +232,7 @@ describe Check do
       it 'returns nil' do
         player_color = 'black'
         allow(class_instance).to receive(:object).and_return('unoccupied')
+
         result = class_instance.square_of_king(player_color)
         expect(result).to be_nil
       end

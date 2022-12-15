@@ -21,7 +21,7 @@ module SaveLoad
   end
 
   def show_saved_games
-    puts 'Choose a saved game to load:'.magenta # re-enable
+    puts 'Choose a saved game to load:'.magenta
     Dir.glob('saved_games/**').map.with_index do |fname, index|
       next if index >= 5
 

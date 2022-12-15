@@ -74,6 +74,7 @@ describe Game do
 
     it 'sends #add to MoveList' do
       allow(board).to receive(:promotion?).with(game.new_move)
+
       expect(move_list).to receive(:add).with(game.new_move)
       game.turn_sequence
     end
@@ -93,6 +94,7 @@ describe Game do
         serialized_board = 'json_string'
         allow(game.new_move).to receive(:validated).and_return(true)
         allow(game.board).to receive(:check?).and_return(false)
+
         expect(game.new_move).to receive(:transfer_piece)
         game.produce_legal_move(serialized_board)
       end
@@ -104,6 +106,7 @@ describe Game do
         allow(game.new_move).to receive(:validated).and_return(false, true)
         allow(game.board).to receive(:check?).and_return(true, false)
         allow(game.new_move).to receive(:transfer_piece)
+
         expect(game.display).to receive(:invalid_input_message).exactly(1).time
         game.produce_legal_move(serialized_board)
       end
@@ -113,12 +116,14 @@ describe Game do
   describe '#set_current_player' do
     it 'sets current_player to player1 when move_list is even' do
       allow(game.move_list).to receive_message_chain(:all_moves, :length, :even?).and_return(true)
+
       game.set_current_player
       expect(game.current_player).to be game.player1
     end
 
     it 'does NOT set current_player to player1 when move_list is odd' do
       allow(game.move_list).to receive_message_chain(:all_moves, :length, :even?).and_return(false)
+
       game.set_current_player
       expect(game.current_player).not_to be game.player1
     end
@@ -299,6 +304,7 @@ describe Game do
     it 'sends #test_checkmate_other_player to Move' do
       allow_message_expectations_on_nil
       allow(game.new_move).to receive(:checkmates).and_return(false)
+
       expect(game.new_move).to receive(:test_checkmate_other_player)
       game.checkmate_seq
     end
@@ -331,6 +337,7 @@ describe Game do
     it 'sets @game_end to false' do
       allow(game.move_list).to receive(:set)
       allow(game).to receive(:set_current_player)
+
       game.play_again_init(board)
       expect(game.game_end).to be false
     end
@@ -338,12 +345,14 @@ describe Game do
     it 'sets @board to board' do
       allow(game.move_list).to receive(:set)
       allow(game).to receive(:set_current_player)
+
       game.play_again_init(board)
       expect(game.board).to be board
     end
 
     it 'sets move_list to an empty array' do
       allow(game).to receive(:set_current_player)
+
       expect(move_list).to receive(:set).with(kind_of(Array))
       game.play_again_init(board)
     end

@@ -30,6 +30,7 @@ describe Castling do
             king_sq = [0, 4]
             move_2_spaces_sq = [0, 6]
             args = { start_sq: king_sq, end_sq: move_2_spaces_sq, board: board, player: player1 }
+
             result = Castling.handles?(args)
             expect(result).to be true
           end
@@ -40,6 +41,7 @@ describe Castling do
             king_sq = [0, 4]
             move_1_space_sq = [0, 5]
             args = { start_sq: king_sq, end_sq: move_1_space_sq, board: board, player: player1 }
+
             result = Castling.handles?(args)
             expect(result).to be false
           end
@@ -52,6 +54,7 @@ describe Castling do
           not_king_sq = [0, 4]
           move_2_spaces_sq = [0, 6]
           args = { start_sq: not_king_sq, end_sq: move_2_spaces_sq, board: board, player: player1 }
+
           result = Castling.handles?(args)
           expect(result).to be false
         end
@@ -80,6 +83,7 @@ describe Castling do
             king_sq = [7, 4]
             move_2_spaces_sq = [7, 6]
             args = { start_sq: king_sq, end_sq: move_2_spaces_sq, board: board, player: player2 }
+
             result = Castling.handles?(args)
             expect(result).to be true
           end
@@ -90,6 +94,7 @@ describe Castling do
             king_sq = [7, 4]
             move_1_space_sq = [7, 5]
             args = { start_sq: king_sq, end_sq: move_1_space_sq, board: board, player: player2 }
+
             result = Castling.handles?(args)
             expect(result).to be false
           end
@@ -102,6 +107,7 @@ describe Castling do
           not_king_sq = [7, 4]
           move_2_spaces_sq = [7, 6]
           args = { start_sq: not_king_sq, end_sq: move_2_spaces_sq, board: board, player: player2 }
+
           result = Castling.handles?(args)
           expect(result).to be false
         end
@@ -128,6 +134,7 @@ describe Castling do
       it 'returns false' do
         allow(board).to receive(:object)
         allow(move_list).to receive(:prev_move_check?).and_return(true)
+
         result = castling.move_permitted?
         expect(result).to be false
       end
@@ -136,6 +143,7 @@ describe Castling do
     context 'when base move is [0, 2]' do
       it 'sends #object message to Board 3 times' do
         allow(move_list).to receive(:prev_move_check?)
+
         expect(board).to receive(:object).exactly(3).times
         allow(castling).to receive(:base_move_castling).and_return([0, 2])
         castling.move_permitted?
@@ -145,6 +153,7 @@ describe Castling do
     context 'when base move is [0, -2]' do
       it 'sends #object message to Board 3 times' do
         allow(move_list).to receive(:prev_move_check?)
+
         expect(board).to receive(:object).exactly(3).times
         allow(castling).to receive(:base_move_castling).and_return([0, -2])
         castling.move_permitted?
@@ -154,7 +163,6 @@ describe Castling do
 
   describe '#king_side_castling' do
     context 'when white attempts to king-side castling' do
-      # board = Board.new
       st_sq = [0, 4]
       en_sq = [0, 6]
       subject(:castling) { described_class.new(board: board, move_list: move_list, start_sq: st_sq, end_sq: en_sq, test: true) }
@@ -166,8 +174,6 @@ describe Castling do
         board.grid[0][7] = board.wht_rook
         board.grid[0][4] = board.wht_king
         board.grid[7][4] = board.blk_king
-        # let(:board) { instance_double('Board') }
-        # let(:board) { Board.new }
       end
 
       context 'when corner piece is a rook' do
@@ -175,9 +181,7 @@ describe Castling do
           context 'when neither king nor rook have moved' do
             it 'returns true' do
               corner_piece = board.wht_rook
-              # allow(board).to receive(:object).and_return('unoccupied')
-              # allow(castling.start_piece).to receive(:unmoved).and_return(true)
-              # allow(corner_piece).to receive(:unmoved).and_return(true)
+
               result = castling.king_side_castling?(corner_piece)
               expect(result).to be true
             end
@@ -187,9 +191,7 @@ describe Castling do
             it 'returns false' do
               board.wht_king.moved
               corner_piece = board.wht_rook
-              # allow(board).to receive(:object).and_return('unoccupied')
-              # allow(castling.start_piece).to receive(:unmoved).and_return(true)
-              # allow(corner_piece).to receive(:unmoved).and_return(true)
+
               result = castling.king_side_castling?(corner_piece)
               expect(result).to be false
             end
@@ -199,9 +201,7 @@ describe Castling do
             it 'returns false' do
               board.wht_rook.moved
               corner_piece = board.wht_rook
-              # allow(board).to receive(:object).and_return('unoccupied')
-              # allow(castling.start_piece).to receive(:unmoved).and_return(true)
-              # allow(corner_piece).to receive(:unmoved).and_return(true)
+
               result = castling.king_side_castling?(corner_piece)
               expect(result).to be false
             end
@@ -211,6 +211,7 @@ describe Castling do
             it 'returns false' do
               board.grid[0][5] = board.wht_bishop
               corner_piece = board.wht_rook
+
               result = castling.king_side_castling?(corner_piece)
               expect(result).to be false
             end
@@ -220,7 +221,6 @@ describe Castling do
     end
 
     context 'when black attempts to king-side castling' do
-      # board = Board.new
       st_sq = [7, 4]
       en_sq = [7, 2]
       subject(:castling) { described_class.new(board: board, move_list: move_list, start_sq: st_sq, end_sq: en_sq, test: true) }
@@ -229,13 +229,9 @@ describe Castling do
       before(:each) do
         board.create_new_grid
         board.create_pieces(PieceFactory)
-        # board.grid[1][4] = board.wht_rook
-        # board.grid[0][7] = board.wht_rook
         board.grid[7][7] = board.blk_rook
         board.grid[7][4] = board.blk_king
         board.grid[0][4] = board.wht_king
-        # let(:board) { instance_double('Board') }
-        # let(:board) { Board.new }
       end
 
       context 'when corner piece is a rook' do
@@ -243,6 +239,7 @@ describe Castling do
           context 'when neither king nor rook have moved' do
             it 'returns true' do
               corner_piece = board.blk_rook
+
               result = castling.king_side_castling?(corner_piece)
               expect(result).to be true
             end
@@ -252,6 +249,7 @@ describe Castling do
             it 'returns false' do
               board.blk_king.moved
               corner_piece = board.blk_rook
+
               result = castling.king_side_castling?(corner_piece)
               expect(result).to be false
             end
@@ -261,6 +259,7 @@ describe Castling do
             it 'returns false' do
               board.blk_rook.moved
               corner_piece = board.blk_rook
+
               result = castling.king_side_castling?(corner_piece)
               expect(result).to be false
             end
@@ -269,8 +268,8 @@ describe Castling do
           context 'when one square inbetween is occupied' do
             it 'returns false' do
               board.grid[7][5] = board.blk_bishop
-              # board.blk_rook.moved
               corner_piece = board.blk_rook
+
               result = castling.king_side_castling?(corner_piece)
               expect(result).to be false
             end
@@ -282,7 +281,6 @@ describe Castling do
 
   describe '#queen_side_castling' do
     context 'when white attempts to queen-side castling' do
-      # board = Board.new
       st_sq = [0, 4]
       en_sq = [0, 2]
       subject(:castling) { described_class.new(board: board, move_list: move_list, start_sq: st_sq, end_sq: en_sq, test: true) }
@@ -294,8 +292,6 @@ describe Castling do
         board.grid[0][0] = board.wht_rook
         board.grid[0][4] = board.wht_king
         board.grid[7][4] = board.blk_king
-        # let(:board) { instance_double('Board') }
-        # let(:board) { Board.new }
       end
 
       context 'when corner piece is a rook' do
@@ -303,9 +299,7 @@ describe Castling do
           context 'when neither king nor rook have moved' do
             it 'returns true' do
               corner_piece = board.wht_rook
-              # allow(board).to receive(:object).and_return('unoccupied')
-              # allow(castling.start_piece).to receive(:unmoved).and_return(true)
-              # allow(corner_piece).to receive(:unmoved).and_return(true)
+
               result = castling.queen_side_castling?(corner_piece)
               expect(result).to be true
             end
@@ -315,9 +309,7 @@ describe Castling do
             it 'returns false' do
               board.wht_king.moved
               corner_piece = board.wht_rook
-              # allow(board).to receive(:object).and_return('unoccupied')
-              # allow(castling.start_piece).to receive(:unmoved).and_return(true)
-              # allow(corner_piece).to receive(:unmoved).and_return(true)
+
               result = castling.queen_side_castling?(corner_piece)
               expect(result).to be false
             end
@@ -327,9 +319,7 @@ describe Castling do
             it 'returns false' do
               board.wht_rook.moved
               corner_piece = board.wht_rook
-              # allow(board).to receive(:object).and_return('unoccupied')
-              # allow(castling.start_piece).to receive(:unmoved).and_return(true)
-              # allow(corner_piece).to receive(:unmoved).and_return(true)
+
               result = castling.queen_side_castling?(corner_piece)
               expect(result).to be false
             end
@@ -339,6 +329,7 @@ describe Castling do
             it 'returns false' do
               board.grid[0][1] = board.wht_bishop
               corner_piece = board.wht_rook
+
               result = castling.queen_side_castling?(corner_piece)
               expect(result).to be false
             end
@@ -348,7 +339,6 @@ describe Castling do
     end
 
     context 'when black attempts to queen-side castling' do
-      # board = Board.new
       st_sq = [7, 4]
       en_sq = [7, 2]
       subject(:castling) { described_class.new(board: board, move_list: move_list, start_sq: st_sq, end_sq: en_sq, test: true) }
@@ -357,13 +347,9 @@ describe Castling do
       before(:each) do
         board.create_new_grid
         board.create_pieces(PieceFactory)
-        # board.grid[1][4] = board.wht_rook
-        # board.grid[0][7] = board.wht_rook
         board.grid[7][7] = board.blk_rook
         board.grid[7][4] = board.blk_king
         board.grid[0][4] = board.wht_king
-        # let(:board) { instance_double('Board') }
-        # let(:board) { Board.new }
       end
 
       context 'when corner piece is a rook' do
@@ -371,6 +357,7 @@ describe Castling do
           context 'when neither king nor rook have moved' do
             it 'returns true' do
               corner_piece = board.blk_rook
+
               result = castling.queen_side_castling?(corner_piece)
               expect(result).to be true
             end
@@ -380,6 +367,7 @@ describe Castling do
             it 'returns false' do
               board.blk_king.moved
               corner_piece = board.blk_rook
+
               result = castling.queen_side_castling?(corner_piece)
               expect(result).to be false
             end
@@ -389,6 +377,7 @@ describe Castling do
             it 'returns false' do
               board.blk_rook.moved
               corner_piece = board.blk_rook
+
               result = castling.queen_side_castling?(corner_piece)
               expect(result).to be false
             end
@@ -397,8 +386,8 @@ describe Castling do
           context 'when one square inbetween is occupied' do
             it 'returns false' do
               board.grid[7][2] = board.blk_bishop
-              # board.blk_rook.moved
               corner_piece = board.blk_rook
+
               result = castling.queen_side_castling?(corner_piece)
               expect(result).to be false
             end
@@ -427,6 +416,7 @@ describe Castling do
     it 'sends #update_square to Board 4 times' do
       allow(castling).to receive_message_chain(:start_piece, :moved)
       allow(castling).to receive_message_chain(:rook, :moved)
+
       expect(trns_board).to receive(:update_square).exactly(4).times
       castling.transfer_piece
     end
@@ -435,6 +425,7 @@ describe Castling do
       allow(trns_board).to receive(:update_square)
       allow(castling).to receive_message_chain(:rook, :moved)
       allow(castling).to receive(:start_piece).and_return(king)
+
       expect(castling).to receive_message_chain(:start_piece, :moved)
       castling.transfer_piece
     end
@@ -442,6 +433,7 @@ describe Castling do
     it 'sends #moved to rook' do
       allow(trns_board).to receive(:update_square)
       allow(castling).to receive_message_chain(:start_piece, :moved)
+
       expect(castling).to receive_message_chain(:rook, :moved)
       castling.transfer_piece
     end
@@ -471,6 +463,7 @@ describe Castling do
       board.create_new_grid
       board.grid[0][7] = board.wht_rook
       castling.set_kingside_rook
+
       expect(castling.rook).to be_instance_of(Rook)
     end
   end
@@ -495,6 +488,7 @@ describe Castling do
       board.create_new_grid
       board.grid[0][0] = board.wht_rook
       castling.set_queenside_rook
+
       expect(castling.rook).to be_instance_of(Rook)
     end
   end

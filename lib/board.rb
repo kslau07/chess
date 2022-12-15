@@ -97,6 +97,8 @@ class Board
   end
 
   def pawn_path_obstructed?(path)
+    return false if object(path[1]).instance_of?(King) # test me
+
     cond1 = object(path[1]) == 'unoccupied'
     cond2 = path[2].nil? || object(path[2]) == 'unoccupied'
     # cond2 = object(path[2]) == 'unoccupied' || nil # delete me if code works

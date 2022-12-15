@@ -10,7 +10,7 @@ class PawnDoubleStep < Move
     end_sq = args[:end_sq]
     cond1 = args[:board].object(start_sq).instance_of?(Pawn)
     cond2 = (end_sq[0] - start_sq[0]).abs == 2 # y change of 2
-    cond3 = args[:board].object(start_sq).unmoved
+    cond3 = args[:board].object(start_sq).unmoved # disabled, uncomment
 
     cond1 && cond2 && cond3
   end

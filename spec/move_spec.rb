@@ -36,6 +36,7 @@ describe Move do
         args = {}
         allow(Castling).to receive(:handles?).and_return(true)
         cand_list = [Castling, EnPassant, PawnDoubleStep, PawnSingleStep, PawnAttack]
+
         expect(Castling).to receive(:new)
         Move.factory(args, cand_list)
       end
@@ -47,6 +48,7 @@ describe Move do
         allow(Castling).to receive(:handles?).and_return(false)
         allow(EnPassant).to receive(:handles?).and_return(true)
         cand_list = [Castling, EnPassant, PawnDoubleStep, PawnSingleStep, PawnAttack]
+
         expect(EnPassant).to receive(:new)
         Move.factory(args, cand_list)
       end
@@ -59,6 +61,7 @@ describe Move do
         allow(EnPassant).to receive(:handles?).and_return(false)
         allow(PawnDoubleStep).to receive(:handles?).and_return(true)
         cand_list = [Castling, EnPassant, PawnDoubleStep, PawnSingleStep, PawnAttack]
+
         expect(PawnDoubleStep).to receive(:new)
         Move.factory(args, cand_list)
       end
@@ -72,6 +75,7 @@ describe Move do
         allow(PawnDoubleStep).to receive(:handles?).and_return(false)
         allow(PawnSingleStep).to receive(:handles?).and_return(true)
         cand_list = [Castling, EnPassant, PawnDoubleStep, PawnSingleStep, PawnAttack]
+
         expect(PawnSingleStep).to receive(:new)
         Move.factory(args, cand_list)
       end
@@ -86,6 +90,7 @@ describe Move do
         allow(PawnSingleStep).to receive(:handles?).and_return(false)
         allow(PawnAttack).to receive(:handles?).and_return(true)
         cand_list = [Castling, EnPassant, PawnDoubleStep, PawnSingleStep, PawnAttack]
+
         expect(PawnAttack).to receive(:new)
         Move.factory(args, cand_list)
       end
@@ -127,6 +132,7 @@ describe Move do
       it 'returns false' do
         allow(move).to receive(:unreachable?).and_return(true)
         allow(board).to receive(:path_obstructed?).and_return(true)
+
         expect(move.move_permitted?).to be false
       end
     end
@@ -135,6 +141,7 @@ describe Move do
       it 'returns true' do
         allow(move).to receive(:unreachable?).and_return(false)
         allow(board).to receive(:path_obstructed?).and_return(false)
+
         expect(move.move_permitted?).to be true
       end
     end
@@ -144,12 +151,14 @@ describe Move do
     before do
       allow(move).to receive_message_chain(:start_piece, :make_path).and_return([0, 0])
       allow(move).to receive(:assess_move)
+
       move.post_initialize
     end
 
     context 'when @path includes end_sq' do
       it 'returns false' do
         allow(move.path).to receive(:include?).and_return(true)
+
         result = move.unreachable?
         expect(result).to be false
       end
@@ -158,6 +167,7 @@ describe Move do
     context 'when @path does NOT include end_sq' do
       it 'returns true' do
         allow(move.path).to receive(:include?).and_return(false)
+
         result = move.unreachable?
         expect(result).to be true
       end
@@ -173,6 +183,7 @@ describe Move do
 
     it 'sends #update_square twice to Board' do
       allow(move.start_piece).to receive(:moved)
+
       expect(board).to receive(:update_square).twice
       move.transfer_piece
     end
@@ -180,6 +191,7 @@ describe Move do
     it 'sends #moved to Piece once' do
       allow(move).to receive(:capture_piece)
       allow(board).to receive(:update_square)
+
       expect(move.start_piece).to receive(:moved).exactly(1).time
       move.transfer_piece
     end
@@ -196,6 +208,7 @@ describe Move do
       it 'sets @checks to true' do
         allow(move.player).to receive(:color)
         allow(move.board).to receive(:check?).and_return(true)
+
         move.opponent_check
         expect(move.checks).to be true
       end
@@ -205,6 +218,7 @@ describe Move do
       it 'does not set @checks to true' do
         allow(move.player).to receive(:color)
         allow(move.board).to receive(:check?).and_return(false)
+
         move.opponent_check
         expect(move.checks).not_to be true
       end
@@ -216,6 +230,7 @@ describe Move do
       it 'sets @checkmates to true' do
         move_data = {}
         allow(board).to receive(:checkmate?).and_return(true)
+
         move.test_checkmate_other_player(move_data)
         expect(move.checkmates).to be true
       end
@@ -225,6 +240,7 @@ describe Move do
       it 'does not set @checkmates to true' do
         move_data = {}
         allow(board).to receive(:checkmate?).and_return(false)
+
         move.test_checkmate_other_player(move_data)
         expect(move.checkmates).not_to be true
       end
@@ -238,6 +254,7 @@ describe Move do
       it 'sets @captured_piece to end_obj' do
         allow(move).to receive(:end_obj).and_return(wht_bishop)
         allow(move.end_obj).to receive(:is_a?).and_return(true)
+
         move.capture_piece
         expect(move.captured_piece).to be move.end_obj
       end
@@ -246,6 +263,7 @@ describe Move do
     context 'when end_obj is NOT a game piece' do
       it '@captured_piece is nil' do
         allow(move).to receive_message_chain(:end_obj, :is_a?).and_return(false)
+
         move.capture_piece
         expect(move.captured_piece).to be_nil
       end

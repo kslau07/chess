@@ -60,6 +60,7 @@ describe SaveLoad do
         allow(class_instance).to receive(:puts)
         allow(class_instance).to receive(:validate_choose_file_input)
         f_list = []
+
         result = class_instance.choose_file(f_list)
         expect(result).to be_nil
       end
@@ -91,6 +92,7 @@ describe SaveLoad do
                   "2022oct03_1203pm", "2022oct10_0329pm"]
 
         invalid_input_string = 'Invalid input! Choose a file to load.'
+
         expect(class_instance).to receive(:puts).with(invalid_input_string).twice
         class_instance.validate_choose_file_input(f_list)
       end
@@ -104,6 +106,7 @@ describe SaveLoad do
                   "2022oct03_1203pm", "2022oct10_0329pm"]
 
         invalid_input_string = 'Invalid input! Choose a file to load.'
+
         expect(class_instance).not_to receive(:puts).with(invalid_input_string)
         class_instance.validate_choose_file_input(f_list)
       end
@@ -161,27 +164,6 @@ describe SaveLoad do
         class_instance.save_to_file(json_obj_ary)
       end
     end
-
-    # Delete this test, but remember that you cannot take control of a variable
-    # by trying to fake it directly if it is set inside the method. You cannot
-    # control 'time' directly, but you can control what it is set to.
-    # context 'change me' do
-    #   let(:time) { double('Time') }
-
-    #   before do
-    #     allow(Time).to receive(:new).and_return(time)
-    #     allow(time).to receive_message_chain(:strftime, :downcase).and_return('2022dec11_0249pm')
-    #   end
-
-    #   xit 'delete me' do
-    #     move_list_json = 'json str'
-    #     board_json = 'json str'
-    #     json_obj_ary = [move_list_json, board_json]
-
-    #     expect(class_instance.time_str).to be '2022dec11_0249pm'
-    #     class_instance.save_to_file(json_obj_ary)
-    #   end
-    # end
   end
 
   describe '#load_move_list' do
@@ -208,9 +190,6 @@ describe SaveLoad do
 
   describe '#load_board' do
     let(:board_obj) { instance_double('Board') }
-
-    # before do
-    # end
 
     it 'sends #parse to JSON' do
       json_str = 'json'
@@ -252,6 +231,7 @@ describe SaveLoad do
       it 'sends #open to File' do
         fname = '2022oct03_1203pm'
         allow(dummy_json_obj).to receive(:eof?).and_return(true)
+
         expect(File).to receive(:open).with('saved_games/2022oct03_1203pm.json', 'r').and_return(dummy_json_obj)
         class_instance.read_file(fname)
       end

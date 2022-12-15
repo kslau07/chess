@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# require_relative '../lib/library'
 require_relative '../../lib/special_moves/pawn_single_step'
 
 describe PawnSingleStep do
@@ -23,6 +22,7 @@ describe PawnSingleStep do
         it 'returns true if white Pawn moves 1 space forward' do
           single_step_sq = [2, 3]
           args = { player: player, start_sq: st_sq, end_sq: single_step_sq, board: board }
+
           result = PawnSingleStep.handles?(args)
           expect(result).to be true
         end
@@ -30,6 +30,7 @@ describe PawnSingleStep do
         it 'returns false if white Pawn moves 2 spaces forward' do
           single_step_sq = [3, 3]
           args = { player: player, start_sq: st_sq, end_sq: single_step_sq, board: board }
+
           result = PawnSingleStep.handles?(args)
           expect(result).to be false
         end
@@ -37,6 +38,7 @@ describe PawnSingleStep do
         it 'returns false if white Pawn moves diagonally' do
           move_forward_square = [2, 2]
           args = { player: player, start_sq: st_sq, end_sq: move_forward_square, board: board }
+
           result = PawnSingleStep.handles?(args)
           expect(result).to be false
         end
@@ -49,6 +51,7 @@ describe PawnSingleStep do
           not_home_row_sq = [3, 6]
           single_step = [4, 6]
           args = { player: player, start_sq: not_home_row_sq, end_sq: single_step, board: board }
+
           result = PawnSingleStep.handles?(args)
           expect(result).to be true
         end
@@ -67,14 +70,11 @@ describe PawnSingleStep do
         board.grid[7][4] = board.blk_king
       end
 
-      after(:all) do
-        
-      end
-
       context 'when start_sq is a Pawn' do
         it 'returns true if black Pawn moves 1 space forward' do
           single_step_sq = [5, 4]
           args = { player: player, start_sq: st_sq, end_sq: single_step_sq, board: board }
+
           result = PawnSingleStep.handles?(args)
           expect(result).to be true
         end
@@ -82,6 +82,7 @@ describe PawnSingleStep do
         it 'returns false if black Pawn moves 2 spaces forward' do
           single_step_sq = [4, 4]
           args = { player: player, start_sq: st_sq, end_sq: single_step_sq, board: board }
+
           result = PawnSingleStep.handles?(args)
           expect(result).to be false
         end
@@ -89,6 +90,7 @@ describe PawnSingleStep do
         it 'returns false if black Pawn moves diagonally' do
           move_forward_square = [5, 3]
           args = { player: player, start_sq: st_sq, end_sq: move_forward_square, board: board }
+
           result = PawnSingleStep.handles?(args)
           expect(result).to be false
         end
@@ -101,6 +103,7 @@ describe PawnSingleStep do
           not_home_row_sq = [4, 2]
           single_step = [3, 2]
           args = { player: player, start_sq: not_home_row_sq, end_sq: single_step, board: board }
+
           result = PawnSingleStep.handles?(args)
           expect(result).to be true
         end
@@ -120,6 +123,7 @@ describe PawnSingleStep do
 
     it 'sends #make_single_step_path to Piece' do
       allow(pawn_single_step).to receive(:assess_move)
+
       expect(pawn_single_step.start_piece).to receive(:make_single_step_path)
       pawn_single_step.post_initialize
     end

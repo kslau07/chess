@@ -30,7 +30,7 @@ module ChessTools
 
     loop do
       Display.turn_message(current_player.color, board)
-      user_input = gets.chomp.downcase # normal user_input, re-enable
+      user_input = gets.chomp.downcase # normal user_input, uncomment
       # user_input = 'd6d8' if (user_input == '' || user_input.nil?) # delete me
       verified_input = verify_input(user_input)
 

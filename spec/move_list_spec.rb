@@ -24,6 +24,7 @@ describe MoveList do
         allow(new_move).to receive(:checks).and_return(true)
         allow(move_list).to receive(:piece_code).and_return('B')
         move_list.add(new_move)
+
         new_move_str = move_list.all_moves[0]
         expect(new_move_str).to include('+')
       end
@@ -32,6 +33,7 @@ describe MoveList do
         allow(new_move).to receive(:checks).and_return(true)
         allow(move_list).to receive(:piece_code).and_return('B')
         move_list.add(new_move)
+
         new_move_str = move_list.all_moves[0]
         expect(new_move_str).to include('x')
       end
@@ -39,6 +41,7 @@ describe MoveList do
       it 'adds \'Bb4xc3+\' to all_moves array' do
         allow(new_move).to receive(:checks).and_return(true)
         allow(move_list).to receive(:piece_code).and_return('B')
+
         move_list.add(new_move)
         expect(move_list.all_moves).to eq ['Bb4xc3+']
       end
@@ -51,6 +54,7 @@ describe MoveList do
         allow(new_move).to receive(:checks).and_return(false)
         allow(move_list).to receive(:piece_code).and_return('P')
         move_list.add(new_move)
+
         new_move_str = move_list.all_moves[0]
         expect(new_move_str).not_to include('+')
       end
@@ -59,6 +63,7 @@ describe MoveList do
         allow(new_move).to receive(:checks).and_return(false)
         allow(move_list).to receive(:piece_code).and_return('P')
         move_list.add(new_move)
+
         new_move_str = move_list.all_moves[0]
         expect(new_move_str).not_to include('x')
       end
@@ -66,6 +71,7 @@ describe MoveList do
       it 'adds \'Bb4xc3+\' to all_moves array' do
         allow(new_move).to receive(:checks).and_return(false)
         allow(move_list).to receive(:piece_code).and_return('P')
+
         move_list.add(new_move)
         expect(move_list.all_moves).to eq ['Ph2h4']
       end
@@ -79,6 +85,7 @@ describe MoveList do
 
       it 'returns letter N' do
         allow(new_move2).to receive_message_chain(:start_piece, :instance_of?).and_return(true)
+
         result = move_list.piece_code(new_move2)
         expect(result).to eq 'N'
       end
@@ -90,6 +97,7 @@ describe MoveList do
 
       it 'returns letter N' do
         allow(new_move3).to receive_message_chain(:start_piece, :instance_of?).and_return(false)
+
         result = move_list.piece_code(new_move3)
         expect(result).to eq 'R' # should be K if I used real object, but RSpec double starts with R
       end
@@ -100,6 +108,7 @@ describe MoveList do
     context 'when move list is not empty' do
       it 'removes + and x from last move' do
         move_list.set(['Ph2h4', 'Bb4xc3+']) # changes @all_moves
+
         result = move_list.last_move_cleaned
         expect(result).to eq 'Bb4c3'
       end
@@ -121,6 +130,7 @@ describe MoveList do
     context 'when move list is not empty' do
       it 'returns the last move' do
         move_list.set(%w[Ph2h4 Pc7c5])
+
         result = move_list.prev_move
         expect(result).to eq 'Pc7c5'
       end
@@ -139,6 +149,7 @@ describe MoveList do
       it 'returns true if previous move resulted in check' do
         move_list.set(['Ph2h4', 'Bb4xc3+'])
         allow(move_list).to receive(:prev_move).and_return('Bb4xc3+')
+
         result = move_list.prev_move_check?
         expect(result).to be true
       end
@@ -146,6 +157,7 @@ describe MoveList do
       it 'returns false if previous move did not check' do
         move_list.set(%w[Ph2h4 Pc7c5])
         allow(move_list).to receive(:prev_move).and_return('Pc7c5')
+
         result = move_list.prev_move_check?
         expect(result).to be false
       end

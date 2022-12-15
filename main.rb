@@ -74,7 +74,7 @@ class Main
   end
 
   def self.play(game)
-    # puts 'Press ENTER to continue.' # re-enable later
+    # puts 'Press ENTER to continue.' # uncomment later
     # gets
     game.turn_sequence until game.game_over?
     play_again(game)
@@ -87,7 +87,6 @@ class Main
 
   # testing
   # game = Game.new
-  # game.configure_board('vs_computer')
+  # game.configure_board('fix_pawn_cannot_check')
   # play(game)
 end
-

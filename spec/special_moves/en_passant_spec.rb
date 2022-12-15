@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# require_relative '../lib/library'
 require_relative '../../lib/special_moves/en_passant'
 
 describe EnPassant do
@@ -29,6 +28,7 @@ describe EnPassant do
             pawn_sq = [4, 4]
             move_1_diag_sq = [5, 5]
             args = { start_sq: pawn_sq, end_sq: move_1_diag_sq, board: board, player: player1 }
+
             result = EnPassant.handles?(args)
             expect(result).to be true
           end
@@ -38,6 +38,7 @@ describe EnPassant do
             pawn_sq = [4, 4]
             move_1_diag_sq = [5, 5]
             args = { start_sq: pawn_sq, end_sq: move_1_diag_sq, board: board, player: player1 }
+
             result = EnPassant.handles?(args)
             expect(result).to be false
           end
@@ -48,6 +49,7 @@ describe EnPassant do
             pawn_sq = [4, 4]
             move_1_step_forward = [5, 4]
             args = { start_sq: pawn_sq, end_sq: move_1_step_forward, board: board, player: player1 }
+
             result = EnPassant.handles?(args)
             expect(result).to be false
           end
@@ -60,6 +62,7 @@ describe EnPassant do
           bishop_sq = [4, 4]
           move_1_diag_sq = [5, 5]
           args = { start_sq: bishop_sq, end_sq: move_1_diag_sq, board: board, player: player1 }
+
           result = EnPassant.handles?(args)
           expect(result).to be false
         end
@@ -88,6 +91,7 @@ describe EnPassant do
             pawn_sq = [3, 4]
             move_1_diag_sq = [2, 5]
             args = { start_sq: pawn_sq, end_sq: move_1_diag_sq, board: board, player: player2 }
+
             result = EnPassant.handles?(args)
             expect(result).to be true
           end
@@ -97,6 +101,7 @@ describe EnPassant do
             pawn_sq = [3, 4]
             move_1_diag_sq = [2, 5]
             args = { start_sq: pawn_sq, end_sq: move_1_diag_sq, board: board, player: player2 }
+
             result = EnPassant.handles?(args)
             expect(result).to be false
           end
@@ -107,6 +112,7 @@ describe EnPassant do
             pawn_sq = [3, 4]
             move_1_step_forward = [2, 4]
             args = { start_sq: pawn_sq, end_sq: move_1_step_forward, board: board, player: player2 }
+
             result = EnPassant.handles?(args)
             expect(result).to be false
           end
@@ -119,6 +125,7 @@ describe EnPassant do
           bishop_sq = [3, 4]
           move_1_diag_sq = [2, 5]
           args = { start_sq: bishop_sq, end_sq: move_1_diag_sq, board: board, player: player2 }
+
           result = EnPassant.handles?(args)
           expect(result).to be false
         end
@@ -131,8 +138,6 @@ describe EnPassant do
   end
 
   describe '#pawn_on_correct_row?' do
-    # board = Board.new
-
     context 'when white player\'s pawn is on the correct row' do
       board.create_new_grid
       board.grid[4][3] = board.wht_pawn
@@ -218,6 +223,7 @@ describe EnPassant do
 
         it 'returns true' do
           allow(en_passant).to receive(:base_move).and_return([1, 1])
+
           result = en_passant.opp_prev_move_allows_en_passant?
           expect(result).to be true
         end
@@ -233,6 +239,7 @@ describe EnPassant do
 
         it 'does NOT return true (nil)' do
           allow(en_passant).to receive(:base_move).and_return([1, 1])
+
           result = en_passant.opp_prev_move_allows_en_passant?
           expect(result).not_to be true
         end
@@ -256,6 +263,7 @@ describe EnPassant do
 
         it 'returns true' do
           allow(en_passant).to receive(:base_move).and_return([1, -1])
+
           result = en_passant.opp_prev_move_allows_en_passant?
           expect(result).to be true
         end
@@ -271,6 +279,7 @@ describe EnPassant do
 
         it 'does NOT return true (nil)' do
           allow(en_passant).to receive(:base_move).and_return([1, -1])
+
           result = en_passant.opp_prev_move_allows_en_passant?
           expect(result).not_to be true
         end
@@ -309,6 +318,7 @@ describe EnPassant do
 
     it 'sends #update_square to Board 3 times' do
       allow(en_passant).to receive(:capture_piece)
+
       expect(board).to receive(:update_square).exactly(3).times
       en_passant.transfer_piece
     end
