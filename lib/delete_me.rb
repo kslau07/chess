@@ -1,5 +1,40 @@
 # frozen_string_literal: true
 
+class Apple
+  attr_reader :color
+  def initialize
+    @color = 'red'
+  end
+end
+
+class Banana
+  attr_reader :color
+  def initialize
+    @color = 'yellow'
+  end
+end
+
+class Cherry
+  attr_reader :color
+  def initialize
+    @color = 'maroon'
+  end
+end
+
+a_object = Apple.new
+b_object = Banana.new
+c_object = Cherry.new
+
+fruit_objects = [a_object, b_object, c_object]
+
+result = fruit_objects.find do |fruit_object|
+  fruit_object.color == 'yellow'
+end
+
+p "The result is #{result}."
+
+return
+
 move_list = %w[Rc3d3 Rf6g6 Rd3c3 Rg6f6 Rc3d3 Rf6g6 Rd3c3 Rg6f6 Rc3d3 Rf6g6 Rd3c3 Rg6f6]
 
 subary1 = move_list[-4..]

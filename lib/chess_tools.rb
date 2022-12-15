@@ -25,8 +25,9 @@ module ChessTools
     color == 'white' ? 'black' : 'white'
   end
 
-  # re-enable loop if disabled
   def validate_turn_input
+    return computer_turn_input if current_player.type == 'computer'
+
     loop do
       Display.turn_message(current_player.color, board)
       user_input = gets.chomp.downcase # normal user_input, re-enable
@@ -34,6 +35,26 @@ module ChessTools
       verified_input = verify_input(user_input)
 
       return verified_input if verified_input.is_a?(Array)
+    end
+  end
+
+  def computer_turn_input
+    random_computer_move # return array like [[6, 2],[4, 2]]
+  end
+
+  def random_computer_move
+    mv_dat = move_data
+    mv_dat[:player] = current_player
+    shuffled_comp_squares = board.squares_of_player(current_player.color).shuffle
+    shuffled_board_squares = board.squares.shuffle
+
+    shuffled_comp_squares.each do |start_sq|
+      shuffled_board_squares.each do |end_sq|
+        mv_dat[:start_sq] = start_sq
+        mv_dat[:end_sq] = end_sq
+
+        return [start_sq, end_sq] if board.legal_move?(mv_dat)
+      end
     end
   end
 

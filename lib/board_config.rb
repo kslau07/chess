@@ -341,4 +341,27 @@ class BoardConfig
     board.grid[2][2] = wht_pawn
     board.grid[0][7] = wht_king
   end
+
+  def fix_pawn_double_step
+    # When move d2d3, throws error
+    board.grid[1][3] = wht_pawn
+    board.grid[1][5] = wht_knight
+    board.grid[0][6] = wht_bishop
+    board.grid[0][7] = wht_king
+    board.grid[5][1] = blk_pawn
+    board.grid[4][5] = blk_rook
+    board.grid[3][0] = blk_queen
+    board.grid[7][4] = blk_king
+  end
+
+  def vs_computer
+    board.grid[1][3] = wht_pawn
+    board.grid[1][5] = wht_knight
+    board.grid[0][6] = wht_bishop
+    board.grid[0][7] = wht_king
+    board.grid[5][1] = blk_pawn
+    board.grid[4][5] = blk_rook
+    board.grid[3][0] = blk_queen
+    board.grid[7][4] = blk_king
+  end
 end

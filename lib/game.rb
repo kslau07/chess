@@ -48,6 +48,7 @@ class Game
   def produce_legal_move(grid_json = board.serialize)
     loop do
       start_sq, end_sq = validate_turn_input
+
       new_move = create_move(start_sq, end_sq)
       new_move.transfer_piece if new_move.validated
       return new_move if !board.check?(current_player.color) && new_move.validated
