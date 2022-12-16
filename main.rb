@@ -104,13 +104,6 @@ class Main
   board, move_list = load_game_or_new(Board.new, MoveList.new)
   player2 = human_or_computer
   game = Game.new(board: board, move_list: move_list, player2: player2)
-  game.configure_board('all_pieces_stuck') # uncomment for testing
+  # game.configure_board('all_pieces_stuck') # uncomment for testing
   play(game)
-
-  # Debug load game
-  # board, move_list = load_game_or_new(Board.new, MoveList.new)
-  # player2 = human_or_computer
-  # game = Game.new(board: board, move_list: move_list)
-  # game.configure_board('fix_pawn_double_step') # for testing
-  # play(game)
 end
