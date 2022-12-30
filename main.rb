@@ -100,10 +100,9 @@ class Main
     play_again(game)
   end
 
-  # Normal startup
   board, move_list = load_game_or_new(Board.new, MoveList.new)
   player2 = human_or_computer
   game = Game.new(board: board, move_list: move_list, player2: player2)
-  # game.configure_board('all_pieces_stuck') # uncomment for testing
+  game.configure_board('fix_pawn_cannot_check') # uncomment for testing
   play(game)
 end

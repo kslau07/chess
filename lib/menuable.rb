@@ -11,7 +11,7 @@ module Menuable
       \t2. Load Game
       \t3. View Move List
       \t4. Help
-      \t5. Exit Chess
+      \t5. Quit
       \t6. Back to Game
     HEREDOC
   end

@@ -351,4 +351,26 @@ class BoardConfig
     board.grid[2][3] = blk_pawn
     board.grid[7][4] = blk_king
   end
+
+  def fix_pawn_captures_king
+    board.grid[0][0] = wht_rook
+    board.grid[7][7] = wht_rook
+    board.grid[1][6] = wht_pawn
+    board.grid[1][2] = wht_pawn
+    board.grid[2][2] = wht_king
+    board.grid[2][4] = blk_pawn
+
+    board.grid[2][6] = blk_king # original spot, uncomment later
+    # board.grid[3][6] = blk_king # king is 1 spot further back
+    # board.grid[4][7] = blk_king # king is 2 spots further back, 1 to right
+
+    # board.grid[2][6] = blk_rook # comment out later
+    # board.grid[3][6] = blk_king # alternate location, comment out later
+
+    # new scenario, whtpawn checks blkking
+    # board.grid[3][6] = blk_king
+    # board.grid[1][5] = wht_pawn
+
+
+  end
 end

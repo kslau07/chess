@@ -91,7 +91,9 @@ class Board
   end
 
   def pawn_path_obstructed?(path)
-    return false if object(path[1]).instance_of?(King) # test me
+    return true if object(path[1]).instance_of?(King) && object(path[-1]).instance_of?(King) # disallow capture of king
+    return true if object(path[1]).instance_of?(King) && path[2] # disallow hopping over king
+    return false if object(path[1]).instance_of?(King)
 
     cond1 = object(path[1]) == 'unoccupied'
     cond2 = path[2].nil? || object(path[2]) == 'unoccupied'
