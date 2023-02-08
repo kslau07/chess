@@ -1,6 +1,6 @@
 # chess
 
-This project spec is at  
+This project spec can be found at:  
 [Odin Ruby Final Project](https://www.theodinproject.com/lessons/ruby-ruby-final-project)
 
 ## Description
@@ -11,7 +11,7 @@ The final project in Odin's Ruby curriculum is to create a CLI-based chess game.
 
 > [Link to replit](https://replit.com/@kslau/chess#README.md)  
 
-You may play this on replit.com without having to install Ruby on your computer.  
+You may play this on replit.com without having to install Ruby on your computer:  
   * Click the replit link above
   * Press the **green run** button at the top of the screen
 
